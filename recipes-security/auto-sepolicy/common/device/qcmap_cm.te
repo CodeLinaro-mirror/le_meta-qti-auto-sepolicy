@@ -1,4 +1,4 @@
-# Copyright (c) 2018 The Linux Foundation. All rights reserved.
+# Copyright (c) 2018-2019 The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -32,7 +32,8 @@ dev_rw_generic_chr_files(qcmap_cm_t);
 allow qcmap_cm_t device_t:chr_file create;
 
 #Mange VLAN/MPDN use cases
-dev_write_sysfs_dirs(qcmap_cm_t)
+#Rules needed for multicast_querier
+create_files_pattern(qcmap_cm_t, sysfs_t, sysfs_t)
 
 #Miscellaneous
 dev_add_entry_generic_dirs(qcmap_cm_t);
