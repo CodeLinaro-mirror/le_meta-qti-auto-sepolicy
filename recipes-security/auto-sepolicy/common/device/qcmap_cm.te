@@ -37,3 +37,5 @@ dev_write_sysfs_dirs(qcmap_cm_t)
 #Miscellaneous
 dev_add_entry_generic_dirs(qcmap_cm_t);
 
+#enabling GSB from DPO
+kernel_search_debugfs(qcmap_cm_t);
