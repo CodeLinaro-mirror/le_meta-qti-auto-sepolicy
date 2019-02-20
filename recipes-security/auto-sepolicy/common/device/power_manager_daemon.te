@@ -36,9 +36,19 @@ type power_tmp_t;
 files_tmp_file(power_tmp_t);
 files_tmp_filetrans(power_manager_daemon_t, power_tmp_t, sock_file)
 
+type power_manager_conf_t;
+files_type(power_manager_conf_t)
+
 kernel_request_load_module(power_manager_daemon_t)
 dev_read_input(power_manager_daemon_t)
+corecmd_exec_shell(power_manager_daemon_t)
+dev_rw_sysfs(power_manager_daemon_t)
+kernel_read_system_state(power_manager_daemon_t)
+shutdown_domtrans(power_manager_daemon_t)
 
+allow power_manager_daemon_t power_manager_conf_t:file { read getattr open };
 allow power_manager_daemon_t self:capability { chown fsetid };
 allow power_manager_daemon_t self:socket create;
 allow power_manager_daemon_t power_tmp_t:sock_file { create setattr };
+allow power_manager_daemon_t self:capability2 block_suspend;
+allow power_manager_daemon_t debugfs_t:dir search;

@@ -26,3 +26,4 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /usr/bin/power_manager_daemon       --      gen_context(system_u:object_r:power_manager_daemon_exec_t,s0)
+/etc/power_state.conf               --      gen_context(system_u:object_r:power_manager_conf_t,s0)
