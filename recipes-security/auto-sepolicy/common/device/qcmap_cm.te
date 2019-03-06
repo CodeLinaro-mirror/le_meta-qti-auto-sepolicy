@@ -27,6 +27,7 @@
 
 # used /dev files in sdxpoorwills
 dev_rw_generic_chr_files(qcmap_cm_t);
+rw_chr_files_pattern(qcmap_cm_t, ipa_fw_device_t, ipa_fw_device_t);
 
 # Manage char Files
 allow qcmap_cm_t device_t:chr_file create;
