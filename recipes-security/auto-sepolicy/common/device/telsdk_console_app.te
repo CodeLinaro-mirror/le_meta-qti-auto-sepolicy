@@ -32,5 +32,9 @@ type telsdk_console_app_exec_t;
 #domain transition if started from init
 init_daemon_domain(telsdk_console_app_t, telsdk_console_app_exec_t)
 
+gen_require(`
+    type unconfined_t;
+')
+
 #domain transition if started from adb shell
 domtrans_pattern(unconfined_t, telsdk_console_app_exec_t, telsdk_console_app_t)

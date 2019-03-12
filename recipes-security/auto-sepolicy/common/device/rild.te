@@ -31,7 +31,14 @@ type rild_exec_t;
 
 init_daemon_domain(rild_t, rild_exec_t)
 
-rw_diag_dev(rild_t)
+gen_require(`
+      type qnetmgrd_t;
+      type data_t;
+')
+
+userdebug_or_eng(`
+    rw_diag_dev(rild_t)
+')
 logging_send_syslog_msg(rild_t)
 kernel_read_system_state(rild_t)
 dev_read_sysfs(rild_t)

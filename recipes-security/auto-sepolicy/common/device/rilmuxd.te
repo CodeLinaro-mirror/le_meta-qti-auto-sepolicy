@@ -31,6 +31,11 @@ type rilmuxd_exec_t;
 
 init_daemon_domain(rilmuxd_t, rilmuxd_exec_t)
 
+gen_require(`
+    type rild_t;
+    type rild_tmp_t;
+')
+
 logging_send_syslog_msg(rilmuxd_t)
 
 type rilmuxd_tmp_t;
