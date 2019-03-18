@@ -34,6 +34,8 @@ init_daemon_domain(rilmuxd_t, rilmuxd_exec_t)
 gen_require(`
     type rild_t;
     type rild_tmp_t;
+    type telsdk_etc_t;
+    type telsdk_data_t;
 ')
 
 logging_send_syslog_msg(rilmuxd_t)
@@ -46,5 +48,9 @@ allow rilmuxd_t rild_t:unix_stream_socket connectto;
 allow rilmuxd_t rild_tmp_t:sock_file write;
 allow rilmuxd_t rilmuxd_tmp_t:sock_file create;
 allow rilmuxd_t self:unix_dgram_socket create;
+allow rilmuxd_t telsdk_etc_t:file { read open };
+
+manage_user_data_files(rilmuxd_t, telsdk_data_t)
+data_filetrans(rilmuxd_t, telsdk_data_t, file)
 
 permissive rilmuxd_t;

@@ -38,3 +38,9 @@ gen_require(`
 
 #domain transition if started from adb shell
 domtrans_pattern(unconfined_t, telsdk_console_app_exec_t, telsdk_console_app_t)
+
+type telsdk_etc_t;
+files_type(telsdk_etc_t);
+
+type telsdk_data_t;
+user_data_files_type(telsdk_data_t)
