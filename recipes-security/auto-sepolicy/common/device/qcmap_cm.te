@@ -26,18 +26,18 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 # used /dev files in sdxpoorwills
-dev_rw_generic_chr_files(qcmap_cm_t);
+#dev_rw_generic_chr_files(qcmap_cm_t);
 rw_chr_files_pattern(qcmap_cm_t, ipa_fw_device_t, ipa_fw_device_t);
 
 # Manage char Files
-allow qcmap_cm_t device_t:chr_file create;
+#allow qcmap_cm_t device_t:chr_file create;
 
 #Mange VLAN/MPDN use cases
 #Rules needed for multicast_querier
-create_files_pattern(qcmap_cm_t, sysfs_t, sysfs_t)
+#create_files_pattern(qcmap_cm_t, sysfs_t, sysfs_t)
 
 #Miscellaneous
-dev_add_entry_generic_dirs(qcmap_cm_t);
+#dev_add_entry_generic_dirs(qcmap_cm_t);
 
 #enabling GSB from DPO
 kernel_search_debugfs(qcmap_cm_t);

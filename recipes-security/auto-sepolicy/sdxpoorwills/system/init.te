@@ -26,4 +26,4 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #TODO properly
-files_rw_qcmap_etc_data_files(initrc_t)
+#files_rw_qcmap_etc_data_files(initrc_t)
