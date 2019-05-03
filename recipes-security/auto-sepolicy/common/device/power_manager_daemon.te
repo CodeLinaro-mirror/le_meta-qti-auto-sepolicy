@@ -32,6 +32,10 @@ type power_manager_daemon_exec_t;
 
 init_daemon_domain(power_manager_daemon_t, power_manager_daemon_exec_t)
 
+gen_require(`
+    type debugfs_t;
+')
+
 type power_tmp_t;
 files_tmp_file(power_tmp_t);
 files_tmp_filetrans(power_manager_daemon_t, power_tmp_t, sock_file)

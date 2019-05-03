@@ -26,6 +26,11 @@
 #IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 # Appended to modules/contrib/shutdown.te in meta-selinux
+gen_require(`
+    type event_device_t;
+    type power_manager_daemon_t;
+')
+
 dev_read_sysfs(shutdown_t)
 allow shutdown_t event_device_t:chr_file read;
 allow shutdown_t power_manager_daemon_t:unix_stream_socket { read write };
