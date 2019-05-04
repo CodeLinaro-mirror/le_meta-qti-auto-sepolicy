@@ -29,7 +29,7 @@ policy_module(rild, 1.0)
 type rild_t;
 type rild_exec_t;
 
-init_daemon_domain(rild_t, rild_exec_t)
+init_vendor_domain(rild_t, rild_exec_t)
 
 gen_require(`
       type qnetmgrd_t;

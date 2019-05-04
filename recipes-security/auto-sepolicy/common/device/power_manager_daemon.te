@@ -30,7 +30,7 @@ policy_module(power_manager_daemon, 1.0)
 type power_manager_daemon_t;
 type power_manager_daemon_exec_t;
 
-init_daemon_domain(power_manager_daemon_t, power_manager_daemon_exec_t)
+init_vendor_domain(power_manager_daemon_t, power_manager_daemon_exec_t)
 
 gen_require(`
     type debugfs_t;

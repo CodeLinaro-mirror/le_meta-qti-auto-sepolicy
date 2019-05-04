@@ -30,7 +30,7 @@ type telsdk_console_app_t;
 type telsdk_console_app_exec_t;
 
 #domain transition if started from init
-init_daemon_domain(telsdk_console_app_t, telsdk_console_app_exec_t)
+init_vendor_domain(telsdk_console_app_t, telsdk_console_app_exec_t)
 
 gen_require(`
     type unconfined_t;

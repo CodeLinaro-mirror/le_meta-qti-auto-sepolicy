@@ -29,7 +29,7 @@ policy_module(rilmuxd, 1.0)
 type rilmuxd_t;
 type rilmuxd_exec_t;
 
-init_daemon_domain(rilmuxd_t, rilmuxd_exec_t)
+init_vendor_domain(rilmuxd_t, rilmuxd_exec_t)
 
 gen_require(`
     type rild_t;
