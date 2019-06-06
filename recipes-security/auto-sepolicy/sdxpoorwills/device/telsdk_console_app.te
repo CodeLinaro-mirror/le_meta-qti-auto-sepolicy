@@ -26,4 +26,3 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 permissive telsdk_console_app_t;
-dontaudit telsdk_console_app_t kernel_t:system module_request;
