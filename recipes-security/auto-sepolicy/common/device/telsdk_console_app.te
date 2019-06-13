@@ -34,6 +34,12 @@ init_vendor_domain(telsdk_console_app_t, telsdk_console_app_exec_t)
 
 gen_require(`
     type unconfined_t;
+    type loc_hald_t;
+    type default_t;
+    type rilmuxd_t;
+    type rilmuxd_tmp_t;
+    type tmp_t;
+    type loc_socket_t;
 ')
 
 #domain transition if started from adb shell

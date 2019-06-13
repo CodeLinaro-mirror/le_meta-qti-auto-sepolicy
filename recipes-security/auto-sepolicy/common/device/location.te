@@ -28,4 +28,10 @@
 ## Automotive specific sepolicy rules for location.
 
 ##### location hal daemon
+
+gen_require(`
+    type telsdk_console_app_t;
+    type kernel_t;
+')
+
 allow loc_hald_t telsdk_console_app_t:unix_dgram_socket sendto;
