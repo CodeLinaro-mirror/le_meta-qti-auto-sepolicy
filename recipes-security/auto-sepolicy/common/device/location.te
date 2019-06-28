@@ -32,6 +32,11 @@
 gen_require(`
     type telsdk_console_app_t;
     type kernel_t;
+    type power_manager_daemon_t;
+    type power_socket_t;
 ')
 
 allow loc_hald_t telsdk_console_app_t:unix_dgram_socket sendto;
+
+# power manager access
+stream_connect_pattern(loc_hald_t,power_socket_t,power_socket_t,power_manager_daemon_t);
