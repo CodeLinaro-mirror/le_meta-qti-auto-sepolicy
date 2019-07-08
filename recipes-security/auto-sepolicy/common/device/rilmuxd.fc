@@ -27,4 +27,4 @@
 
 /usr/bin/rilmuxd                  --  gen_context(system_u:object_r:rilmuxd_exec_t,s0)
 /etc/tel.conf                     --  gen_context(system_u:object_r:telsdk_etc_t,s0)
-/data/tel.log                     --  gen_context(system_u:object_r:telsdk_data_t,s0)
+/data/vendor/telsdk/tel.log       --  gen_context(system_u:object_r:telsdk_data_t,s0)

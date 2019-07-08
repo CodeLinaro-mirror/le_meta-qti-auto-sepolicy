@@ -27,10 +27,10 @@
 
 gen_require(`
     type rilmuxd_t;
-    type rilmuxd_tmp_t;
+    type qmux_radio_sock_t;
     type telsdk_etc_t;
 ')
 
 allow vendor_qdma_t rilmuxd_t:unix_stream_socket connectto;
-allow vendor_qdma_t rilmuxd_tmp_t:sock_file write;
+allow vendor_qdma_t qmux_radio_sock_t:sock_file write;
 allow vendor_qdma_t telsdk_etc_t:file { read open };

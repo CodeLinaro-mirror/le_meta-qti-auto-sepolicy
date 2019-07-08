@@ -26,4 +26,4 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /usr/bin/rild                     --  gen_context(system_u:object_r:rild_exec_t,s0)
-/dev/socket/qmux_radio(/.*)?      -c  gen_context(system_u:object_r:qmux_radio_sock_t,s0)
+/dev/socket/ril(/.*)?                 gen_context(system_u:object_r:qmux_radio_sock_t,s0)
