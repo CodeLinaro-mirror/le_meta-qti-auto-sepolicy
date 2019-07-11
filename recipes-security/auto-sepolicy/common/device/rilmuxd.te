@@ -38,6 +38,12 @@ gen_require(`
     type telsdk_data_t;
 ')
 
+type telsdk_etc_t;
+files_type(telsdk_etc_t);
+
+type telsdk_data_t;
+user_data_files_type(telsdk_data_t)
+
 logging_send_syslog_msg(rilmuxd_t)
 
 type rilmuxd_tmp_t;
@@ -52,5 +58,3 @@ allow rilmuxd_t telsdk_etc_t:file { read open };
 
 manage_user_data_files(rilmuxd_t, telsdk_data_t)
 data_filetrans(rilmuxd_t, telsdk_data_t, file)
-
-permissive rilmuxd_t;

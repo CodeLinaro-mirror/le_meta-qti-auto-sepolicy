@@ -34,6 +34,7 @@ init_vendor_domain(rild_t, rild_exec_t)
 gen_require(`
       type qnetmgrd_t;
       type data_t;
+      type default_t;
 ')
 
 userdebug_or_eng(`
@@ -63,5 +64,5 @@ device_manage_socket_file(rild_t, qmux_radio_sock_t)
 
 allow rild_t socket_device_t:dir { add_name write };
 allow rild_t socket_device_t:sock_file create;
-
-permissive rild_t;
+dontaudit rild_t self:capability dac_override;
+dontaudit rild_t default_t:dir search;

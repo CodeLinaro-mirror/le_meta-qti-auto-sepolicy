@@ -26,3 +26,28 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ## <summary>rilmuxd </summary>
+
+interface(`read_telsdk_data_files',`
+    gen_require(`
+        attribute user_data;
+        attribute domain_can_read_userdata;
+    ')
+    typeattribute $1 domain_can_read_userdata;
+    read_files_pattern($1, user_data, $2)
+    read_lnk_files_pattern($1, user_data, $2)
+    allow $1 data_t:dir create;
+')
+
+
+interface(`write_telsdk_data_files',`
+    gen_require(`
+        attribute user_data;
+        type telsdk_data_t;
+        attribute domain_can_write_userdata;
+    ')
+    typeattribute $1 domain_can_write_userdata;
+    manage_dirs_pattern($1, user_data, $2)
+    manage_files_pattern($1, user_data, $2)
+    manage_lnk_files_pattern($1, user_data, $2)
+    manage_sock_files_pattern($1, user_data, $2)
+')
