@@ -59,7 +59,7 @@ dev_rw_sysfs(power_manager_daemon_t)
 kernel_read_system_state(power_manager_daemon_t)
 
 allow power_manager_daemon_t power_manager_conf_t:file { read getattr open };
-allow power_manager_daemon_t self:capability {fsetid net_admin net_raw };
+allow power_manager_daemon_t self:capability {fsetid net_admin net_bind_service };
 allow power_manager_daemon_t self:socket connected_socket_perms;
 allow power_manager_daemon_t power_tmp_t:sock_file { create setattr };
 allow power_manager_daemon_t self:capability2 block_suspend;
