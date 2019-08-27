@@ -26,3 +26,4 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 allow chronyd_t self:capability net_raw;
+allow chronyd_t systemd_resolved_var_run_t:dir search;
