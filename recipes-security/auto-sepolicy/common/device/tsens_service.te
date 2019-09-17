@@ -56,3 +56,4 @@ userdebug_or_eng(`
 allow tsens_t firmware_t:file read_file_perms;
 rw_chr_files_pattern(tsens_t, device_t, ion_device_t)
 rw_chr_files_pattern(tsens_t, device_t, qseecom_device_t)
+allow tsens_t self:capability2 wake_alarm;
