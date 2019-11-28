@@ -43,3 +43,6 @@ userdebug_or_eng(`
 
 # power manager access
 stream_connect_pattern(loc_hald_t,power_socket_t,power_socket_t,power_manager_daemon_t);
+
+#### engine service #####
+corenet_tcp_connect_soundd_port(engine_service_t);
