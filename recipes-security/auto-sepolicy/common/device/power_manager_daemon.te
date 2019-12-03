@@ -46,6 +46,11 @@ type power_manager_daemon_unit_t;
 type power_manager_conf_t;
 files_type(power_manager_conf_t)
 
+type canwrapper_data_log_t;
+user_data_files_type(canwrapper_data_log_t)
+data_filetrans(power_manager_daemon_t, canwrapper_data_log_t, { file dir })
+manage_user_data_files(power_manager_daemon_t, canwrapper_data_log_t)
+
 type power_socket_t;
 files_type(power_socket_t)
 dev_node(power_socket_t)
