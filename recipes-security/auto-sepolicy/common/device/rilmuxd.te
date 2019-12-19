@@ -1,4 +1,4 @@
-# Copyright (c) 2019, The Linux Foundation. All rights reserved.
+# Copyright (c) 2019-2020, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -52,8 +52,9 @@ allow rilmuxd_t self:unix_dgram_socket create;
 allow rilmuxd_t telsdk_etc_t:file { read open };
 
 allow rilmuxd_t socket_device_t:dir search;
-allow rilmuxd_t qmux_radio_sock_t:dir { add_name write search };
-allow rilmuxd_t qmux_radio_sock_t:sock_file { create rw_sock_file_perms setattr };
+allow rilmuxd_t qmux_radio_sock_t:dir { add_name write search remove_name};
+allow rilmuxd_t qmux_radio_sock_t:sock_file { create rw_sock_file_perms unlink setattr };
+allow rilmuxd_t self:process signal;
 
 allow rilmuxd_t telsdk_data_t:file { open append getattr };
 manage_user_data_files(rilmuxd_t, telsdk_data_t)
