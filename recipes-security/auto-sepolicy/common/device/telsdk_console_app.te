@@ -1,0 +1,95 @@
+# Copyright (c) 2020, The Linux Foundation. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are
+# met:
+#     * Redistributions of source code must retain the above copyright
+#       notice, this list of conditions and the following disclaimer.
+#     * Redistributions in binary form must reproduce the above
+#       copyright notice, this list of conditions and the following
+#       disclaimer in the documentation and/or other materials provided
+#       with the distribution.
+#     * Neither the name of The Linux Foundation nor the names of its
+#       contributors may be used to endorse or promote products derived
+#       from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
+# ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+# BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+# IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+policy_module(telsdk_console_app, 1.0)
+type telsdk_console_app_t;
+type telsdk_console_app_exec_t;
+
+#domain transition if started from init
+init_vendor_domain(telsdk_console_app_t, telsdk_console_app_exec_t)
+
+gen_require(`
+type unconfined_t;
+type default_t;
+type rilmuxd_t;
+type telsdk_etc_t;
+type qmux_radio_sock_t;
+role unconfined_r;
+type user_tty_device_t;
+')
+
+#domain transition if started from adb shell
+domtrans_pattern(unconfined_t, telsdk_console_app_exec_t, telsdk_console_app_t)
+role unconfined_r types telsdk_console_app_t;
+getty_use_fds(telsdk_console_app_t)
+allow telsdk_console_app_t user_tty_device_t:chr_file read;
+
+dontaudit telsdk_console_app_t default_t:dir { search };
+
+search_user_data_dir(telsdk_console_app_t)
+manage_user_data_files(telsdk_console_app_t, telsdk_data_t)
+device_search_sockets(telsdk_console_app_t, socket_device_t)
+allow telsdk_console_app_t qmux_radio_sock_t:dir search;
+allow telsdk_console_app_t self:capability setgid;
+
+#phone services
+attribute phone_status;
+typeattribute telsdk_console_app_t phone_status;
+read_telsdk_data_files(telsdk_console_app_t,telsdk_data_t);
+write_telsdk_data_files(telsdk_console_app_t,telsdk_data_t);
+allow phone_status self:fifo_file rw_fifo_file_perms;
+allow phone_status self:socket create_socket_perms;
+userdebug_or_eng(`
+    rw_diag_dev(phone_status)
+')
+logging_send_syslog_msg(phone_status)
+allow phone_status rilmuxd_t:unix_stream_socket connectto;
+allow phone_status qmux_radio_sock_t:sock_file write;
+allow phone_status telsdk_etc_t:file { read open };
+#allow phone_status tmp_t:lnk_file read;
+allow phone_status self:socket { create ioctl };
+allow phone_status self:unix_dgram_socket { write create connect };
+
+#dialer
+attribute telsdk_console_dialer;
+typeattribute telsdk_console_app_t telsdk_console_dialer;
+allow telsdk_console_dialer rilmuxd_t:unix_stream_socket connectto;
+allow telsdk_console_dialer self:fifo_file write;
+allow telsdk_console_dialer self:socket { write create ioctl };
+logging_send_syslog_msg(telsdk_console_dialer)
+#allow telsdk_console_dialer tmp_t:lnk_file read;
+allow telsdk_console_dialer telsdk_etc_t:file { read open };
+
+#Data
+attribute telsdk_console_data;
+typeattribute telsdk_console_app_t telsdk_console_data;
+telsdk_read_qcmap_etc_data_files(telsdk_console_app_t)
+qnetmgr_write_data_sock_files(telsdk_console_data)
+qnetmgr_use_unix_stream_sockets(telsdk_console_data)
+dev_read_sysfs(telsdk_console_data)
+allow telsdk_console_data self:capability net_admin;
+allow telsdk_console_data self:netlink_socket create_socket_perms;
