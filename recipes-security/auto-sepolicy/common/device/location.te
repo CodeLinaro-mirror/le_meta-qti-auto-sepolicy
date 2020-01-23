@@ -34,6 +34,9 @@ gen_require(`
     type power_socket_t;
     type qwesd_t;
     type qwes_mink_socket_t;
+    type location_test_app_t;
+    type loc_socket_t;
+    type ecall_app_t;
 ')
 
 userdebug_or_eng(`
@@ -45,6 +48,12 @@ userdebug_or_eng(`
 
 # power manager access
 stream_connect_pattern(loc_hald_t,power_socket_t,power_socket_t,power_manager_daemon_t);
+
+# Telsdk location access
+dgram_send_pattern(loc_hald_t, loc_socket_t, loc_socket_t, location_test_app_t);
+
+# Ecall app access
+dgram_send_pattern(loc_hald_t, loc_socket_t, loc_socket_t, ecall_app_t);
 
 #### engine service #####
 corenet_tcp_connect_soundd_port(engine_service_t);

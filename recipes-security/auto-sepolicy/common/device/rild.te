@@ -59,8 +59,8 @@ allow rild_t data_t:dir search;
 allow rild_t telsdk_etc_t:file { read open getattr };
 allow rild_t telsdk_data_t:file { open append getattr };
 
-read_telsdk_data_files(rild_t,telsdk_data_t);
-write_telsdk_data_files(rild_t,telsdk_data_t);
+read_telux_log_file(rild_t,telsdk_data_t);
+write_telux_log_file(rild_t,telsdk_data_t);
 
 type qmux_radio_sock_t;
 files_type(qmux_radio_sock_t);
@@ -72,7 +72,7 @@ allow rild_t qmux_radio_sock_t:dir { search add_name write remove_name};
 allow rild_t qmux_radio_sock_t:sock_file  { create rw_sock_file_perms setattr };
 allow rild_t netmgrd_socket_device_t:sock_file rw_sock_file_perms;
 allow rild_t telsdk_etc_t:file read_file_perms;
-write_telsdk_data_files(rild_t,telsdk_data_t);
+
 
 dontaudit rild_t self:capability dac_override;
 dontaudit rild_t default_t:dir search;

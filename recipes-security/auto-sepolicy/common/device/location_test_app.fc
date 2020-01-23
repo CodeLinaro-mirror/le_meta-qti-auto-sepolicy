@@ -1,4 +1,4 @@
-# Copyright (c) 2019-2020, The Linux Foundation. All rights reserved.
+# Copyright (c) 2020, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -25,44 +25,4 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(chrony_sock, 1.0)
-type chrony_sock_t;
-type chrony_sock_exec_t;
-
-init_vendor_domain(chrony_sock_t, chrony_sock_exec_t)
-
-gen_require(`
-    type chronyd_var_run_t;
-    type chronyd_t;
-    type loc_etc_t;
-    type loc_socket_t;
-    type telsdk_data_t;
-    type telsdk_etc_t;
-    type loc_hald_t;
-')
-
-userdebug_or_eng(`
-    rw_diag_dev(chrony_sock_t)
-')
-
-allow chrony_sock_t chronyd_var_run_t:sock_file write;
-allow chrony_sock_t self:capability { setgid };
-allow chrony_sock_t self:fifo_file { ioctl };
-allow chrony_sock_t self:udp_socket { create };
-logging_send_syslog_msg(chrony_sock_t)
-
-corecmd_exec_shell(chrony_sock_t)
-kernel_read_system_state(chrony_sock_t)
-
-manage_user_data_files(chrony_sock_t,telsdk_data_t)
-allow chrony_sock_t chronyd_t:unix_dgram_socket sendto;
-allow chrony_sock_t loc_etc_t:file { read getattr open };
-allow chrony_sock_t loc_socket_t:dir { write search add_name remove_name };
-allow chrony_sock_t loc_socket_t:sock_file { create write };
-allow chrony_sock_t telsdk_etc_t:file { read open };
-allow loc_hald_t chrony_sock_t:unix_dgram_socket sendto;
-allow chrony_sock_t loc_hald_t:unix_dgram_socket sendto;
-write_telux_log_file(chrony_sock_t,telsdk_data_t);
-device_search_sockets(chrony_sock_t)
-
-dontaudit chrony_sock_t self:capability dac_override;
+/usr/bin/location_test_app  --   gen_context(system_u:object_r:location_test_app_exec_t,s0)

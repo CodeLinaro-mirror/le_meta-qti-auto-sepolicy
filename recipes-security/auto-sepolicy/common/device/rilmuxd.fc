@@ -1,4 +1,4 @@
-# Copyright (c) 2019, The Linux Foundation. All rights reserved.
+# Copyright (c) 2019-2020, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -26,5 +26,4 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /usr/bin/rilmuxd                  --  gen_context(system_u:object_r:rilmuxd_exec_t,s0)
-/etc/tel.conf                     --  gen_context(system_u:object_r:telsdk_etc_t,s0)
-/data/vendor/telsdk/tel.log       --  gen_context(system_u:object_r:telsdk_data_t,s0)
+
