@@ -32,6 +32,8 @@
 gen_require(`
     type power_manager_daemon_t;
     type power_socket_t;
+    type qwesd_t;
+    type qwes_mink_socket_t;
 ')
 
 userdebug_or_eng(`
@@ -47,3 +49,5 @@ stream_connect_pattern(loc_hald_t,power_socket_t,power_socket_t,power_manager_da
 #### engine service #####
 corenet_tcp_connect_soundd_port(engine_service_t);
 corenet_tcp_connect_xen_port(engine_service_t);
+allow engine_service_t qwesd_t:unix_stream_socket connectto;
+allow engine_service_t qwes_mink_socket_t:sock_file write;
