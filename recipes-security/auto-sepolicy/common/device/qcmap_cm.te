@@ -26,3 +26,4 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 corenet_tcp_connect_soundd_port(qcmap_cm_t)
+corenet_tcp_connect_xserver_port(qcmap_cm_t)
