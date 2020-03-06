@@ -26,4 +26,7 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 corenet_tcp_connect_all_ports(qcmap_cm_t)
-
+userdebug_or_eng(`
+  append_files_pattern(dnsmasq_t, debugfs_t, debugfs_t)
+  append_files_pattern(qcmap_cm_t, debugfs_t, debugfs_t)
+')
