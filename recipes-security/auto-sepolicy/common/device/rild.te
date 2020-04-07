@@ -59,9 +59,7 @@ allow rild_t data_t:dir search;
 allow rild_t telsdk_etc_t:file { read open getattr };
 allow rild_t telsdk_data_t:file { open append getattr };
 
-read_telux_log_file(rild_t,telsdk_data_t);
-write_telux_log_file(rild_t,telsdk_data_t);
-
+access_telux_files(rild_t);
 type qmux_radio_sock_t;
 files_type(qmux_radio_sock_t);
 device_manage_socket_file(rild_t, qmux_radio_sock_t)

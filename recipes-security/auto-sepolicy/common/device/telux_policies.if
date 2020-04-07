@@ -60,36 +60,24 @@ interface(`transition_to_confined_domain',`
 #
 # Parameters:
 #   1) Domain context
-#   2) Log file context
 
 interface(`read_telux_log_file',`
     gen_require(`
-        attribute user_data;
-        attribute domain_can_read_userdata;
-        type data_t;
+        type telsdk_data_t;
     ')
-    typeattribute $1 domain_can_read_userdata;
-    read_files_pattern($1, user_data, $2)
-    read_lnk_files_pattern($1, user_data, $2)
-    allow $1 data_t:dir create;
+    read_user_data_files($1, telsdk_data_t)
 ')
 
 # @brief:  This interface allows domain context to write to telux log files
 #
 # Parameters:
 #   1) Domain context
-#   2) Log file context
 
 interface(`write_telux_log_file',`
     gen_require(`
-        attribute user_data;
-        attribute domain_can_write_userdata;
+        type telsdk_data_t;
     ')
-    typeattribute $1 domain_can_write_userdata;
-    manage_dirs_pattern($1, user_data, $2)
-    manage_files_pattern($1, user_data, $2)
-    manage_lnk_files_pattern($1, user_data, $2)
-    manage_sock_files_pattern($1, user_data, $2)
+    manage_user_data_files($1, telsdk_data_t)
 ')
 
 # @brief:  This interface allows domain context to read and write
@@ -105,8 +93,11 @@ interface(`access_telux_files',`
         type telsdk_data_t;
     ')
     allow $1 telsdk_etc_t:file { read open };
-    read_telux_log_file($1, telsdk_data_t)
-    write_telux_log_file($1, telsdk_data_t)
+    # To enable security context transistion from data_t to telsdk_data_t of files created in /data
+    data_filetrans($1, telsdk_data_t, file);
+
+    read_telux_log_file($1)
+    write_telux_log_file($1)
 ')
 
 # Qmi client interfaces
