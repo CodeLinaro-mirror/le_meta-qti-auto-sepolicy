@@ -36,6 +36,7 @@ gen_require(`
     type qwes_mink_socket_t;
     type location_test_app_t;
     type loc_socket_t;
+    type node_t;
     type ecall_app_t;
 ')
 
@@ -60,3 +61,11 @@ corenet_tcp_connect_soundd_port(engine_service_t);
 corenet_tcp_connect_xen_port(engine_service_t);
 allow engine_service_t qwesd_t:unix_stream_socket connectto;
 allow engine_service_t qwes_mink_socket_t:sock_file write;
+
+#### slim_daemon ####
+allow slim_daemon_t self:udp_socket create_socket_perms;
+allow slim_daemon_t unreserved_port_t:udp_socket name_bind;
+allow slim_daemon_t node_t:udp_socket node_bind;
+allow slim_daemon_t systemd_resolved_var_run_t:dir search;
+allow slim_daemon_t tmpfs_t:filesystem getattr;
+read_files_pattern(slim_daemon_t, systemd_resolved_var_run_t, systemd_resolved_var_run_t)
