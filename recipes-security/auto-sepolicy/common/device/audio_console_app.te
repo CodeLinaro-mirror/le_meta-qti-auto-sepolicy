@@ -40,7 +40,7 @@ type data_t;
 transition_to_confined_domain(audio_console_app_t, audio_console_app_exec_t)
 
 # To store and play recordings in data partition
-write_telux_log_file(audio_console_app_t, data_t)
+manage_user_data_files(audio_console_app_t, data_t)
 
 #Audio services
 telux_allow_audio(audio_console_app_t)
