@@ -43,6 +43,13 @@ gen_require(`
 
 userdebug_or_eng(`
     rw_diag_dev(chrony_sock_t)
+    #Boot kpi changes
+    gen_require(`
+        type debugfs_t;
+    ')
+    allow { chrony_sock_t} debugfs_t:dir search;
+    allow { chrony_sock_t } debugfs_t:file { write open };
+    corecmd_exec_shell(chrony_sock_t);
 ')
 
 allow chrony_sock_t chronyd_var_run_t:sock_file write;
@@ -52,7 +59,6 @@ allow chrony_sock_t self:udp_socket { create };
 allow chrony_sock_t self:socket { write read };
 logging_send_syslog_msg(chrony_sock_t)
 
-corecmd_exec_shell(chrony_sock_t)
 kernel_read_system_state(chrony_sock_t)
 
 manage_user_data_files(chrony_sock_t,telsdk_data_t)
