@@ -69,3 +69,4 @@ allow slim_daemon_t node_t:udp_socket node_bind;
 allow slim_daemon_t systemd_resolved_var_run_t:dir search;
 allow slim_daemon_t tmpfs_t:filesystem getattr;
 read_files_pattern(slim_daemon_t, systemd_resolved_var_run_t, systemd_resolved_var_run_t)
+dev_read_urand(slim_daemon_t);

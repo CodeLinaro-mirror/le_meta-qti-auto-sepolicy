@@ -33,8 +33,6 @@ init_vendor_domain(rilmuxd_t, rilmuxd_exec_t)
 
 gen_require(`
     type rild_t;
-    type telsdk_etc_t;
-    type telsdk_data_t;
     type qmux_radio_sock_t;
     type socket_device_t;
 ')
@@ -43,15 +41,10 @@ logging_send_syslog_msg(rilmuxd_t)
 
 allow rilmuxd_t rild_t:unix_stream_socket connectto;
 allow rilmuxd_t self:unix_dgram_socket create;
-allow rilmuxd_t telsdk_etc_t:file { read open };
 
 allow rilmuxd_t socket_device_t:dir search;
 allow rilmuxd_t qmux_radio_sock_t:dir { add_name write search remove_name};
 allow rilmuxd_t qmux_radio_sock_t:sock_file { create rw_sock_file_perms unlink setattr };
 allow rilmuxd_t self:process signal;
 
-allow rilmuxd_t telsdk_data_t:file { open append getattr };
-manage_user_data_files(rilmuxd_t, telsdk_data_t)
-data_filetrans(rilmuxd_t, telsdk_data_t, file)
-read_telux_log_file(rilmuxd_t,telsdk_data_t);
-write_telux_log_file(rilmuxd_t,telsdk_data_t);
+access_telux_files(rilmuxd_t);

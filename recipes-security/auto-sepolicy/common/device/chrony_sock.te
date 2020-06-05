@@ -36,7 +36,6 @@ gen_require(`
     type chronyd_t;
     type loc_etc_t;
     type loc_socket_t;
-    type telsdk_data_t;
     type telsdk_etc_t;
     type loc_hald_t;
 ')
@@ -55,7 +54,6 @@ logging_send_syslog_msg(chrony_sock_t)
 corecmd_exec_shell(chrony_sock_t)
 kernel_read_system_state(chrony_sock_t)
 
-manage_user_data_files(chrony_sock_t,telsdk_data_t)
 allow chrony_sock_t chronyd_t:unix_dgram_socket sendto;
 allow chrony_sock_t loc_etc_t:file { read getattr open };
 allow chrony_sock_t loc_socket_t:dir { write search add_name remove_name };
@@ -63,7 +61,7 @@ allow chrony_sock_t loc_socket_t:sock_file { create write };
 allow chrony_sock_t telsdk_etc_t:file { read open };
 allow loc_hald_t chrony_sock_t:unix_dgram_socket sendto;
 allow chrony_sock_t loc_hald_t:unix_dgram_socket sendto;
-write_telux_log_file(chrony_sock_t,telsdk_data_t);
+write_telux_log_file(chrony_sock_t);
 device_search_sockets(chrony_sock_t)
 
 dontaudit chrony_sock_t self:capability dac_override;
