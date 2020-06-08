@@ -102,6 +102,7 @@ interface(`access_telux_files',`
     userdebug_or_eng(`
         rw_diag_dev($1)
     ')
+    dev_read_sysfs($1) # Requried for diag logging.
 ')
 
 # Qmi client interfaces
