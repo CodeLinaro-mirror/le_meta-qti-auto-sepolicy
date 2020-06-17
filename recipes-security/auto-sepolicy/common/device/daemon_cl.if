@@ -26,3 +26,58 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ## <summary>gptp daemon</summary>
+########################################
+## <summary>
+##      Read and write gptp_tmpfs_t tmp files.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`gptp_rw_tmpfs_files',`
+        gen_require(`
+                type gptp_tmpfs_t;
+        ')
+
+        rw_files_pattern($1, gptp_tmpfs_t, gptp_tmpfs_t)
+')
+
+########################################
+## <summary>
+##      Read and write gptp device node
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+## <rolecap/>
+#
+interface(`gptp_rw_daemon_cl_device',`
+    gen_require(`
+        type device_t;
+        type daemon_cl_device_t;
+    ')
+    rw_chr_files_pattern($1, device_t, daemon_cl_device_t)
+')
+
+########################################
+## <summary>
+##      Communicate with gptp socket file
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+## <rolecap/>
+#
+interface(`gptp_rw_gptp_sock_file',`
+        gen_require(`
+                type daemon_cl_t;
+                type gptp_socket_t;
+        ')
+    stream_connect_pattern($1, gptp_socket_t, gptp_socket_t, daemon_cl_t);
+')
