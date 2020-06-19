@@ -27,5 +27,7 @@
 
 gen_require(`
     type qnetmgrd_config_t;
+    type netmgr_connect_socket_t;
 ')
 read_files_pattern(qcmap_cm_t,qnetmgrd_config_t,qnetmgrd_config_t) #/etc/netmgrd/config
+write_sock_files_pattern(qcmap_cm_t, var_run_t, netmgr_connect_socket_t)
