@@ -35,17 +35,29 @@ gen_require(`
   type qseecomd_data_t;
   type qseecomd_persist_t;
   type qwes_data_t;
+  type kmsg_device_t;
 ')
 
 init_script_domain(qwes_license_store_initrc_t, qwes_license_store_initrc_exec_t)
 logging_send_syslog_msg(qwes_license_store_initrc_t)
 
+# Allow read/write to /persist/data/ path.
 allow qwes_license_store_initrc_t qseecomd_persist_t:file { write create open getattr };
-manage_user_data_files(qwes_license_store_initrc_t, qseecomd_data_t)
-manage_user_data_files(qwes_license_store_initrc_t, qwes_data_t)
 filetrans_pattern(qwes_license_store_initrc_t, persist_t, qseecomd_persist_t, { file dir })
 allow qwes_license_store_initrc_t qseecomd_persist_t:dir manage_dir_perms;
+
+# Allow read/write to /data/vendor/tzstorage path.
+data_filetrans(qwes_license_store_initrc_t, qseecomd_data_t, { file dir })
+manage_user_data_files(qwes_license_store_initrc_t, qseecomd_data_t)
+
+#Allow to manage path /data/qwes/.
+manage_user_data_files(qwes_license_store_initrc_t, qwes_data_t)
 allow qwes_license_store_initrc_t qwes_data_t:dir manage_dir_perms;
+
+# Generic permissions for script.
 allow qwes_license_store_initrc_t self:fifo_file rw_fifo_file_perms;
 dev_read_sysfs(qwes_license_store_initrc_t)
 kernel_read_system_state(qwes_license_store_initrc_t)
+
+#Allow write echo messages of script to /dev/kmsg.
+rw_chr_files_pattern(qwes_license_store_initrc_t, device_t, kmsg_device_t);
