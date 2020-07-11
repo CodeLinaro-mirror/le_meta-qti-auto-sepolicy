@@ -56,6 +56,12 @@ dgram_send_pattern(loc_hald_t, loc_socket_t, loc_socket_t, location_test_app_t);
 # Ecall app access
 dgram_send_pattern(loc_hald_t, loc_socket_t, loc_socket_t, ecall_app_t);
 
+#### loc hal daemon ####
+gptp_rw_gptp_sock_file(loc_hald_t);
+gptp_rw_daemon_cl_device(loc_hald_t);
+gptp_rw_tmpfs_files(loc_hald_t);
+read_files_pattern(loc_hald_t, systemd_resolved_var_run_t, systemd_resolved_var_run_t)
+
 #### engine service #####
 corenet_tcp_connect_soundd_port(engine_service_t);
 corenet_tcp_connect_xen_port(engine_service_t);
@@ -68,5 +74,9 @@ allow slim_daemon_t unreserved_port_t:udp_socket name_bind;
 allow slim_daemon_t node_t:udp_socket node_bind;
 allow slim_daemon_t systemd_resolved_var_run_t:dir search;
 allow slim_daemon_t tmpfs_t:filesystem getattr;
+allow slim_daemon_t tmpfs_t:dir search;
 read_files_pattern(slim_daemon_t, systemd_resolved_var_run_t, systemd_resolved_var_run_t)
 dev_read_urand(slim_daemon_t);
+gptp_rw_gptp_sock_file(slim_daemon_t);
+gptp_rw_daemon_cl_device(slim_daemon_t);
+gptp_rw_tmpfs_files(slim_daemon_t);

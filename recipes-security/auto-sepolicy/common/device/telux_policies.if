@@ -98,6 +98,10 @@ interface(`access_telux_files',`
 
     read_telux_log_file($1)
     write_telux_log_file($1)
+    # To allow libraries to log to diag
+    userdebug_or_eng(`
+        rw_diag_dev($1)
+    ')
 ')
 
 # Qmi client interfaces
