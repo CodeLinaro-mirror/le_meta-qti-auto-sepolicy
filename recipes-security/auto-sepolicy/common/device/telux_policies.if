@@ -117,6 +117,7 @@ interface(`telux_allow_qmi_client',`
     ')
     # Below permissions are required for QMI client IPC
     allow $1 devlog_t:sock_file write;
+    device_search_sockets($1, socket_device_t)
     allow $1 self:socket create_socket_perms;
     allow $1 self:fifo_file rw_fifo_file_perms;
 ')
