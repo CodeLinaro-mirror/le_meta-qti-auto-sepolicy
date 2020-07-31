@@ -27,9 +27,10 @@
 
 gen_require(`
     type qnetmgrd_config_t;
+    type netmgr_connect_socket_t;
 ')
 
 filetrans_pattern(rild_t, var_run_t, qmux_radio_sock_t, sock_file)
-allow rild_t var_run_t:sock_file write; # /var/run/netmgr_connect_socket
+allow rild_t netmgr_connect_socket_t:sock_file write; # /var/run/netmgr_connect_socket
 allow rild_t qnetmgrd_config_t:file read_file_perms; #/etc/netmgrd/config
 
