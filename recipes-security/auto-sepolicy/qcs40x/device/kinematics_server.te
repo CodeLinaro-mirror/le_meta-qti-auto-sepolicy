@@ -1,4 +1,4 @@
-# Copyright (c) 2019-2020, The Linux Foundation. All rights reserved.
+# Copyright (c) 2020 The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -25,49 +25,41 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(chrony_sock, 1.0)
-type chrony_sock_t;
-type chrony_sock_exec_t;
+policy_module(kinematics_server, 1.0)
 
-init_vendor_domain(chrony_sock_t, chrony_sock_exec_t)
+type kinematics_server_t;
+type kinematics_server_exec_t;
+type kinematics_var_run_t;
+
+init_vendor_domain(kinematics_server_t, kinematics_server_exec_t)
+
+files_read_loc_etc_files(kinematics_server_t);
 
 gen_require(`
-    type chronyd_var_run_t;
-    type chronyd_t;
-    type loc_etc_t;
-    type loc_socket_t;
-    type telsdk_etc_t;
-    type loc_hald_t;
+    type etc_t;
 ')
 
 userdebug_or_eng(`
-    rw_diag_dev(chrony_sock_t)
-    #Boot kpi changes
-    gen_require(`
-        type debugfs_t;
-    ')
-    allow { chrony_sock_t} debugfs_t:dir search;
-    allow { chrony_sock_t } debugfs_t:file { write open };
-    corecmd_exec_shell(chrony_sock_t);
+    kernel_search_debugfs(kinematics_server_t);
+    kernel_manage_debugfs(kinematics_server_t);
 ')
 
-allow chrony_sock_t chronyd_var_run_t:sock_file write;
-allow chrony_sock_t self:capability { setgid };
-allow chrony_sock_t self:fifo_file { ioctl };
-allow chrony_sock_t self:udp_socket { create };
-allow chrony_sock_t self:socket { write read create setopt getattr };
-logging_send_syslog_msg(chrony_sock_t)
+logging_send_syslog_msg(kinematics_server_t)
+dev_write_kmsg(kinematics_server_t)
+read_files_pattern(kinematics_server_t, etc_t, etc_t)
+corenet_tcp_bind_all_unreserved_ports(kinematics_server_t)
+corenet_tcp_bind_generic_node(kinematics_server_t)
+corecmd_exec_shell(kinematics_server_t)
+corecmd_exec_shell(kinematics_server_t)
+rw_dirs_pattern(kinematics_server_t, var_run_t, var_run_t)
+# Manage private files inside /var/run
+files_pid_file(kinematics_var_run_t)
+files_pid_filetrans(kinematics_server_t, kinematics_var_run_t, { file dir })
+manage_files_pattern(kinematics_server_t, var_run_t, kinematics_var_run_t)
 
-kernel_read_system_state(chrony_sock_t)
+write_sock_files_pattern(kinematics_server_t, init_var_run_t,init_var_run_t);
 
-allow chrony_sock_t chronyd_t:unix_dgram_socket sendto;
-allow chrony_sock_t loc_etc_t:file { read getattr open };
-allow chrony_sock_t loc_socket_t:dir { write search add_name remove_name };
-allow chrony_sock_t loc_socket_t:sock_file { create write };
-allow chrony_sock_t telsdk_etc_t:file { read open };
-allow loc_hald_t chrony_sock_t:unix_dgram_socket sendto;
-allow chrony_sock_t loc_hald_t:unix_dgram_socket sendto;
-write_telux_log_file(chrony_sock_t);
-device_search_sockets(chrony_sock_t)
-
-dontaudit chrony_sock_t self:capability dac_override;
+allow kinematics_server_t self:process { setsched getsched };
+allow kinematics_server_t self:tcp_socket { read create connect write getopt setopt accept bind listen shutdown };
+allow kinematics_server_t self:capability { sys_nice setgid net_admin };
+allow kinematics_server_t self:socket { read write setopt create getattr };
