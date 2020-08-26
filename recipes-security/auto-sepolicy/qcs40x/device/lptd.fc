@@ -26,3 +26,4 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /usr/bin/lptd  --  gen_context(system_u:object_r:lptd_exec_t,s0)
+/dev/socket/data/lptd_connect_socket  --  gen_context(system_u:object_r:lptd_conn_sock_t,s0)
