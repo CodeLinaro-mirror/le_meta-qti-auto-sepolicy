@@ -29,24 +29,35 @@ policy_module(lptd, 1.0)
 
 type lptd_t;
 type lptd_exec_t;
+type lptd_conn_sock_t;
 
 init_vendor_domain(lptd_t, lptd_exec_t)
 
 gen_require(`
     type qnetmgrd_config_t;
     type default_t;
-    type netmgr_connect_socket_t;
+    type var_run_t;
+    type netmgr_lptd_socket_t;
 ')
 
 allow lptd_t qnetmgrd_config_t:file read_file_perms;
 qcmap_read_qcmap_etc_data_files(lptd_t)
 allow lptd_t self:socket { create };
+allow lptd_t self:process { signal getcap setcap };
+allow lptd_t self:capability { chown setgid setpcap setuid };
 dev_read_sysfs(lptd_t)
 dontaudit lptd_t default_t:dir { search };
 
 userdebug_or_eng(`
     rw_diag_dev(lptd_t)
- ')
+')
 
-allow lptd_t netmgr_connect_socket_t:sock_file write;
 qnetmgr_use_unix_stream_sockets(lptd_t)
+
+# LPTD connection socket permissions
+allow lptd_t lptd_conn_sock_t:sock_file { create setattr unlink };
+
+# Permissions for lptd connection to Netmgr
+allow lptd_t netmgr_lptd_socket_t:sock_file { write };
+allow lptd_t netmgr_lptd_socket_t:socket { connect };
+read_system_data_files(lptd_t, qcmap_etc_data_t)

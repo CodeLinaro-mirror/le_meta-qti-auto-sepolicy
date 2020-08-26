@@ -27,3 +27,4 @@
 
 /etc/netmgrd/config     --      gen_context(system_u:object_r:qnetmgrd_config_t,s0)
 /var/run/netmgr_connect_socket -- gen_context(system_u:object_r:netmgr_connect_socket_t,s0)
+/dev/socket/data/netmgr_listener_socket  --  gen_context(system_u:object_r:netmgr_lptd_socket_t,s0)
