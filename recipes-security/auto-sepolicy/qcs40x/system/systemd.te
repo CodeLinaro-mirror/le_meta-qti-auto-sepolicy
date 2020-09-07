@@ -26,3 +26,8 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 dontaudit systemd_tmpfiles_t self:capability dac_read_search;
+
+#============= systemd_hostnamed_t ==============
+dontaudit systemd_hostnamed_t init_var_run_t:sock_file write;
+dontaudit systemd_hostnamed_t systemd_logind_var_run_t:sock_file write;
+dontaudit systemd_hostnamed_t tmpfs_t:dir search;
