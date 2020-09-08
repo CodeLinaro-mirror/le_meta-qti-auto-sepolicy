@@ -48,8 +48,10 @@ allow chrony_sock_t chronyd_var_run_t:sock_file write;
 allow chrony_sock_t self:capability { setgid };
 allow chrony_sock_t self:fifo_file { ioctl };
 allow chrony_sock_t self:udp_socket { create };
-allow chrony_sock_t self:socket { write read };
+allow chrony_sock_t self:socket create_socket_perms;
 logging_send_syslog_msg(chrony_sock_t)
+dev_read_sysfs(chrony_sock_t)
+dev_read_urand(chrony_sock_t)
 
 corecmd_exec_shell(chrony_sock_t)
 kernel_read_system_state(chrony_sock_t)
@@ -57,7 +59,7 @@ kernel_read_system_state(chrony_sock_t)
 allow chrony_sock_t chronyd_t:unix_dgram_socket sendto;
 allow chrony_sock_t loc_etc_t:file { read getattr open };
 allow chrony_sock_t loc_socket_t:dir { write search add_name remove_name };
-allow chrony_sock_t loc_socket_t:sock_file { create write };
+allow chrony_sock_t loc_socket_t:sock_file { create write unlink setattr };
 allow chrony_sock_t telsdk_etc_t:file { read open };
 allow loc_hald_t chrony_sock_t:unix_dgram_socket sendto;
 allow chrony_sock_t loc_hald_t:unix_dgram_socket sendto;
