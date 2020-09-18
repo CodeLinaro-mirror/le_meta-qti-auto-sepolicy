@@ -30,6 +30,7 @@ type qnetmgrd_config_t;
 gen_require(`
     type lptd_conn_sock_t;
     type unconfined_t;
+    type etc_t;
 ')
 
 allow qnetmgrd_t qnetmgrd_config_t:file read_file_perms; #/etc/netmgrd/config
@@ -50,3 +51,5 @@ allow qnetmgrd_t netmgr_lptd_socket_t:sock_file { create setattr };
 # LPTD Connection Permissions
 allow qnetmgrd_t lptd_conn_sock_t:unix_stream_socket { connect write };
 allow unconfined_t qnetmgrd_config_t:file { read open getattr };
+
+allow qnetmgrd_t etc_t:file {read open getattr};
