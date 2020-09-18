@@ -46,6 +46,7 @@ qcmap_read_qcmap_etc_data_files(lptd_t)
 allow lptd_t self:socket { create };
 allow lptd_t self:process { signal getcap setcap };
 allow lptd_t self:capability { chown setgid setpcap setuid };
+allow lptd_t sysfs_t:file write;
 dev_read_sysfs(lptd_t)
 dontaudit lptd_t default_t:dir { search };
 
