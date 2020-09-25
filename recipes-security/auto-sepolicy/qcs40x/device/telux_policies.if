@@ -38,9 +38,12 @@ interface(`telux_allow_v2x',`
     gen_require(`
         type qnetmgrd_config_t;
         type netmgrd_socket_device_t;
+        type netmgr_connect_socket_t;
     ')
     telux_allow_qmi_client($1)
     access_telux_files($1)
     read_files_pattern($1,qnetmgrd_config_t,qnetmgrd_config_t) #/etc/netmgrd/config
+    # netmgr uses separate context on MDM and EAP. All socket rules for both.
     device_rw_socket_files($1, netmgrd_socket_device_t)
+    device_rw_socket_files($1, netmgr_connect_socket_t )
 ')
