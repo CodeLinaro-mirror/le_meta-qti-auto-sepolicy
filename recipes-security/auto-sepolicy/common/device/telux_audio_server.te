@@ -36,7 +36,6 @@ gen_require(`
     type audio_hal_etc_t;
     type data_t;
     type default_t;
-    type telsdk_etc_t;
 ')
 
 init_vendor_domain(telux_audio_server_t, telux_audio_server_exec_t)
@@ -58,9 +57,14 @@ dontaudit telux_audio_server_t default_t:dir search;
 allow telux_audio_server_t self:capability net_bind_service;
 allow telux_audio_server_t self:socket create_socket_perms;
 device_search_sockets(telux_audio_server_t);
+# Permissions required for topologies in debug tools
+userdebug_or_eng(`
+    kernel_read_debugfs(telux_audio_server_t)
+')
+kernel_read_system_state(telux_audio_server_t);
 
 # Permissions required for telsdk config file access
-allow telux_audio_server_t telsdk_etc_t:file { read write open };
+access_telux_files(telux_audio_server_t)
 
 # Allow logging to syslog
 logging_send_syslog_msg(telux_audio_server_t);
