@@ -167,6 +167,9 @@ interface(`telsdk_read_qcmap_etc_data_files',`
 ')
 
 interface(`telux_allow_data',`
+    gen_require(`
+        type netmgrd_socket_device_t;
+    ')
     telsdk_read_qcmap_etc_data_files($1)
     qnetmgr_write_data_sock_files($1)
     qnetmgr_use_unix_stream_sockets($1)
@@ -174,6 +177,7 @@ interface(`telux_allow_data',`
     allow $1 self:capability net_admin;
     allow $1 self:netlink_socket create_socket_perms;
     access_telux_files($1)
+    device_rw_socket_files($1, netmgrd_socket_device_t);
 ')
 
 # Audio client interfaces
