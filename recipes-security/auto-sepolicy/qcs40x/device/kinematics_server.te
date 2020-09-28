@@ -51,13 +51,13 @@ corenet_tcp_bind_all_unreserved_ports(kinematics_server_t)
 corenet_tcp_bind_generic_node(kinematics_server_t)
 corecmd_exec_shell(kinematics_server_t)
 corecmd_exec_shell(kinematics_server_t)
-rw_dirs_pattern(kinematics_server_t, var_run_t, var_run_t)
-# Manage private files inside /var/run
+
 files_pid_file(kinematics_var_run_t)
 files_pid_filetrans(kinematics_server_t, kinematics_var_run_t, { file dir })
-manage_files_pattern(kinematics_server_t, var_run_t, kinematics_var_run_t)
+manage_files_pattern(kinematics_server_t, var_run_t, kinematics_var_run_t);
 
 write_sock_files_pattern(kinematics_server_t, init_var_run_t,init_var_run_t);
+kernel_read_system_state(kinematics_server_t);
 
 allow kinematics_server_t self:process { setsched getsched };
 allow kinematics_server_t self:tcp_socket { read create connect write getopt setopt accept bind listen shutdown };

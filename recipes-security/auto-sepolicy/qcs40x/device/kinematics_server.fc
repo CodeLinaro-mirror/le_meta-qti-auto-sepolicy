@@ -26,3 +26,4 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /usr/bin/kinematics-server  --  gen_context(system_u:object_r:kinematics_server_exec_t,s0)
+/run/kinematics_server.pid  --  gen_context(system_u:object_r:kinematics_var_run_t,s0)
