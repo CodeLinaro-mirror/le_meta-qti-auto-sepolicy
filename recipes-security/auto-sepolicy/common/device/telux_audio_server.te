@@ -46,7 +46,7 @@ init_vendor_domain(telux_audio_server_t, telux_audio_server_exec_t)
 
 userdebug_or_eng(`
      rw_diag_dev(telux_audio_server_t);
-     allow telux_audio_server_t debugfs_t:dir search;
+     kernel_read_debugfs(telux_audio_server_t);
 ')
 
 allow telux_audio_server_t audio_device_t:chr_file rw_chr_file_perms;
