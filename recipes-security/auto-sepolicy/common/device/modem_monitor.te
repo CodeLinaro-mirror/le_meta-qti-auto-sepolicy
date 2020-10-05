@@ -1,0 +1,103 @@
+# Copyright (c) 2020, The Linux Foundation. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are
+# met:
+#     * Redistributions of source code must retain the above copyright
+#       notice, this list of conditions and the following disclaimer.
+#     * Redistributions in binary form must reproduce the above
+#       copyright notice, this list of conditions and the following
+#       disclaimer in the documentation and/or other materials provided
+#       with the distribution.
+#     * Neither the name of The Linux Foundation nor the names of its
+#       contributors may be used to endorse or promote products derived
+#       from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
+# ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+# BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+# IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+policy_module(modem_monitor, 1.0)
+type modem_monitor_t;
+type modem_monitor_exec_t;
+type modem_monitor_compression_t;
+type modem_monitor_compression_exec_t;
+type modem_monitor_ramdump_t;
+type modem_monitor_ramdump_exec_t;
+type modem_monitor_init_t;
+type modem_monitor_init_exec_t;
+type ks_exec_t;
+type ks_t;
+type ksb_device_t;
+type mm_data_t;
+
+
+init_vendor_domain(modem_monitor_t, modem_monitor_exec_t)
+init_script_domain(modem_monitor_compression_t, modem_monitor_compression_exec_t)
+init_script_domain(modem_monitor_ramdump_t, modem_monitor_ramdump_exec_t)
+init_script_domain(modem_monitor_init_t, modem_monitor_init_exec_t)
+
+userdebug_or_eng(`
+    dev_write_kmsg(modem_monitor_t)
+    kernel_manage_debugfs(modem_monitor_t);
+')
+
+gen_require(`
+      type default_t;
+      type socket_device_t;
+      type data_t;
+      type etc_t;
+')
+
+# modem-monitor conf files
+type mm_etc_t;
+files_type(mm_etc_t)
+
+
+files_read_mm_etc_files(modem_monitor_t, etc_t)
+
+allow modem_monitor_t ks_exec_t:file { getattr execute read open execute_no_trans };
+allow modem_monitor_t modem_monitor_compression_exec_t:file { getattr execute read open execute_no_trans };
+allow modem_monitor_t modem_monitor_ramdump_exec_t:file { getattr execute read open execute_no_trans };
+allow modem_monitor_t modem_monitor_init_exec_t:file { getattr execute read open execute_no_trans };
+
+logging_send_syslog_msg(modem_monitor_t)
+allow modem_monitor_t self:fifo_file { read getattr write };
+allow modem_monitor_t self:netlink_kobject_uevent_socket { create bind setopt read };
+corecmd_exec_shell(modem_monitor_t)
+allow modem_monitor_t socket_device_t:dir { write add_name };
+allow modem_monitor_t socket_device_t:sock_file { create setattr };
+device_rw_socket_files(modem_monitor_t, socket_device_t)
+allow modem_monitor_t self:socket { rw_socket_perms create };
+kernel_read_system_state(modem_monitor_t)
+allow modem_monitor_t ksb_device_t:chr_file { getattr read open write ioctl };
+allow modem_monitor_t data_t:dir { search write add_name remove_name create getattr read };
+filetrans_pattern( modem_monitor_t, data_t, mm_data_t, { file dir })
+fs_associate(mm_data_t)
+manage_files_pattern(modem_monitor_t, mm_data_t, mm_data_t)
+dontaudit modem_monitor_t self:capability dac_override;
+allow modem_monitor_t self:process setpgid;
+files_read_etc_files(modem_monitor_t)
+dontaudit modem_monitor_t self:capability2 block_suspend;
+user_data_files_type(mm_data_t)
+manage_user_data_files(modem_monitor_t, mm_data_t)
+dev_node(ksb_device_t)
+ksb_rw_device(ks_t)
+dontaudit modem_monitor_t default_t:dir { search };
+allow modem_monitor_t self:process { setcap getcap signal };
+mm_sendto_unix_dgram_socket(modem_monitor_t)
+dev_rw_sysfs(modem_monitor_t)
+dev_rw_sysfs(modem_monitor_init_t) # /sys/class/gpio/export
+dontaudit modem_monitor_init_t sysfs_t:dir { add_name write };
+dontaudit modem_monitor_init_t sysfs_t:file create;
+
+
+
