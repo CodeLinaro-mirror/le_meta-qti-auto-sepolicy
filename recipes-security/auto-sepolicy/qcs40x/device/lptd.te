@@ -37,8 +37,16 @@ gen_require(`
     type qnetmgrd_config_t;
     type default_t;
     type var_run_t;
+    type socket_device_t;
     type netmgr_lptd_socket_t;
 ')
+
+type lptd_socket_device_t;
+files_type(lptd_socket_device_t);
+dev_node(lptd_socket_device_t);
+allow lptd_t lptd_socket_device_t:dir { search write create read add_name };
+allow lptd_t lptd_socket_device_t:sock_file { create setattr unlink};
+filetrans_pattern(lptd_t, socket_device_t, lptd_socket_device_t, { sock_file dir })
 
 allow lptd_t qnetmgrd_config_t:file read_file_perms;
 qcmap_read_qcmap_etc_data_files(lptd_t)
