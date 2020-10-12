@@ -41,12 +41,6 @@ allow qnetmgrd_t sysfs_t:file write; #/sys/class/net/%s/queues/rx-0/rps_cpus
 allow qnetmgrd_t var_run_t:dir { write add_name remove_name };
 allow qnetmgrd_t var_run_t:sock_file { unlink create setattr };
 
-# Netlink socket permissions
-type netmgr_connect_socket_t;
-filetrans_pattern(qnetmgrd_t, var_run_t, netmgr_connect_socket_t, sock_file)
-allow qnetmgrd_t netmgr_connect_socket_t:sock_file { create setattr };
-fs_associate_tmpfs(netmgr_connect_socket_t)
-
 # Unix LPTD connection socket permissions
 # Connect socket
 type netmgr_listener_socket_t;

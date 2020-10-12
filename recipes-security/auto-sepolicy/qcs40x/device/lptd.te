@@ -38,6 +38,7 @@ gen_require(`
     type netmgrd_socket_device_t;
     type netmgr_listener_socket_t;
     class process setsched;
+    type socket_device_t;
 ')
 
 # Manage socket files within /dev/socket
@@ -82,3 +83,5 @@ qnetmgr_use_unix_stream_sockets(lptd_t)
 
 # Read config files
 read_system_data_files(lptd_t, qcmap_etc_data_t)
+
+allow lptd_t socket_device_t : dir { search };
