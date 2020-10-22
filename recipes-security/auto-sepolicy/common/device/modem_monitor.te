@@ -55,6 +55,10 @@ gen_require(`
       type socket_device_t;
       type data_t;
       type etc_t;
+      type sysctl_t;
+      type init_var_run_t;
+      type systemd_logind_var_run_t;
+      type system_dbusd_t;
 ')
 
 # modem-monitor conf files
@@ -73,8 +77,8 @@ logging_send_syslog_msg(modem_monitor_t)
 allow modem_monitor_t self:fifo_file { read getattr write };
 allow modem_monitor_t self:netlink_kobject_uevent_socket { create bind setopt read };
 corecmd_exec_shell(modem_monitor_t)
-allow modem_monitor_t socket_device_t:dir { write add_name };
-allow modem_monitor_t socket_device_t:sock_file { create setattr };
+allow modem_monitor_t socket_device_t:dir { write add_name remove_name };
+allow modem_monitor_t socket_device_t:sock_file { create setattr unlink };
 device_rw_socket_files(modem_monitor_t, socket_device_t)
 allow modem_monitor_t self:socket { rw_socket_perms create };
 kernel_read_system_state(modem_monitor_t)
@@ -91,6 +95,17 @@ user_data_files_type(mm_data_t)
 manage_user_data_files(modem_monitor_t, mm_data_t)
 dev_node(ksb_device_t)
 ksb_rw_device(ks_t)
+init_read_state(modem_monitor_t)
+allow modem_monitor_t init_t:unix_stream_socket connectto;
+allow modem_monitor_t init_var_run_t:sock_file write;
+allow modem_monitor_t self:capability net_admin;
+systemd_status_power_units(modem_monitor_t)
+systemd_start_power_units(modem_monitor_t)
+allow modem_monitor_t sysctl_t:file { getattr open write };
+dbus_system_bus_client(modem_monitor_t)
+allow modem_monitor_t systemd_logind_var_run_t:sock_file write;
+allow modem_monitor_t system_dbusd_t:unix_stream_socket connectto;
+dontaudit modem_monitor_t fs_t:filesystem getattr;
 dontaudit modem_monitor_t default_t:dir { search };
 allow modem_monitor_t self:process { setcap getcap signal };
 mm_sendto_unix_dgram_socket(modem_monitor_t)
