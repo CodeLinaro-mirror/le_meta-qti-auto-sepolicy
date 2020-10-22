@@ -1,4 +1,4 @@
-# Copyright (c) 2020 The Linux Foundation. All rights reserved.
+# Copyright (c) 2020-2021 The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -28,26 +28,33 @@
 type qnetmgrd_config_t;
 
 gen_require(`
-    type lptd_conn_sock_t;
+    type etc_t;
+    type lptd_socket_device_t;
+    type lptd_connect_socket_t;
+    type lptd_t;
+    type qnetmgrd_config_t;
 ')
 
 allow qnetmgrd_t qnetmgrd_config_t:file read_file_perms; #/etc/netmgrd/config
 allow qnetmgrd_t sysfs_t:file write; #/sys/class/net/%s/queues/rx-0/rps_cpus
 allow qnetmgrd_t var_run_t:dir { write add_name remove_name };
 allow qnetmgrd_t var_run_t:sock_file { unlink create setattr };
+
+# Netlink socket permissions
 type netmgr_connect_socket_t;
 filetrans_pattern(qnetmgrd_t, var_run_t, netmgr_connect_socket_t, sock_file)
 allow qnetmgrd_t netmgr_connect_socket_t:sock_file { create setattr };
 fs_associate_tmpfs(netmgr_connect_socket_t)
 
 # Unix LPTD connection socket permissions
-type netmgr_lptd_socket_t;
-allow qnetmgrd_t netmgr_lptd_socket_t:sock_file { create setattr };
-dontaudit qnetmgrd_t netmgr_lptd_socket_t:sock_file write;
+# Connect socket
+type netmgr_listener_socket_t;
+allow qnetmgrd_t netmgr_listener_socket_t:sock_file { create setattr };
+allow qnetmgrd_t lptd_t:unix_stream_socket { connectto read write };
 
-# LPTD Connection Permissions
-allow qnetmgrd_t lptd_conn_sock_t:unix_stream_socket { connect write };
-dontaudit qnetmgrd_t lptd_conn_sock_t:unix_stream_socket connectto;
+# Manage LPTD Connections
+allow qnetmgrd_t lptd_connect_socket_t:unix_stream_socket connectto;
+device_rw_socket_files(qnetmgrd_t, lptd_socket_device_t)
 
-dontaudit qnetmgrd_t self:capability dac_override;
-dontaudit qnetmgrd_t self:tcp_socket setopt;
+# Read platform config file
+allow qnetmgrd_t qnetmgrd_config_t:file {read open getattr};

@@ -29,44 +29,54 @@ policy_module(lptd, 1.0)
 
 type lptd_t;
 type lptd_exec_t;
-type lptd_conn_sock_t;
 
 init_vendor_domain(lptd_t, lptd_exec_t)
 
 gen_require(`
     type qnetmgrd_config_t;
     type default_t;
-    type var_run_t;
-    type socket_device_t;
-    type netmgr_lptd_socket_t;
+    type netmgrd_socket_device_t;
+    type netmgr_listener_socket_t;
+    class process setsched;
 ')
 
+# Manage socket files within /dev/socket
 type lptd_socket_device_t;
-files_type(lptd_socket_device_t);
-dev_node(lptd_socket_device_t);
-allow lptd_t lptd_socket_device_t:dir { search write create read add_name };
-allow lptd_t lptd_socket_device_t:sock_file { create setattr unlink};
-filetrans_pattern(lptd_t, socket_device_t, lptd_socket_device_t, { sock_file dir })
+files_type(lptd_socket_device_t)
+dev_node(lptd_socket_device_t)
+device_manage_socket_file(lptd_t, lptd_socket_device_t)
+allow lptd_t netmgr_listener_socket_t:unix_stream_socket { connectto };
+
+type lptd_connect_socket_t;
+allow lptd_t lptd_connect_socket_t:sock_file { create setattr };
 
 allow lptd_t qnetmgrd_config_t:file read_file_perms;
 qcmap_read_qcmap_etc_data_files(lptd_t)
 allow lptd_t self:socket { create };
-allow lptd_t self:process { signal getcap setcap };
-allow lptd_t self:capability { chown setgid setpcap setuid };
-allow lptd_t sysfs_t:file write;
-dev_read_sysfs(lptd_t)
+allow lptd_t self:process { signal getcap setcap getsched };
+allow lptd_t self:capability { setgid setpcap setuid net_admin sys_nice };
+
+kernel_rw_irq_sysctls(lptd_t)
+kernel_rw_net_sysctls(lptd_t)
+
+#type cgroupfs_t;
+fs_manage_cgroup_files(lptd_t)
+fs_manage_cgroup_dirs(lptd_t)
+
+dev_rw_sysfs(lptd_t);
+
 dontaudit lptd_t default_t:dir { search };
+allow lptd_t domain:process setsched;
 
 userdebug_or_eng(`
     rw_diag_dev(lptd_t)
 ')
 
+# Manage Netmgr Connections
+device_rw_socket_files(lptd_t, netmgrd_socket_device_t)
+
+# Send commands to LPTD
 qnetmgr_use_unix_stream_sockets(lptd_t)
 
-# LPTD connection socket permissions
-allow lptd_t lptd_conn_sock_t:sock_file { create setattr unlink };
-
-# Permissions for lptd connection to Netmgrd
-allow lptd_t netmgr_lptd_socket_t:sock_file { write };
-allow lptd_t netmgr_lptd_socket_t:socket { connect };
+# Read config files
 read_system_data_files(lptd_t, qcmap_etc_data_t)
