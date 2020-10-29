@@ -30,3 +30,11 @@ userdebug_or_eng(`
   append_files_pattern(dnsmasq_t, debugfs_t, debugfs_t)
   append_files_pattern(qcmap_cm_t, debugfs_t, debugfs_t)
 ')
+
+gen_require(`
+  type modem_monitor_t;
+  type socket_device_t;
+')
+
+allow qcmap_cm_t modem_monitor_t:unix_stream_socket connectto;
+allow qcmap_cm_t socket_device_t:sock_file write;
