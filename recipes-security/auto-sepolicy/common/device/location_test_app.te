@@ -40,7 +40,11 @@ telux_allow_loc(location_test_app_t)
 
 gen_require(`
         type etc_t;
+        type user_home_dir_t;
 ')
 #Allow setting secondary groups
 allow location_test_app_t self:capability setgid;
+allow location_test_app_t self:process signal;
 allow location_test_app_t etc_t:file read_file_perms;
+allow location_test_app_t user_home_dir_t:dir search;
+allow location_test_app_t user_home_dir_t:file { read open };
