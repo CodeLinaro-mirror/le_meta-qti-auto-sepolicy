@@ -200,6 +200,10 @@ interface(`telux_allow_loc',`
     # To allow location client to sets a specific gid
     allow $1 self:capability setgid;
 
+    # To allow QDgnssRemoteApi
+    allow $1 self:socket { getattr setopt write read};
+    logging_send_syslog_msg($1);
+
     # To allow location client to read config from gps.conf file
     allow $1 loc_etc_t:file read_file_perms;
 
@@ -208,11 +212,14 @@ interface(`telux_allow_loc',`
     manage_sock_files_pattern($1, loc_socket_t, loc_socket_t)
     dgram_send_pattern($1, loc_socket_t, loc_socket_t, loc_hald_t)
 
-    # To allow loc client to log to diag
+    # To allow loc client to log to diag, access debug file system
     userdebug_or_eng(`
         rw_diag_dev($1)
+        kernel_manage_debugfs($1)
     ')
 
+    corecmd_exec_shell($1)
+    kernel_read_system_state($1)
     access_telux_files($1)
 ')
 
