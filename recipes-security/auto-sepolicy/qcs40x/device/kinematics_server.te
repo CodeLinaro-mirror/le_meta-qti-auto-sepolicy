@@ -58,6 +58,7 @@ manage_files_pattern(kinematics_server_t, var_run_t, kinematics_var_run_t);
 
 write_sock_files_pattern(kinematics_server_t, init_var_run_t,init_var_run_t);
 kernel_read_system_state(kinematics_server_t);
+dev_read_urand(kinematics_server_t);
 
 allow kinematics_server_t self:process { setsched getsched };
 allow kinematics_server_t self:tcp_socket { read create connect write getopt setopt accept bind listen shutdown };
