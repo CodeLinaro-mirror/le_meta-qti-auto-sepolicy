@@ -93,4 +93,4 @@ ifdef(`init_systemd', `
     allow power_manager_daemon_t systemd_logind_var_run_t:sock_file write;
 ')
 dontaudit power_manager_daemon_t init_t:dir search;
-dontaudit power_manager_daemon_t self:fifo_file rw_fifo_file_perms;
+allow power_manager_daemon_t self:fifo_file rw_fifo_file_perms;
