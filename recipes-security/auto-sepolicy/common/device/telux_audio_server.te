@@ -31,37 +31,36 @@ type telux_audio_server_t;
 type telux_audio_server_exec_t;
 
 gen_require(`
-    type audio_device_t;
-    type audio_hal_etc_acdb_t;
-    type audio_hal_etc_t;
-    type data_t;
     type default_t;
-    type debugfs_t;
-    type ion_device_t;
-    type sound_device_t;
-    type telsdk_etc_t;
 ')
 
 init_vendor_domain(telux_audio_server_t, telux_audio_server_exec_t)
 
-userdebug_or_eng(`
-     rw_diag_dev(telux_audio_server_t);
-     kernel_read_debugfs(telux_audio_server_t);
-')
+# Gives permissions to access to hal devices such as sound devices,
+# hal files such as acdb, mixer files
+audio_hal_access(telux_audio_server_t)
 
-allow telux_audio_server_t audio_device_t:chr_file rw_chr_file_perms;
-allow telux_audio_server_t audio_hal_etc_t:file read_file_perms;
-allow telux_audio_server_t audio_hal_etc_acdb_t:dir list_dir_perms;
-allow telux_audio_server_t audio_hal_etc_acdb_t:file { read getattr open };
-allow telux_audio_server_t audio_device_t:chr_file rw_chr_file_perms;
-allow telux_audio_server_t ion_device_t:chr_file read_chr_file_perms;
-allow telux_audio_server_t sound_device_t:chr_file rw_chr_file_perms;
+# The below interface gives access for files which are not owned by
+# audio hal but used by audio hal. Eg: debugfs, diag_dev, sysfs, etc.
+non_audio_hal_access(telux_audio_server_t)
+
+# Gives permissions to manage files in "/data/audio/*"
+audio_data_files_access(telux_audio_server_t)
+
 dontaudit telux_audio_server_t default_t:dir search;
-dontaudit telux_audio_server_t data_t:dir search;
+
+# Permission required for a QCSI application.
 allow telux_audio_server_t self:capability net_bind_service;
 allow telux_audio_server_t self:socket create_socket_perms;
 device_search_sockets(telux_audio_server_t);
-dev_read_sysfs(telux_audio_server_t);
-allow telux_audio_server_t telsdk_etc_t:file { read write open };
-kernel_read_system_state(telux_audio_server_t)
+# Permissions required for topologies in debug tools
+userdebug_or_eng(`
+    kernel_read_debugfs(telux_audio_server_t)
+')
+kernel_read_system_state(telux_audio_server_t);
+
+# Permissions required for telsdk config file access
+access_telux_files(telux_audio_server_t)
+
+# Allow logging to syslog
 logging_send_syslog_msg(telux_audio_server_t);
