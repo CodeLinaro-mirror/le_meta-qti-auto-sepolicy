@@ -31,6 +31,7 @@ type smqlnx_t;
 type smqlnx_exec_t;
 type smqlnx_data_t;
 type smqlnx_var_run_t;
+type smqlnx_vendor_c2c_conf_t;
 
 init_vendor_domain(smqlnx_t, smqlnx_exec_t)
 
@@ -46,13 +47,18 @@ gen_require(`
     type systemd_resolved_var_run_t;
     type sysctl_vm_overcommit_t;
     type sysctl_vm_t;
+    type qwes_mink_socket_t;
+    type qwesd_t;
+    type fs_t;
 ')
 
 fs_associate(smqlnx_data_t);
+allow smqlnx_t fs_t:filesystem getattr;
+fs_associate(smqlnx_vendor_c2c_conf_t);
 allow smqlnx_t net_conf_t:file { rename getattr write getattr read create open append unlink };
 allow smqlnx_t proc_t:file { rename getattr write getattr read create open append unlink };
 allow smqlnx_t smqlnx_data_t:dir create;
-allow smqlnx_t smqlnx_data_t:file { write getattr read create open append };
+allow smqlnx_t smqlnx_data_t:file { write getattr read create open append rename unlink };
 dontaudit smqlnx_t sysctl_vm_overcommit_t:file { read open };
 dontaudit smqlnx_t sysctl_vm_t:dir search;
 files_read_etc_files(smqlnx_t);
@@ -86,9 +92,15 @@ corenet_tcp_connect_http_port(smqlnx_t);
 files_pid_file(smqlnx_var_run_t);
 files_pid_filetrans(smqlnx_t, smqlnx_var_run_t, { file dir })
 manage_files_pattern(smqlnx_t, var_run_t, smqlnx_var_run_t);
+user_data_files_type(smqlnx_vendor_c2c_conf_t);
+manage_user_data_files(smqlnx_t, smqlnx_vendor_c2c_conf_t);
 
 # allow smqlnx to read dev/daig file
 userdebug_or_eng(`rw_diag_dev(smqlnx_t)')
 
 # read build.prop
 leprop_read_props(smqlnx_t)
+
+#============= smqlnx_t with qwes for license check ==============
+allow smqlnx_t qwes_mink_socket_t:sock_file write;
+allow smqlnx_t qwesd_t:unix_stream_socket connectto;

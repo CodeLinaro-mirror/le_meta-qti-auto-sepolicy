@@ -28,3 +28,4 @@
 /usr/bin/smqlnx   --           gen_context(system_u:object_r:smqlnx_exec_t,s0)
 /data/vendor/smq(/.*)?         gen_context(system_u:object_r:smqlnx_data_t,s0)
 /run/smq_daemon.pid  --        gen_context(system_u:object_r:smqlnx_var_run_t,s0)
+/data/vendor/car2cloud.conf  --   gen_context(system_u:object_r:smqlnx_vendor_c2c_conf_t,s0)
