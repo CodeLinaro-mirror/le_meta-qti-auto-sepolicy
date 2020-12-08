@@ -39,6 +39,10 @@ userdebug_or_eng(`
     kernel_manage_debugfs(kinematics_sc_t);
 ')
 
+gen_require(`
+    type urandom_device_t;
+')
+
 logging_send_syslog_msg(kinematics_sc_t)
 corenet_tcp_bind_all_unreserved_ports(kinematics_sc_t)
 corenet_tcp_bind_generic_node(kinematics_sc_t)
@@ -53,3 +57,4 @@ allow kinematics_sc_t self:capability setgid;
 allow kinematics_sc_t self:socket { create setopt getattr read write };
 allow kinematics_sc_t self:tcp_socket { create setopt connect read write };
 allow kinematics_sc_t self:process signal;
+allow kinematics_sc_t urandom_device_t:chr_file { read open };
