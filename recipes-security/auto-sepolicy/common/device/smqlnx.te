@@ -31,7 +31,6 @@ type smqlnx_t;
 type smqlnx_exec_t;
 type smqlnx_data_t;
 type smqlnx_var_run_t;
-type smqlnx_vendor_c2c_conf_t;
 
 init_vendor_domain(smqlnx_t, smqlnx_exec_t)
 
@@ -54,7 +53,6 @@ gen_require(`
 
 fs_associate(smqlnx_data_t);
 allow smqlnx_t fs_t:filesystem getattr;
-fs_associate(smqlnx_vendor_c2c_conf_t);
 allow smqlnx_t net_conf_t:file { rename getattr write getattr read create open append unlink };
 allow smqlnx_t proc_t:file { rename getattr write getattr read create open append unlink };
 allow smqlnx_t smqlnx_data_t:dir create;
@@ -92,8 +90,6 @@ corenet_tcp_connect_http_port(smqlnx_t);
 files_pid_file(smqlnx_var_run_t);
 files_pid_filetrans(smqlnx_t, smqlnx_var_run_t, { file dir })
 manage_files_pattern(smqlnx_t, var_run_t, smqlnx_var_run_t);
-user_data_files_type(smqlnx_vendor_c2c_conf_t);
-manage_user_data_files(smqlnx_t, smqlnx_vendor_c2c_conf_t);
 
 # allow smqlnx to read dev/daig file
 userdebug_or_eng(`rw_diag_dev(smqlnx_t)')
@@ -104,3 +100,6 @@ leprop_read_props(smqlnx_t)
 #============= smqlnx_t with qwes for license check ==============
 allow smqlnx_t qwes_mink_socket_t:sock_file write;
 allow smqlnx_t qwesd_t:unix_stream_socket connectto;
+
+#============= smqlnx_t to set supplementary groups ==============
+allow smqlnx_t self:capability setgid;
