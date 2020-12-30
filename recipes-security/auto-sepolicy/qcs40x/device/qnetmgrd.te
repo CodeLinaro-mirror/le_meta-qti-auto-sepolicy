@@ -43,6 +43,11 @@ fs_associate_tmpfs(netmgr_connect_socket_t)
 # Unix LPTD connection socket permissions
 type netmgr_lptd_socket_t;
 allow qnetmgrd_t netmgr_lptd_socket_t:sock_file { create setattr };
+dontaudit qnetmgrd_t netmgr_lptd_socket_t:sock_file write;
 
 # LPTD Connection Permissions
 allow qnetmgrd_t lptd_conn_sock_t:unix_stream_socket { connect write };
+dontaudit qnetmgrd_t lptd_conn_sock_t:unix_stream_socket connectto;
+
+dontaudit qnetmgrd_t self:capability dac_override;
+dontaudit qnetmgrd_t self:tcp_socket setopt;
