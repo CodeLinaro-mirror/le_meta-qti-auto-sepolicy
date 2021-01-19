@@ -1,4 +1,4 @@
-# Copyright (c) 2020 The Linux Foundation. All rights reserved.
+# Copyright (c) 2020-2021 The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -73,3 +73,8 @@ corenet_udp_bind_generic_node(acme_t)
 corenet_udp_bind_cslistener_port(acme_t)
 corenet_udp_bind_all_unreserved_ports(acme_t)
 dev_read_urand(acme_t)
+
+#diag is required for qcmap/dsi logging
+rw_diag_dev(acme_t);
+#required to set supplementary group from process.
+allow acme_t self:capability setgid;
