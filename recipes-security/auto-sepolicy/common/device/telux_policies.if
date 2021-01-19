@@ -1,4 +1,4 @@
-# Copyright (c) 2020, The Linux Foundation. All rights reserved.
+# Copyright (c) 2020-2021, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -98,6 +98,7 @@ interface(`access_telux_files',`
 
     read_telux_log_file($1)
     write_telux_log_file($1)
+    dev_read_sysfs($1) # Requried for diag logging.
 ')
 
 # Qmi client interfaces
@@ -282,5 +283,5 @@ interface(`telux_allow_modemconfig',`
         rw_diag_dev($1)
     ')
     access_telux_files($1)
-
+    device_search_sockets($1)
 ')
