@@ -1,4 +1,4 @@
-# Copyright (c) 2020 The Linux Foundation. All rights reserved.
+# Copyright (c) 2020-2021 The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -55,3 +55,5 @@ kernel_read_system_state(cv2xd_t)
 logging_send_syslog_msg(cv2xd_t)
 dontaudit cv2xd_t default_t:dir search;
 allow cv2xd_t self:process signal;
+#diag is required for qcmap/dsi logging
+rw_diag_dev(cv2xd_t);
