@@ -1,5 +1,4 @@
-# Copyright (c) 2020-2021 The Linux Foundation. All rights reserved.
-#
+#Copyright (c) 2021 The Linux Foundation. All rights reserved.
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
 # met:
@@ -12,7 +11,6 @@
 #     * Neither the name of The Linux Foundation nor the names of its
 #       contributors may be used to endorse or promote products derived
 #       from this software without specific prior written permission.
-#
 # THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
 # WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
@@ -25,36 +23,4 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
-gen_require(`
-    type unconfined_t;
-    type etc_t;
-    type lptd_socket_device_t;
-    type lptd_connect_socket_t;
-    type lptd_t;
-    type ifconfig_t;
-    type node_t;
-    type qnetmgrd_config_t;
-
-')
-
-allow qnetmgrd_t qnetmgrd_config_t:file read_file_perms; #/etc/netmgrd/config
-allow qnetmgrd_t sysfs_t:file write; #/sys/class/net/%s/queues/rx-0/rps_cpus
-allow qnetmgrd_t var_run_t:dir { write add_name remove_name };
-allow qnetmgrd_t var_run_t:sock_file { unlink create setattr };
-
-# Unix LPTD connection socket permissions
-# Connect socket
-type netmgr_listener_socket_t;
-allow qnetmgrd_t netmgr_listener_socket_t:sock_file { create setattr };
-allow qnetmgrd_t lptd_t:unix_stream_socket { connectto read write };
-
-# Manage LPTD Connections
-allow qnetmgrd_t lptd_connect_socket_t:unix_stream_socket connectto;
-device_rw_socket_files(qnetmgrd_t, lptd_socket_device_t)
-allow qnetmgrd_t etc_t:file {read open getattr};
-dontaudit ifconfig_t qnetmgrd_t:tcp_socket { read write };
-dontaudit ifconfig_t qnetmgrd_t:udp_socket { read write };
-dontaudit qnetmgrd_t self:tcp_socket { setopt bind listen getattr };
-dontaudit qnetmgrd_t node_t : tcp_socket { node_bind };
-dontaudit qnetmgrd_t node_t : udp_socket { node_bind };
+type qnetmgrd_config_t;
