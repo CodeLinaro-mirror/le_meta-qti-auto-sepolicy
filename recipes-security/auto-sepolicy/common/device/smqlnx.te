@@ -1,4 +1,4 @@
-# Copyright (c) 2020, The Linux Foundation. All rights reserved.
+# Copyright (c) 2020-2021, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -49,6 +49,8 @@ gen_require(`
     type qwes_mink_socket_t;
     type qwesd_t;
     type fs_t;
+    type mnt_t;
+    type sdcard_t;
 ')
 
 fs_associate(smqlnx_data_t);
@@ -79,6 +81,7 @@ telux_allow_data(smqlnx_t);
 
 #============= smqlnx_t with remote server for registration ==============
 allow smqlnx_t default_t:dir search;
+allow smqlnx_t default_t:lnk_file read;
 allow smqlnx_t init_var_run_t:dir search;
 kernel_dontaudit_search_sysctl(smqlnx_t);
 read_files_pattern(smqlnx_t, systemd_resolved_var_run_t, systemd_resolved_var_run_t);
@@ -102,4 +105,11 @@ allow smqlnx_t qwes_mink_socket_t:sock_file write;
 allow smqlnx_t qwesd_t:unix_stream_socket connectto;
 
 #============= smqlnx_t to set supplementary groups ==============
-allow smqlnx_t self:capability setgid;
+allow smqlnx_t self:capability { setgid kill };
+dontaudit smqlnx_t self:capability dac_override;
+dontaudit smqlnx_t self:process sigkill;
+allow smqlnx_t self:process signal;
+
+#============= smqlnx_t to search sdcard and mnt ==============
+allow smqlnx_t sdcard_t:dir search;
+allow smqlnx_t mnt_t:dir search;
