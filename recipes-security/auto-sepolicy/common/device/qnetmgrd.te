@@ -1,5 +1,4 @@
-# Copyright (c) 2020-2021 The Linux Foundation. All rights reserved.
-#
+#Copyright (c) 2021 The Linux Foundation. All rights reserved.
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
 # met:
@@ -12,7 +11,6 @@
 #     * Neither the name of The Linux Foundation nor the names of its
 #       contributors may be used to endorse or promote products derived
 #       from this software without specific prior written permission.
-#
 # THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
 # WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
@@ -25,35 +23,4 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
-gen_require(`
-    type etc_t;
-    type lptd_socket_device_t;
-    type lptd_connect_socket_t;
-    type lptd_t;
-    type qnetmgrd_config_t;
-')
-
-allow qnetmgrd_t qnetmgrd_config_t:file read_file_perms; #/etc/netmgrd/config
-allow qnetmgrd_t sysfs_t:file write; #/sys/class/net/%s/queues/rx-0/rps_cpus
-allow qnetmgrd_t var_run_t:dir { write add_name remove_name };
-allow qnetmgrd_t var_run_t:sock_file { unlink create setattr };
-
-# Netlink socket permissions
-type netmgr_connect_socket_t;
-filetrans_pattern(qnetmgrd_t, var_run_t, netmgr_connect_socket_t, sock_file)
-allow qnetmgrd_t netmgr_connect_socket_t:sock_file { create setattr };
-fs_associate_tmpfs(netmgr_connect_socket_t)
-
-# Unix LPTD connection socket permissions
-# Connect socket
-type netmgr_listener_socket_t;
-allow qnetmgrd_t netmgr_listener_socket_t:sock_file { create setattr };
-allow qnetmgrd_t lptd_t:unix_stream_socket { connectto read write };
-
-# Manage LPTD Connections
-allow qnetmgrd_t lptd_connect_socket_t:unix_stream_socket connectto;
-device_rw_socket_files(qnetmgrd_t, lptd_socket_device_t)
-
-# Read platform config file
-allow qnetmgrd_t qnetmgrd_config_t:file {read open getattr};
+type qnetmgrd_config_t;
