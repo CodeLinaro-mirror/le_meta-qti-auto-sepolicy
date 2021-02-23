@@ -111,5 +111,7 @@ dontaudit smqlnx_t self:process sigkill;
 allow smqlnx_t self:process signal;
 
 #============= smqlnx_t to search sdcard and mnt ==============
-allow smqlnx_t sdcard_t:dir search;
+manage_files_pattern(smqlnx_t, sdcard_t, sdcard_t);
+allow smqlnx_t sdcard_t:filesystem getattr;
+allow smqlnx_t sdcard_t:dir create;
 allow smqlnx_t mnt_t:dir search;
