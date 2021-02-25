@@ -115,3 +115,6 @@ manage_files_pattern(smqlnx_t, sdcard_t, sdcard_t);
 allow smqlnx_t sdcard_t:filesystem getattr;
 allow smqlnx_t sdcard_t:dir create;
 allow smqlnx_t mnt_t:dir search;
+
+#============= smqlnx_t to search open and read firmware files ===
+firmware_read_files(smqlnx_t);
