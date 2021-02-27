@@ -1,4 +1,4 @@
-# Copyright (c) 2020, The Linux Foundation. All rights reserved.
+# Copyright (c) 2020-2021, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -59,6 +59,8 @@ gen_require(`
       type init_var_run_t;
       type systemd_logind_var_run_t;
       type system_dbusd_t;
+      type sdcard_t;
+      type mnt_t;
 ')
 
 # modem-monitor conf files
@@ -84,6 +86,10 @@ allow modem_monitor_t self:socket { rw_socket_perms create };
 kernel_read_system_state(modem_monitor_t)
 allow modem_monitor_t ksb_device_t:chr_file { getattr read open write ioctl };
 allow modem_monitor_t data_t:dir { search write add_name remove_name create getattr read };
+allow modem_monitor_t sdcard_t:dir { write search read create open getattr add_name remove_name rmdir };
+allow modem_monitor_t mnt_t:dir search;
+allow modem_monitor_t sdcard_t:file { write create open read getattr unlink};
+allow modem_monitor_t sdcard_t:filesystem getattr;
 filetrans_pattern( modem_monitor_t, data_t, mm_data_t, { file dir })
 fs_associate(mm_data_t)
 manage_files_pattern(modem_monitor_t, mm_data_t, mm_data_t)
