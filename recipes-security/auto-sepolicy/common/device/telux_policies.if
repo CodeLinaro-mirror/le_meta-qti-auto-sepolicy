@@ -76,8 +76,12 @@ interface(`read_telux_log_file',`
 interface(`write_telux_log_file',`
     gen_require(`
         type telsdk_data_t;
+        type tmpfs_t;
     ')
     manage_user_data_files($1, telsdk_data_t)
+    allow $1 tmpfs_t:dir { write search add_name remove_name };
+    allow $1 tmpfs_t:file { getattr create open read write link unlink };
+    allow $1 tmpfs_t:filesystem getattr;
 ')
 
 # @brief:  This interface allows domain context to read and write
