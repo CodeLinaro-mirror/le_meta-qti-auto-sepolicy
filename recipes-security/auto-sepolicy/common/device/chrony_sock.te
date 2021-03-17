@@ -47,7 +47,7 @@ userdebug_or_eng(`
         type debugfs_t;
     ')
     allow { chrony_sock_t} debugfs_t:dir search;
-    allow { chrony_sock_t } debugfs_t:file { write open };
+    allow { chrony_sock_t } debugfs_t:file { write open getattr};
     corecmd_exec_shell(chrony_sock_t);
 ')
 
