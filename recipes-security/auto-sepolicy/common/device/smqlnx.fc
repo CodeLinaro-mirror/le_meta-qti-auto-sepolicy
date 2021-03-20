@@ -28,3 +28,4 @@
 /usr/bin/smqlnx   --           gen_context(system_u:object_r:smqlnx_exec_t,s0)
 /data/vendor/smq(/.*)?         gen_context(system_u:object_r:smqlnx_data_t,s0)
 /run/smq_daemon.pid  --        gen_context(system_u:object_r:smqlnx_var_run_t,s0)
+/mnt/sdcard/smq(/.*)?          gen_context(system_u:object_r:smqlnx_sdcard_data_t,s0)
