@@ -178,6 +178,8 @@ interface(`telux_allow_data',`
     allow $1 self:netlink_socket create_socket_perms;
     access_telux_files($1)
     device_rw_socket_files($1, netmgrd_socket_device_t);
+    read_files_pattern($1, etc_t, etc_t);
+    qnetmgr_read_config_file($1);
 ')
 
 # Audio client interfaces
