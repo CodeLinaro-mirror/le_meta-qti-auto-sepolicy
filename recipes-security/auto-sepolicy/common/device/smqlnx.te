@@ -52,6 +52,7 @@ gen_require(`
     type fs_t;
     type mnt_t;
     type sdcard_t;
+    type cert_t;
 ')
 
 fs_associate(smqlnx_data_t);
@@ -121,3 +122,6 @@ allow smqlnx_t smqlnx_data_t:lnk_file read;
 
 #============= smqlnx_t to search open and read firmware files ===
 firmware_read_files(smqlnx_t);
+
+#============= smqlnx_t to search open and read certificate files ===
+miscfiles_read_generic_certs(smqlnx_t);
