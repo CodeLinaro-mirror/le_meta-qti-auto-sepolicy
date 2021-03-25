@@ -24,4 +24,7 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 gen_require(`
     type qnetmgrd_config_t;
+    type ifconfig_t;
 ')
+dontaudit qnetmgrd_t ifconfig_t:process { sigkill };
+dontaudit qnetmgrd_t self:process sigkill;
