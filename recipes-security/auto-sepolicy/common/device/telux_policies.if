@@ -266,6 +266,7 @@ interface(`telux_allow_thermalmanager',`
     dev_read_sysfs($1)
     allow $1 devlog_t:sock_file write;
     allow $1 self:socket create;
+    device_search_sockets($1)
     access_telux_files($1)
 ')
 
