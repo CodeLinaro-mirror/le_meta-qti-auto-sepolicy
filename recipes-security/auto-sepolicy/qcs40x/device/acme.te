@@ -45,6 +45,8 @@ gen_require(`
     type init_var_run_t;
     type etc_t;
     type systemd_resolved_var_run_t;
+    type home_root_t;
+    type unreserved_port_t;
 ')
 
 dev_write_kmsg(acme_t)
@@ -78,3 +80,8 @@ dev_read_urand(acme_t)
 rw_diag_dev(acme_t);
 #required to set supplementary group from process.
 allow acme_t self:capability setgid;
+
+telux_allow_loc(acme_t)
+dontaudit acme_t home_root_t:dir search;
+allow acme_t self:tcp_socket { create read write connect shutdown getopt setopt accept listen bind };
+allow acme_t unreserved_port_t:tcp_socket {name_bind name_connect };
