@@ -1,4 +1,4 @@
-# Copyright (c) 2020 The Linux Foundation. All rights reserved.
+# Copyright (c) 2021 The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -45,6 +45,7 @@ gen_require(`
     type init_var_run_t;
     type etc_t;
     type systemd_resolved_var_run_t;
+    type home_root_t;
 ')
 
 dev_write_kmsg(acme_t)
@@ -74,3 +75,6 @@ corenet_udp_bind_cslistener_port(acme_t)
 corenet_udp_bind_all_unreserved_ports(acme_t)
 dev_read_urand(acme_t)
 allow acme_t self:capability setgid;
+
+telux_allow_loc(acme_t)
+dontaudit acme_t home_root_t:dir search;
