@@ -94,7 +94,7 @@ filetrans_pattern( modem_monitor_t, data_t, mm_data_t, { file dir })
 fs_associate(mm_data_t)
 manage_files_pattern(modem_monitor_t, mm_data_t, mm_data_t)
 dontaudit modem_monitor_t self:capability dac_override;
-allow modem_monitor_t self:process setpgid;
+allow modem_monitor_t self:process { sigkill setpgid };
 files_read_etc_files(modem_monitor_t)
 dontaudit modem_monitor_t self:capability2 block_suspend;
 user_data_files_type(mm_data_t)
@@ -104,7 +104,7 @@ ksb_rw_device(ks_t)
 init_read_state(modem_monitor_t)
 allow modem_monitor_t init_t:unix_stream_socket connectto;
 allow modem_monitor_t init_var_run_t:sock_file write;
-allow modem_monitor_t self:capability net_admin;
+allow modem_monitor_t self:capability { kill net_admin };
 systemd_status_power_units(modem_monitor_t)
 systemd_start_power_units(modem_monitor_t)
 allow modem_monitor_t sysctl_t:file { getattr open write };
