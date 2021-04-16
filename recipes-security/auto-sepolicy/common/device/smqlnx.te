@@ -132,3 +132,7 @@ miscfiles_read_generic_certs(smqlnx_t);
 userdebug_or_eng('
     can_exec(unconfined_t, smqlnx_exec_t);
 ')
+
+#============ Allow accessing configuration file and certificates ===
+read_c2c_conf_file(smqlnx_t);
+read_c2c_cert_file(smqlnx_t);
