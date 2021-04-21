@@ -295,3 +295,24 @@ interface(`telux_allow_modemconfig',`
     access_telux_files($1)
 
 ')
+
+# sensor client interface
+# @brief: The sensor client interface allows the domain to contain a telux sensor
+# client by providing necessary permissions for its operation.
+#
+# Parameters:
+#   1) Domain context
+
+interface(`telux_allow_sensor',`
+
+    # For read /etc/tel.conf, read/write tel.log
+    access_telux_files($1)
+
+    # For socket communication: /etc/nsswitch.conf, /etc/group for getgrnam
+    read_files_pattern($1, etc_t, etc_t);
+
+    # For sensor client lib, from sensor_hal_daemon.if
+    sensor_dev_socket($1)
+    sensor_configuration_access($1)
+
+')
