@@ -1,0 +1,71 @@
+# Copyright (c) 2021 The Linux Foundation. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are
+# met:
+#     * Redistributions of source code must retain the above copyright
+#       notice, this list of conditions and the following disclaimer.
+#     * Redistributions in binary form must reproduce the above
+#       copyright notice, this list of conditions and the following
+#       disclaimer in the documentation and/or other materials provided
+#       with the distribution.
+#     * Neither the name of The Linux Foundation nor the names of its
+#       contributors may be used to endorse or promote products derived
+#       from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
+# ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+# BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+# IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+policy_module(cpu_sku_actuator, 1.0)
+
+type cpu_sku_actuator_t;
+type cpu_sku_actuator_exec_t;
+
+init_vendor_domain(cpu_sku_actuator_t, cpu_sku_actuator_exec_t)
+logging_send_syslog_msg(cpu_sku_actuator_t)
+
+gen_require(`
+       type qseecom_device_t;
+       type ion_device_t;
+       type kmsg_device_t;
+')
+
+#####################################################################
+# Allow loading TA
+#####################################################################
+# allow cpu_sku_actuator to access /dev/qseecom
+rw_chr_files_pattern(cpu_sku_actuator_t, device_t, qseecom_device_t);
+rw_chr_files_pattern(cpu_sku_actuator_t, device_t, ion_device_t);
+
+# allow cpu_sku_actuator to read /firmware/image/softsku.mbn TA file
+firmware_read_files(cpu_sku_actuator_t);
+
+#####################################################################
+# Allow access to /sys nodes
+#####################################################################
+allow cpu_sku_actuator_t sysfs_t:dir read;
+dev_rw_sysfs(cpu_sku_actuator_t)
+
+#####################################################################
+# Allow access to kmsg
+#####################################################################
+allow cpu_sku_actuator_t kmsg_device_t:chr_file { write open };
+
+#####################################################################
+# Allow wake and block_suspend
+#####################################################################
+allow cpu_sku_actuator_t self:capability2 { wake_alarm block_suspend };
+
+#####################################################################
+# Allow reboot
+#####################################################################
+allow cpu_sku_actuator_t self:capability sys_boot;
