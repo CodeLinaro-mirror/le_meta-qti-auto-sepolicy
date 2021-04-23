@@ -1,4 +1,4 @@
-# Copyright (c) 2020-2021 The Linux Foundation. All rights reserved.
+# Copyright (c) 2021 The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -25,5 +25,4 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-/usr/bin/cv2x-daemon            --         gen_context(system_u:object_r:cv2xd_exec_t,s0)
-/etc/cv2x/enable                --         gen_context(system_u:object_r:cv2xd_etc_t,s0)
+allow_sa2150p_nand_copybind(cv2xd_etc_t)
