@@ -61,6 +61,7 @@ gen_require(`
       type system_dbusd_t;
       type sdcard_t;
       type mnt_t;
+      type event_device_t;
 ')
 
 # modem-monitor conf files
@@ -120,3 +121,4 @@ dev_rw_sysfs(modem_monitor_t)
 dev_rw_sysfs(modem_monitor_init_t) # /sys/class/gpio/export
 dontaudit modem_monitor_init_t sysfs_t:dir { add_name write };
 dontaudit modem_monitor_init_t sysfs_t:file create;
+dontaudit modem_monitor_t event_device_t:chr_file { getattr read open write ioctl };
