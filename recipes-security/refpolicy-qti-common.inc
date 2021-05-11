@@ -16,3 +16,7 @@ do_patch_append() {
     if bb.utils.contains('DISTRO_FEATURES', 'vbleima', True, False, d):
         install_device_policy(d, os.path.join("auto-sepolicy", "imaevm"))
 }
+
+do_install_append() {
+    rm -rf ${D}/${datadir}/selinux/${POLICY_NAME}/*.pp
+}
