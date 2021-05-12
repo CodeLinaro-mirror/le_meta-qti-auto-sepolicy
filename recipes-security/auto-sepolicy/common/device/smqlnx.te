@@ -121,6 +121,7 @@ allow smqlnx_t sdcard_t:dir create;
 allow smqlnx_t mnt_t:dir search;
 user_data_files_type(smqlnx_sdcard_data_t);
 allow smqlnx_t smqlnx_data_t:lnk_file read;
+allow smqlnx_t sdcard_t:lnk_file read;
 
 #============= smqlnx_t to search open and read firmware files ===
 firmware_read_files(smqlnx_t);
