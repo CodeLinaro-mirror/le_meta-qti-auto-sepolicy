@@ -121,6 +121,7 @@ allow smqlnx_t sdcard_t:dir create;
 allow smqlnx_t mnt_t:dir search;
 user_data_files_type(smqlnx_sdcard_data_t);
 allow smqlnx_t smqlnx_data_t:lnk_file read;
+allow smqlnx_t sdcard_t:lnk_file read;
 
 #============= smqlnx_t to search open and read firmware files ===
 firmware_read_files(smqlnx_t);
@@ -132,3 +133,7 @@ miscfiles_read_generic_certs(smqlnx_t);
 userdebug_or_eng('
     can_exec(unconfined_t, smqlnx_exec_t);
 ')
+
+#============ Allow accessing configuration file and certificates ===
+read_c2c_conf_file(smqlnx_t);
+read_c2c_cert_file(smqlnx_t);
