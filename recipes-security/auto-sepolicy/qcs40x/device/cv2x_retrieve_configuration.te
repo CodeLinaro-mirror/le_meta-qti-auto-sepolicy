@@ -1,4 +1,4 @@
-# Copyright (c) 2020 The Linux Foundation. All rights reserved.
+# Copyright (c) 2020-2021 The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -29,10 +29,16 @@ policy_module(cv2x_retrieve_configuration, 1.0)
 
 type cv2x_retrieve_configuration_t;
 type cv2x_retrieve_configuration_exec_t;
+type cv2x_retrieve_config_tmp_t;
 
 init_vendor_domain(cv2x_retrieve_configuration_t, cv2x_retrieve_configuration_exec_t)
 
 transition_to_confined_domain(cv2x_retrieve_configuration_t, cv2x_retrieve_configuration_exec_t)
+
+files_tmp_file(cv2x_retrieve_config_tmp_t)
+files_tmp_filetrans(cv2x_retrieve_configuration_t, cv2x_retrieve_config_tmp_t, { file lnk_file dir })
+manage_files_pattern(cv2x_retrieve_configuration_t, cv2x_retrieve_config_tmp_t, cv2x_retrieve_config_tmp_t)
+
 
 telux_allow_v2x(cv2x_retrieve_configuration_t);
 telux_allow_data(cv2x_retrieve_configuration_t);
