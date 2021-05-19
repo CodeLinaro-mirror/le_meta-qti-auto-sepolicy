@@ -45,6 +45,7 @@ telux_allow_data(cv2xd_t)
 
 gen_require(`
     type default_t;
+    type sysctl_t;
     type init_var_run_t;
 ')
 
@@ -56,6 +57,7 @@ corecmd_exec_shell(cv2xd_t)
 kernel_read_system_state(cv2xd_t)
 logging_send_syslog_msg(cv2xd_t)
 dontaudit cv2xd_t default_t:dir search;
+dontaudit cv2xd_t sysctl_t:dir search;
 allow cv2xd_t self:process signal;
 allow init_t cv2xd_init_t:file execute;
 files_type(cv2xd_etc_t)
