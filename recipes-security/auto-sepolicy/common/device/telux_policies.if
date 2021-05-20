@@ -316,3 +316,20 @@ interface(`telux_allow_sensor',`
     sensor_configuration_access($1)
 
 ')
+
+# @brief: This interface provides permissions to read the firmware files
+#         and the necessary permissions for the QMI IPC.
+#
+# Parameters:
+#   1) Domain context
+
+interface(`telux_allow_version',`
+    gen_require(`
+       type firmware_t;
+    ')
+    allow $1 firmware_t:dir { search open };
+    allow $1 firmware_t:file read_file_perms;
+    device_search_sockets($1)
+    allow $1 self:socket create_socket_perms;
+    allow $1 self:fifo_file rw_fifo_file_perms;
+')
