@@ -74,7 +74,7 @@ corenet_udp_bind_generic_node(acme_t)
 corenet_udp_bind_cslistener_port(acme_t)
 corenet_udp_bind_all_unreserved_ports(acme_t)
 dev_read_urand(acme_t)
-allow acme_t self:capability setgid;
 
 telux_allow_loc(acme_t)
 dontaudit acme_t home_root_t:dir search;
+allow acme_t self:capability { net_raw setgid };
