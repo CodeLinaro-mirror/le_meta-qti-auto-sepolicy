@@ -79,7 +79,7 @@ dev_read_urand(acme_t)
 #diag is required for qcmap/dsi logging
 rw_diag_dev(acme_t);
 #required to set supplementary group from process.
-allow acme_t self:capability setgid;
+allow acme_t self:capability { net_raw setgid };
 
 telux_allow_loc(acme_t)
 dontaudit acme_t home_root_t:dir search;
