@@ -37,8 +37,8 @@ type modem_monitor_init_exec_t;
 type ks_exec_t;
 type ks_t;
 type ksb_device_t;
+type rmt_sys_evt_device_t;
 type mm_data_t;
-
 
 init_vendor_domain(modem_monitor_t, modem_monitor_exec_t)
 init_script_domain(modem_monitor_compression_t, modem_monitor_compression_exec_t)
@@ -67,7 +67,6 @@ gen_require(`
 type mm_etc_t;
 files_type(mm_etc_t)
 
-
 files_read_mm_etc_files(modem_monitor_t, etc_t)
 
 allow modem_monitor_t ks_exec_t:file { getattr execute read open execute_no_trans };
@@ -85,6 +84,7 @@ device_rw_socket_files(modem_monitor_t, socket_device_t)
 allow modem_monitor_t self:socket { rw_socket_perms create };
 kernel_read_system_state(modem_monitor_t)
 allow modem_monitor_t ksb_device_t:chr_file { getattr read open write ioctl };
+read_rmt_sys_evt_rw_dev_node(modem_monitor_t)
 allow modem_monitor_t data_t:dir { search write add_name remove_name create getattr read };
 allow modem_monitor_t sdcard_t:dir { write search read create open getattr add_name remove_name rmdir };
 allow modem_monitor_t mnt_t:dir search;
@@ -100,6 +100,7 @@ dontaudit modem_monitor_t self:capability2 block_suspend;
 user_data_files_type(mm_data_t)
 manage_user_data_files(modem_monitor_t, mm_data_t)
 dev_node(ksb_device_t)
+dev_node(rmt_sys_evt_device_t)
 ksb_rw_device(ks_t)
 init_read_state(modem_monitor_t)
 allow modem_monitor_t init_t:unix_stream_socket connectto;
@@ -119,6 +120,3 @@ dev_rw_sysfs(modem_monitor_t)
 dev_rw_sysfs(modem_monitor_init_t) # /sys/class/gpio/export
 dontaudit modem_monitor_init_t sysfs_t:dir { add_name write };
 dontaudit modem_monitor_init_t sysfs_t:file create;
-
-
-
