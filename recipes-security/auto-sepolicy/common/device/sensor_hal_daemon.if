@@ -31,12 +31,18 @@ interface(`sensor_dev_socket',`
    gen_require(`
         type sensor_hal_daemon_socket_t;
         type socket_device_t;
+        type power_manager_daemon_t;
+        type power_socket_t;
     ')
 allow $1 sensor_hal_daemon_socket_t:dir { read getattr open };
 allow $1 socket_device_t:dir search;
 allow $1 sensor_hal_daemon_socket_t:dir { write search add_name };
 allow $1 sensor_hal_daemon_socket_t:sock_file { create setattr };
 allow $1 sensor_hal_daemon_socket_t:sock_file write;
+allow sensor_hal_daemon_t power_manager_daemon_t:unix_stream_socket connectto;
+allow sensor_hal_daemon_t power_socket_t:sock_file write;
+allow sensor_hal_daemon_t power_socket_t:dir search;
+logging_send_syslog_msg(sensor_hal_daemon_t)
 ')
 
 interface(`sensor_configuration_access',`
