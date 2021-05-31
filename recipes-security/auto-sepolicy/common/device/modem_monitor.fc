@@ -1,4 +1,4 @@
-# Copyright (c) 2020, The Linux Foundation. All rights reserved.
+# Copyright (c) 2021, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -40,3 +40,4 @@
 /usr/bin/ks          --    gen_context(system_u:object_r:ks_exec_t,s0)
 /dev/ks_usb_bridge.0               -c  gen_context(system_u:object_r:ksb_device_t,s0)
 
+/dev/rmt_sys_evt    -c    gen_context(system_u:object_r:rmt_sys_evt_device_t,s0)
