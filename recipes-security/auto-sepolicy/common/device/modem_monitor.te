@@ -97,7 +97,7 @@ manage_files_pattern(modem_monitor_t, mm_data_t, mm_data_t)
 dontaudit modem_monitor_t self:capability dac_override;
 allow modem_monitor_t self:process { sigkill setpgid };
 files_read_etc_files(modem_monitor_t)
-dontaudit modem_monitor_t self:capability2 block_suspend;
+allow modem_monitor_t self:capability2 block_suspend;
 user_data_files_type(mm_data_t)
 manage_user_data_files(modem_monitor_t, mm_data_t)
 dev_node(ksb_device_t)
