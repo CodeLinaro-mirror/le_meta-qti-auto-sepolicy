@@ -1,4 +1,4 @@
-# Copyright (c) 2020, The Linux Foundation. All rights reserved.
+# Copyright (c) 2020-2021, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -285,5 +285,28 @@ interface(`telux_allow_modemconfig',`
         rw_diag_dev($1)
     ')
     access_telux_files($1)
+
+')
+
+# platform client interface
+# @brief: The platform client interface allows the domain to contain a telux platform
+# client by providing necessary permissions for its operation.
+#
+# Parameters:
+#   1) Domain context
+
+interface(`telux_allow_platform',`
+
+    # For read /etc/tel.conf, read/write tel.log
+    access_telux_files($1)
+
+    # Allow logging into syslog - used by telsdk logging in case of error
+    logging_send_syslog_msg($1)
+
+    # For socket communication: /etc/nsswitch.conf, /etc/group for getgrnam
+    read_files_pattern($1, etc_t, etc_t);
+
+    # Allow QMI access for FS-HMI service
+    telux_allow_qmi_client($1)
 
 ')
