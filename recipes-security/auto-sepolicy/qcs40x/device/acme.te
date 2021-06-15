@@ -1,4 +1,4 @@
-# Copyright (c) 2021 The Linux Foundation. All rights reserved.
+# Copyright (c) 2020-2021 The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -46,6 +46,7 @@ gen_require(`
     type etc_t;
     type systemd_resolved_var_run_t;
     type home_root_t;
+    type ion_device_t;
 ')
 
 dev_write_kmsg(acme_t)
@@ -61,6 +62,7 @@ allow acme_t init_var_run_t:dir search_dir_perms;
 read_files_pattern(acme_t, systemd_resolved_var_run_t, systemd_resolved_var_run_t)
 userdom_manage_user_home_dirs(acme_t)
 dontaudit acme_t self:capability sys_module;
+dontaudit acme_t ion_device_t:chr_file { read };
 allow acme_t self:netlink_route_socket create_netlink_socket_perms;
 
 # Networking related policies.
