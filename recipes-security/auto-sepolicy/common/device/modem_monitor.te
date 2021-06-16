@@ -103,6 +103,7 @@ manage_user_data_files(modem_monitor_t, mm_data_t)
 dev_node(ksb_device_t)
 ksb_rw_device(ks_t)
 init_read_state(modem_monitor_t)
+systemd_dbus_chat_logind(modem_monitor_t)
 allow modem_monitor_t init_t:unix_stream_socket connectto;
 allow modem_monitor_t init_var_run_t:sock_file write;
 allow modem_monitor_t self:capability { kill net_admin };
