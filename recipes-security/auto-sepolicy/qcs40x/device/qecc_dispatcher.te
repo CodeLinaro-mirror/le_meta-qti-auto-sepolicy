@@ -25,18 +25,18 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(aerolink, 1.0)
+policy_module(qecc_dispatcher, 1.0)
 
-type aerolink_t;
-type aerolink_exec_t;
+type qecc_dispatcher_t;
+type qecc_dispatcher_exec_t;
 
-type aerolink_data_t;
-user_data_files_type(aerolink_data_t);
+type qecc_dispatcher_data_t;
+files_type(qecc_dispatcher_data_t);
 
-init_vendor_domain(aerolink_t, aerolink_exec_t)
-transition_to_confined_domain(aerolink_t, aerolink_exec_t)
+type qecc_dispatcher_etc_t;
+files_type(qecc_dispatcher_etc_t);
 
-aerolink_allow_use(aerolink_t)
-aerolink_allow_sign(aerolink_t)
-aerolink_allow_ipc_channel(aerolink_t)
-aerolink_allow_verify(aerolink_t)
+init_vendor_domain(qecc_dispatcher_t, qecc_dispatcher_exec_t)
+transition_to_confined_domain(qecc_dispatcher_t, qecc_dispatcher_exec_t)
+
+qecc_dispatcher_allow_use(qecc_dispatcher_t)

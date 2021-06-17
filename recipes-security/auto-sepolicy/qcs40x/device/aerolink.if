@@ -88,3 +88,13 @@ interface(`aerolink_allow_ipc_channel',`
     allow $1 self:capability sys_resource;
 ')
 
+# @brief: This interface allows the domain to verify messages
+# by providing necessary permissions for its operation.
+#
+# Parameters:
+#   1) Domain context
+interface(`aerolink_allow_verify',`
+    # allow aerolink to use qecc dispatcher
+    qecc_dispatcher_allow_use($1)
+')
+

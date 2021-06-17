@@ -25,18 +25,9 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(aerolink, 1.0)
+/usr/bin/qecc-benchmark1    --  gen_context(system_u:object_r:qecc_dispatcher_exec_t,s0)
+/usr/bin/qecc-benchmark2    --  gen_context(system_u:object_r:qecc_dispatcher_exec_t,s0)
 
-type aerolink_t;
-type aerolink_exec_t;
+/data/rfsa/adsp(/.*)?           gen_context(system_u:object_r:qecc_dispatcher_data_t,s0)
 
-type aerolink_data_t;
-user_data_files_type(aerolink_data_t);
-
-init_vendor_domain(aerolink_t, aerolink_exec_t)
-transition_to_confined_domain(aerolink_t, aerolink_exec_t)
-
-aerolink_allow_use(aerolink_t)
-aerolink_allow_sign(aerolink_t)
-aerolink_allow_ipc_channel(aerolink_t)
-aerolink_allow_verify(aerolink_t)
+/etc/lb.conf                --  gen_context(system_u:object_r:qecc_dispatcher_etc_t,s0)
