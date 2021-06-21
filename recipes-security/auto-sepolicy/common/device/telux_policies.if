@@ -223,8 +223,10 @@ interface(`telux_allow_loc',`
         kernel_manage_debugfs($1)
     ')
 
+    # Miscellaneous permissions required for LCA layer.
     corecmd_exec_shell($1)
     kernel_read_system_state($1)
+    kernel_read_vm_overcommit_sysctl($1)
     access_telux_files($1)
 ')
 
