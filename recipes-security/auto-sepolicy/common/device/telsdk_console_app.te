@@ -1,4 +1,4 @@
-# Copyright (c) 2020, The Linux Foundation. All rights reserved.
+# Copyright (c) 2020-2021, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -51,3 +51,5 @@ telux_allow_tel(telsdk_console_app_t)
 
 # Allow telsdk data clients
 telux_allow_data(telsdk_console_app_t)
+
+allow telsdk_console_app_t self:process signal;
