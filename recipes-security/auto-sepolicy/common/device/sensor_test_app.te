@@ -29,10 +29,10 @@ policy_module(sensor_test_app, 1.0)
 type sensor_test_app_t;
 type sensor_test_app_exec_t;
 
-#domain transition if started from init
+# domain transition if started from init
 init_vendor_domain(sensor_test_app_t, sensor_test_app_exec_t)
 
-#domain transition if started from adb shell
+# domain transition if started from adb shell
 transition_to_confined_domain(sensor_test_app_t, sensor_test_app_exec_t)
 
 gen_require(`
@@ -43,8 +43,11 @@ gen_require(`
 # For std::cin
 allow sensor_test_app_t user_devpts_t:chr_file read;
 
-#Allow setting secondary groups
+# Allow setting secondary groups
 allow sensor_test_app_t self:capability setgid;
+
+# Allow sensor_test_app to recive signals for generating coredumps
+allow sensor_test_app_t self:process signal;
 
 # Obtain required permissions from telux_allow_sensor
 telux_allow_sensor(sensor_test_app_t)
