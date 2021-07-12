@@ -101,8 +101,6 @@ interface(`access_telux_files',`
         type telsdk_data_t;
     ')
     allow $1 telsdk_etc_t:file read_file_perms;
-    # To enable security context transistion from data_t to telsdk_data_t of files created in /data
-    data_filetrans($1, telsdk_data_t, file);
 
     read_telux_log_file($1)
     write_telux_log_file($1)
