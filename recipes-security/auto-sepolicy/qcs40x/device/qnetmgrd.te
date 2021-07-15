@@ -36,6 +36,7 @@ gen_require(`
     type node_t;
     type qnetmgrd_config_t;
     type emac_etc_t;
+    type unreserved_port_t;
 ')
 
 allow qnetmgrd_t qnetmgrd_config_t:file read_file_perms; #/etc/netmgrd/config
@@ -57,3 +58,5 @@ dontaudit qnetmgrd_t self:tcp_socket { setopt bind listen getattr };
 dontaudit qnetmgrd_t node_t : tcp_socket { node_bind };
 dontaudit qnetmgrd_t node_t : udp_socket { node_bind };
 allow qnetmgrd_t emac_etc_t : file read_file_perms;
+allow qnetmgrd_t unreserved_port_t : udp_socket { node_bind };
+allow qnetmgrd_t unreserved_port_t : tcp_socket { node_bind };
