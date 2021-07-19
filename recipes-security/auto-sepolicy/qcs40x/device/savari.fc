@@ -1,0 +1,76 @@
+# Copyright (c) 2021 The Linux Foundation. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are
+# met:
+#     * Redistributions of source code must retain the above copyright
+#       notice, this list of conditions and the following disclaimer.
+#     * Redistributions in binary form must reproduce the above
+#       copyright notice, this list of conditions and the following
+#       disclaimer in the documentation and/or other materials provided
+#       with the distribution.
+#     * Neither the name of The Linux Foundation nor the names of its
+#       contributors may be used to endorse or promote products derived
+#       from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
+# ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+# BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+# IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+/usr/bin/blackbox                   --         gen_context(system_u:object_r:savari_blackbox_exec_t,s0)
+/usr/bin/BSMd                       --         gen_context(system_u:object_r:savari_bsmd_exec_t,s0)
+/usr/bin/CV2Xd                      --         gen_context(system_u:object_r:savari_cv2xd_exec_t,s0)
+/usr/bin/sav_mgmtd                  --         gen_context(system_u:object_r:savari_mgmtd_exec_t,s0)
+/usr/bin/savapp_us                  --         gen_context(system_u:object_r:savari_savapp_exec_t,s0)
+/usr/bin/savapp_eu                  --         gen_context(system_u:object_r:savari_savapp_exec_t,s0)
+/usr/bin/savqc_gnsscand             --         gen_context(system_u:object_r:savari_gnsscand_exec_t,s0)
+/usr/bin/smgrd                      --         gen_context(system_u:object_r:savari_smgrd_exec_t,s0)
+/usr/bin/start_sav_mgmtd            --         gen_context(system_u:object_r:savari_mgmtd_exec_t,s0)
+/usr/bin/sv2xsecd                   --         gen_context(system_u:object_r:savari_sv2xsecd_exec_t,s0)
+/usr/bin/tc_daemon                  --         gen_context(system_u:object_r:savari_tc_exec_t,s0)
+
+/etc/initscripts/start_savari_stack_le  --     gen_context(system_u:object_r:savari_initrc_exec_t,s0)
+
+/data/savari(/.*)?                             gen_context(system_u:object_r:savari_data_t,s0)
+
+/tmp/blackbox.lock                  --         gen_context(system_u:object_r:savari_blackbox_lock_t,s0)
+/tmp/BSMd.lock                      --         gen_context(system_u:object_r:savari_bsmd_lock_t,s0)
+/tmp/CV2Xd.lock                     --         gen_context(system_u:object_r:savari_cv2xd_lock_t,s0)
+/tmp/QC_GNSS_CAND.lock              --         gen_context(system_u:object_r:savari_gnsscand_lock_t,s0)
+/tmp/aerolinkV2Xd.lock              --         gen_context(system_u:object_r:savari_sv2xsecd_lock_t,s0)
+/tmp/pki_srvr_lockfile.lock         --         gen_context(system_u:object_r:savari_pki_lock_t,s0)
+/tmp/sav_mgmt.lock                  --         gen_context(system_u:object_r:savari_mgmt_lock_t,s0)
+/tmp/target_classification.lock     --         gen_context(system_u:object_r:savari_tc_lock_t,s0)
+
+/tmp/CV2xd.socket                   --         gen_context(system_u:object_r:savari_cv2xd_socket_t,s0)
+/tmp/can-prod.sock                  --         gen_context(system_u:object_r:savari_gnsscand_socket_t,s0)
+/tmp/cv2xd_radio_event_sock.sock    --         gen_context(system_u:object_r:savari_cv2xd_socket_t,s0)
+/tmp/fac-can-con.sock               --         gen_context(system_u:object_r:savari_fac_socket_t,s0)
+/tmp/fac-gnss-con.sock              --         gen_context(system_u:object_r:savari_fac_socket_t,s0)
+/tmp/fac_cli.sock                   --         gen_context(system_u:object_r:savari_fac_socket_t,s0)
+/tmp/fac_srv.sock                   --         gen_context(system_u:object_r:savari_fac_socket_t,s0)
+/tmp/gnss-prod.sock                 --         gen_context(system_u:object_r:savari_gnsscand_socket_t,s0)
+/tmp/gnss_srv.sock                  --         gen_context(system_u:object_r:savari_gnsscand_socket_t,s0)
+/tmp/mgmt_cli_srv.sock              --         gen_context(system_u:object_r:savari_mgmt_socket_t,s0)
+/tmp/mgmt_sec_srv.sock              --         gen_context(system_u:object_r:savari_mgmt_socket_t,s0)
+/tmp/net_cli.sock                   --         gen_context(system_u:object_r:savari_net_socket_t,s0)
+/tmp/net_prxy_cli.sock              --         gen_context(system_u:object_r:savari_net_socket_t,s0)
+/tmp/net_srv.sock                   --         gen_context(system_u:object_r:savari_net_socket_t,s0)
+/tmp/sav_v2x_sec.sock               --         gen_context(system_u:object_r:savari_sv2xsecd_socket_t,s0)
+/tmp/savmgmtd.sock                  --         gen_context(system_u:object_r:savari_mgmt_socket_t,s0)
+/tmp/sec-gnss-con.sock              --         gen_context(system_u:object_r:savari_gnsscand_socket_t,s0)
+/tmp/smgr_srv.sock                  --         gen_context(system_u:object_r:savari_smgrd_socket_t,s0)
+/tmp/sv2x_facility_api.sock         --         gen_context(system_u:object_r:savari_fac_socket_t,s0)
+/tmp/sv2x_mgmtd_serv.sock           --         gen_context(system_u:object_r:savari_mgmt_socket_t,s0)
+/tmp/tc_srv.sock                    --         gen_context(system_u:object_r:savari_tc_socket_t,s0)
+/tmp/v2x_tap_client.sock            --         gen_context(system_u:object_r:savari_tap_socket_t,s0)
+
+/dev/shm/cbp_mmap_file              --         gen_context(system_u:object_r:savari_shm_t,s0)
