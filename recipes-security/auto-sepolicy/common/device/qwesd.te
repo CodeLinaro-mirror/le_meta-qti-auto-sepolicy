@@ -54,6 +54,7 @@ gen_require(`
 
 #allow qwesd to read qnetmgrd confi file.
 qnetmgr_read_config_file(qwesd_t)
+qnetmgr_write_config_file(qwesd_t)
 
 # allow qwesd to read /etc/qwesd.rc config file
 files_read_etc_files(qwesd_t)
