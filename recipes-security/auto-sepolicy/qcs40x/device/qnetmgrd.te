@@ -53,8 +53,6 @@ allow qnetmgrd_t lptd_t:unix_stream_socket { connectto read write };
 allow qnetmgrd_t lptd_connect_socket_t:unix_stream_socket connectto;
 device_rw_socket_files(qnetmgrd_t, lptd_socket_device_t)
 allow qnetmgrd_t etc_t:file {read open getattr};
-dontaudit ifconfig_t qnetmgrd_t:tcp_socket { read write };
-dontaudit ifconfig_t qnetmgrd_t:udp_socket { read write };
 dontaudit qnetmgrd_t self:tcp_socket { setopt bind listen getattr };
 dontaudit qnetmgrd_t node_t : tcp_socket { node_bind };
 dontaudit qnetmgrd_t node_t : udp_socket { node_bind };
