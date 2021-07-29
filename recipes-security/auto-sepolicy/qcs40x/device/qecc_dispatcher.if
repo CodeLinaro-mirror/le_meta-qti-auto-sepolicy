@@ -1,0 +1,76 @@
+# Copyright (c) 2021 The Linux Foundation. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are
+# met:
+#     * Redistributions of source code must retain the above copyright
+#       notice, this list of conditions and the following disclaimer.
+#     * Redistributions in binary form must reproduce the above
+#       copyright notice, this list of conditions and the following
+#       disclaimer in the documentation and/or other materials provided
+#       with the distribution.
+#     * Neither the name of The Linux Foundation nor the names of its
+#       contributors may be used to endorse or promote products derived
+#       from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
+# ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+# BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+# IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+## <summary>qecc_dispatcher</summary>
+
+# @brief: This interface allows the domain to use dispatcher library
+# by providing necessary permissions for its operation.
+#
+# Parameters:
+#   1) Domain context
+interface(`qecc_dispatcher_allow_use',`
+    gen_require(`
+        type qecc_dispatcher_etc_t;
+        type qecc_dispatcher_data_t;
+        type qdsp_device_t;
+        type xdsp_device_t;
+        type socket_device_t;
+        type sysfs_t;
+        type throttleman_t;
+        type throttleman_socket_t;
+        type proc_t;
+        type ion_device_t;
+        type debugfs_t;
+        type adsprpcd_t;
+    ')
+    # /etc/lb.conf
+    allow $1 qecc_dispatcher_etc_t:file { open read getattr };
+    # DSP
+    rw_chr_files_pattern($1, device_t, qdsp_device_t);
+    rw_chr_files_pattern($1, device_t, xdsp_device_t);
+    allow $1 qecc_dispatcher_data_t:dir { search getattr read };
+    allow $1 qecc_dispatcher_data_t:file { open read getattr };
+    # throttleman socket
+    allow $1 socket_device_t:dir search;
+    allow $1 throttleman_socket_t:dir search;
+    allow $1 throttleman_socket_t:sock_file write;
+    allow $1 throttleman_t:unix_stream_socket connectto;
+    # cpu stats
+    read_files_pattern($1,sysfs_t,sysfs_t);
+    read_lnk_files_pattern($1,sysfs_t,sysfs_t);
+    allow $1 self:process getsched;
+    allow $1 proc_t:file { open read };
+
+    dontaudit $1 self:capability dac_override;
+    # /dev/ion
+    rw_chr_files_pattern($1, device_t, ion_device_t);
+    # adsprpc
+    allow $1 debugfs_t:dir search;
+    allow $1 adsprpcd_t:dir search;
+    allow $1 adsprpcd_t:file { open read getattr };
+')
+
