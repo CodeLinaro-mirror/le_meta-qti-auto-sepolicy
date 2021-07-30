@@ -26,3 +26,4 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 firmware_read_files(cdsprpcd_t)
+allow cdsprpcd_t firmware_t:dir read;
