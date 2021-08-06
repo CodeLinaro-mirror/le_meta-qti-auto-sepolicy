@@ -41,6 +41,7 @@ init_vendor_domain(throttleman_t, throttleman_exec_t)
 
 gen_require(`
   type default_t;
+  type ion_device_t;
 ')
 
 dontaudit throttleman_t default_t:dir search;
@@ -53,3 +54,4 @@ logging_send_syslog_msg(throttleman_t);
 
 allow throttleman_t throttleman_socket_t:dir { add_entry_dir_perms remove_name };
 allow throttleman_t throttleman_socket_t:sock_file { read create write getattr };
+rw_chr_files_pattern(throttleman_t, device_t, ion_device_t);
