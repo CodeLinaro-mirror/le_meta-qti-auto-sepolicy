@@ -45,3 +45,4 @@ corenet_udp_bind_generic_node(cv2x_tx_app_t)
 dontaudit cv2x_tx_app_t self:capability dac_override;
 allow cv2x_tx_app_t self:udp_socket { ioctl read create connect write getopt setopt accept bind listen shutdown };
 allow cv2x_tx_app_t self:netlink_route_socket { nlmsg_read read create write getattr bind };
+allow cv2x_tx_app_t self:tcp_socket { create ioctl };
