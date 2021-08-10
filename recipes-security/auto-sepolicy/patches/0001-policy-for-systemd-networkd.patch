@@ -1,0 +1,286 @@
+From dc32145ebbe0125de354a18b12a93467835581a0 Mon Sep 17 00:00:00 2001
+From: David Sugar <dsugar@tresys.com>
+Date: Wed, 11 Oct 2017 14:59:08 +0000
+Subject: [PATCH] policy for systemd-networkd
+
+Policy needed for systemd-networkd to function.  This is based on a patch from krzysztof.a.nowicki at gmail.com that was submitted back in May (I talked to him via email a while ago about me picking up the patch).  He was too busy to update and I needed to get it working.
+
+I am pretty sure I updated everything mentioned in previous feedback, please comment if something is still off and I will revise.
+
+Signed-off-by: Dave Sugar <dsugar@tresys.com>
+---
+ policy/modules/system/init.te       |   1 +
+ policy/modules/system/sysnetwork.fc |   2 +
+ policy/modules/system/systemd.fc    |   3 +
+ policy/modules/system/systemd.if    | 115 +++++++++++++++++++++++++++++++++++-
+ policy/modules/system/systemd.te    |  70 ++++++++++++++++++++++
+ 5 files changed, 190 insertions(+), 1 deletion(-)
+
+diff --git a/policy/modules/system/init.te b/policy/modules/system/init.te
+index 2fb1022..ea090e5 100644
+--- a/policy/modules/system/init.te
++++ b/policy/modules/system/init.te
+@@ -284,6 +284,7 @@ ifdef(`init_systemd',`
+ 	logging_relabelto_devlog_sock_files(init_t)
+ 
+ 	seutil_read_file_contexts(init_t)
++	systemd_rw_networkd_netlink_route_sockets(init_t)
+ 
+ 	# udevd is a "systemd kobject uevent socket activated daemon"
+ 	udev_create_kobject_uevent_sockets(init_t)
+diff --git a/policy/modules/system/sysnetwork.fc b/policy/modules/system/sysnetwork.fc
+index 547a28e..4a95544 100644
+--- a/policy/modules/system/sysnetwork.fc
++++ b/policy/modules/system/sysnetwork.fc
+@@ -30,6 +30,8 @@ ifdef(`distro_debian',`
+ /etc/dhcp3(/.*)?		gen_context(system_u:object_r:dhcp_etc_t,s0)
+ /etc/dhcp3?/dhclient.*		gen_context(system_u:object_r:dhcp_etc_t,s0)
+ 
++/etc/systemd/network(/.*)?	gen_context(system_u:object_r:net_conf_t,s0)
++
+ ifdef(`distro_redhat',`
+ /etc/sysconfig/network-scripts/.*resolv\.conf -- gen_context(system_u:object_r:net_conf_t,s0)
+ /etc/sysconfig/networking(/.*)? gen_context(system_u:object_r:net_conf_t,s0)
+diff --git a/policy/modules/system/systemd.fc b/policy/modules/system/systemd.fc
+index b6a8656..a67ed25 100644
+--- a/policy/modules/system/systemd.fc
++++ b/policy/modules/system/systemd.fc
+@@ -27,6 +27,7 @@
+ /usr/lib/systemd/systemd-localed	--	gen_context(system_u:object_r:systemd_locale_exec_t,s0)
+ /usr/lib/systemd/systemd-logind		--	gen_context(system_u:object_r:systemd_logind_exec_t,s0)
+ /usr/lib/systemd/systemd-machined	--	gen_context(system_u:object_r:systemd_machined_exec_t,s0)
++/usr/lib/systemd/systemd-networkd	--	gen_context(system_u:object_r:systemd_networkd_exec_t,s0)
+ /usr/lib/systemd/systemd-resolved	--	gen_context(system_u:object_r:systemd_resolved_exec_t,s0)
+ /usr/lib/systemd/systemd-user-sessions	--	gen_context(system_u:object_r:systemd_sessions_exec_t,s0)
+ 
+@@ -40,6 +41,7 @@
+ /usr/lib/systemd/system/[^/]*suspend.*	--	gen_context(system_u:object_r:power_unit_t,s0)
+ /usr/lib/systemd/system/systemd-backlight.*	--	gen_context(system_u:object_r:systemd_backlight_unit_t,s0)
+ /usr/lib/systemd/system/systemd-binfmt.*	--	gen_context(system_u:object_r:systemd_binfmt_unit_t,s0)
++/usr/lib/systemd/system/systemd-networkd.*		gen_context(system_u:object_r:systemd_networkd_unit_t,s0)
+ 
+ /var/lib/systemd/backlight(/.*)?	gen_context(system_u:object_r:systemd_backlight_var_lib_t,s0)
+ /var/lib/systemd/linger(/.*)?	gen_context(system_u:object_r:systemd_logind_var_lib_t,s0)
+@@ -52,4 +54,5 @@
+ /run/systemd/sessions(/.*)?	gen_context(system_u:object_r:systemd_logind_var_run_t,s0)
+ /run/systemd/users(/.*)?	gen_context(system_u:object_r:systemd_logind_var_run_t,s0)
+ /run/systemd/inhibit(/.*)?	gen_context(system_u:object_r:systemd_logind_var_run_t,s0)
++/run/systemd/netif(/.*)?        gen_context(system_u:object_r:systemd_networkd_var_run_t,s0)
+ /run/tmpfiles\.d/kmod.conf	gen_context(system_u:object_r:systemd_kmod_conf_t,s0)
+diff --git a/policy/modules/system/systemd.if b/policy/modules/system/systemd.if
+index 705cbaa..9e30b0f 100644
+--- a/policy/modules/system/systemd.if
++++ b/policy/modules/system/systemd.if
+@@ -174,7 +174,120 @@ interface(`systemd_signull_logind',`
+ 
+ ########################################
+ ## <summary>
+-## Allow specified domain to start power units
++##	Allow domain to read systemd_networkd_t unit files
++## </summary>
++## <param name="domain">
++##	<summary>
++##	Domain allowed access.
++##	 </summary>
++## </param>
++#
++interface(`systemd_read_networkd_units',`
++	gen_require(`
++		type systemd_networkd_t;
++	')
++
++	init_search_units($1)
++	list_dirs_pattern($1, systemd_networkd_unit_t, systemd_networkd_unit_t)
++	read_files_pattern($1, systemd_networkd_unit_t, systemd_networkd_unit_t)
++')
++
++########################################
++## <summary>
++##	Allow domain to create/manage systemd_networkd_t unit files
++## </summary>
++## <param name="domain">
++##	<summary>
++##	Domain allowed access.
++##	 </summary>
++## </param>
++#
++interface(`systemd_manage_networkd_units',`
++	gen_require(`
++		type systemd_networkd_unit_t;
++	')
++
++	init_search_units($1)
++	manage_dirs_pattern($1, systemd_networkd_unit_t, systemd_networkd_unit_t)
++	manage_files_pattern($1, systemd_networkd_unit_t, systemd_networkd_unit_t)
++')
++
++########################################
++## <summary>
++##	Allow specified domain to start systemd-networkd units
++## </summary>
++## <param name="domain">
++##	<summary>
++##	Domain allowed access.
++##	</summary>
++## </param>
++#
++interface(`systemd_startstop_networkd',`
++	gen_require(`
++		type systemd_networkd_unit_t;
++		class service { start stop };
++	')
++
++	allow $1 systemd_networkd_unit_t:service { start stop };
++')
++
++########################################
++## <summary>
++##	Allow specified domain to get status of systemd-networkd
++## </summary>
++## <param name="domain">
++##	<summary>
++##	Domain allowed access.
++##	</summary>
++## </param>
++#
++interface(`systemd_status_networkd',`
++	gen_require(`
++		type systemd_networkd_unit_t;
++		class service status;
++	')
++
++	allow $1 systemd_networkd_unit_t:service status;
++')
++
++#######################################
++## <summary>
++## Relabel systemd_networkd tun socket.
++## </summary>
++## <param name="domain">
++## <summary>
++## Domain allowed access.
++## </summary>
++## </param>
++#
++interface(`systemd_relabelfrom_networkd_tun_sockets',`
++	gen_require(`
++		type systemd_networkd_t;
++	')
++
++	allow $1 systemd_networkd_t:tun_socket relabelfrom;
++')
++
++#######################################
++## <summary>
++## Read/Write from systemd_networkd netlink route socket.
++## </summary>
++## <param name="domain">
++## <summary>
++## Domain allowed access.
++## </summary>
++## </param>
++#
++interface(`systemd_rw_networkd_netlink_route_sockets',`
++	gen_require(`
++		type systemd_networkd_t;
++	')
++
++	allow $1 systemd_networkd_t:netlink_route_socket client_stream_socket_perms;
++')
++########################################
++## <summary>
++##     Allow specified domain to start power units
+ ## </summary>
+ ## <param name="domain">
+ ## <summary>
+diff --git a/policy/modules/system/systemd.te b/policy/modules/system/systemd.te
+index 17afc50..9ee1a35 100644
+--- a/policy/modules/system/systemd.te
++++ b/policy/modules/system/systemd.te
+@@ -85,6 +85,16 @@ type systemd_machined_t;
+ type systemd_machined_exec_t;
+ init_daemon_domain(systemd_machined_t, systemd_machined_exec_t)
+ 
++type systemd_networkd_t;
++type systemd_networkd_exec_t;
++init_system_domain(systemd_networkd_t, systemd_networkd_exec_t)
++
++type systemd_networkd_unit_t;
++init_unit_file(systemd_networkd_unit_t)
++
++type systemd_networkd_var_run_t;
++files_pid_file(systemd_networkd_var_run_t)
++
+ type systemd_nspawn_t;
+ type systemd_nspawn_exec_t;
+ init_system_domain(systemd_nspawn_t, systemd_nspawn_exec_t)
+@@ -288,6 +298,66 @@ optional_policy(`
+ 	dbus_connect_system_bus(systemd_logind_t)
+ ')
+ 
++########################################
++#
++# networkd local policy
++#
++
++allow systemd_networkd_t self:capability { chown dac_override fowner net_admin net_raw setgid setpcap setuid };
++allow systemd_networkd_t self:netlink_kobject_uevent_socket create_socket_perms;
++allow systemd_networkd_t self:netlink_route_socket { create_socket_perms nlmsg_read nlmsg_write };
++allow systemd_networkd_t self:packet_socket create_socket_perms;
++allow systemd_networkd_t self:process { getcap setcap setfscreate };
++allow systemd_networkd_t self:rawip_socket create_socket_perms;
++allow systemd_networkd_t self:tun_socket { create_socket_perms relabelfrom relabelto };
++allow systemd_networkd_t self:udp_socket create_socket_perms;
++allow systemd_networkd_t self:unix_dgram_socket create_socket_perms;
++
++manage_dirs_pattern(systemd_networkd_t, systemd_networkd_var_run_t, systemd_networkd_var_run_t)
++manage_files_pattern(systemd_networkd_t, systemd_networkd_var_run_t, systemd_networkd_var_run_t)
++manage_lnk_files_pattern(systemd_networkd_t, systemd_networkd_var_run_t, systemd_networkd_var_run_t)
++
++kernel_dgram_send(systemd_networkd_t)
++kernel_read_system_state(systemd_networkd_t)
++kernel_read_kernel_sysctls(systemd_networkd_t)
++kernel_read_network_state(systemd_networkd_t)
++kernel_request_load_module(systemd_networkd_t)
++kernel_rw_net_sysctls(systemd_networkd_t)
++
++corecmd_bin_entry_type(systemd_networkd_t)
++corecmd_exec_bin(systemd_networkd_t)
++
++corenet_rw_tun_tap_dev(systemd_networkd_t)
++
++dev_read_urand(systemd_networkd_t)
++dev_read_sysfs(systemd_networkd_t)
++dev_write_kmsg(systemd_networkd_t)
++
++files_read_etc_files(systemd_networkd_t)
++
++auth_use_nsswitch(systemd_networkd_t)
++
++init_dgram_send(systemd_networkd_t)
++init_read_state(systemd_networkd_t)
++
++logging_send_syslog_msg(systemd_networkd_t)
++
++miscfiles_read_localization(systemd_networkd_t)
++
++sysnet_read_config(systemd_networkd_t)
++
++systemd_log_parse_environment(systemd_networkd_t)
++
++optional_policy(`
++	dbus_system_bus_client(systemd_networkd_t)
++	dbus_connect_system_bus(systemd_networkd_t)
++')
++
++optional_policy(`
++	udev_read_db(systemd_networkd_t)
++	udev_read_pid_files(systemd_networkd_t)
++')
++
+ #########################################
+ #
+ # Resolved local policy
+-- 
+2.7.4
+
