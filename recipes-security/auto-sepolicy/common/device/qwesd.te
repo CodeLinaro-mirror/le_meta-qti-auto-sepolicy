@@ -189,3 +189,4 @@ allow qwes_license_store_setup_t self:capability { fowner chown };
 # Rules ending for setting up qwes_license_store.
 #################################################################################
 
+dontaudit qwesd_t self:capability kill;
