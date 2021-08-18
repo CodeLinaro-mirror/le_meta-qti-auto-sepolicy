@@ -46,6 +46,8 @@ interface(`qecc_dispatcher_allow_use',`
         type ion_device_t;
         type debugfs_t;
         type adsprpcd_t;
+        type devlog_t;
+        type syslogd_t;
     ')
     # /etc/lb.conf
     allow $1 qecc_dispatcher_etc_t:file { open read getattr };
@@ -72,5 +74,8 @@ interface(`qecc_dispatcher_allow_use',`
     allow $1 debugfs_t:dir search;
     allow $1 adsprpcd_t:dir search;
     allow $1 adsprpcd_t:file { open read getattr };
+    # syslog
+    allow $1 devlog_t:sock_file write_sock_file_perms;
+    allow $1 syslogd_t:unix_dgram_socket sendto;
 ')
 
