@@ -51,3 +51,6 @@ allow sensor_test_app_t self:process signal;
 
 # Obtain required permissions from telux_allow_sensor
 telux_allow_sensor(sensor_test_app_t)
+
+# Obtain required permissions from telux_allow_power
+telux_allow_power(sensor_test_app_t)
