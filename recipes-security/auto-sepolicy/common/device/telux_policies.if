@@ -208,7 +208,7 @@ interface(`telux_allow_loc',`
     ')
 
     # To allow QDgnssRemoteApi
-    allow $1 self:socket { getattr setopt write read};
+    allow $1 self:socket { getattr setopt write read create};
     logging_send_syslog_msg($1);
 
     # To allow location client to read config from gps.conf file
