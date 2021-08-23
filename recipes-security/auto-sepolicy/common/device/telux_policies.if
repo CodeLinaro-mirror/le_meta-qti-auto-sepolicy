@@ -92,7 +92,7 @@ interface(`access_telux_files',`
         type telsdk_etc_t;
         type telsdk_data_t;
     ')
-    allow $1 telsdk_etc_t:file { read open };
+    allow $1 telsdk_etc_t:file read_file_perms;
     # To enable security context transistion from data_t to telsdk_data_t of files created in /data
     data_filetrans($1, telsdk_data_t, file);
 
@@ -135,10 +135,6 @@ interface(`telux_allow_tel',`
       type rilmuxd_t;
       type qmux_radio_sock_t;
       type devlog_t;
-    ')
-    # To log to diag
-    userdebug_or_eng(`
-        rw_diag_dev($1)
     ')
     manage_sock_files_pattern($1, qmux_radio_sock_t, qmux_radio_sock_t)
     device_search_sockets($1)
@@ -210,9 +206,6 @@ interface(`telux_allow_loc',`
       type loc_socket_t;
       type loc_hald_t;
     ')
-
-    # To allow location client to sets a specific gid
-    allow $1 self:capability setgid;
 
     # To allow QDgnssRemoteApi
     allow $1 self:socket { getattr setopt write read};
@@ -295,10 +288,6 @@ interface(`telux_allow_power',`
 interface(`telux_allow_modemconfig',`
     telux_allow_qmi_client($1)
     logging_send_syslog_msg($1)
-    # To log to diag
-    userdebug_or_eng(`
-        rw_diag_dev($1)
-    ')
     access_telux_files($1)
 
 ')
