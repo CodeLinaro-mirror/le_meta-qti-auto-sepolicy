@@ -47,6 +47,9 @@ gen_require(`
     type systemd_resolved_var_run_t;
     type home_root_t;
     type ion_device_t;
+    type unreserved_port_t;
+    type commplex_main_port_t;
+    type node_t;
 ')
 
 dev_write_kmsg(acme_t)
@@ -79,4 +82,9 @@ dev_read_urand(acme_t)
 
 telux_allow_loc(acme_t)
 dontaudit acme_t home_root_t:dir search;
-allow acme_t self:capability { net_raw setgid };
+allow acme_t self:capability { net_raw setgid};
+allow acme_t self:socket_class_set create_stream_socket_perms;
+allow acme_t commplex_main_port_t:tcp_socket {name_bind name_connect};
+allow acme_t node_t:tcp_socket {node_bind};
+allow acme_t unreserved_port_t:tcp_socket {name_bind name_connect};
+
