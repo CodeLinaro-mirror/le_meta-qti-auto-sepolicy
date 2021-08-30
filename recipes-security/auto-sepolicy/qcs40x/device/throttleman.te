@@ -42,10 +42,11 @@ init_vendor_domain(throttleman_t, throttleman_exec_t)
 gen_require(`
   type default_t;
   type ion_device_t;
+  type etc_t;
 ')
 
 dontaudit throttleman_t default_t:dir search;
-
+read_files_pattern(throttleman_t, etc_t, etc_t);
 access_telux_files(throttleman_t);
 telux_allow_qmi_client(throttleman_t);
 
