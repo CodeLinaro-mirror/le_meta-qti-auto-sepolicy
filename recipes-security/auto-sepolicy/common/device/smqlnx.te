@@ -31,6 +31,7 @@ type smqlnx_t;
 type smqlnx_exec_t;
 type smqlnx_data_t;
 type smqlnx_var_run_t;
+type smqlnx_sdcard_data_t;
 
 init_vendor_domain(smqlnx_t, smqlnx_exec_t)
 
@@ -113,3 +114,12 @@ allow smqlnx_t self:process signal;
 #============= smqlnx_t to search sdcard and mnt ==============
 allow smqlnx_t sdcard_t:dir search;
 allow smqlnx_t mnt_t:dir search;
+manage_files_pattern(smqlnx_t, sdcard_t, sdcard_t);
+allow smqlnx_t sdcard_t:filesystem getattr;
+allow smqlnx_t sdcard_t:dir create;
+allow smqlnx_t mnt_t:dir search;
+user_data_files_type(smqlnx_sdcard_data_t);
+allow smqlnx_t smqlnx_data_t:lnk_file read;
+
+#============= smqlnx_t to search open and read firmware files ===
+firmware_read_files(smqlnx_t);
