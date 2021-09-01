@@ -52,6 +52,7 @@ gen_require(`
     type fs_t;
     type mnt_t;
     type sdcard_t;
+    type dns_port_t;
 ')
 
 fs_associate(smqlnx_data_t);
@@ -59,7 +60,7 @@ allow smqlnx_t fs_t:filesystem getattr;
 allow smqlnx_t net_conf_t:file { rename getattr write getattr read create open append unlink };
 allow smqlnx_t proc_t:file { rename getattr write getattr read create open append unlink };
 allow smqlnx_t smqlnx_data_t:dir create;
-allow smqlnx_t smqlnx_data_t:file { write getattr read create open append rename unlink };
+allow smqlnx_t smqlnx_data_t:file { write getattr read create open append rename unlink lock };
 dontaudit smqlnx_t sysctl_vm_overcommit_t:file { read open };
 dontaudit smqlnx_t sysctl_vm_t:dir search;
 files_read_etc_files(smqlnx_t);
@@ -94,6 +95,7 @@ corenet_tcp_connect_http_port(smqlnx_t);
 files_pid_file(smqlnx_var_run_t);
 files_pid_filetrans(smqlnx_t, smqlnx_var_run_t, { file dir })
 manage_files_pattern(smqlnx_t, var_run_t, smqlnx_var_run_t);
+allow smqlnx_t dns_port_t:tcp_socket name_connect;
 
 # allow smqlnx to read dev/daig file
 userdebug_or_eng(`rw_diag_dev(smqlnx_t)')
@@ -113,13 +115,25 @@ allow smqlnx_t self:process signal;
 
 #============= smqlnx_t to search sdcard and mnt ==============
 allow smqlnx_t sdcard_t:dir search;
-allow smqlnx_t mnt_t:dir search;
 manage_files_pattern(smqlnx_t, sdcard_t, sdcard_t);
 allow smqlnx_t sdcard_t:filesystem getattr;
 allow smqlnx_t sdcard_t:dir create;
 allow smqlnx_t mnt_t:dir search;
 user_data_files_type(smqlnx_sdcard_data_t);
 allow smqlnx_t smqlnx_data_t:lnk_file read;
+allow smqlnx_t sdcard_t:lnk_file read;
 
 #============= smqlnx_t to search open and read firmware files ===
 firmware_read_files(smqlnx_t);
+
+#============= smqlnx_t to search open and read certificate files ===
+miscfiles_read_generic_certs(smqlnx_t);
+
+#============  Allow unconfined access for smqlnx_exec_t ===========
+userdebug_or_eng('
+    can_exec(unconfined_t, smqlnx_exec_t);
+')
+
+#============ Allow accessing configuration file and certificates ===
+read_c2c_conf_file(smqlnx_t);
+read_c2c_cert_file(smqlnx_t);
