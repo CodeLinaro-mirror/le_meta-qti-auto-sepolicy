@@ -1,4 +1,4 @@
-# Copyright (c) 2020, The Linux Foundation. All rights reserved.
+# Copyright (c) 2021, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -43,4 +43,18 @@ interface(`telux_allow_v2x',`
     access_telux_files($1)
     read_files_pattern($1,qnetmgrd_config_t,qnetmgrd_config_t) #/etc/netmgrd/config
     device_rw_socket_files($1, netmgrd_socket_device_t)
+
+    # socket and port related policies
+    allow $1 self:tcp_socket create_socket_perms;
+    allow $1 self:udp_socket create_socket_perms;
+    allow $1 self:netlink_route_socket create_netlink_socket_perms;
+    allow $1 self:capability net_raw;
+    corenet_udp_bind_zebra_port($1);
+    corenet_udp_bind_cslistener_port($1);
+    corenet_udp_bind_all_unreserved_ports($1);
+    corenet_udp_bind_generic_node($1);
+    corenet_tcp_bind_zebra_port($1);
+    corenet_tcp_bind_cslistener_port($1);
+    corenet_tcp_bind_all_unreserved_ports($1);
+    corenet_tcp_bind_generic_node($1);
 ')
