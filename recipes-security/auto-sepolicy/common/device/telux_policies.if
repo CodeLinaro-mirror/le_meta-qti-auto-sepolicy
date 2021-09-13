@@ -76,8 +76,12 @@ interface(`read_telux_log_file',`
 interface(`write_telux_log_file',`
     gen_require(`
         type telsdk_data_t;
+        type tmpfs_t;
     ')
     manage_user_data_files($1, telsdk_data_t)
+    allow $1 tmpfs_t:dir { write search add_name remove_name };
+    allow $1 tmpfs_t:file { getattr create open read write link unlink };
+    allow $1 tmpfs_t:filesystem getattr;
 ')
 
 # @brief:  This interface allows domain context to read and write
@@ -92,9 +96,7 @@ interface(`access_telux_files',`
         type telsdk_etc_t;
         type telsdk_data_t;
     ')
-    allow $1 telsdk_etc_t:file { read open };
-    # To enable security context transistion from data_t to telsdk_data_t of files created in /data
-    data_filetrans($1, telsdk_data_t, file);
+    allow $1 telsdk_etc_t:file read_file_perms;
 
     read_telux_log_file($1)
     write_telux_log_file($1)
@@ -135,10 +137,6 @@ interface(`telux_allow_tel',`
       type rilmuxd_t;
       type qmux_radio_sock_t;
       type devlog_t;
-    ')
-    # To log to diag
-    userdebug_or_eng(`
-        rw_diag_dev($1)
     ')
     manage_sock_files_pattern($1, qmux_radio_sock_t, qmux_radio_sock_t)
     device_search_sockets($1)
@@ -211,11 +209,8 @@ interface(`telux_allow_loc',`
       type loc_hald_t;
     ')
 
-    # To allow location client to sets a specific gid
-    allow $1 self:capability setgid;
-
     # To allow QDgnssRemoteApi
-    allow $1 self:socket { getattr setopt write read};
+    allow $1 self:socket { getattr setopt write read create};
     logging_send_syslog_msg($1);
 
     # To allow location client to read config from gps.conf file
@@ -231,9 +226,12 @@ interface(`telux_allow_loc',`
         rw_diag_dev($1)
         kernel_manage_debugfs($1)
     ')
+
+    # Miscellaneous permissions requried for LCA layer.
     dev_read_urand($1)
     corecmd_exec_shell($1)
     kernel_read_system_state($1)
+    kernel_read_vm_overcommit_sysctl($1)
     access_telux_files($1)
 ')
 
@@ -266,6 +264,7 @@ interface(`telux_allow_thermalmanager',`
     dev_read_sysfs($1)
     allow $1 devlog_t:sock_file write;
     allow $1 self:socket create;
+    device_search_sockets($1)
     access_telux_files($1)
 ')
 
@@ -291,10 +290,6 @@ interface(`telux_allow_power',`
 interface(`telux_allow_modemconfig',`
     telux_allow_qmi_client($1)
     logging_send_syslog_msg($1)
-    # To log to diag
-    userdebug_or_eng(`
-        rw_diag_dev($1)
-    ')
     access_telux_files($1)
 
 ')

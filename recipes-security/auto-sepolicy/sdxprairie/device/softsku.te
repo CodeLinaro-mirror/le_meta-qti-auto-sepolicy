@@ -1,4 +1,4 @@
-# Copyright (c) 2020-2021 The Linux Foundation. All rights reserved.
+# Copyright (c) 2021 The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -25,14 +25,37 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-userdebug_or_eng(`
-    gen_require(`
-        type debugfs_t;
-    ')
-     allow systemd_tmpfiles_t debugfs_t:filesystem getattr;
-')
+policy_module(softsku, 1.0)
+
+type softsku_t;
+type softsku_exec_t;
+init_vendor_domain(softsku_t, softsku_exec_t)
 
 gen_require(`
-    type telsdk_data_t;
+    type net_conf_t;
+    type etc_t;
+    type systemd_resolved_var_run_t;
+    type socket_device_t;
+    type init_var_run_t;
+    type qwes_mink_socket_t;
+    type qwesd_t;
 ')
-allow systemd_tmpfiles_t telsdk_data_t:file relabelfrom;
+
+read_c2c_conf_file(softsku_t);
+read_c2c_cert_file(softsku_t);
+
+# For using QWES framework
+allow softsku_t qwes_mink_socket_t:sock_file write;
+allow softsku_t qwesd_t:unix_stream_socket connectto;
+
+# For connection to remote server on cloud
+allow softsku_t net_conf_t:file { getattr read open unlink };
+files_read_etc_files(softsku_t) #/etc/nsswitch.conf
+read_files_pattern(softsku_t, systemd_resolved_var_run_t, systemd_resolved_var_run_t);
+allow softsku_t self:udp_socket { read write create connect getattr };
+allow softsku_t self:netlink_route_socket { write getattr read bind create nlmsg_read };
+allow softsku_t self:tcp_socket { create_socket_perms name_connect };
+corenet_tcp_connect_http_port(softsku_t);
+allow softsku_t socket_device_t:dir search;
+allow softsku_t init_var_run_t:dir search;
+
