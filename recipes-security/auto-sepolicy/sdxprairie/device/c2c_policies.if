@@ -1,4 +1,4 @@
-# Copyright (c) 2020-2021 The Linux Foundation. All rights reserved.
+# Copyright (c) 2021 The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -25,14 +25,29 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-userdebug_or_eng(`
+## <summary> c2c_policies </summary>
+
+# @brief: This interface allows the domain to read the common car2cloud configuration file
+#
+# Parameters:
+#   1) Domain context
+
+interface(`read_c2c_conf_file',`
     gen_require(`
-        type debugfs_t;
+        type c2c_conf_etc_t;
     ')
-     allow systemd_tmpfiles_t debugfs_t:filesystem getattr;
+    allow $1 c2c_conf_etc_t:file { read open getattr};
 ')
 
-gen_require(`
-    type telsdk_data_t;
+# @brief:  This interface allows the domain context to read the common certificates to be used
+# by car2cloud applications
+#
+# Parameters:
+#   1) Domain context
+
+interface(`read_c2c_cert_file',`
+    gen_require(`
+        type c2c_certs_data_t;
+    ')
+    allow $1 c2c_certs_data_t:file { read open getattr};
 ')
-allow systemd_tmpfiles_t telsdk_data_t:file relabelfrom;

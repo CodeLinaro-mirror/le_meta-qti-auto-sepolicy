@@ -32,18 +32,16 @@ type rild_exec_t;
 init_vendor_domain(rild_t, rild_exec_t)
 
 gen_require(`
-      type telsdk_etc_t;
-      type telsdk_data_t;
       type qnetmgrd_t;
       type data_t;
       type default_t;
       type netmgrd_socket_device_t;
 ')
 
-
 userdebug_or_eng(`
     rw_diag_dev(rild_t)
 ')
+
 logging_send_syslog_msg(rild_t)
 kernel_read_system_state(rild_t)
 dev_read_sysfs(rild_t)
@@ -56,8 +54,6 @@ allow rild_t qnetmgrd_t:unix_stream_socket connectto;
 allow rild_t self:socket create_socket_perms;
 allow rild_t self:fifo_file rw_fifo_file_perms;
 allow rild_t data_t:dir search;
-allow rild_t telsdk_etc_t:file { read open getattr };
-allow rild_t telsdk_data_t:file { open append getattr };
 
 access_telux_files(rild_t);
 type qmux_radio_sock_t;
@@ -69,8 +65,6 @@ allow rild_t socket_device_t:dir search;
 allow rild_t qmux_radio_sock_t:dir { search add_name write remove_name};
 allow rild_t qmux_radio_sock_t:sock_file  { create rw_sock_file_perms setattr };
 allow rild_t netmgrd_socket_device_t:sock_file rw_sock_file_perms;
-allow rild_t telsdk_etc_t:file read_file_perms;
-
 
 dontaudit rild_t self:capability dac_override;
 dontaudit rild_t default_t:dir search;
