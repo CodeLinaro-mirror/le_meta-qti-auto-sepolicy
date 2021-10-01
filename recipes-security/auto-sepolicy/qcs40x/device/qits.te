@@ -56,6 +56,9 @@ allow qits_t self:netlink_route_socket create_netlink_socket_perms;
 allow qits_t node_t:udp_socket node_bind;
 allow qits_t unreserved_port_t:udp_socket name_bind;
 allow qits_t cslistener_port_t:udp_socket name_bind;
+allow qits_t self:capability {net_raw setgid};
+allow qits_t self:process {signal};
+allow qits_t self:packet_socket create_socket_perms;
 
 dontaudit qits_t self:capability sys_module;
 
