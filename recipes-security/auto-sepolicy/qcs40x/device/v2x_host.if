@@ -39,9 +39,12 @@ interface(`v2x_host_allow_use',`
         type v2x_host_etc_t;
         type v2x_host_device_t;
         type v2x_host_data_t;
+        type ion_device_t;
     ')
     allow $1 v2x_host_etc_t:file { open read getattr };
     allow $1 v2x_host_device_t:chr_file { read write open ioctl };
     allow $1 v2x_host_data_t:file { open read getattr };
+    allow $1 ion_device_t:chr_file read_chr_file_perms;
+    device_search_sockets($1)
 ')
 
