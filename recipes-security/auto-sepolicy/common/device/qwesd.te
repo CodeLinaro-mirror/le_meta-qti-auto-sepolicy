@@ -107,6 +107,8 @@ allow qwesd_t self:socket { create rw_socket_perms };
 allow qwesd_t self:capability { net_raw chown net_bind_service };
 allow qwesd_t self:fifo_file rw_fifo_file_perms;
 kernel_read_system_state(qwesd_t)
+allow qwesd_t self:capability2 block_suspend;
+allow qwesd_t sysfs_t:file append;
 #################################################################
 # Rules ending for generic permissions for qwesd.
 ##################################################################
