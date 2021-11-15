@@ -33,7 +33,11 @@ interface(`sensor_dev_socket',`
         type socket_device_t;
         type power_manager_daemon_t;
         type power_socket_t;
+	type data_t;
+	type sensor_util_t;
     ')
+allow $1 data_t:dir read;
+allow $1 sensor_util_t:file { read getattr open };
 allow $1 sensor_hal_daemon_socket_t:dir { read getattr open };
 allow $1 socket_device_t:dir search;
 allow $1 sensor_hal_daemon_socket_t:dir { write search add_name };
