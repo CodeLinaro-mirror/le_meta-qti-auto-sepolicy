@@ -1,7 +1,6 @@
 FILESEXTRAPATHS_append := "${THISDIR}:"
 
-SRC_URI += "file://auto-sepolicy/patches/ \
-	    file://auto-sepolicy/common/ \
+SRC_URI += "file://auto-sepolicy/common/ \
             file://auto-sepolicy/${BASEMACHINE}/ \
             file://auto-sepolicy/${MACHINE}/ "
 
