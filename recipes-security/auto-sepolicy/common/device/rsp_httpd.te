@@ -1,0 +1,98 @@
+# Copyright (c) 2021, The Linux Foundation. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are
+# met:
+#     * Redistributions of source code must retain the above copyright
+#       notice, this list of conditions and the following disclaimer.
+#     * Redistributions in binary form must reproduce the above
+#       copyright notice, this list of conditions and the following
+#       disclaimer in the documentation and/or other materials provided
+#       with the distribution.
+#     * Neither the name of The Linux Foundation nor the names of its
+#       contributors may be used to endorse or promote products derived
+#       from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
+# ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+# BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+# IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+policy_module(rsp_httpd, 1.0)
+type rsp_httpd_t;
+type rsp_httpd_exec_t;
+
+type rsp_httpd_conf_t;
+files_type(rsp_httpd_conf_t)
+
+#domain transition if started from init
+init_vendor_domain(rsp_httpd_t, rsp_httpd_exec_t)
+
+#domain transition if started from adb shell
+transition_to_confined_domain(rsp_httpd_t, rsp_httpd_exec_t)
+
+#Allow reading of httd.conf file attributes, contents and allow opening the file
+allow rsp_httpd_t rsp_httpd_conf_t:file read_file_perms;
+
+gen_require(`
+        type user_devpts_t;
+        type etc_t;
+        type systemd_resolved_var_run_t;
+        type proc_t;
+        type cert_t;
+        type http_port_t;
+')
+
+allow rsp_httpd_t self:capability { fsetid net_raw };
+
+# For std::cin
+allow rsp_httpd_t user_devpts_t:chr_file read;
+
+# Allow rsp_httpd to recive signals for generating coredumps
+allow rsp_httpd_t self:process { getcap setcap signal };
+
+# Allow telsdk data clients
+telux_allow_data(rsp_httpd_t)
+
+# Allow telsdk telephony clients
+telux_allow_tel(rsp_httpd_t)
+
+# Allow creation of IP sockets that are neither TCP or UDP, read from socket, write to socket,
+# set socket options and also allow IO control system call requests.
+allow rsp_httpd_t self:rawip_socket create_socket_perms;
+# Allow creation of UDP sockets, read from socket, write to socket,
+# set socket options, get socket attributes and initiate connection.
+allow rsp_httpd_t self:udp_socket create_socket_perms;
+# Allow creation of TCP sockets, read from socket, write to socket,
+# set and get socket options, get socket attributes, connect to specific port
+# and initiate connection.
+allow rsp_httpd_t self:tcp_socket { create_socket_perms name_connect };
+# Allow creation of Netlink socket for controlling and managing network resources such as the
+# routing table and IP address, read from socket, write to socket, get socket attributes and
+# bind a name to the socket.
+allow rsp_httpd_t self:netlink_route_socket r_netlink_socket_perms;
+# Allow read permission for lnk_file which represents symbolic links. Helpful in situations to
+# distinguish between regular files and symbolic links to prevent common attacks.
+allow rsp_httpd_t etc_t:lnk_file { read };
+# Allow reading of resolv.conf file attributes, contents and allow opening the file and
+# allow searching resolv directory
+read_files_pattern(rsp_httpd_t, systemd_resolved_var_run_t, systemd_resolved_var_run_t);
+# Allow reading of /etc/hosts file attributes, contents and allow opening the file.
+sysnet_read_config(rsp_httpd_t);
+# Allow reading of /proc/filesystems file attributes, contents and allow opening the file
+allow rsp_httpd_t proc_t:file read_file_perms;
+# Allow reading of /etc/ssl/certs/ca-certificates.crt file attributes, contents and allow opening the file
+allow rsp_httpd_t cert_t:file { read open getattr };
+# Allow searching of ssl directory
+allow rsp_httpd_t cert_t:dir { search };
+# Allow connection to specific port number for TCP socket.
+allow rsp_httpd_t http_port_t:tcp_socket { name_connect };
+corecmd_exec_shell(rsp_httpd_t);
+netutils_exec_ping(rsp_httpd_t);
