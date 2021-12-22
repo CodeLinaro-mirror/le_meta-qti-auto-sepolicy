@@ -107,8 +107,15 @@ init_vendor_domain(savari_savapp_t,savari_savapp_exec_t)
 #allow unconfined domain for start-stop-daemon
 init_script_domain(savari_initrc_t,savari_initrc_exec_t)
 
+#allow unconfined domain for start_sav_mgmtd
+init_script_domain(savari_mgmtd_t, savari_mgmtd_exec_t)
+
+#transition to confined domain for savapp
+transition_to_confined_domain(savari_savapp_t, savari_savapp_exec_t);
+
 gen_require(`
     type tmp_t;
+    type tmpfs_t;
     type syslogd_t;
     type node_t;
     type unreserved_port_t;
@@ -122,6 +129,8 @@ gen_require(`
     type proc_net_t;
     type default_t;
     type aerolink_data_t;
+    type user_tmp_t;
+    type systemd_tmpfiles_t;
 ')
 
 #start_savari_stack_le
@@ -171,13 +180,15 @@ allow savari_gnsscand_t savari_fac_socket_t:sock_file write_sock_file_perms;
 allow savari_gnsscand_t syslogd_var_run_t:sock_file write_sock_file_perms;
 telux_allow_data(savari_gnsscand_t)
 telux_allow_loc(savari_gnsscand_t)
-dontaudit savari_gnsscand_t self:capability sys_module;
+dontaudit savari_gnsscand_t self:capability {sys_module kill};
+allow savari_gnsscand_t self:process signal;
 
 #smgrd
 allow savari_smgrd_t self:tcp_socket create_stream_socket_perms;
 filetrans_pattern(savari_smgrd_t, tmp_t, savari_smgrd_socket_t, sock_file)
 allow savari_smgrd_t savari_smgrd_socket_t:sock_file manage_sock_file_perms;
 allow savari_smgrd_t node_t:tcp_socket node_bind;
+logging_send_syslog_msg(savari_smgrd_t);
 
 #CV2Xd
 allow savari_cv2xd_t self:netlink_socket rw_socket_perms;
@@ -249,9 +260,12 @@ allow savari_sv2xsecd_t savari_savapp_t:unix_dgram_socket sendto;
 allow savari_sv2xsecd_t syslogd_var_run_t:sock_file write_sock_file_perms;
 allow savari_sv2xsecd_t syslogd_var_run_t:dir search_dir_perms;
 allow savari_sv2xsecd_t init_var_run_t:dir search_dir_perms;
+dontaudit savari_sv2xsecd_t self:capability kill;
+allow savari_sv2xsecd_t self:process signal;
 
 #savapp
 filetrans_pattern(savari_savapp_t, tmp_t, savari_fac_socket_t, sock_file)
+filetrans_pattern(savari_savapp_t, user_tmp_t, savari_fac_socket_t, sock_file)
 allow savari_savapp_t savari_fac_socket_t:sock_file manage_sock_file_perms;
 manage_user_data_files(savari_savapp_t,savari_data_t)
 allow savari_savapp_t savari_bsmd_t:unix_dgram_socket sendto;
@@ -271,3 +285,13 @@ allow savari_blackbox_t proc_t:file read_file_perms;
 allow savari_blackbox_t self:udp_socket create_socket_perms;
 allow savari_blackbox_t savari_smgrd_socket_t:sock_file write_sock_file_perms;
 allow savari_blackbox_t savari_smgrd_t:unix_stream_socket connectto;
+
+#systemd_tmpfiles
+allow systemd_tmpfiles_t proc_net_t:file read_sock_file_perms;
+allow systemd_tmpfiles_t savari_cv2xd_socket_t:sock_file getattr_sock_file_perms;
+allow systemd_tmpfiles_t savari_fac_socket_t:sock_file getattr_sock_file_perms;
+allow systemd_tmpfiles_t savari_gnsscand_socket_t:sock_file getattr_sock_file_perms;
+allow systemd_tmpfiles_t savari_smgrd_socket_t:sock_file getattr_sock_file_perms;
+allow systemd_tmpfiles_t savari_sv2xsecd_socket_t:sock_file getattr_sock_file_perms;
+allow systemd_tmpfiles_t savari_net_socket_t:sock_file getattr_sock_file_perms;
+allow systemd_tmpfiles_t tmp_t:sock_file getattr_sock_file_perms;
