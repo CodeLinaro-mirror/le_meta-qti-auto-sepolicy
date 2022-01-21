@@ -24,6 +24,38 @@
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+# Changes from Qualcomm Innovation Center are provided under the following license:
+#
+# Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted (subject to the limitations in the
+# disclaimer below) provided that the following conditions are met:
+#
+# * Redistributions of source code must retain the above copyright
+# notice, this list of conditions and the following disclaimer.
+#
+# * Redistributions in binary form must reproduce the above
+# copyright notice, this list of conditions and the following
+# disclaimer in the documentation and/or other materials provided
+# with the distribution.
+#
+# * Neither the name of Qualcomm Innovation Center, Inc. nor the names of its
+# contributors may be used to endorse or promote products derived
+# from this software without specific prior written permission.
+# NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE
+# GRANTED BY THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT
+# HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+# IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+# ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+# GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+# IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+# IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 policy_module(savari, 1.0)
 
@@ -174,7 +206,6 @@ manage_user_data_files(savari_gnsscand_t,savari_data_t)
 allow savari_gnsscand_t unreserved_port_t:tcp_socket name_connect;
 allow savari_gnsscand_t syslogd_t:unix_dgram_socket sendto;
 allow savari_gnsscand_t savari_bsmd_t:unix_dgram_socket sendto;
-allow savari_gnsscand_t device_t:sock_file write; #syslogd
 allow savari_gnsscand_t savari_sv2xsecd_socket_t:sock_file write_sock_file_perms;
 allow savari_gnsscand_t savari_fac_socket_t:sock_file write_sock_file_perms;
 allow savari_gnsscand_t syslogd_var_run_t:sock_file write_sock_file_perms;
@@ -182,6 +213,7 @@ telux_allow_data(savari_gnsscand_t)
 telux_allow_loc(savari_gnsscand_t)
 dontaudit savari_gnsscand_t self:capability {sys_module kill};
 allow savari_gnsscand_t self:process signal;
+logging_send_syslog_msg(savari_gnsscand_t)
 
 #smgrd
 allow savari_smgrd_t self:tcp_socket create_stream_socket_perms;
@@ -215,6 +247,7 @@ manage_user_data_files(savari_cv2xd_t, savari_data_t)
 telux_allow_v2x(savari_cv2xd_t)
 telux_allow_data(savari_cv2xd_t)
 telux_allow_loc(savari_cv2xd_t)
+logging_send_syslog_msg(savari_cv2xd_t)
 
 #BSMd
 allow savari_bsmd_t proc_t:file read_file_perms;
@@ -243,6 +276,7 @@ allow savari_bsmd_t syslogd_var_run_t:dir search_dir_perms;
 allow savari_bsmd_t syslogd_var_run_t:sock_file write_sock_file_perms;
 allow savari_bsmd_t savari_blackbox_t:unix_dgram_socket sendto;
 telux_allow_qmi_client(savari_bsmd_t)
+logging_send_syslog_msg(savari_bsmd_t)
 
 #sv2xsecd
 aerolink_allow_use(savari_sv2xsecd_t)
@@ -260,8 +294,10 @@ allow savari_sv2xsecd_t savari_savapp_t:unix_dgram_socket sendto;
 allow savari_sv2xsecd_t syslogd_var_run_t:sock_file write_sock_file_perms;
 allow savari_sv2xsecd_t syslogd_var_run_t:dir search_dir_perms;
 allow savari_sv2xsecd_t init_var_run_t:dir search_dir_perms;
+allow savari_sv2xsecd_t self:fifo_file rw_fifo_file_perms;
 dontaudit savari_sv2xsecd_t self:capability kill;
 allow savari_sv2xsecd_t self:process signal;
+logging_send_syslog_msg(savari_sv2xsecd_t)
 
 #savapp
 filetrans_pattern(savari_savapp_t, tmp_t, savari_fac_socket_t, sock_file)
@@ -273,6 +309,7 @@ allow savari_savapp_t savari_sv2xsecd_t:unix_dgram_socket sendto;
 allow savari_savapp_t savari_cv2xd_t:unix_dgram_socket sendto;
 allow savari_savapp_t savari_cv2xd_socket_t:sock_file write_sock_file_perms;
 allow savari_savapp_t savari_sv2xsecd_socket_t:sock_file write_sock_file_perms;
+logging_send_syslog_msg(savari_savapp_t)
 
 #blackbox
 filetrans_pattern(savari_blackbox_t,tmp_t, savari_fac_socket_t, sock_file)
@@ -285,6 +322,7 @@ allow savari_blackbox_t proc_t:file read_file_perms;
 allow savari_blackbox_t self:udp_socket create_socket_perms;
 allow savari_blackbox_t savari_smgrd_socket_t:sock_file write_sock_file_perms;
 allow savari_blackbox_t savari_smgrd_t:unix_stream_socket connectto;
+logging_send_syslog_msg(savari_blackbox_t)
 
 #systemd_tmpfiles
 allow systemd_tmpfiles_t proc_net_t:file read_sock_file_perms;
