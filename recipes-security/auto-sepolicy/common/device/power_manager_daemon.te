@@ -71,6 +71,7 @@ gen_require(`
     type default_t;
     type init_t;
     type sysdevice_sysfs_t;
+    type power_unit_t;
 ')
 
 type power_tmp_t;
@@ -132,4 +133,5 @@ dontaudit power_manager_daemon_t init_t:dir search;
 allow power_manager_daemon_t self:fifo_file rw_fifo_file_perms;
 allow power_manager_daemon_t self:can_socket create;
 allow power_manager_daemon_t self:qipcrtr_socket { read write create getattr };
-allow power_manager_daemon_t self:unix_stream_socket listen;
+allow power_manager_daemon_t self:unix_stream_socket { listen accept };
+allow power_manager_daemon_t power_unit_t:service start;
