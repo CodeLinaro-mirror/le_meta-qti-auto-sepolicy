@@ -27,7 +27,7 @@
 
 #  Changes from Qualcomm Innovation Center are provided under the following license:
 #
-#  Copyright (c) 2021 Qualcomm Innovation Center, Inc. All rights reserved.
+#  Copyright (c) 2021-2022 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 #  Redistribution and use in source and binary forms, with or without
 #  modification, are permitted (subject to the limitations in the
@@ -134,10 +134,7 @@ interface(`access_telux_files',`
         type telsdk_etc_t;
         type telsdk_data_t;
     ')
-    allow $1 telsdk_etc_t:file { read open };
-    # To enable security context transistion from data_t to telsdk_data_t of files created in /data
-    data_filetrans($1, telsdk_data_t, file);
-
+    allow $1 telsdk_etc_t:file read_file_perms;
     read_telux_log_file($1)
     write_telux_log_file($1)
     dev_read_sysfs($1) # Requried for diag logging.

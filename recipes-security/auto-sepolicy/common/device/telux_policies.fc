@@ -27,7 +27,7 @@
 
 #  Changes from Qualcomm Innovation Center are provided under the following license:
 #
-#  Copyright (c) 2021 Qualcomm Innovation Center, Inc. All rights reserved.
+#  Copyright (c) 2021-2022 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 #  Redistribution and use in source and binary forms, with or without
 #  modification, are permitted (subject to the limitations in the
@@ -60,7 +60,7 @@
 #  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /etc/tel.conf                     --  gen_context(system_u:object_r:telsdk_etc_t,s0)
-/data/vendor/telsdk/tel.log       --  gen_context(system_u:object_r:telsdk_data_t,s0)
+/data/vendor/telsdk(/.*)?             gen_context(system_u:object_r:telsdk_data_t,s0)
 # Add context to the files used for controlling API access in SDK
 # File corresponding to eCall related APIs
 /etc/telux/permissions/telux_tel_ecall   --  gen_context(system_u:object_r:telux_access_tel_ecall_t,s0)
