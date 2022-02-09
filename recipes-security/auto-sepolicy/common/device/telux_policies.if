@@ -25,6 +25,40 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+#  Changes from Qualcomm Innovation Center are provided under the following license:
+#
+#  Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted (subject to the limitations in the
+# disclaimer below) provided that the following conditions are met:
+#
+#     * Redistributions of source code must retain the above copyright
+#       notice, this list of conditions and the following disclaimer.
+#
+#     * Redistributions in binary form must reproduce the above
+#       copyright notice, this list of conditions and the following
+#       disclaimer in the documentation and/or other materials provided
+#       with the distribution.
+#
+#     * Neither the name of Qualcomm Innovation Center, Inc. nor the names of its
+#       contributors may be used to endorse or promote products derived
+#       from this software without specific prior written permission.
+#
+# NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE
+# GRANTED BY THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT
+# HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+# IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+# ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+# GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+# IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+# IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
 ## <summary> telux_policies </summary>
 
 # Domain transition from unconfined to confined
@@ -41,12 +75,13 @@ interface(`transition_to_confined_domain',`
         type unconfined_t;
         type default_t;
         role unconfined_r;
-        type user_tty_device_t;
+        type tty_device_t;
     ')
     domtrans_pattern(unconfined_t, $2, $1)
     role unconfined_r types $1;
     getty_use_fds($1)
-    allow $1 user_tty_device_t:chr_file read;
+    # permission required for tty
+    allow $1 tty_device_t:chr_file { read write getattr ioctl };
     dontaudit $1 default_t:dir { search };
 ')
 
@@ -99,6 +134,7 @@ interface(`access_telux_files',`
     gen_require(`
         type telsdk_etc_t;
         type telsdk_data_t;
+        type telsdk_sem_tmpfs_t;
     ')
     allow $1 telsdk_etc_t:file read_file_perms;
     # To enable security context transistion from data_t to telsdk_data_t of files created in /data
@@ -111,6 +147,11 @@ interface(`access_telux_files',`
         rw_diag_dev($1)
     ')
     dev_read_sysfs($1) # Requried for diag logging.
+    files_type(telsdk_sem_tmpfs_t);
+    fs_tmpfs_filetrans($1, telsdk_sem_tmpfs_t, file )
+    allow $1 telsdk_sem_tmpfs_t:file { create read write getattr open link unlink};
+    dontaudit $1 telsdk_sem_tmpfs_t:file map;
+
 ')
 
 # Qmi client interfaces
@@ -152,6 +193,7 @@ interface(`telux_allow_tel',`
     logging_send_syslog_msg($1)
     allow $1 self:unix_dgram_socket { write create connect };
     access_telux_files($1)
+    telux_allow_group($1)
 ')
 
 # Data client interfaces
@@ -186,6 +228,7 @@ interface(`telux_allow_data',`
     device_rw_socket_files($1, netmgrd_socket_device_t);
     read_files_pattern($1, etc_t, etc_t);
     #qnetmgr_read_config_file($1);
+    telux_allow_group($1)
 ')
 
 # Audio client interfaces
@@ -199,6 +242,7 @@ interface(`telux_allow_audio',`
 
     telux_allow_qmi_client($1)
     access_telux_files($1)
+    telux_allow_group($1)
 ')
 
 # Location client interfaces
@@ -239,6 +283,7 @@ interface(`telux_allow_loc',`
     kernel_read_system_state($1)
     kernel_read_vm_overcommit_sysctl($1)
     access_telux_files($1)
+    telux_allow_group($1)
 ')
 
 # Thermal client interfaces
@@ -255,6 +300,7 @@ interface(`telux_allow_loc',`
 interface(`telux_allow_thermalshutdown',`
     telux_allow_qmi_client($1)
     access_telux_files($1)
+    telux_allow_group($1)
 ')
 
 # @brief: This interface provides permissions for the operation
@@ -272,6 +318,7 @@ interface(`telux_allow_thermalmanager',`
     allow $1 self:socket create;
     device_search_sockets($1)
     access_telux_files($1)
+    telux_allow_group($1)
 ')
 
 # Power client interfaces
@@ -284,6 +331,7 @@ interface(`telux_allow_thermalmanager',`
 interface(`telux_allow_power',`
     telux_allow_qmi_client($1)
     access_telux_files($1)
+    telux_allow_group($1)
 ')
 
 # Modem config client interface
@@ -297,7 +345,7 @@ interface(`telux_allow_modemconfig',`
     telux_allow_qmi_client($1)
     logging_send_syslog_msg($1)
     access_telux_files($1)
-
+    telux_allow_group($1)
 ')
 
 # sensor client interface
@@ -311,6 +359,7 @@ interface(`telux_allow_sensor',`
 
     # For read /etc/tel.conf, read/write tel.log
     access_telux_files($1)
+    telux_allow_group($1)
 
     # For socket communication: /etc/nsswitch.conf, /etc/group for getgrnam
     read_files_pattern($1, etc_t, etc_t);
@@ -336,4 +385,22 @@ interface(`telux_allow_version',`
     device_search_sockets($1)
     allow $1 self:socket create_socket_perms;
     allow $1 self:fifo_file rw_fifo_file_perms;
+')
+
+# @brief: This interface provides permissions to read the /etc/group file
+#         for necessary supplemantary group permission
+#
+# Parameters:
+#   1) Domain context
+
+interface(`telux_allow_group',`
+    gen_require(`
+       type etc_t;
+       type tmpfs_t;
+    ')
+    # supress the map denials for /etc/group file
+    dontaudit $1 etc_t:file map;
+    # do not require permission for semaphore map
+    dontaudit $1 tmpfs_t:file map;
+    allow $1 self:qipcrtr_socket { write read create getattr setopt };
 ')
