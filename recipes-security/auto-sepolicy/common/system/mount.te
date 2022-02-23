@@ -64,6 +64,8 @@ gen_require(`
 	type var_t;
 	type var_lib_t;
 	type var_spool_t;
+	type etc_t;
+	type kernel_t;
 ')
 
 dontaudit mount_copybind_t self:capability sys_admin;
@@ -74,3 +76,5 @@ allow mount_copybind_t var_t:dir { write add_name create };
 
 allow mount_t var_spool_t:dir mounton;
 allow mount_t var_t:dir { manage_dir_perms mounton };
+dontaudit mount_t etc_t:file map;
+dontaudit mount_t kernel_t:process setsched;
