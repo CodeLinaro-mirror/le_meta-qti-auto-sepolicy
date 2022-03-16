@@ -32,6 +32,8 @@
 
 /usr/bin/ota_manager                         --     gen_context(system_u:object_r:ota_manager_exec_t,s0)
 
+/usr/bin/sota_manager                         --    gen_context(system_u:object_r:sota_manager_exec_t,s0)
+
 /data/usr                                           gen_context(system_u:object_r:ota_data_conf_t,s0)
 /data/usr(/.*)?                                     gen_context(system_u:object_r:ota_data_conf_t,s0)
 

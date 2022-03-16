@@ -42,6 +42,11 @@ type ota_manager_exec_t;
 type ota_manager_t;
 files_type(ota_manager_exec_t)
 
+type sota_manager_exec_t;
+type sota_manager_t;
+files_type(sota_manager_exec_t)
+
+
 type c2c_hub_exec_t;
 type c2c_hub_t;
 files_type(c2c_hub_exec_t)
@@ -78,6 +83,12 @@ init_ota_domain(ota_manager_t, ota_manager_exec_t)
 allow ota_manager_t ota_data_log_t:file { open read append write create getattr };
 allow ota_manager_t ota_data_conf_t:file { open read append write create getattr };
 #allow ota_manager_t qwes_data_t:dir search;
+
+# sota_manager policy
+init_ota_domain(sota_manager_t, sota_manager_exec_t)
+allow sota_manager_t ota_data_log_t:file { open read append write create getattr };
+allow sota_manager_t ota_data_conf_t:file { open read append write create getattr };
+
 
 # c2c_hub policy
 init_ota_domain(c2c_hub_t, c2c_hub_exec_t)
