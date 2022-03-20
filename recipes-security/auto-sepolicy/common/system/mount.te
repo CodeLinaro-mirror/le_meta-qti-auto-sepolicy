@@ -78,3 +78,4 @@ allow mount_t var_spool_t:dir mounton;
 allow mount_t var_t:dir { manage_dir_perms mounton };
 dontaudit mount_t etc_t:file map;
 dontaudit mount_t kernel_t:process setsched;
+dontaudit unconfined_mount_t kernel_t:process setsched;
