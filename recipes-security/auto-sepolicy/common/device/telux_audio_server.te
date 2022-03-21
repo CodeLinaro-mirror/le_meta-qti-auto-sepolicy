@@ -77,6 +77,7 @@ init_vendor_domain(telux_audio_server_t, telux_audio_server_exec_t)
 # Gives permissions to access to hal devices such as sound devices,
 # hal files such as acdb, mixer files
 audio_hal_access(telux_audio_server_t)
+auto_audio_hal_access(telux_audio_server_t)
 
 # The below interface gives access for files which are not owned by
 # audio hal but used by audio hal. Eg: debugfs, diag_dev, sysfs, etc.
