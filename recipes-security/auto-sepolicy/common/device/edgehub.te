@@ -72,7 +72,6 @@ gen_require(`
     type unconfined_t;
     type fs_t;
     type qwes_license_store_setup_t;
-    type telaf_admin_t;
     class service { start status stop reload };
 ')
 
