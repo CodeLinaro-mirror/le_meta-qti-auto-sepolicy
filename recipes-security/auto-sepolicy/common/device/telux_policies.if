@@ -310,12 +310,10 @@ interface(`telux_allow_thermalshutdown',`
 #   1) Domain context
 
 interface(`telux_allow_thermalmanager',`
-    gen_require(`
-       type devlog_t;
-    ')
+    telux_allow_qmi_client($1)
     dev_read_sysfs($1)
-    allow $1 devlog_t:sock_file write;
-    allow $1 self:socket create;
+    # To allow ThermalRemoteApi(query on EAP)
+    allow $1 self:socket { getattr setopt write read create};
     device_search_sockets($1)
     access_telux_files($1)
     telux_allow_group($1)

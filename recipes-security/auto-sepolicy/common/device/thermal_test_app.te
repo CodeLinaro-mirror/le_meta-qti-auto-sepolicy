@@ -75,6 +75,7 @@ telux_allow_thermalmanager(thermal_app_t)
 gen_require(`
         type etc_t;
 ')
+
 #Allow setting secondary groups
 allow thermal_app_t self:capability setgid;
 allow thermal_app_t etc_t:file read_file_perms;
