@@ -25,6 +25,7 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+#
 #  Changes from Qualcomm Innovation Center are provided under the following license:
 #
 #  Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
@@ -58,6 +59,7 @@
 #  IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
 #  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 #  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
 
 ## <summary> telux_policies </summary>
 
@@ -353,4 +355,36 @@ interface(`telux_allow_sensor',`
     sensor_dev_socket($1)
     sensor_configuration_access($1)
 
+')
+
+# Cv2x client interface
+# @brief: The Cv2x client interface allow the domain to contain a cv2x radio
+# client by providing necessary permissions for its operation.
+#
+# Parameters:
+#   1) Domain context
+
+interface(`telux_allow_v2x',`
+    gen_require(`
+        type qnetmgrd_config_t;
+        type netmgrd_socket_device_t;
+    ')
+    telux_allow_qmi_client($1)
+    access_telux_files($1)
+    read_files_pattern($1,qnetmgrd_config_t,qnetmgrd_config_t) #/etc/netmgrd/config
+    device_rw_socket_files($1, netmgrd_socket_device_t)
+
+    # socket and port related policies
+    allow $1 self:tcp_socket create_socket_perms;
+    allow $1 self:udp_socket create_socket_perms;
+    allow $1 self:netlink_route_socket create_netlink_socket_perms;
+    allow $1 self:capability net_raw;
+    corenet_udp_bind_zebra_port($1);
+    corenet_udp_bind_cslistener_port($1);
+    corenet_udp_bind_all_unreserved_ports($1);
+    corenet_udp_bind_generic_node($1);
+    corenet_tcp_bind_zebra_port($1);
+    corenet_tcp_bind_cslistener_port($1);
+    corenet_tcp_bind_all_unreserved_ports($1);
+    corenet_tcp_bind_generic_node($1);
 ')
