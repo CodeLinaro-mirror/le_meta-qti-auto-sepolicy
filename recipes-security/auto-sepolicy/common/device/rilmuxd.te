@@ -82,4 +82,6 @@ allow rilmuxd_t qmux_radio_sock_t:sock_file { create rw_sock_file_perms unlink s
 allow rilmuxd_t self:process signal;
 allow rilmuxd_t self:qipcrtr_socket { read write create getattr setopt };
 allow rilmuxd_t self:unix_stream_socket { accept listen };
+
+allow rilmuxd_t self:socket { create setopt getattr read write };
 access_telux_files(rilmuxd_t);
