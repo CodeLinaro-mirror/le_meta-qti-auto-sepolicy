@@ -86,6 +86,9 @@ non_audio_hal_access(telux_audio_server_t)
 # Gives permissions to manage files in "/data/audio/*"
 audio_data_files_access(telux_audio_server_t)
 
+# Gives permissions to manage files in deltaacdb
+auto_data_files_access(telux_audio_server_t)
+
 dontaudit telux_audio_server_t default_t:dir search;
 
 # Permission required for a QCSI application.

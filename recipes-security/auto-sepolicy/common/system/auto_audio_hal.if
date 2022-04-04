@@ -52,3 +52,9 @@ interface(`auto_audio_hal_access',`
     allow $1 urandom_device_t:chr_file { read open };
 ')
 
+interface(`auto_data_files_access',`
+    gen_require(`
+        type audio_delta_acdb_data_t;
+    ')
+    manage_user_data_files($1, audio_delta_acdb_data_t)
+')
