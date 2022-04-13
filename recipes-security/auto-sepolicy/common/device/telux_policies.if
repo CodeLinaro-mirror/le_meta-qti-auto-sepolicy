@@ -113,7 +113,7 @@ interface(`write_telux_log_file',`
         type tmpfs_t;
     ')
     manage_user_data_files($1, telsdk_data_t)
-    allow $1 tmpfs_t:dir { write search add_name remove_name };
+    allow $1 tmpfs_t:dir { getattr write search add_name remove_name };
     allow $1 tmpfs_t:file { getattr create open read write link unlink };
     allow $1 tmpfs_t:filesystem getattr;
 
@@ -340,4 +340,25 @@ interface(`telux_allow_tel_ecall',`
         type telux_access_tel_ecall_t;
     ')
     allow $1 telux_access_tel_ecall_t:file { getattr };
+')
+
+# Cv2x client interface
+# @brief: The Cv2x client interface allow the domain to contain a cv2x radio
+# client by providing necessary permissions for its operation.
+#
+# Parameters:
+#   1) Domain context
+
+interface(`telux_allow_v2x',`
+    gen_require(`
+        type qnetmgrd_config_t;
+        type netmgrd_socket_device_t;
+        type netmgr_connect_socket_t;
+    ')
+    telux_allow_qmi_client($1)
+    access_telux_files($1)
+    read_files_pattern($1,qnetmgrd_config_t,qnetmgrd_config_t) #/etc/netmgrd/config
+    # netmgr uses separate context on MDM and EAP. All socket rules for both.
+    device_rw_socket_files($1, netmgrd_socket_device_t)
+    device_rw_socket_files($1, netmgr_connect_socket_t )
 ')
