@@ -114,6 +114,7 @@
 /etc/telux/permissions/telux_tel_phone_mgmt                --  gen_context(system_u:object_r:telux_access_tel_phone_mgmt_t,s0)
 /etc/telux/permissions/telux_tel_phone_config              --  gen_context(system_u:object_r:telux_access_tel_phone_config_t,s0)
 /etc/telux/permissions/telux_tel_ecall_config              --  gen_context(system_u:object_r:telux_access_tel_ecall_config_t,s0)
+/etc/telux/permissions/telux_tel_supp_services              --  gen_context(system_u:object_r:telux_access_tel_supp_services_t,s0)
 
 
 ##################################################################################################
