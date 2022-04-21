@@ -167,6 +167,8 @@ type telux_access_tel_phone_config_t;
 files_type(telux_access_tel_phone_config_t);
 type telux_access_tel_ecall_config_t;
 files_type(telux_access_tel_ecall_config_t);
+type telux_access_tel_supp_services_t;
+files_type(telux_access_tel_supp_services_t);
 
 
 ##################################################################################################

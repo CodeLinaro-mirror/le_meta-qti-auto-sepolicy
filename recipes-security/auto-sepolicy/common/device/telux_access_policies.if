@@ -749,6 +749,17 @@ interface(`telux_allow_tel_ecall_config',`
     allow $1 telux_access_tel_ecall_config_t:file { getattr };
 ')
 
+# Interface to get access to APIs for supplementary services like call waiting, call forwarding.
+# @brief: This interface allows the client to enable/disable the supplementary services.
+#
+# Parameters:
+#   1) Domain context
+interface(`telux_allow_tel_supp_services',`
+    gen_require(`
+        type telux_access_tel_supp_services_t;
+    ')
+    allow $1 telux_access_tel_supp_services_t:file { getattr };
+')
 
 ##################################################################################################
 # Interfaces to control access for Thermal related APIs in SDK
