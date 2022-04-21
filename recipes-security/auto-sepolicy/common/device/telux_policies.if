@@ -133,6 +133,7 @@ interface(`access_telux_files',`
     gen_require(`
         type telsdk_etc_t;
         type telsdk_data_t;
+        type socket_device_t;
     ')
     allow $1 telsdk_etc_t:file read_file_perms;
 
@@ -143,6 +144,9 @@ interface(`access_telux_files',`
         rw_diag_dev($1)
     ')
     dev_read_sysfs($1) # Requried for diag logging.
+
+    # To allow libraries to log to logcat
+    allow $1 socket_device_t:dir search;
 ')
 
 # Qmi client interfaces
