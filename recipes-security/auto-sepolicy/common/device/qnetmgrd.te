@@ -32,3 +32,4 @@ dontaudit qnetmgrd_t self:process sigkill;
 dontaudit ifconfig_t qnetmgrd_t:tcp_socket { read write };
 dontaudit ifconfig_t qnetmgrd_t:udp_socket { read write };
 dontaudit qnetmgrd_t sysfs_t:file { write };
+dontaudit qnetmgrd_t self:process { getsched };
