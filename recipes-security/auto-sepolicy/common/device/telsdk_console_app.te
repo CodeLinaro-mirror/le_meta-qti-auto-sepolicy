@@ -130,5 +130,4 @@ telux_allow_data(telsdk_console_app_t)
 # Allow telsdk audio clients
 telux_allow_audio_voice(telsdk_console_app_t)
 
-allow telsdk_console_app_t user_home_dir_t:dir search;
 allow telsdk_console_app_t self:process signal;
