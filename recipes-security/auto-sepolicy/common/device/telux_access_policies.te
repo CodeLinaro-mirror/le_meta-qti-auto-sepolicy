@@ -178,3 +178,13 @@ type telux_access_therm_data_read_t;
 files_type(telux_access_therm_data_read_t);
 type telux_access_therm_shutdown_ctrl_t;
 files_type(telux_access_therm_shutdown_ctrl_t);
+
+##################################################################################################
+# Type identifiers for the files used to control access for Location related APIs in SDK
+##################################################################################################
+type telux_access_loc_data_t;
+files_type(telux_access_loc_data_t);
+type telux_access_loc_config_t;
+files_type(telux_access_loc_config_t);
+type telux_access_loc_consent_t;
+files_type(telux_access_loc_consent_t);

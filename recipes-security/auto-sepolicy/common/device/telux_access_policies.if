@@ -791,3 +791,48 @@ interface(`telux_allow_therm_shutdown_ctrl',`
     ')
     allow $1 telux_access_therm_shutdown_ctrl_t:file { getattr };
 ')
+
+##################################################################################################
+# Interfaces to control access for Location related APIs in SDK
+##################################################################################################
+
+# Interface to get access to APIs to acquire location data.
+# @brief: This interface allows the client to acquire data like location reports, GNSS information
+# and other relevant location data.
+#
+# Parameters:
+#    1) Domain context.
+
+interface(`telux_allow_loc_data',`
+    gen_require(`
+        type telux_access_loc_data_t;
+    ')
+    allow $1 telux_access_loc_data_t:file { getattr };
+')
+
+# Interface to get access for configuring general/specific engine states via location APIs.
+# @brief: This interface allows the client to configure the location engine like configure
+# minGpsWeek, minSVElevation, EngineState etc
+#
+# Parameters:
+#    1) Domain context.
+
+interface(`telux_allow_loc_config',`
+    gen_require(`
+        type telux_access_loc_config_t;
+    ')
+    allow $1 telux_access_loc_config_t:file { getattr };
+')
+
+# Interface to get consent for accessing terrestrial position.
+# @brief: This interface allows the client to get consent for accessing terrestrial position.
+#
+# Parameters:
+#    1) Domain context.
+
+interface(`telux_allow_loc_consent',`
+    gen_require(`
+        type telux_access_loc_consent_t;
+    ')
+    allow $1 telux_access_loc_consent_t:file { getattr };
+')
