@@ -188,3 +188,13 @@ type telux_access_loc_config_t;
 files_type(telux_access_loc_config_t);
 type telux_access_loc_consent_t;
 files_type(telux_access_loc_consent_t);
+
+##################################################################################################
+# Type identifiers for the files used to control access for Crypto related APIs in SDK
+##################################################################################################
+type telux_access_sec_key_ops_t;
+files_type(telux_access_sec_key_ops_t);
+type telux_access_sec_sign_ops_t;
+files_type(telux_access_sec_sign_ops_t);
+type telux_access_sec_encryption_ops_t;
+files_type(telux_access_sec_encryption_ops_t);
