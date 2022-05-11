@@ -42,3 +42,4 @@ userdebug_or_eng(`
 
 dontaudit post_boot_script_t sysfs_t:dir write;
 dontaudit post_boot_script_t sysfs_t:file create;
+dontaudit domain self:process getsched;
