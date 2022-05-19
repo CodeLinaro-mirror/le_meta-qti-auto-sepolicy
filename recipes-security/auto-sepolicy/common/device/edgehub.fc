@@ -30,12 +30,22 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+/etc/c2c/c2c.conf                            --     gen_context(system_u:object_r:ota_etc_conf_t,s0)
+/etc/c2c/side_loaded.conf                    --     gen_context(system_u:object_r:ota_etc_conf_t,s0)
+/etc/c2c/c2c_vehicle.json                    --     gen_context(system_u:object_r:ota_etc_conf_t,s0)
+/etc/c2c/dm.conf                             --     gen_context(system_u:object_r:ota_etc_conf_t,s0)
+/etc/c2c/dm_chipset.conf                     --     gen_context(system_u:object_r:ota_etc_conf_t,s0)
+/etc/c2c/softsku.conf                        --     gen_context(system_u:object_r:ota_etc_conf_t,s0)
+/etc/c2c/ota.conf                            --     gen_context(system_u:object_r:ota_etc_conf_t,s0)
+/etc/c2c/ota_session.json                    --     gen_context(system_u:object_r:ota_etc_conf_t,s0)
+/etc/c2c/sota.conf                           --     gen_context(system_u:object_r:ota_etc_conf_t,s0)
+/etc/c2c/sota_session.json                   --     gen_context(system_u:object_r:ota_etc_conf_t,s0)
+
 /usr/bin/ota_manager                         --     gen_context(system_u:object_r:ota_manager_exec_t,s0)
+/usr/bin/sota_manager                        --     gen_context(system_u:object_r:sota_manager_exec_t,s0)
 
-/usr/bin/sota_manager                         --    gen_context(system_u:object_r:sota_manager_exec_t,s0)
-
-/data/usr                                           gen_context(system_u:object_r:ota_data_conf_t,s0)
-/data/usr(/.*)?                                     gen_context(system_u:object_r:ota_data_conf_t,s0)
+/data/usr                                           gen_context(system_u:object_r:ota_data_certs_t,s0)
+/data/usr/local/certs(/.*)?                         gen_context(system_u:object_r:ota_data_certs_t,s0)
 
 /data/c2c/common/certs/Test_TCU.cert.pem     --     gen_context(system_u:object_r:ota_data_conf_t,s0)
 /data/c2c/common/certs/Test_TCU.public.key   --     gen_context(system_u:object_r:ota_data_conf_t,s0)
@@ -49,5 +59,3 @@
 /usr/bin/c2c_hub                             --     gen_context(system_u:object_r:c2c_hub_exec_t,s0)
 /usr/bin/dm                                  --     gen_context(system_u:object_r:dm_manager_exec_t,s0)
 /usr/bin/softsku_manager                     --     gen_context(system_u:object_r:softsku_manager_exec_t,s0)
-
-
