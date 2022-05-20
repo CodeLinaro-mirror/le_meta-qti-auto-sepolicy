@@ -26,7 +26,6 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 # Changes from Qualcomm Innovation Center are provided under the following license:
-#
 # Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -78,6 +77,9 @@ gen_require(`
     type unreserved_port_t;
     type proc_t;
     type ota_data_conf_t;
+    type system_data_t;
+    type mount_copybind_t;
+    type mount_t;
 ')
 
 read_c2c_conf_file(softsku_t);
@@ -97,8 +99,16 @@ allow softsku_t self:tcp_socket { create_socket_perms name_connect };
 corenet_tcp_connect_http_port(softsku_t);
 allow softsku_t socket_device_t:dir search;
 allow softsku_t init_var_run_t:dir search;
-allow softsku_t softsku_data_conf_t:file { getattr read open };
 allow softsku_t unreserved_port_t:tcp_socket { name_bind name_connect };
 allow softsku_t proc_t:file { read getattr open };
 allow softsku_t ota_data_conf_t:dir rw_dir_perms;
 allow softsku_t ota_data_conf_t:file { read getattr open };
+allow softsku_t system_data_t:dir search;
+allow softsku_t softsku_data_conf_t:dir { open search read getattr};
+
+#============= mount_copybind_t ==============
+allow mount_copybind_t softsku_data_conf_t:dir { open read search mounton getattr };
+allow mount_copybind_t softsku_data_conf_t:file { setattr read create write relabelfrom getattr relabelto open };
+
+#============= unconfined_mount_t ==============
+allow mount_t softsku_data_conf_t:file { getattr mounton };
