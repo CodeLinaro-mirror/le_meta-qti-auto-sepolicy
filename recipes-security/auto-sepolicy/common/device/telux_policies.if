@@ -83,6 +83,7 @@ interface(`transition_to_confined_domain',`
     # permission required for tty
     allow $1 tty_device_t:chr_file { read write getattr ioctl };
     dontaudit $1 default_t:dir { search };
+    allow $1 self:capability kill;
 ')
 
 # Telux logging interfaces
