@@ -84,6 +84,7 @@ interface(`transition_to_confined_domain',`
     getty_use_fds($1)
     allow $1 user_tty_device_t:chr_file read;
     dontaudit $1 default_t:dir { search };
+    allow $1 self:capability kill;
 ')
 
 # Telux logging interfaces
