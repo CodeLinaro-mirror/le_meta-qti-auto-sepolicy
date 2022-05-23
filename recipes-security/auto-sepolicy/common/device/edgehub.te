@@ -32,10 +32,14 @@
 
 policy_module(edgehub, 1.0)
 
+type ota_etc_conf_t;
 type ota_data_conf_t;
+type ota_data_certs_t;
 type ota_data_log_t;
 
+files_type(ota_etc_conf_t)
 files_type(ota_data_conf_t)
+files_type(ota_data_certs_t)
 files_type(ota_data_log_t)
 
 type ota_manager_exec_t;
@@ -72,10 +76,18 @@ gen_require(`
     type unconfined_t;
     type fs_t;
     type qwes_license_store_setup_t;
+    type mount_copybind_t;
+    type mount_t;
     class service { start status stop reload };
 ')
 
 attribute ota_domain;
+
+#============= mount_copybind_t ==============
+allow mount_copybind_t ota_etc_conf_t:dir { open read search mounton getattr };
+allow mount_copybind_t ota_etc_conf_t:file { setattr read create write relabelfrom getattr relabelto open };
+
+allow mount_t ota_etc_conf_t:file { getattr mounton };
 
 # ota_manager policy
 init_ota_domain(ota_manager_t, ota_manager_exec_t)
