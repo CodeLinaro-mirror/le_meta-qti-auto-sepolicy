@@ -402,7 +402,7 @@ interface(`telux_allow_group',`
     dontaudit $1 etc_t:file map;
     # do not require permission for semaphore map
     dontaudit $1 tmpfs_t:file map;
-    allow $1 self:qipcrtr_socket { write read create getattr setopt };
+    allow $1 self:qipcrtr_socket { write read create getattr setopt shutdown };
 ')
 
 # platform client interface
