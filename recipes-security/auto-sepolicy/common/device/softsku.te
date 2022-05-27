@@ -104,6 +104,7 @@ allow softsku_t proc_t:file { read getattr open };
 allow softsku_t ota_data_conf_t:dir rw_dir_perms;
 allow softsku_t ota_data_conf_t:file { read getattr open };
 allow softsku_t system_data_t:dir search;
+allow softsku_t softsku_data_conf_t:file { getattr read open };
 allow softsku_t softsku_data_conf_t:dir { open search read getattr};
 
 #============= mount_copybind_t ==============
