@@ -112,6 +112,10 @@ interface(`write_telux_log_file',`
         type telsdk_data_t;
     ')
     manage_user_data_files($1, telsdk_data_t)
+
+    # Any process that needs to write to log file will also need to be able to write
+    # logs to syslog since critical errors while logging are logged to syslog
+    logging_send_syslog_msg($1)
 ')
 
 # @brief:  This interface allows domain context to read and write
