@@ -110,12 +110,8 @@ interface(`read_telux_log_file',`
 interface(`write_telux_log_file',`
     gen_require(`
         type telsdk_data_t;
-        type tmpfs_t;
     ')
     manage_user_data_files($1, telsdk_data_t)
-    allow $1 tmpfs_t:dir { getattr write search add_name remove_name };
-    allow $1 tmpfs_t:file { getattr create open read write link unlink };
-    allow $1 tmpfs_t:filesystem getattr;
 
     # Any process that needs to write to log file will also need to be able to write
     # logs to syslog since critical errors while logging are logged to syslog
@@ -133,11 +129,15 @@ interface(`access_telux_files',`
     gen_require(`
         type telsdk_etc_t;
         type telsdk_data_t;
+        type socket_device_t;
     ')
     allow $1 telsdk_etc_t:file read_file_perms;
     read_telux_log_file($1)
     write_telux_log_file($1)
     dev_read_sysfs($1) # Requried for diag logging.
+
+    # To allow libraries to log to logcat
+    allow $1 socket_device_t:dir search;
 ')
 
 # Qmi client interfaces
