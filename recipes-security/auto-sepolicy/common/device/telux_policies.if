@@ -76,13 +76,8 @@ interface(`read_telux_log_file',`
 interface(`write_telux_log_file',`
     gen_require(`
         type telsdk_data_t;
-        type tmpfs_t;
     ')
     manage_user_data_files($1, telsdk_data_t)
-    allow $1 tmpfs_t:dir { write search add_name remove_name };
-    allow $1 tmpfs_t:file { getattr create open read write link unlink };
-    allow $1 tmpfs_t:filesystem getattr;
-
     # Any process that needs to write to log file will also need to be able to write
     # logs to syslog since critical errors while logging are logged to syslog
     logging_send_syslog_msg($1)
