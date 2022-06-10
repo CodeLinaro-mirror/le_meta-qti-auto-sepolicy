@@ -90,6 +90,7 @@ gen_require(`
     type dns_port_t;
     type loc_hald_t;
     type ldconfig_tmp_t;
+    type ota_data_conf_t;
 ')
 
 fs_associate(smqlnx_data_t);
@@ -183,3 +184,7 @@ allow loc_hald_t smqlnx_t:unix_dgram_socket sendto;
 
 #============= Allow ldconfig read file ==============
 allow smqlnx_t ldconfig_tmp_t:file read;
+
+#============= Allow ota data configuration ==============
+allow smqlnx_t ota_data_conf_t:dir rw_dir_perms;
+allow smqlnx_t ota_data_conf_t:file { read getattr open };
