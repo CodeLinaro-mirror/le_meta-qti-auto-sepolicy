@@ -122,6 +122,7 @@ gen_require(`
     type proc_net_t;
     type default_t;
     type aerolink_data_t;
+    type tmpfs_t;
 ')
 
 #start_savari_stack_le
