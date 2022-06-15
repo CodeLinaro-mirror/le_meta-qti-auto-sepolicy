@@ -30,25 +30,6 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-type init_qti_etc_t;
-files_type(init_qti_etc_t);
+/etc/init.qti.debug.sh    --  gen_context(system_u:object_r:init_qti_etc_t,s0)
 
-gen_require(`
-    type post_boot_script_t;
-    type sysfs_t;
-    type debugfs_t;
-    type tracefs_t;
-')
 
-userdebug_or_eng(`
-    dev_write_kmsg(post_boot_script_t)
-    mls_file_write_all_levels(post_boot_script_t)
-')
-
-dontaudit post_boot_script_t sysfs_t:dir { write add_name };
-dontaudit post_boot_script_t sysfs_t:file create;
-dontaudit domain self:process getsched;
-allow post_boot_script_t init_qti_etc_t:file { read open write getattr };
-allow post_boot_script_t debugfs_t:dir search;
-allow post_boot_script_t tracefs_t:dir { search getattr };
-allow post_boot_script_t tracefs_t:file { open write };
