@@ -1,0 +1,4 @@
+# Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+allow qseecomd_t qseecomd_rpmb_t:chr_file {rw_chr_file_perms};
