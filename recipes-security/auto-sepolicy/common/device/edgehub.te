@@ -50,6 +50,9 @@ type sota_manager_exec_t;
 type sota_manager_t;
 files_type(sota_manager_exec_t)
 
+type smq_manager_exec_t;
+type smq_manager_t;
+files_type(smq_manager_exec_t)
 
 type c2c_hub_exec_t;
 type c2c_hub_t;
@@ -78,6 +81,10 @@ gen_require(`
     type qwes_license_store_setup_t;
     type mount_copybind_t;
     type mount_t;
+    type init_var_run_t;
+    type systemd_resolved_var_run_t;
+    type unreserved_port_t;
+    type urandom_device_t;
     class service { start status stop reload };
 ')
 
@@ -112,3 +119,22 @@ init_ota_domain(softsku_manager_t, softsku_manager_exec_t)
 # dm policy
 init_ota_domain(dm_manager_t, dm_manager_exec_t)
 
+#smq_manager policy
+init_vendor_domain(smq_manager_t, smq_manager_exec_t)
+allow smq_manager_t ota_data_log_t:file { open read append write create getattr };
+allow smq_manager_t ota_data_conf_t:file { open read append write create getattr };
+allow smq_manager_t ota_etc_conf_t:file { open read append write create getattr };
+allow smq_manager_t etc_t:file { read write mounton getattr open };
+allow smq_manager_t etc_t:lnk_file read;
+allow smq_manager_t init_var_run_t:dir search;
+allow smq_manager_t net_conf_t:file { read getattr open };
+allow smq_manager_t proc_t:file { read getattr open };
+allow smq_manager_t self:netlink_route_socket { read write bind create getattr nlmsg_read };
+allow smq_manager_t self:tcp_socket { write connect shutdown read getopt create };
+allow smq_manager_t self:udp_socket { read write create connect getattr };
+allow smq_manager_t socket_device_t:dir search;
+allow smq_manager_t systemd_resolved_var_run_t:dir search;
+allow smq_manager_t systemd_resolved_var_run_t:file { read getattr open };
+allow smq_manager_t unreserved_port_t:tcp_socket name_connect;
+allow smq_manager_t urandom_device_t:chr_file { read getattr open create};
+allow smq_manager_t ota_data_conf_t:dir { open search read getattr};
