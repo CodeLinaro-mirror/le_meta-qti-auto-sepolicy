@@ -242,6 +242,7 @@ allow savari_cv2xd_t default_t:dir search;
 allow savari_cv2xd_t savari_fac_socket_t:sock_file write_sock_file_perms;
 allow savari_cv2xd_t savari_savapp_t:unix_dgram_socket sendto;
 allow savari_cv2xd_t syslogd_var_run_t:sock_file write_sock_file_perms;
+allow savari_cv2xd_t tmpfs_t:filesystem getattr;
 dontaudit savari_cv2xd_t self:capability sys_module;
 manage_user_data_files(savari_cv2xd_t, savari_data_t)
 telux_allow_v2x(savari_cv2xd_t)
