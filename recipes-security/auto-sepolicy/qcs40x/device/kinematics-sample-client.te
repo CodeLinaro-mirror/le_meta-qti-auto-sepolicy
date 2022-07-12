@@ -41,6 +41,7 @@ userdebug_or_eng(`
 
 gen_require(`
     type urandom_device_t;
+    type tmpfs_t;
 ')
 
 logging_send_syslog_msg(kinematics_sc_t)
