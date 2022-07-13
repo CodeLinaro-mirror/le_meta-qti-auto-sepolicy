@@ -30,8 +30,13 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+/etc/c2c/cmd_stub.conf                       --     gen_context(system_u:object_r:edgehub_etc_conf_t,s0)
+/etc/c2c/cmd_svc.conf                        --     gen_context(system_u:object_r:edgehub_etc_conf_t,s0)
 /etc/c2c/dm.conf                             --     gen_context(system_u:object_r:edgehub_etc_conf_t,s0)
-/etc/c2c/dm_chipset.conf                     --     gen_context(system_u:object_r:edgehub_etc_conf_t,s0)
+/etc/c2c/sim_comm_info.json                  --     gen_context(system_u:object_r:edgehub_etc_conf_t,s0)
+/etc/c2c/tele_service.conf                   --     gen_context(system_u:object_r:edgehub_etc_conf_t,s0)
+
+/data/c2c(/.*)?                                     gen_context(system_u:object_r:edgehub_etc_conf_t,s0)
 /data/usr(/.*)?                                     gen_context(system_u:object_r:edgehub_data_certs_t,s0)
 /data/usr/local/certs(/.*)?                         gen_context(system_u:object_r:edgehub_data_certs_t,s0)
 
