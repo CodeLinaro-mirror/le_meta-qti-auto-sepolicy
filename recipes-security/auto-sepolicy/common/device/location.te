@@ -24,6 +24,10 @@
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+# Changes from Qualcomm Innovation Center are provided under the following license:
+# Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## Automotive specific sepolicy rules for location.
 
@@ -77,6 +81,7 @@ allow slim_daemon_t node_t:udp_socket node_bind;
 allow slim_daemon_t systemd_resolved_var_run_t:dir search;
 allow slim_daemon_t tmpfs_t:filesystem getattr;
 allow slim_daemon_t tmpfs_t:dir search;
+allow slim_daemon_t self:can_socket create;
 # IPC router
 allow slim_daemon_t self:qipcrtr_socket create_socket_perms;
 read_files_pattern(slim_daemon_t, systemd_resolved_var_run_t, systemd_resolved_var_run_t)
