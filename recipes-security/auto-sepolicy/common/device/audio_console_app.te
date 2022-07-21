@@ -67,7 +67,9 @@ type audio_console_app_exec_t;
 init_vendor_domain(audio_console_app_t, audio_console_app_exec_t)
 
 gen_require(`
-type data_t;
+    type data_t;
+    type etc_t;
+    type sdcard_t;
 ')
 
 #domain transition if started from adb shell
@@ -79,12 +81,16 @@ manage_user_data_files(audio_console_app_t, data_t)
 #Audio services
 telux_allow_audio(audio_console_app_t)
 
-gen_require(`
-        type etc_t;
-')
 #Allow setting secondary groups
 allow audio_console_app_t self:capability setgid;
 allow audio_console_app_t etc_t:file read_file_perms;
+
+# To store and play audio files on the sdcard's root directory
+files_search_mnt(audio_console_app_t)
+allow audio_console_app_t sdcard_t:dir { write search read create open getattr add_name remove_name rmdir };
+allow audio_console_app_t sdcard_t:file { write create open read getattr unlink };
+allow audio_console_app_t sdcard_t:filesystem getattr;
+allow audio_console_app_t sdcard_t:lnk_file read;
 
 #Allow audio permissions.
 telux_allow_audio_voice(audio_console_app_t)
