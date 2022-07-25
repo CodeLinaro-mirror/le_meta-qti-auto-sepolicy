@@ -45,7 +45,10 @@
 /etc/c2c/sota_session.json                   --     gen_context(system_u:object_r:edgehub_etc_conf_t,s0)
 /etc/c2c/tele_service.conf                   --     gen_context(system_u:object_r:edgehub_etc_conf_t,s0)
 
-/data/c2c(/.*)?                                     gen_context(system_u:object_r:edgehub_etc_conf_t,s0)
+/data/usr/cmd_registry.bin                   --     gen_context(system_u:object_r:edgehub_data_conf_t,s0)
+/data/usr/block_data_registry.bin            --     gen_context(system_u:object_r:edgehub_data_conf_t,s0)
+/data/usr/data_holder_registry.bin           --     gen_context(system_u:object_r:edgehub_data_conf_t,s0)
+
 /data/usr(/.*)?                                     gen_context(system_u:object_r:edgehub_data_certs_t,s0)
 /data/usr/local/certs(/.*)?                         gen_context(system_u:object_r:edgehub_data_certs_t,s0)
 
