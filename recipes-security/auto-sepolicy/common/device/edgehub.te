@@ -33,10 +33,12 @@
 policy_module(edgehub, 1.0)
 
 type edgehub_etc_conf_t;
+type edgehub_data_conf_t;
 type edgehub_data_certs_t;
 type edgehub_data_log_t;
 
 files_type(edgehub_etc_conf_t)
+files_type(edgehub_data_conf_t)
 files_type(edgehub_data_certs_t)
 files_type(edgehub_data_log_t)
 
@@ -69,6 +71,9 @@ allow mount_t edgehub_etc_conf_t:file { getattr mounton };
 init_vendor_domain(dm_manager_t, dm_manager_exec_t)
 allow dm_manager_t edgehub_data_log_t:file { open read append write create getattr };
 allow dm_manager_t edgehub_etc_conf_t:file { open read append write create getattr };
+allow dm_manager_t edgehub_data_conf_t:file { open read append write create getattr };
+allow dm_manager_t edgehub_data_certs_t:file { open read append write create getattr };
+allow dm_manager_t edgehub_data_certs_t:dir { open search read append write create getattr };
 allow dm_manager_t etc_t:file { read getattr open mounton write };
 allow dm_manager_t etc_t:lnk_file read;
 allow dm_manager_t init_var_run_t:dir search;
