@@ -98,6 +98,7 @@ allow softsku_t self:tcp_socket { create_socket_perms name_connect };
 corenet_tcp_connect_http_port(softsku_t);
 allow softsku_t socket_device_t:dir search;
 allow softsku_t init_var_run_t:dir search;
+dontaudit softsku_t init_var_run_t:file { getattr read open };
 allow softsku_t system_data_t:dir search;
 allow softsku_t softsku_data_conf_t:file { getattr read open };
 allow softsku_t softsku_data_conf_t:dir { open search read getattr};
