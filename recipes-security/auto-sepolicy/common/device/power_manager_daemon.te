@@ -72,6 +72,7 @@ gen_require(`
     type init_t;
     type sysdevice_sysfs_t;
     type power_unit_t;
+    type sysctl_t;
 ')
 
 type power_tmp_t;
@@ -116,6 +117,7 @@ allow power_manager_daemon_t power_tmp_t:sock_file unlink;
 allow power_manager_daemon_t self:process signal;
 dontaudit power_manager_daemon_t default_t:dir search;
 dontaudit power_manager_daemon_t self:capability sys_module;
+dontaudit power_manager_daemon_t sysctl_t:dir search;
 logging_send_syslog_msg(power_manager_daemon_t)
 
 ifdef(`init_systemd', `
