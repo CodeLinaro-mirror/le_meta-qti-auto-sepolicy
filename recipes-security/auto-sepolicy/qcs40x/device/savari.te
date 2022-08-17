@@ -135,6 +135,7 @@ init_vendor_domain(savari_gnsscand_t,savari_gnsscand_exec_t)
 init_vendor_domain(savari_smgrd_t,savari_smgrd_exec_t)
 init_vendor_domain(savari_sv2xsecd_t,savari_sv2xsecd_exec_t)
 init_vendor_domain(savari_savapp_t,savari_savapp_exec_t)
+init_vendor_domain(savari_tc_t,savari_tc_exec_t)
 
 #allow unconfined domain for start-stop-daemon
 init_script_domain(savari_initrc_t,savari_initrc_exec_t)
