@@ -73,6 +73,7 @@ gen_require(`
     type sysdevice_sysfs_t;
     type power_unit_t;
     type sysctl_t;
+    type sysctl_kernel_t;
 ')
 
 type power_tmp_t;
@@ -124,7 +125,7 @@ ifdef(`init_systemd', `
     gen_require(`
         type systemd_logind_var_run_t;
         type system_dbusd_var_run_t;
-        class service { start };
+        class service { start status stop };
     ')
     init_script_file(power_manager_daemon_unit_t)
     init_dbus_chat(power_manager_daemon_t)
@@ -139,5 +140,11 @@ allow power_manager_daemon_t self:fifo_file rw_fifo_file_perms;
 allow power_manager_daemon_t self:can_socket create;
 allow power_manager_daemon_t self:qipcrtr_socket { read write create getattr };
 allow power_manager_daemon_t self:unix_stream_socket { listen accept };
-allow power_manager_daemon_t power_unit_t:service start;
+allow power_manager_daemon_t power_unit_t:service {start status stop } ;
 allow power_manager_daemon_t gpiochip_device_t:chr_file read_file_perms;
+allow power_manager_daemon_t self:can_socket { bind ioctl read setopt };
+dontaudit power_manager_daemon_t init_t:file { getattr ioctl open read };
+dontaudit power_manager_daemon_t init_t:lnk_file read;
+dontaudit power_manager_daemon_t sysctl_kernel_t:dir search;
+dontaudit power_manager_daemon_t sysctl_kernel_t:file { open read ioctl getattr };
+dontaudit power_manager_daemon_t sysctl_t:dir search;
