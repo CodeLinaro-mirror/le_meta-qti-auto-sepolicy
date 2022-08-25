@@ -33,11 +33,18 @@ interface(`sensor_dev_socket',`
         type socket_device_t;
         type power_manager_daemon_t;
         type power_socket_t;
+	type sensor_util_t;
+	attribute sensor_util_rw_t;
+	type system_data_t;
+	type user_home_dir_t;
     ')
+allow $1 user_home_dir_t:dir search;
+allow $1 system_data_t:dir { search getattr read };
+allow $1 sensor_util_t:file { read getattr open };
 allow $1 sensor_hal_daemon_socket_t:dir { read getattr open };
 allow $1 socket_device_t:dir search;
-allow $1 sensor_hal_daemon_socket_t:dir { write search add_name };
-allow $1 sensor_hal_daemon_socket_t:sock_file { create setattr };
+allow $1 sensor_hal_daemon_socket_t:dir { write search add_name remove_name};
+allow $1 sensor_hal_daemon_socket_t:sock_file { create setattr unlink };
 allow $1 sensor_hal_daemon_socket_t:sock_file write;
 allow sensor_hal_daemon_t power_manager_daemon_t:unix_stream_socket connectto;
 allow sensor_hal_daemon_t power_socket_t:sock_file write;
