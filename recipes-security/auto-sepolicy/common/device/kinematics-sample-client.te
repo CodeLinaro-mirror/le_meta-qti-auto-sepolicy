@@ -75,6 +75,9 @@ gen_require(`
     type urandom_device_t;
     type unreserved_port_t;
     type etc_t;
+    type tmpfs_t;
+    type loc_socket_t;
+    type loc_hald_t;
 ')
 
 logging_send_syslog_msg(kinematics_sc_t)
@@ -100,3 +103,7 @@ allow kinematics_sc_t self:tcp_socket { create setopt connect read write };
 allow kinematics_sc_t unreserved_port_t:tcp_socket { name_connect };
 allow kinematics_sc_t self:process { signal setsched };
 allow kinematics_sc_t urandom_device_t:chr_file { read open };
+allow kinematics_sc_t loc_socket_t:dir { write search add_name remove_name };
+allow kinematics_sc_t loc_socket_t:sock_file { create write unlink setattr };
+allow kinematics_sc_t loc_hald_t:unix_dgram_socket sendto;
+allow loc_hald_t kinematics_sc_t:unix_dgram_socket sendto;

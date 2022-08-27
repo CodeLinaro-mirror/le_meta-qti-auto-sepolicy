@@ -75,8 +75,15 @@ gen_require(`
 	type default_t;
 	type mount_t;
 	type mount_copybind_t;
+	type sysctl_t;
+        type proc_t;
+        type sysctl_vm_t;
 ')
 
+dontaudit sensor_hal_daemon_t self:process signal;
+dontaudit sensor_hal_daemon_t sysctl_vm_t:dir search;
+dontaudit sensor_hal_daemon_t proc_t:file { read getattr open };
+dontaudit sensor_hal_daemon_t sysctl_t:dir search;
 allow mount_copybind_t sensor_util_rw_t:file { getattr relabelto setattr read open };
 allow mount_t sensor_util_rw_t:file { getattr mounton };
 allow sensor_util_rw_t fs_t:filesystem associate;
