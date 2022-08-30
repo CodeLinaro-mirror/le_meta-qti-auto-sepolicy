@@ -73,6 +73,7 @@ corenet_tcp_connect_http_port(engine_service_t);
 miscfiles_read_generic_certs(engine_service_t);
 allow engine_service_t qwesd_t:unix_stream_socket connectto;
 allow engine_service_t qwes_mink_socket_t:sock_file write;
+allow engine_service_t self:qipcrtr_socket { create getattr read setopt write };
 
 #### slim_daemon ####
 allow slim_daemon_t self:udp_socket create_socket_perms;
@@ -82,6 +83,8 @@ allow slim_daemon_t systemd_resolved_var_run_t:dir search;
 allow slim_daemon_t tmpfs_t:filesystem getattr;
 allow slim_daemon_t tmpfs_t:dir search;
 allow slim_daemon_t self:can_socket create;
+allow slim_daemon_t self:can_socket { bind ioctl read setopt };
+
 # IPC router
 allow slim_daemon_t self:qipcrtr_socket create_socket_perms;
 read_files_pattern(slim_daemon_t, systemd_resolved_var_run_t, systemd_resolved_var_run_t)
