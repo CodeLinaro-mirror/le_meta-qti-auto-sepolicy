@@ -107,3 +107,4 @@ device_search_sockets(chrony_sock_t)
 dontaudit chrony_sock_t self:capability dac_override;
 telux_allow_loc(chrony_sock_t)
 telux_allow_loc_data(chrony_sock_t)
+telux_allow_loc_config(chrony_sock_t)

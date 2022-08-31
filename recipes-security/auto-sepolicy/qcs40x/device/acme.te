@@ -115,3 +115,6 @@ dontaudit acme_t home_root_t:dir search;
 telux_allow_cv2x_config(acme_t)
 telux_allow_cv2x_flow_ops(acme_t)
 telux_allow_cv2x_info(acme_t)
+telux_allow_loc(acme_t)
+telux_allow_loc_data(acme_t)
+telux_allow_loc_config(acme_t)
