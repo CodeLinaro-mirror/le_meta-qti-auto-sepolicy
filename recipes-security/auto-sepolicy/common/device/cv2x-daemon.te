@@ -88,10 +88,15 @@ gen_require(`
     type init_var_run_t;
     type home_root_t;
     type user_home_dir_t;
+    type debugfs_t;
 ')
 
 # To notify systemd service about the health of the daemon
 allow cv2xd_t init_var_run_t:sock_file write_file_perms;
+
+# log to /sys/kernel/debug/bootkpi/kpi_values
+allow cv2xd_t debugfs_t:dir search;
+allow cv2xd_t debugfs_t:file { write open getattr append };
 
 dev_write_kmsg(cv2xd_t)
 corecmd_exec_shell(cv2xd_t)
