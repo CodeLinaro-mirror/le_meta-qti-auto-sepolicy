@@ -75,6 +75,7 @@ gen_require(`
     type qwes_mink_socket_t;
     type qwesd_t;
     type unreserved_port_t;
+    type urandom_device_t;
     type proc_t;
     type system_data_t;
     type mount_copybind_t;
@@ -102,6 +103,7 @@ allow softsku_t system_data_t:dir search;
 allow softsku_t softsku_data_conf_t:file { getattr read open };
 allow softsku_t softsku_data_conf_t:dir { open search read getattr};
 allow softsku_t unreserved_port_t:tcp_socket { name_bind name_connect };
+allow softsku_t urandom_device_t:chr_file { read getattr open };
 allow softsku_t proc_t:file { read getattr open };
 
 #============= mount_copybind_t ==============
