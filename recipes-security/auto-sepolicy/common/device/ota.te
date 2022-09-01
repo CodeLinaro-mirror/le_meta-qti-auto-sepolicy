@@ -37,8 +37,13 @@ gen_require(`
     role unconfined_r;
     type fs_t;
     type sysctl_vm_t;
+    type kernel_t;
+    type sdcard_t;
 ')
 domtrans_pattern(unconfined_t, recovery_exec_t, recovery_t)
 role unconfined_r types recovery_t;
 dontaudit recovery_t fs_t:filesystem getattr;
 dontaudit recovery_t sysctl_vm_t:dir search;
+dontaudit recovery_t kernel_t:system syslog_read;
+dontaudit recovery_t self:capability2 syslog;
+allow recovery_t sdcard_t:file map;
