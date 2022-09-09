@@ -56,6 +56,7 @@ allow chrony_sock_t self:capability { setgid };
 allow chrony_sock_t self:fifo_file { ioctl };
 allow chrony_sock_t self:udp_socket { create };
 allow chrony_sock_t self:socket create_socket_perms;
+dontaudit chrony_sock_t self:process signal;
 logging_send_syslog_msg(chrony_sock_t)
 dev_read_sysfs(chrony_sock_t)
 dev_read_urand(chrony_sock_t)
