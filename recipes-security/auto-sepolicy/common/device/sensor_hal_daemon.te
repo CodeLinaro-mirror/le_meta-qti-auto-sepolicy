@@ -24,6 +24,11 @@
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+# Changes from Qualcomm Innovation Center are provided under the following license:
+#
+# Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(sensor_hal_daemon, 1.0)
 
@@ -50,10 +55,12 @@ allow sensor_util_rw_t fs_t:filesystem associate;
 typeattribute sensor_util_t sensor_util_rw_t;
 
 dontaudit init_t sensor_util_t:file write;
+allow sensor_hal_daemon_t self:qipcrtr_socket create;
+allow mount_copybind_t sensor_util_t:file { write create };
 allow sensor_hal_daemon_t self:socket { write read getattr create setopt };
 allow sensor_hal_daemon_t sensor_hal_daemon_socket_t:file { write create unlink open getattr };
 allow sensor_hal_daemon_t default_t:dir search;
-allow setfiles_t sensor_util_t:file relabelto;
+allow setfiles_t sensor_util_t:file { relabelto getattr };
 allow setfiles_t sensor_util_rw_t:file relabelto;
 allow unconfined_t sensor_util_t:file { read write getattr open };
 
