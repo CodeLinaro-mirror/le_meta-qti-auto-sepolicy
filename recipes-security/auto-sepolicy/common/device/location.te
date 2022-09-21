@@ -42,6 +42,8 @@ gen_require(`
     type loc_socket_t;
     type node_t;
     type ecall_app_t;
+    type sensor_hal_daemon_conf_t;
+    type sensor_util_t;
 ')
 
 userdebug_or_eng(`
@@ -84,6 +86,10 @@ allow slim_daemon_t tmpfs_t:filesystem getattr;
 allow slim_daemon_t tmpfs_t:dir search;
 allow slim_daemon_t self:can_socket create;
 allow slim_daemon_t self:can_socket { bind ioctl read setopt };
+allow slim_daemon_t sensor_hal_daemon_conf_t:file { getattr open read };
+allow slim_daemon_t sensor_util_t:file { getattr open read };
+allow slim_daemon_t system_data_t:dir { getattr read };
+allow slim_daemon_t system_data_t:dir search;
 
 # IPC router
 allow slim_daemon_t self:qipcrtr_socket create_socket_perms;
