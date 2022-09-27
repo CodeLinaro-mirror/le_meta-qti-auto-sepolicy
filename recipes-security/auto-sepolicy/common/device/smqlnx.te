@@ -25,6 +25,40 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+#  Changes from Qualcomm Innovation Center are provided under the following license:
+#
+#  Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted (subject to the limitations in the
+# disclaimer below) provided that the following conditions are met:
+#
+#     * Redistributions of source code must retain the above copyright
+#       notice, this list of conditions and the following disclaimer.
+#
+#     * Redistributions in binary form must reproduce the above
+#       copyright notice, this list of conditions and the following
+#       disclaimer in the documentation and/or other materials provided
+#       with the distribution.
+#
+#     * Neither the name of Qualcomm Innovation Center, Inc. nor the names of its
+#       contributors may be used to endorse or promote products derived
+#       from this software without specific prior written permission.
+#
+# NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE
+# GRANTED BY THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT
+# HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+# IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+# ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+# GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+# IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+# IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
 policy_module(smqlnx, 1.0)
 
 type smqlnx_t;
@@ -54,6 +88,12 @@ gen_require(`
     type sdcard_t;
     type cert_t;
     type dns_port_t;
+    type loc_hald_t;
+    type ldconfig_tmp_t;
+    type softsku_data_conf_t;
+    type unreserved_port_t;
+    type mount_t;
+    type mount_copybind_t;
 ')
 
 fs_associate(smqlnx_data_t);
@@ -97,6 +137,8 @@ files_pid_file(smqlnx_var_run_t);
 files_pid_filetrans(smqlnx_t, smqlnx_var_run_t, { file dir })
 manage_files_pattern(smqlnx_t, var_run_t, smqlnx_var_run_t);
 allow smqlnx_t dns_port_t:tcp_socket name_connect;
+allow smqlnx_t softsku_data_conf_t:file { read open };
+allow smqlnx_t unreserved_port_t:tcp_socket { name_connect name_bind read };
 
 # allow smqlnx to read dev/daig file
 userdebug_or_eng(`rw_diag_dev(smqlnx_t)')
@@ -137,3 +179,19 @@ userdebug_or_eng('
 #============ Allow accessing configuration file and certificates ===
 read_c2c_conf_file(smqlnx_t);
 read_c2c_cert_file(smqlnx_t);
+
+#============= Access non audio hal access ==============
+non_audio_hal_access(smqlnx_t)
+telux_allow_loc(smqlnx_t);
+
+#============= Allow location services ==============
+allow loc_hald_t smqlnx_t:unix_dgram_socket sendto;
+
+#============= Allow ldconfig read file ==============
+allow smqlnx_t ldconfig_tmp_t:file read;
+
+#============= mount_copybind_t ==============
+allow mount_copybind_t smqlnx_data_t:dir { open read search mounton getattr };
+
+# Allow systemctl commands
+unconfined_allow_systemctl_cmds(smqlnx_exec_t)
