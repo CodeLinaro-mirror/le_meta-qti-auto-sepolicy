@@ -39,7 +39,11 @@ gen_require(`
     type sysctl_vm_t;
     type kernel_t;
     type sdcard_t;
+    type overlay_t;
+    type wifi_data_t;
 ')
+
+mls_file_upgrade(recovery_t);
 domtrans_pattern(unconfined_t, recovery_exec_t, recovery_t)
 role unconfined_r types recovery_t;
 dontaudit recovery_t fs_t:filesystem getattr;
@@ -47,3 +51,7 @@ dontaudit recovery_t sysctl_vm_t:dir search;
 dontaudit recovery_t kernel_t:system syslog_read;
 dontaudit recovery_t self:capability2 syslog;
 allow recovery_t sdcard_t:file map;
+# allow rule for etc/libnl/ access
+allow recovery_t wifi_data_t:file { setattr unlink };
+# allow rule for /overlay/ access
+allow recovery_t overlay_t:file { setattr unlink };
