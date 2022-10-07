@@ -1,0 +1,15 @@
+# Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear.
+
+policy_module(openavb_harness, 1.0)
+
+type openavb_harness_t;
+type openavb_harness_exec_t;
+
+init_vendor_domain(openavb_harness_t, openavb_harness_exec_t)
+
+type openavb_harness_tmp_t;
+files_tmp_file(openavb_harness_tmp_t);
+files_tmp_filetrans(openavb_harness_t, openavb_harness_tmp_t, sock_file)
+
+allow openavb_harness_t openavb_harness_tmp_t:sock_file { read getattr write };
