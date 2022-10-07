@@ -94,6 +94,8 @@ dontaudit telux_audio_server_t default_t:dir search;
 # Permission required for a QCSI application.
 allow telux_audio_server_t self:capability net_bind_service;
 allow telux_audio_server_t self:socket create_socket_perms;
+# Signalling for ssr whenever required
+allow telux_audio_server_t self:process signal;
 device_search_sockets(telux_audio_server_t);
 # Permissions required for topologies in debug tools
 userdebug_or_eng(`
