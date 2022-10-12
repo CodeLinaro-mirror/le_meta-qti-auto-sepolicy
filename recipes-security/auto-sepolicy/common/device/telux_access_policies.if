@@ -290,11 +290,11 @@ interface(`telux_allow_data_network_config',`
 # Parameters:
 #    1) Domain context.
 
-interface(`telux_allow_platform_listen_efs_events',`
+interface(`telux_allow_platform_listen_fs_events',`
     gen_require(`
-        type telux_access_platform_listen_efs_events_t;
+        type telux_access_platform_listen_fs_events_t;
     ')
-    allow $1 telux_access_platform_listen_efs_events_t:file { getattr };
+    allow $1 telux_access_platform_listen_fs_events_t:file { getattr };
 ')
 
 # Interface to get access to platform namespace APIs to trigger EFS operations.
@@ -303,11 +303,11 @@ interface(`telux_allow_platform_listen_efs_events',`
 # Parameters:
 #    1) Domain context.
 
-interface(`telux_allow_platform_efs_ops_ctrl',`
+interface(`telux_allow_platform_fs_ops_ctrl',`
     gen_require(`
-        type telux_access_platform_efs_ops_ctrl_t;
+        type telux_access_platform_fs_ops_ctrl_t;
     ')
-    allow $1 telux_access_platform_efs_ops_ctrl_t:file { getattr };
+    allow $1 telux_access_platform_fs_ops_ctrl_t:file { getattr };
 ')
 
 # Interface to get access to platform namespace APIs used for OTA management.

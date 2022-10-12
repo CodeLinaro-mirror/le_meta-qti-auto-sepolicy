@@ -55,6 +55,6 @@ allow filesystem_test_app_t self:capability setgid;
 telux_allow_platform(filesystem_test_app_t)
 
 # Obtain required permission in terms of API access control
-telux_allow_platform_listen_efs_events(filesystem_test_app_t)
-telux_allow_platform_efs_ops_ctrl(filesystem_test_app_t)
+telux_allow_platform_listen_fs_events(filesystem_test_app_t)
+telux_allow_platform_fs_ops_ctrl(filesystem_test_app_t)
 telux_allow_platform_ota_mgmt(filesystem_test_app_t)
