@@ -90,6 +90,10 @@ gen_require(`
     type dns_port_t;
     type loc_hald_t;
     type ldconfig_tmp_t;
+    type softsku_data_conf_t;
+    type unreserved_port_t;
+    type mount_t;
+    type mount_copybind_t;
 ')
 
 fs_associate(smqlnx_data_t);
@@ -133,6 +137,8 @@ files_pid_file(smqlnx_var_run_t);
 files_pid_filetrans(smqlnx_t, smqlnx_var_run_t, { file dir })
 manage_files_pattern(smqlnx_t, var_run_t, smqlnx_var_run_t);
 allow smqlnx_t dns_port_t:tcp_socket name_connect;
+allow smqlnx_t softsku_data_conf_t:file { read open };
+allow smqlnx_t unreserved_port_t:tcp_socket { name_connect name_bind read };
 
 # allow smqlnx to read dev/daig file
 userdebug_or_eng(`rw_diag_dev(smqlnx_t)')
@@ -183,3 +189,9 @@ allow loc_hald_t smqlnx_t:unix_dgram_socket sendto;
 
 #============= Allow ldconfig read file ==============
 allow smqlnx_t ldconfig_tmp_t:file read;
+
+#============= mount_copybind_t ==============
+allow mount_copybind_t smqlnx_data_t:dir { open read search mounton getattr };
+
+# Allow systemctl commands
+unconfined_allow_systemctl_cmds(smqlnx_exec_t)
