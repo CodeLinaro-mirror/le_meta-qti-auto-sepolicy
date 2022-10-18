@@ -32,7 +32,41 @@
 
 ########################################
 ## <summary>
-##     edgehub interface
+##    OTA interface
 ## </summary>
 #
 
+########################################
+## <summary>
+##              Transition to a new ota_domain. See init_daemon_domain
+## </summary>
+## <param name="domain">
+##              <summary>
+##              Type to be used as a daemon domain.
+##              </summary>
+## </param>
+## <param name="entry_point">
+##              <summary>
+##              Type of the program to be used as an entry point to this domain
+##              </summary>
+## </param>
+#
+interface(`init_ota_domain',`
+        gen_require(`
+        attribute ota_domain;
+        class service { start status stop reload };
+        type data_t;
+        ')
+
+        init_daemon_domain($1, $2)
+        unconfined_domain($1)
+        typeattribute $1 ota_domain;
+
+        allow $1 data_t:dir { create rw_dir_perms mounton setattr rmdir relabelfrom };
+
+        allow $1 $2:service { start status stop reload };
+
+        allow $1 self:capability2 { block_suspend };
+
+        allow unconfined_t $2:service { start status stop reload };
+')
