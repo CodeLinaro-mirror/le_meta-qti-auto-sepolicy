@@ -30,6 +30,15 @@
 #  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 #  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+
+##################################################################################################
+# Add context to the files used for controlling access to CV2X subsystem APIs in SDK.
+##################################################################################################
+/etc/telux/permissions/telux_cv2x_config          --  gen_context(system_u:object_r:telux_access_cv2x_config_t,s0)
+/etc/telux/permissions/telux_cv2x_ops             --  gen_context(system_u:object_r:telux_access_cv2x_ops_t,s0)
+/etc/telux/permissions/telux_cv2x_flow_ops        --  gen_context(system_u:object_r:telux_access_cv2x_flow_ops_t,s0)
+/etc/telux/permissions/telux_cv2x_info            --  gen_context(system_u:object_r:telux_access_cv2x_info_t,s0)
+
 ##################################################################################################
 # Add context to the files used for controlling access to Audio subsystem APIs in SDK.
 ##################################################################################################
