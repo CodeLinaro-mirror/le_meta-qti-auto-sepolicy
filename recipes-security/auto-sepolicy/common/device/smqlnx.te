@@ -131,7 +131,7 @@ read_files_pattern(smqlnx_t, systemd_resolved_var_run_t, systemd_resolved_var_ru
 allow smqlnx_t self:capability2 wake_alarm;
 allow smqlnx_t self:netlink_route_socket { write getattr read bind create nlmsg_read };
 allow smqlnx_t self:tcp_socket { create setopt connect write getopt getattr read shutdown };
-allow smqlnx_t self:udp_socket { read write create connect getattr };
+allow smqlnx_t self:udp_socket { read write create connect getattr setopt };
 corenet_tcp_connect_http_port(smqlnx_t);
 files_pid_file(smqlnx_var_run_t);
 files_pid_filetrans(smqlnx_t, smqlnx_var_run_t, { file dir })
