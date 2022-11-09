@@ -61,8 +61,6 @@
 
 /data/local(/.*)?                                   gen_context(system_u:object_r:ota_data_log_t,s0)
 
-/usr/bin/recovery                                   gen_context(system_u:object_r:ota_manager_exec_t,s0)
-
 /usr/bin/c2c_hub                             --     gen_context(system_u:object_r:c2c_hub_exec_t,s0)
 /usr/bin/dm                                  --     gen_context(system_u:object_r:dm_manager_exec_t,s0)
 /usr/bin/softsku_manager                     --     gen_context(system_u:object_r:softsku_manager_exec_t,s0)
