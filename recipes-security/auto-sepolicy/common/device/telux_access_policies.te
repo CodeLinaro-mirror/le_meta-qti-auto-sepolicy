@@ -131,6 +131,8 @@ type telux_access_tel_sms_ops_t;
 files_type(telux_access_tel_sms_ops_t);
 type telux_access_tel_sms_listen_t;
 files_type(telux_access_tel_sms_listen_t);
+type telux_access_tel_sms_storage_t;
+files_type(telux_access_tel_sms_storage_t);
 type telux_access_tel_sms_config_t;
 files_type(telux_access_tel_sms_config_t);
 type telux_access_tel_ims_settings_t;

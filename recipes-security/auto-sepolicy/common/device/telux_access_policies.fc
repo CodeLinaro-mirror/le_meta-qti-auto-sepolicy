@@ -97,6 +97,7 @@
 /etc/telux/permissions/telux_tel_sms_ops                   --  gen_context(system_u:object_r:telux_access_tel_sms_ops_t,s0)
 /etc/telux/permissions/telux_tel_sms_listen                --  gen_context(system_u:object_r:telux_access_tel_sms_listen_t,s0)
 /etc/telux/permissions/telux_tel_sms_config                --  gen_context(system_u:object_r:telux_access_tel_sms_config_t,s0)
+/etc/telux/permissions/telux_tel_sms_storage               --  gen_context(system_u:object_r:telux_access_tel_sms_storage_t,s0)
 /etc/telux/permissions/telux_tel_ims_settings              --  gen_context(system_u:object_r:telux_access_tel_ims_settings_t,s0)
 /etc/telux/permissions/telux_tel_srv_system_config         --  gen_context(system_u:object_r:telux_access_tel_srv_system_config_t,s0)
 /etc/telux/permissions/telux_tel_srv_system_read           --  gen_context(system_u:object_r:telux_access_tel_srv_system_read_t,s0)
