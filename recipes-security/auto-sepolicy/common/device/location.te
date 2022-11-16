@@ -94,6 +94,7 @@ allow slim_daemon_t sensor_hal_daemon_conf_t:file { getattr open read };
 allow slim_daemon_t sensor_util_t:file { getattr open read };
 allow slim_daemon_t system_data_t:dir { getattr read };
 allow slim_daemon_t system_data_t:dir search;
+dontaudit slim_daemon_t self:capability net_admin;
 
 # IPC router
 allow slim_daemon_t self:qipcrtr_socket create_socket_perms;
