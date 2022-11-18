@@ -137,7 +137,7 @@ ifdef(`init_systemd', `
 ')
 dontaudit power_manager_daemon_t init_t:dir search;
 allow power_manager_daemon_t self:fifo_file rw_fifo_file_perms;
-allow power_manager_daemon_t self:can_socket create;
+allow power_manager_daemon_t self:can_socket { create write };
 allow power_manager_daemon_t self:qipcrtr_socket { read write create getattr };
 allow power_manager_daemon_t self:unix_stream_socket { listen accept };
 allow power_manager_daemon_t power_unit_t:service {start status stop } ;
