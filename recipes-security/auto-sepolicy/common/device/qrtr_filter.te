@@ -1,0 +1,11 @@
+# Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(qrtr_filter, 1.0)
+
+type qrtr_filter_t;
+type qrtr_filter_exec_t;
+
+init_vendor_domain(qrtr_filter_t, qrtr_filter_exec_t)
+allow qrtr_filter_t self:qipcrtr_socket { create ioctl };
+allow qrtr_filter_t self:bpf { map_create map_read map_write prog_load prog_run };

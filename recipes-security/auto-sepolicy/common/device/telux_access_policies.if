@@ -94,9 +94,9 @@ interface(`telux_allow_audio_factory_test',`
 ')
 
 # Interface to get access for audio transcoding related APIs.
-# @brief: This interface allows the client to perform audio transcoder related operations by
-# providing necessary permissions for its operations. The operations supported are transcoding a
-# file from one supported format to another supported format.
+# @brief: This interface allows the client to perform audio transcoder related operations.
+# The operations supported are transcoding a file from one supported format to another supported
+# format.
 #
 # Parameters:
 #    1) Domain context.
@@ -133,11 +133,10 @@ interface(`telux_allow_config_modem_config',`
 ##################################################################################################
 
 # Interface to get access for data subsystem settings APIs.
-# @brief: This interface allows the client to change data subsystem settings by providing
-# necessary permissions for its operations. The operations supported are setting default routing,
-# allow/disallow PDN connection when device is in roaming area, configuring N79 5G/Wlan 5 GHz
-# interference priority, setting backhaul preference, and allow/disallow data call bring-up on
-# WWAN backhaul.
+# @brief: This interface allows the client to change data subsystem settings.
+# The operations supported are setting default routing, allow/disallow PDN connection when device
+# is in roaming area, configuring N79 5G/Wlan 5 GHz interference priority, setting backhaul
+# preference, and allow/disallow data call bring-up on WWAN backhaul.
 #
 # Parameters:
 #    1) Domain context.
@@ -150,10 +149,9 @@ interface(`telux_allow_data_setting',`
 ')
 
 # Interface to get access for data call operations APIs.
-# @brief: This interface allows the client to perform data call operation by providing providing
-# necessary permissions for its operations. The operations supported are Start/Stop data call, get
-# active data call list, data call status change indication, and data call traffic flow template
-# status change indication.
+# @brief: This interface allows the client to perform data call operation.
+# The operations supported are Start/Stop data call, get active data call list, data call status
+# change indication, and data call traffic flow template status change indication.
 #
 # Parameters:
 #    1) Domain context.
@@ -166,9 +164,8 @@ interface(`telux_allow_data_call_ops',`
 ')
 
 # Interface to get access for data call properties APIs.
-# @brief: This interface allows the client to alter data call properties by providing
-# necessary permissions for its operations. The operations supported are resetting data call
-# statistics.
+# @brief: This interface allows the client to alter data call properties.
+# The operations supported are resetting data call statistics.
 #
 # Parameters:
 #    1) Domain context.
@@ -181,9 +178,8 @@ interface(`telux_allow_data_call_props',`
 ')
 
 # Interface to get access for data profile properties APIs.
-# @brief: This interface allows the client to change/create/delete data profiles by providing
-# necessary permissions for its operations. The operations supported are create, modify and delete
-# data profiles.
+# @brief: This interface allows the client to change/create/delete data profiles.
+# The operations supported are create, modify and delete data profiles.
 #
 # Parameters:
 #    1) Domain context.
@@ -196,9 +192,8 @@ interface(`telux_allow_data_profile_ops',`
 ')
 
 # Interface to get access for data filter APIs.
-# @brief: This interface allows the client to restrict/add/remove data filter by providing
-# necessary permissions for its operations. The operations supported are restrict, add, and remove
-# data filters.
+# @brief: This interface allows the client to restrict/add/remove data filter.
+# The operations supported are restrict, add, and remove data filters.
 #
 # Parameters:
 #    1) Domain context.
@@ -211,9 +206,8 @@ interface(`telux_allow_data_filter_ops',`
 ')
 
 # Interface to get access for data networking APIs.
-# @brief: This interface allows the client to create/change/remove data networking configurations
-# by providing necessary permissions for its operations. The operations supported are change/create
-# configurations for Vlan, firewall, NAT, L2TP, and Socks.
+# @brief: This interface allows the client to create/change/remove data networking configurations.
+# The operations supported are change/create configurations for Vlan, firewall, NAT, L2TP, and Socks
 #
 # Parameters:
 #    1) Domain context.
@@ -878,4 +872,68 @@ interface(`telux_allow_sec_encryption_ops',`
         type telux_access_sec_encryption_ops_t;
     ')
     allow $1 telux_access_sec_encryption_ops_t:file { getattr };
+')
+
+##################################################################################################
+# Interfaces to control access for WLAN related APIs in SDK
+##################################################################################################
+
+# Interface to get access for WLAN device settings operation APIs.
+# @brief: This interface allows the client to change wlan subsystem settings.
+# Examples of operations supported are enabling wlan, setting, wlan mode, and report wlan state
+# change.
+# Parameters:
+#    1) Domain context.
+
+interface(`telux_allow_wlan_device_config',`
+    gen_require(`
+        type telux_access_wlan_device_config_t;
+    ')
+    allow $1 telux_access_wlan_device_config_t:file {getattr};
+')
+
+# Interface to get access for WLAN access point operations APIs.
+# @brief: This interface allows the client to perform wlan access point operation.
+# The operations supported are configuration of access point parameters such as type, access, ssid,
+# passphrase, restarting hostapd daemon, etc.
+#
+# Parameters:
+#    1) Domain context.
+
+interface(`telux_allow_wlan_ap_config',`
+    gen_require(`
+        type telux_access_wlan_ap_config_t;
+    ')
+    allow $1 telux_access_wlan_ap_config_t:file {getattr};
+')
+
+# Interface to get access for WLAN station mode operations APIs.
+# @brief: This interface allows the client to perform wlan station mode operation.
+# The operations supported are configuration of station mode parameters such as static/dynamic ip,
+# details of static ip address if selected, restarting wpa_supplicant daemon, etc.
+#
+# Parameters:
+#    1) Domain context.
+
+interface(`telux_allow_wlan_sta_config',`
+    gen_require(`
+        type telux_access_wlan_sta_config_t;
+    ')
+    allow $1 telux_access_wlan_sta_config_t:file {getattr};
+')
+
+# Interface to execute operations on devices connected to WLAN access points.
+# @brief: This interface allows the client to perform operation on devices connected to wlan
+# access points station mode operation.
+# The operations supported are configuration of request list of devices connected to access points
+# and their information, request statistics of each device connected to access points, etc.
+#
+# Parameters:
+#    1) Domain context.
+
+interface(`telux_allow_wlan_ap_devices',`
+    gen_require(`
+        type telux_access_wlan_ap_devices_t;
+    ')
+    allow $1 telux_access_wlan_ap_devices_t:file {getattr};
 ')

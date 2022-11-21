@@ -1,0 +1,165 @@
+# Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted (subject to the limitations in the
+# disclaimer below) provided that the following conditions are met:
+#
+#     * Redistributions of source code must retain the above copyright
+#       notice, this list of conditions and the following disclaimer.
+#
+#     * Redistributions in binary form must reproduce the above
+#       copyright notice, this list of conditions and the following
+#       disclaimer in the documentation and/or other materials provided
+#       with the distribution.
+#
+#     * Neither the name of Qualcomm Innovation Center, Inc. nor the names of its
+#       contributors may be used to endorse or promote products derived
+#       from this software without specific prior written permission.
+#
+# NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE
+# GRANTED BY THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT
+# HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+# IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+# ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+# GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+# IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+# IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+policy_module(edgehub, 1.0)
+
+type edgehub_etc_conf_t;
+type edgehub_data_conf_t;
+type edgehub_data_certs_t;
+type edgehub_data_log_t;
+
+files_type(edgehub_etc_conf_t)
+files_type(edgehub_data_conf_t)
+files_type(edgehub_data_certs_t)
+files_type(edgehub_data_log_t)
+
+type c2c_hub_exec_t;
+type c2c_hub_t;
+files_type(c2c_hub_exec_t)
+
+type softsku_manager_exec_t;
+type softsku_manager_t;
+files_type(softsku_manager_exec_t)
+
+type smq_manager_exec_t;
+type smq_manager_t;
+files_type(smq_manager_exec_t)
+
+type dm_manager_exec_t;
+type dm_manager_t;
+files_type(dm_manager_exec_t)
+
+gen_require(`
+    type cert_t;
+    type proc_t;
+    type socket_device_t;
+    type etc_t;
+    type init_var_run_t;
+    type net_conf_t;
+    type systemd_resolved_var_run_t;
+    type unreserved_port_t;
+    type urandom_device_t;
+    type system_data_t;
+    type mount_copybind_t;
+    type mount_t;
+    class service { start status stop reload };
+')
+
+#============= mount_copybind_t ==============
+allow mount_copybind_t edgehub_etc_conf_t:dir { open read search mounton getattr };
+allow mount_copybind_t edgehub_etc_conf_t:file { setattr read create write relabelfrom getattr relabelto open };
+
+allow mount_t edgehub_etc_conf_t:file { getattr mounton };
+
+# c2c_hub policy
+init_vendor_domain(c2c_hub_t, c2c_hub_exec_t)
+allow c2c_hub_t edgehub_data_log_t:file { open read append write create getattr };
+allow c2c_hub_t edgehub_etc_conf_t:file { open read append write create getattr };
+allow c2c_hub_t edgehub_data_certs_t:file { open read append write create getattr };
+allow c2c_hub_t edgehub_data_certs_t:dir { open search read append write create getattr };
+allow c2c_hub_t cert_t:dir search;
+allow c2c_hub_t cert_t:file { read getattr open };
+allow c2c_hub_t etc_t:file { read write getattr open mounton };
+allow c2c_hub_t etc_t:lnk_file read;
+allow c2c_hub_t init_var_run_t:dir search;
+allow c2c_hub_t net_conf_t:file { read getattr open };
+allow c2c_hub_t proc_t:file { read getattr open };
+allow c2c_hub_t self:netlink_route_socket { read write bind create getattr nlmsg_read };
+allow c2c_hub_t self:tcp_socket { write connect shutdown read getopt create };
+allow c2c_hub_t self:udp_socket { read write create connect getattr setopt };
+allow c2c_hub_t socket_device_t:dir search;
+allow c2c_hub_t systemd_resolved_var_run_t:dir search;
+allow c2c_hub_t systemd_resolved_var_run_t:file { read getattr open };
+allow c2c_hub_t unreserved_port_t:tcp_socket name_connect;
+allow c2c_hub_t urandom_device_t:chr_file { read getattr open create};
+corenet_tcp_connect_http_port(c2c_hub_t);
+allow c2c_hub_t edgehub_etc_conf_t:dir { open search read getattr};
+
+# softsku_manager policy
+init_vendor_domain(softsku_manager_t, softsku_manager_exec_t)
+allow softsku_manager_t edgehub_data_log_t:file { open read append write create getattr };
+allow softsku_manager_t edgehub_etc_conf_t:file { open read append write create getattr };
+allow softsku_manager_t etc_t:file { read write mounton getattr open };
+allow softsku_manager_t etc_t:lnk_file read;
+allow softsku_manager_t init_var_run_t:dir search;
+allow softsku_manager_t net_conf_t:file { read getattr open };
+allow softsku_manager_t proc_t:file { read getattr open };
+allow softsku_manager_t self:netlink_route_socket { read write bind create getattr nlmsg_read };
+allow softsku_manager_t self:tcp_socket { write connect shutdown read getopt create };
+allow softsku_manager_t self:udp_socket { read write create connect getattr };
+allow softsku_manager_t socket_device_t:dir search;
+allow softsku_manager_t systemd_resolved_var_run_t:dir search;
+allow softsku_manager_t systemd_resolved_var_run_t:file { read getattr open };
+allow softsku_manager_t unreserved_port_t:tcp_socket name_connect;
+allow softsku_manager_t urandom_device_t:chr_file { read getattr open create};
+allow softsku_manager_t edgehub_etc_conf_t:dir { open search read getattr};
+
+# dm policy
+init_vendor_domain(dm_manager_t, dm_manager_exec_t)
+allow dm_manager_t edgehub_data_log_t:file { open read append write create getattr };
+allow dm_manager_t edgehub_etc_conf_t:file { open read append write create getattr };
+allow dm_manager_t edgehub_data_conf_t:file { open read append write create getattr };
+allow dm_manager_t edgehub_data_certs_t:file { open read append write create getattr };
+allow dm_manager_t edgehub_data_certs_t:dir { open search read append write create getattr };
+allow dm_manager_t etc_t:file { read mounton write getattr open };
+allow dm_manager_t etc_t:lnk_file read;
+allow dm_manager_t init_var_run_t:dir search;
+allow dm_manager_t net_conf_t:file { read getattr open };
+allow dm_manager_t proc_t:file { read getattr open };
+allow dm_manager_t self:netlink_route_socket { read write bind create getattr nlmsg_read };
+allow dm_manager_t self:tcp_socket { write connect shutdown getopt read bind create };
+allow dm_manager_t self:udp_socket { read write create connect getattr };
+allow dm_manager_t socket_device_t:dir search;
+allow dm_manager_t systemd_resolved_var_run_t:dir search;
+allow dm_manager_t systemd_resolved_var_run_t:file { read getattr open };
+allow dm_manager_t unreserved_port_t:tcp_socket name_connect;
+allow dm_manager_t urandom_device_t:chr_file { read getattr open create};
+allow dm_manager_t edgehub_etc_conf_t:dir { open search read getattr};
+
+#smq_manager policy
+init_vendor_domain(smq_manager_t, smq_manager_exec_t)
+allow smq_manager_t edgehub_data_log_t:file { open read append write create getattr };
+allow smq_manager_t edgehub_etc_conf_t:file { open read append write create getattr };
+allow smq_manager_t etc_t:file { read write mounton getattr open };
+allow smq_manager_t etc_t:lnk_file read;
+allow smq_manager_t init_var_run_t:dir search;
+allow smq_manager_t net_conf_t:file { read getattr open };
+allow smq_manager_t proc_t:file { read getattr open };
+allow smq_manager_t self:netlink_route_socket { read write bind create getattr nlmsg_read };
+allow smq_manager_t self:tcp_socket { write connect shutdown read getopt create };
+allow smq_manager_t self:udp_socket { read write create connect getattr };
+allow smq_manager_t socket_device_t:dir search;
+allow smq_manager_t systemd_resolved_var_run_t:dir search;
+allow smq_manager_t systemd_resolved_var_run_t:file { read getattr open };
+allow smq_manager_t unreserved_port_t:tcp_socket name_connect;
+allow smq_manager_t urandom_device_t:chr_file { read getattr open create};
+allow smq_manager_t edgehub_etc_conf_t:dir { open search read getattr};
