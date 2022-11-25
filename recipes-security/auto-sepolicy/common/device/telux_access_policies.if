@@ -525,6 +525,17 @@ interface(`telux_allow_tel_sms_config',`
     allow $1 telux_access_tel_sms_config_t:file { getattr };
 ')
 
+# Interface to get access for SMS storage related APIs.
+# @brief: This interface allows the client to perform SMS storage related operations like
+# list SMS messages, read SMS message and delete SMS message/s from storage.
+#    1) Domain context.
+interface(`telux_allow_tel_sms_storage',`
+    gen_require(`
+        type telux_access_tel_sms_storage_t;
+    ')
+    allow $1 telux_access_tel_sms_storage_t:file { getattr };
+')
+
 # Interface to get access to APIs to set the IMS service configurations
 # @brief: This interface allows the client to set the IMS service configurations like enable/disable
 # IMS Service, enable/disable Voice over IMS, etc.
