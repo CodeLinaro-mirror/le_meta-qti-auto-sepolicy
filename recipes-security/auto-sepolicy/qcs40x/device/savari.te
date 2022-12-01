@@ -80,6 +80,7 @@ type savari_smgrd_t;
 type savari_sv2xsecd_t;
 type savari_tc_t;
 type savari_initrc_t;
+type savari_aerolink_log_t;
 
 type savari_data_t;
 
@@ -114,6 +115,7 @@ files_type(savari_sv2xsecd_lock_t)
 files_type(savari_pki_lock_t)
 files_type(savari_mgmt_lock_t)
 files_type(savari_tc_lock_t)
+files_type(savari_aerolink_log_t);
 
 files_type(savari_cv2xd_socket_t)
 files_type(savari_gnsscand_socket_t)
@@ -289,6 +291,7 @@ filetrans_pattern(savari_sv2xsecd_t, tmp_t, savari_sv2xsecd_lock_t, file)
 filetrans_pattern(savari_sv2xsecd_t, tmp_t, savari_sv2xsecd_socket_t, sock_file)
 allow savari_sv2xsecd_t savari_sv2xsecd_lock_t:file manage_file_perms;
 allow savari_sv2xsecd_t savari_sv2xsecd_socket_t:sock_file manage_sock_file_perms;
+allow savari_sv2xsecd_t savari_aerolink_log_t:file { open append write };
 manage_user_data_files(savari_sv2xsecd_t,savari_data_t)
 corecmd_exec_shell(savari_sv2xsecd_t)
 allow savari_sv2xsecd_t proc_t:file read_file_perms;
@@ -336,3 +339,8 @@ allow systemd_tmpfiles_t savari_smgrd_socket_t:sock_file getattr_sock_file_perms
 allow systemd_tmpfiles_t savari_sv2xsecd_socket_t:sock_file getattr_sock_file_perms;
 allow systemd_tmpfiles_t savari_net_socket_t:sock_file getattr_sock_file_perms;
 allow systemd_tmpfiles_t tmp_t:sock_file getattr_sock_file_perms;
+
+# aerolink logs
+files_tmp_file(savari_aerolink_log_t)
+files_tmp_filetrans(aerolink_t, savari_aerolink_log_t, { file lnk_file dir })
+manage_files_pattern(aerolink_t, savari_aerolink_log_t, savari_aerolink_log_t)
