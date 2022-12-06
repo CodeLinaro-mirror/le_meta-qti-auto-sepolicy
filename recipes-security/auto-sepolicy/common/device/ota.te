@@ -41,6 +41,7 @@ gen_require(`
     type sdcard_t;
     type overlay_t;
     type wifi_data_t;
+    type sensor_util_t;
 ')
 
 mls_file_upgrade(recovery_t);
@@ -55,3 +56,5 @@ allow recovery_t sdcard_t:file map;
 allow recovery_t wifi_data_t:file { setattr unlink };
 # allow rule for /overlay/ access
 allow recovery_t overlay_t:file { setattr unlink };
+allow recovery_t sensor_util_t:dir { relabelto setattr };
+allow recovery_t sensor_util_t:file { relabelto setattr };

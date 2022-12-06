@@ -44,6 +44,10 @@ gen_require(`
     type ecall_app_t;
     type sensor_hal_daemon_conf_t;
     type sensor_util_t;
+    type qmux_radio_sock_t;
+    type rilmuxd_t;
+    type telsdk_etc_t;
+    type telsdk_data_t;
 ')
 
 userdebug_or_eng(`
@@ -90,6 +94,7 @@ allow slim_daemon_t sensor_hal_daemon_conf_t:file { getattr open read };
 allow slim_daemon_t sensor_util_t:file { getattr open read };
 allow slim_daemon_t system_data_t:dir { getattr read };
 allow slim_daemon_t system_data_t:dir search;
+dontaudit slim_daemon_t self:capability net_admin;
 
 # IPC router
 allow slim_daemon_t self:qipcrtr_socket create_socket_perms;
@@ -98,3 +103,30 @@ dev_read_urand(slim_daemon_t);
 gptp_rw_gptp_sock_file(slim_daemon_t);
 gptp_rw_daemon_cl_device(slim_daemon_t);
 gptp_rw_tmpfs_files(slim_daemon_t);
+
+#### add telux related services for loc_t and xtra-daemon####
+sysnet_manage_config(loc_t)
+sysnet_dns_name_resolve(loc_t)
+sysnet_manage_config(loc_t)
+
+corenet_tcp_bind_generic_node(loc_t)
+corenet_udp_bind_generic_node(loc_t)
+corenet_tcp_connect_http_port(loc_t)
+corenet_tcp_bind_generic_node(xtra_daemon_t)
+corenet_udp_bind_generic_node(xtra_daemon_t)
+
+read_files_pattern(loc_t, default_t, default_t);
+read_files_pattern(loc_t, systemd_resolved_var_run_t, systemd_resolved_var_run_t)
+read_files_pattern(loc_t, cert_t, cert_t)
+
+# read build.prop
+leprop_read_props(loc_t)
+
+stream_connect_pattern(xtra_daemon_t,qmux_radio_sock_t,qmux_radio_sock_t,rilmuxd_t);
+stream_connect_pattern(loc_t,qmux_radio_sock_t,qmux_radio_sock_t,rilmuxd_t);
+allow loc_t cert_t:lnk_file read_lnk_file_perms;
+
+telux_allow_data(loc_t)
+telux_allow_data(xtra_daemon_t)
+telux_allow_tel(loc_t)
+telux_allow_tel(xtra_daemon_t)
