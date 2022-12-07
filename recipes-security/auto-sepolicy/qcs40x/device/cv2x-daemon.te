@@ -95,3 +95,4 @@ allow init_t cv2xd_init_t:file execute;
 files_type(cv2xd_etc_t)
 
 telux_allow_cv2x_ops(cv2xd_t)
+telux_allow_data_call_ops(cv2xd_t)
