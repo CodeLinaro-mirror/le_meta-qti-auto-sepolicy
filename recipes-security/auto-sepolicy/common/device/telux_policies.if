@@ -134,6 +134,10 @@ interface(`access_telux_files',`
     allow $1 telsdk_etc_t:file read_file_perms;
     read_telux_log_file($1)
     write_telux_log_file($1)
+    # To allow libraries to log to diag
+    userdebug_or_eng(`
+        rw_diag_dev($1)
+    ')
     dev_read_sysfs($1) # Requried for diag logging.
 
     # To allow libraries to log to logcat
