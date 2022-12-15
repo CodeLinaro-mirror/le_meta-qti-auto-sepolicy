@@ -460,3 +460,19 @@ interface(`telux_allow_wlan',`
     read_files_pattern($1, etc_t, etc_t);
     telux_allow_group($1)
 ')
+
+# Cv2x client interface
+# @brief: The Cv2x client interface allow the domain to contain a cv2x radio
+# client by providing necessary permissions for its operation.
+#
+# Parameters:
+#   1) Domain context
+
+interface(`telux_allow_v2x',`
+    gen_require(`
+        type netmgrd_socket_device_t;
+    ')
+    telux_allow_qmi_client($1)
+    access_telux_files($1)
+    device_rw_socket_files($1, netmgrd_socket_device_t)
+')

@@ -33,6 +33,19 @@
 policy_module(telux_access_policies, 1.0)
 
 ##################################################################################################
+# Type identifiers for the files used to control access for CV2X APIs in SDK
+##################################################################################################
+type telux_access_cv2x_config_t;
+files_type(telux_access_cv2x_config_t);
+type telux_access_cv2x_ops_t;
+files_type(telux_access_cv2x_ops_t);
+type telux_access_cv2x_info_t;
+files_type(telux_access_cv2x_info_t);
+type telux_access_cv2x_flow_ops_t;
+files_type(telux_access_cv2x_flow_ops_t);
+
+
+##################################################################################################
 # Type identifiers for the files used to control access for Audio APIs in SDK
 ##################################################################################################
 type telux_access_audio_voice_t;
@@ -131,6 +144,8 @@ type telux_access_tel_sms_ops_t;
 files_type(telux_access_tel_sms_ops_t);
 type telux_access_tel_sms_listen_t;
 files_type(telux_access_tel_sms_listen_t);
+type telux_access_tel_sms_storage_t;
+files_type(telux_access_tel_sms_storage_t);
 type telux_access_tel_sms_config_t;
 files_type(telux_access_tel_sms_config_t);
 type telux_access_tel_ims_settings_t;

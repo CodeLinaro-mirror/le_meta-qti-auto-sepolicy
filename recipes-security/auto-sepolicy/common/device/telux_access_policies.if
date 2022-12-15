@@ -33,6 +33,66 @@
 ## <summary> telux_access_policies </summary>
 
 ##################################################################################################
+# Interfaces to control access for CV2X related APIs in SDK
+##################################################################################################
+
+# Interface to get access for cv2x configuration related APIs.
+# @brief: This interface allows the client to update/get the v2x.xml file, set the cv2x IP interface's
+# global IP adresses, unicast routing infomation, transmit power, change L2 address, update malicious
+# or trusted UEs' source IDs, etc.
+#
+# Parameters:
+#    1) Domain context.
+
+interface(`telux_allow_cv2x_config',`
+    gen_require(`
+        type telux_access_cv2x_config_t;
+    ')
+    allow $1 telux_access_cv2x_config_t:file {getattr};
+')
+
+# Interface to get access for cv2x status information
+# @brief: This interface allows the client to get cv2x status, register/deregister a listener callback
+# for cv2x transmit status, enable or disable cv2x received messages' meta data, etc.
+#
+# Parameters:
+#    1) Domain context.
+
+interface(`telux_allow_cv2x_info',`
+    gen_require(`
+        type telux_access_cv2x_info_t;
+    ')
+    allow $1 telux_access_cv2x_info_t:file {getattr};
+')
+
+# Interface to get access for activating/deactivating v2x mode
+# @brief: This interface allows the client to activate/deactivate cv2x mode.
+#
+# Parameters:
+#    1) Domain context.
+
+interface(`telux_allow_cv2x_ops',`
+    gen_require(`
+        type telux_access_cv2x_ops_t;
+    ')
+    allow $1 telux_access_cv2x_ops_t:file {getattr};
+')
+
+# Interface to get access for cv2x flow related functionalities.
+# @brief: This interface allows the client to create, destroy sps/event flows and change
+# flow reservation parameters, etc.
+#
+# Parameters:
+#    1) Domain context.
+
+interface(`telux_allow_cv2x_flow_ops',`
+    gen_require(`
+        type telux_access_cv2x_flow_ops_t;
+    ')
+    allow $1 telux_access_cv2x_flow_ops_t:file {getattr};
+')
+
+##################################################################################################
 # Interfaces to control access for Audio related APIs in SDK
 ##################################################################################################
 
@@ -523,6 +583,17 @@ interface(`telux_allow_tel_sms_config',`
         type telux_access_tel_sms_config_t;
     ')
     allow $1 telux_access_tel_sms_config_t:file { getattr };
+')
+
+# Interface to get access for SMS storage related APIs.
+# @brief: This interface allows the client to perform SMS storage related operations like
+# list SMS messages, read SMS message and delete SMS message/s from storage.
+#    1) Domain context.
+interface(`telux_allow_tel_sms_storage',`
+    gen_require(`
+        type telux_access_tel_sms_storage_t;
+    ')
+    allow $1 telux_access_tel_sms_storage_t:file { getattr };
 ')
 
 # Interface to get access to APIs to set the IMS service configurations
