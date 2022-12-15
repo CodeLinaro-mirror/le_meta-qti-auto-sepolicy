@@ -70,6 +70,8 @@ gen_require(`
     type audio_hal_etc_t;
     type data_t;
     type default_t;
+    type system_dbusd_t;
+    type system_dbusd_var_run_t;
 ')
 
 init_vendor_domain(telux_audio_server_t, telux_audio_server_exec_t)
@@ -111,3 +113,8 @@ telux_allow_group(telux_audio_server_t)
 
 # Allow logging to syslog
 logging_send_syslog_msg(telux_audio_server_t);
+
+# Dbus communication permissions
+allow telux_audio_server_t { system_dbusd_var_run_t var_run_t }:dir search_dir_perms;
+allow telux_audio_server_t system_dbusd_var_run_t:sock_file write_sock_file_perms;
+allow telux_audio_server_t system_dbusd_t:unix_stream_socket connectto;
