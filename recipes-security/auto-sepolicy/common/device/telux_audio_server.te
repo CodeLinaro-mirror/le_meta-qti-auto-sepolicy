@@ -68,8 +68,11 @@ gen_require(`
     type audio_device_t;
     type audio_hal_etc_acdb_t;
     type audio_hal_etc_t;
+    class dbus send_msg;
+    type agm_server_t;
     type data_t;
     type default_t;
+    type systemd_logind_var_run_t;
     type system_dbusd_t;
     type system_dbusd_var_run_t;
 ')
@@ -115,6 +118,17 @@ telux_allow_group(telux_audio_server_t)
 logging_send_syslog_msg(telux_audio_server_t);
 
 # Dbus communication permissions
+#Manage Dbus sockets
+ifdef(`init_systemd',`
+    dbus_system_bus_client(telux_audio_server_t)
+    init_dbus_chat(telux_audio_server_t)
+    allow telux_audio_server_t self:dbus send_msg;
+    rw_sock_files_pattern(telux_audio_server_t, systemd_logind_var_run_t, systemd_logind_var_run_t)
+')
 allow telux_audio_server_t { system_dbusd_var_run_t var_run_t }:dir search_dir_perms;
 allow telux_audio_server_t system_dbusd_var_run_t:sock_file write_sock_file_perms;
 allow telux_audio_server_t system_dbusd_t:unix_stream_socket connectto;
+allow telux_audio_server_t agm_server_t:dbus send_msg;
+allow agm_server_t telux_audio_server_t:dbus send_msg;
+allow telux_audio_server_t var_run_t:dir search_dir_perms;
+allow telux_audio_server_t var_run_t:lnk_file read_lnk_file_perms;
