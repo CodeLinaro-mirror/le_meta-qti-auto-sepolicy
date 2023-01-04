@@ -27,7 +27,7 @@
 
 #  Changes from Qualcomm Innovation Center are provided under the following license:
 #
-#  Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+#  Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -412,7 +412,7 @@ interface(`telux_allow_platform',`
 
 ')
 
-# crypto client interface
+# Crypto client interface
 # @brief: The crypto client interface allows the domain to contain a telux crypto
 # client by providing necessary permissions for its operation.
 #
@@ -420,9 +420,22 @@ interface(`telux_allow_platform',`
 #   1) Domain context
 
 interface(`telux_allow_crypto',`
-
-    # For read/write tel.log
     access_telux_files($1)
+    telux_allow_group($1)
+    read_files_pattern($1, etc_t, etc_t);
+')
+
+# Crypto acclerator client interface
+# @brief: The crypto client interface allows the domain to contain a telux crypto
+# accelerator client by providing necessary permissions for its operation.
+#
+# Parameters:
+#   1) Domain context
+
+interface(`telux_allow_crypto_accel',`
+    access_telux_files($1)
+    telux_allow_group($1)
+    read_files_pattern($1, etc_t, etc_t);
 ')
 
 # WLAN client interfaces
