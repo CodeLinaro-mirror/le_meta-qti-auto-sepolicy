@@ -72,6 +72,7 @@ gen_require(`
     type etc_t;
     type systemd_tmpfiles_t;
     type user_home_dir_t;
+    type home_root_t;
 ')
 
 userdebug_or_eng(`
@@ -85,7 +86,6 @@ read_files_pattern(kinematics_server_t, etc_t, etc_t)
 corenet_tcp_bind_all_unreserved_ports(kinematics_server_t)
 corenet_tcp_bind_generic_node(kinematics_server_t)
 corecmd_exec_shell(kinematics_server_t)
-corecmd_exec_shell(kinematics_server_t)
 
 systemd_tmpfilesd_managed(kinematics_var_run_t, file)
 allow systemd_tmpfiles_t kinematics_var_run_t:file { getattr open write };
@@ -98,9 +98,16 @@ write_sock_files_pattern(kinematics_server_t, init_var_run_t,init_var_run_t);
 kernel_read_system_state(kinematics_server_t);
 dev_read_urand(kinematics_server_t);
 
-allow kinematics_server_t user_home_dir_t:dir { search };
+allow kinematics_server_t home_root_t:dir { search };
+allow kinematics_server_t user_home_dir_t:dir { search getattr };
 allow kinematics_server_t user_home_dir_t:file { read open };
 allow kinematics_server_t self:process { setsched getsched };
 allow kinematics_server_t self:tcp_socket { read create connect write getopt setopt accept bind listen shutdown };
 allow kinematics_server_t self:capability { sys_nice setgid net_admin };
 allow kinematics_server_t self:socket { read write setopt create getattr };
+allow kinematics_server_t self:process { signal };
+
+location_client_generic_rules(kinematics_server_t);
+location_access_loc_bootkpi(kinematics_server_t);
+device_search_sockets(kinematics_server_t);
+dev_write_kmsg(kinematics_server_t);
