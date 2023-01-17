@@ -91,4 +91,5 @@ allow kinematics_sc_t self:tcp_socket { create setopt connect read write };
 allow kinematics_sc_t self:process signal;
 allow kinematics_sc_t urandom_device_t:chr_file { read open };
 
-telux_allow_loc(kinematics_sc_t)
+# access /etc/nsswitch.conf, /etc/group for getgrnam
+read_files_pattern(kinematics_sc_t, etc_t, etc_t);

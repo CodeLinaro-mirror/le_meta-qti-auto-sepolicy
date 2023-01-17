@@ -1,4 +1,4 @@
-#  Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+#  Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -213,6 +213,12 @@ type telux_access_sec_sign_ops_t;
 files_type(telux_access_sec_sign_ops_t);
 type telux_access_sec_encryption_ops_t;
 files_type(telux_access_sec_encryption_ops_t);
+
+##################################################################################################
+# Type identifiers for the files used to control access for Crypto accelerator related APIs in SDK
+##################################################################################################
+type telux_access_sec_accelerator_mgr_t;
+files_type(telux_access_sec_accelerator_mgr_t);
 
 ##################################################################################################
 # Type identifiers for the files used to control access for WLAN APIs in SDK
