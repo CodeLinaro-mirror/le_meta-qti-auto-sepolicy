@@ -137,7 +137,7 @@ allow qwesd_t self:tcp_socket create_socket_perms;
 allow qwesd_t self:socket { create rw_socket_perms };
 #============= qwes_mink_socket_t ==============
 allow qwes_mink_socket_t device_t:filesystem associate;
-allow qwesd_t qwes_mink_socket_t:dir { write add_name };
+allow qwesd_t qwes_mink_socket_t:dir { write add_name remove_name};
 
 # allow qwesd for self capability.
 allow qwesd_t self:capability { net_raw chown net_bind_service };
@@ -214,6 +214,7 @@ mls_file_write_all_levels(qwes_ipc_setup_t)
 allow qwes_ipc_setup_t qwes_mink_socket_t:dir { create getattr setattr };
 allow qwes_ipc_setup_t socket_device_t:dir { write search setattr create getattr add_name };
 device_manage_socket_file({ qwesd_t qwes_ipc_setup_t }, qwes_mink_socket_t)
+allow qwes_ipc_setup_t proc_t:file { read open getattr };
 #################################################################################
 # Rules ending for configuring network connection for sync.
 #################################################################################
