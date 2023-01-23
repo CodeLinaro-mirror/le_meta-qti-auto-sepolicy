@@ -38,6 +38,8 @@ gen_require(`
     type sysfs_t;
     type debugfs_t;
     type tracefs_t;
+    type etc_t;
+    type configfs_t;
 ')
 
 userdebug_or_eng(`
@@ -55,3 +57,7 @@ allow post_boot_script_t tracefs_t:file { open write };
 
 type vendor_dmabuf_qseecomta_heap_device_t;
 dev_node(vendor_dmabuf_qseecomta_heap_device_t);
+
+allow post_boot_script_t etc_t:file { getattr read open };
+allow post_boot_script_t configfs_t:dir { search write add_name create getattr setattr };
+dontaudit post_boot_script_t self:capability { dac_read_search dac_override };
