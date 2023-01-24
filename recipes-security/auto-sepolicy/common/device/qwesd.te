@@ -183,6 +183,8 @@ mls_file_write_all_levels(qwesd_t)
 
 allow qwesd_t vendor_dmabuf_qseecom_heap_device_t:chr_file { read ioctl open };
 allow qwesd_t self:process signull;
+allow qwesd_t var_run_t:dir { add_name write remove_name };
+allow qwesd_t var_run_t:sock_file { create setattr unlink };
 
 # allow qwesd to access /dev/dma_heap/qcom,qseecom-ta
 rw_chr_files_pattern(qwesd_t, device_t, vendor_dmabuf_qseecomta_heap_device_t);
