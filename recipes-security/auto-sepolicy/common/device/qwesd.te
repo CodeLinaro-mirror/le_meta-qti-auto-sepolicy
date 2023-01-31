@@ -25,9 +25,10 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-#  Changes from Qualcomm Innovation Center are provided under the following license:
+# Changes from Qualcomm Innovation Center are provided under the following license:
 #
-#  Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
 #
 #Redistribution and use in source and binary forms, with or without
 #modification, are permitted (subject to the limitations in the
@@ -134,6 +135,10 @@ rw_files_pattern(qwesd_t, qwes_data_t, qwes_data_t)
 # allow qwesd to read/write to /var/run/qwes_ipc minksocket file.
 allow qwesd_t self:udp_socket create_socket_perms;
 allow qwesd_t self:tcp_socket create_socket_perms;
+files_pid_file(qwes_mink_socket_t)
+files_pid_filetrans({ qwesd_t }, qwes_mink_socket_t, { sock_file file dir })
+manage_sock_files_pattern({ qwesd_t }, qwes_mink_socket_t, qwes_mink_socket_t)
+manage_dirs_pattern({ qwesd_t }, qwes_mink_socket_t, qwes_mink_socket_t)
 allow qwesd_t self:socket { create rw_socket_perms };
 #============= qwes_mink_socket_t ==============
 allow qwes_mink_socket_t device_t:filesystem associate;
@@ -183,8 +188,6 @@ mls_file_write_all_levels(qwesd_t)
 
 allow qwesd_t vendor_dmabuf_qseecom_heap_device_t:chr_file { read ioctl open };
 allow qwesd_t self:process signull;
-allow qwesd_t var_run_t:dir { add_name write remove_name };
-allow qwesd_t var_run_t:sock_file { create setattr unlink };
 
 # allow qwesd to access /dev/dma_heap/qcom,qseecom-ta
 rw_chr_files_pattern(qwesd_t, device_t, vendor_dmabuf_qseecomta_heap_device_t);
