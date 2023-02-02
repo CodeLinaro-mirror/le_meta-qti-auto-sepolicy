@@ -99,6 +99,7 @@ dontaudit slim_daemon_t self:capability net_admin;
 sensor_dev_socket(slim_daemon_t)
 sensor_configuration_access(slim_daemon_t)
 allow slim_daemon_t { loc_hald_t lowi_server_t }:unix_dgram_socket sendto;
+allow slim_daemon_t device_t:dir search;
 
 # IPC router
 allow slim_daemon_t self:qipcrtr_socket create_socket_perms;
