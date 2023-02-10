@@ -82,6 +82,7 @@ allow engine_service_t qwesd_t:unix_stream_socket connectto;
 allow engine_service_t qwes_mink_socket_t:sock_file write;
 allow engine_service_t self:qipcrtr_socket { create getattr read setopt write };
 allow engine_service_t loc_t:unix_dgram_socket { read write sendto };
+allow engine_service_t qwes_mink_socket_t:dir search;
 
 #### slim_daemon ####
 allow slim_daemon_t self:udp_socket create_socket_perms;
