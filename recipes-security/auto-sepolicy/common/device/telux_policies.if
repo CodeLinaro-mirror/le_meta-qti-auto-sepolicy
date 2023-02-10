@@ -27,7 +27,7 @@
 
 #  Changes from Qualcomm Innovation Center are provided under the following license:
 #
-#  Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+#  Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -250,23 +250,11 @@ interface(`telux_allow_audio',`
 #   1) Domain context
 
 interface(`telux_allow_loc',`
-     gen_require(`
-      type loc_etc_t;
-      type loc_socket_t;
-      type loc_hald_t;
-    ')
 
     # To allow QDgnssRemoteApi
     allow $1 self:socket { getattr setopt write read};
     logging_send_syslog_msg($1);
 
-    # To allow location client to read config from gps.conf file
-    allow $1 loc_etc_t:file read_file_perms;
-
-    # To allow socket communication between location client and hal daemon
-    device_search_sockets($1)
-    manage_sock_files_pattern($1, loc_socket_t, loc_socket_t)
-    dgram_send_pattern($1, loc_socket_t, loc_socket_t, loc_hald_t)
 
     # To allow loc client to log to diag, access debug file system
     userdebug_or_eng(`
@@ -274,13 +262,14 @@ interface(`telux_allow_loc',`
         kernel_manage_debugfs($1)
     ')
 
-    # Miscellaneous permissions requried for LCA layer.
-    dev_read_urand($1)
+    # Miscellaneous permissions requried for location client
+    location_client_generic_rules($1)
+
     corecmd_exec_shell($1)
-    kernel_read_system_state($1)
-    kernel_read_vm_overcommit_sysctl($1)
     access_telux_files($1)
     telux_allow_group($1)
+    telux_allow_loc_data($1)
+    telux_allow_loc_config($1)
 ')
 
 # Thermal client interfaces
@@ -423,7 +412,7 @@ interface(`telux_allow_platform',`
 
 ')
 
-# crypto client interface
+# Crypto client interface
 # @brief: The crypto client interface allows the domain to contain a telux crypto
 # client by providing necessary permissions for its operation.
 #
@@ -431,9 +420,22 @@ interface(`telux_allow_platform',`
 #   1) Domain context
 
 interface(`telux_allow_crypto',`
-
-    # For read/write tel.log
     access_telux_files($1)
+    telux_allow_group($1)
+    read_files_pattern($1, etc_t, etc_t);
+')
+
+# Crypto acclerator client interface
+# @brief: The crypto client interface allows the domain to contain a telux crypto
+# accelerator client by providing necessary permissions for its operation.
+#
+# Parameters:
+#   1) Domain context
+
+interface(`telux_allow_crypto_accel',`
+    access_telux_files($1)
+    telux_allow_group($1)
+    read_files_pattern($1, etc_t, etc_t);
 ')
 
 # WLAN client interfaces
@@ -459,4 +461,20 @@ interface(`telux_allow_wlan',`
     device_rw_socket_files($1, netmgrd_socket_device_t);
     read_files_pattern($1, etc_t, etc_t);
     telux_allow_group($1)
+')
+
+# Cv2x client interface
+# @brief: The Cv2x client interface allow the domain to contain a cv2x radio
+# client by providing necessary permissions for its operation.
+#
+# Parameters:
+#   1) Domain context
+
+interface(`telux_allow_v2x',`
+    gen_require(`
+        type netmgrd_socket_device_t;
+    ')
+    telux_allow_qmi_client($1)
+    access_telux_files($1)
+    device_rw_socket_files($1, netmgrd_socket_device_t)
 ')

@@ -1,0 +1,12 @@
+#Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+#SPDX-License-Identifier: BSD-3-Clause-Clear
+
+gen_require(`
+    type sysdevice_sysfs_t;
+')
+
+# /lib/systemd/systemd-udevd is invoking
+# automountsdcard.sh script from /etc/udev/script/.
+# The script is reading /sys/devices/soc0/machine`
+# Adding dontaudit rule for suppress the denial
+dontaudit udev_t sysdevice_sysfs_t:file read;

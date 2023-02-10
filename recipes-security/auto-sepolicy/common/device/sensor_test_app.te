@@ -27,7 +27,7 @@
 
 #  Changes from Qualcomm Innovation Center are provided under the following license:
 #
-#  Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+#  Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -85,6 +85,9 @@ allow sensor_test_app_t self:process signal;
 
 # Obtain required permissions from telux_allow_sensor
 telux_allow_sensor(sensor_test_app_t)
+
+# For accessing Power lib interfaces.
+telux_allow_power(sensor_test_app_t)
 
 # Obtain required permission in terms of API access control
 telux_allow_sensor_data_read(sensor_test_app_t)

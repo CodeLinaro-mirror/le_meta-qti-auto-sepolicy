@@ -25,12 +25,153 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+# Changes from Qualcomm Innovation Center are provided under the following license:
+#
+# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
 policy_module(imaevm, 1.0)
+
+# Note:
+#     * That existing "allow domain kernel_t:key search" is not working
+#       due to MLS policy upgrade with kernel 5.4.
+#       i.e. from 1.9.0 --> 1.11.0.
+#     * With mls 1.11.0 release two new MLS (Multi Level Security) attributes
+#       added mlskeywrite/mlskeywritetoclr and interfaces
+#       (mls_key_write_all_levels/mls_key_write_to_clearance) added.
+#       loadable module te file also has added rule
+#       mls_key_write_all_levels(kmod_t) to support new MLS policy.
+#       This is not there in earlier 4.14 (6.2.2)
+#     * Due to above changes selinux ima/evm allow domain policy we are
+#       updating w.r.t each domain mls_key_write_all_levels().
+#
 
 gen_require(`
 	type kernel_t;
+	type unconfined_t;
+	type initrc_t;
+	type rild_t;
+	type qcmap_cm_t;
+	type mount_copybind_t;
+	type ssreq_server_t;
+	type softsku_t;
+	type getty_t;
+	type qmi_shutdown_modem_t;
+	type local_login_t;
+	type setfiles_t;
+	type irsc_util_t;
+	type dnsmasq_t;
+	type rilmuxd_t;
+	type systemd_tmpfiles_t;
+	type udev_t;
+	type qnetmgrd_t;
+	type sensor_hal_daemon_t;
+	type qtether_t;
+	type syslogd_t;
+	type iptables_t;
+	type qseecomd_t;
+	type port_bridge_t;
+	type dm_manager_t;
+	type smq_manager_t;
+	type softsku_manager_t;
+	type loc_t;
+	type telux_audio_server_t;
+	type loc_hald_t;
+	type telux_thermal_server_t;
+	type qwes_license_store_setup_t;
+	type power_manager_daemon_t;
+	type post_boot_script_t;
+	type alogd_t;
+	type usb_t;
+	type ipacm_t;
+	type chronyd_t;
+	type qwesd_t;
+	type c2c_hub_t;
+	type edgnss_daemon_t;
+	type slim_daemon_t;
+	type xtra_daemon_t;
+	type lowi_server_t;
+	type system_dbusd_t;
+	type adbd_initrc_t;
+	type chrony_sock_t;
+	type adbd_t;
+	type time_daemon_t;
+	type thermal-engine_t;
+	type telux_version_app_t;
+	type telsdk_console_app_t;
+	type telux_power_refd_t;
+	type thermal_app_t;
+	type audio_console_app_t;
+	type ecall_app_t;
+	type filesystem_test_app_t;
+	type kinematics_sc_t;
+	type modem_cfg_t;
+	type sensor_test_app_t;
+	type thermal_shutdown_t;
+	type wlan_test_app_t;
 	attribute domain;
 ')
 
-# allow access to ima/evm kernel keyrings
 allow domain kernel_t:key search;
+
+mls_key_write_all_levels(alogd_t)
+mls_key_write_all_levels(usb_t)
+mls_key_write_all_levels(ipacm_t)
+mls_key_write_all_levels(chronyd_t)
+mls_key_write_all_levels(qwesd_t)
+mls_key_write_all_levels(c2c_hub_t)
+mls_key_write_all_levels(edgnss_daemon_t)
+mls_key_write_all_levels(slim_daemon_t)
+mls_key_write_all_levels(xtra_daemon_t)
+mls_key_write_all_levels(lowi_server_t)
+mls_key_write_all_levels(thermal-engine_t)
+mls_key_write_all_levels(setfiles_t)
+mls_key_write_all_levels(irsc_util_t)
+mls_key_write_all_levels(dnsmasq_t)
+mls_key_write_all_levels(rilmuxd_t)
+mls_key_write_all_levels(systemd_tmpfiles_t)
+mls_key_write_all_levels(udev_t)
+mls_key_write_all_levels(qnetmgrd_t)
+mls_key_write_all_levels(sensor_hal_daemon_t)
+mls_key_write_all_levels(qtether_t)
+mls_key_write_all_levels(syslogd_t)
+mls_key_write_all_levels(iptables_t)
+mls_key_write_all_levels(qseecomd_t)
+mls_key_write_all_levels(port_bridge_t)
+mls_key_write_all_levels(dm_manager_t)
+mls_key_write_all_levels(smq_manager_t)
+mls_key_write_all_levels(softsku_manager_t)
+mls_key_write_all_levels(loc_t)
+mls_key_write_all_levels(telux_audio_server_t)
+mls_key_write_all_levels(loc_hald_t)
+mls_key_write_all_levels(telux_thermal_server_t)
+mls_key_write_all_levels(qwes_license_store_setup_t)
+mls_key_write_all_levels(power_manager_daemon_t)
+mls_key_write_all_levels(post_boot_script_t)
+mls_key_write_all_levels(system_dbusd_t)
+mls_key_write_all_levels(adbd_initrc_t)
+mls_key_write_all_levels(chrony_sock_t)
+mls_key_write_all_levels(adbd_t)
+mls_key_write_all_levels(time_daemon_t)
+mls_key_write_all_levels(initrc_t)
+mls_key_write_all_levels(unconfined_t)
+mls_key_write_all_levels(rild_t)
+mls_key_write_all_levels(qcmap_cm_t)
+mls_key_write_all_levels(mount_copybind_t)
+mls_key_write_all_levels(ssreq_server_t)
+mls_key_write_all_levels(softsku_t)
+mls_key_write_all_levels(getty_t)
+mls_key_write_all_levels(qmi_shutdown_modem_t)
+mls_key_write_all_levels(local_login_t)
+mls_key_write_all_levels(telux_version_app_t)
+mls_key_write_all_levels(telsdk_console_app_t)
+mls_key_write_all_levels(telux_power_refd_t)
+mls_key_write_all_levels(thermal_app_t)
+mls_key_write_all_levels(audio_console_app_t)
+mls_key_write_all_levels(ecall_app_t)
+mls_key_write_all_levels(filesystem_test_app_t)
+mls_key_write_all_levels(kinematics_sc_t)
+mls_key_write_all_levels(modem_cfg_t)
+mls_key_write_all_levels(sensor_test_app_t)
+mls_key_write_all_levels(thermal_shutdown_t)
+mls_key_write_all_levels(wlan_test_app_t)
