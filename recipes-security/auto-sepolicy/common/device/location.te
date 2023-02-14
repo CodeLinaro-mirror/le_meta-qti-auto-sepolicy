@@ -73,6 +73,10 @@ gptp_rw_tmpfs_files(loc_hald_t);
 read_files_pattern(loc_hald_t, systemd_resolved_var_run_t, systemd_resolved_var_run_t)
 
 allow loc_hald_t slim_daemon_t :unix_dgram_socket sendto;
+allow loc_hald_t qwes_mink_socket_t:dir search;
+allow loc_hald_t qwes_mink_socket_t:sock_file write;
+allow loc_hald_t qwesd_t:unix_stream_socket connectto;
+
 #### engine service #####
 corenet_tcp_connect_soundd_port(engine_service_t);
 corenet_tcp_connect_xen_port(engine_service_t);
@@ -82,6 +86,7 @@ allow engine_service_t qwesd_t:unix_stream_socket connectto;
 allow engine_service_t qwes_mink_socket_t:sock_file write;
 allow engine_service_t self:qipcrtr_socket { create getattr read setopt write };
 allow engine_service_t loc_t:unix_dgram_socket { read write sendto };
+allow engine_service_t qwes_mink_socket_t:dir search;
 
 #### slim_daemon ####
 allow slim_daemon_t self:udp_socket create_socket_perms;
@@ -99,6 +104,7 @@ dontaudit slim_daemon_t self:capability net_admin;
 sensor_dev_socket(slim_daemon_t)
 sensor_configuration_access(slim_daemon_t)
 allow slim_daemon_t { loc_hald_t lowi_server_t }:unix_dgram_socket sendto;
+allow slim_daemon_t device_t:dir search;
 
 # IPC router
 allow slim_daemon_t self:qipcrtr_socket create_socket_perms;
