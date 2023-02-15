@@ -102,3 +102,9 @@ telux_allow_tel_ecall_mgmt(ecall_app_t)
 
 # Allowing necessary audio permissions.
 telux_allow_audio_voice(ecall_app_t)
+
+# Access for SDK APIs related to thermal shutdown management
+telux_allow_therm_shutdown_ctrl(ecall_app_t)
+
+# Access for SDK APIs related to location data
+telux_allow_loc_data(ecall_app_t)

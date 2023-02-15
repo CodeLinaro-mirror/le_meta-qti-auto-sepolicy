@@ -25,6 +25,38 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+#  Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted (subject to the limitations in the
+# disclaimer below) provided that the following conditions are met:
+#
+#     * Redistributions of source code must retain the above copyright
+#       notice, this list of conditions and the following disclaimer.
+#
+#     * Redistributions in binary form must reproduce the above
+#       copyright notice, this list of conditions and the following
+#       disclaimer in the documentation and/or other materials provided
+#       with the distribution.
+#
+#     * Neither the name of Qualcomm Innovation Center, Inc. nor the names of its
+#       contributors may be used to endorse or promote products derived
+#       from this software without specific prior written permission.
+#
+# NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE
+# GRANTED BY THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT
+# HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+# IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+# ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+# GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+# IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+# IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
 policy_module(kinematics_server, 1.0)
 
 type kinematics_server_t;
@@ -32,11 +64,15 @@ type kinematics_server_exec_t;
 type kinematics_var_run_t;
 
 init_vendor_domain(kinematics_server_t, kinematics_server_exec_t)
+transition_to_confined_domain(kinematics_server_t, kinematics_server_exec_t)
 
 files_read_loc_etc_files(kinematics_server_t);
 
 gen_require(`
     type etc_t;
+    type systemd_tmpfiles_t;
+    type user_home_dir_t;
+    type home_root_t;
 ')
 
 userdebug_or_eng(`
@@ -50,7 +86,9 @@ read_files_pattern(kinematics_server_t, etc_t, etc_t)
 corenet_tcp_bind_all_unreserved_ports(kinematics_server_t)
 corenet_tcp_bind_generic_node(kinematics_server_t)
 corecmd_exec_shell(kinematics_server_t)
-corecmd_exec_shell(kinematics_server_t)
+
+systemd_tmpfilesd_managed(kinematics_var_run_t, file)
+allow systemd_tmpfiles_t kinematics_var_run_t:file { getattr open write };
 
 files_pid_file(kinematics_var_run_t)
 files_pid_filetrans(kinematics_server_t, kinematics_var_run_t, { file dir })
@@ -60,7 +98,16 @@ write_sock_files_pattern(kinematics_server_t, init_var_run_t,init_var_run_t);
 kernel_read_system_state(kinematics_server_t);
 dev_read_urand(kinematics_server_t);
 
+allow kinematics_server_t home_root_t:dir { search };
+allow kinematics_server_t user_home_dir_t:dir { search getattr };
+allow kinematics_server_t user_home_dir_t:file { read open };
 allow kinematics_server_t self:process { setsched getsched };
 allow kinematics_server_t self:tcp_socket { read create connect write getopt setopt accept bind listen shutdown };
 allow kinematics_server_t self:capability { sys_nice setgid net_admin };
 allow kinematics_server_t self:socket { read write setopt create getattr };
+allow kinematics_server_t self:process { signal };
+
+location_client_generic_rules(kinematics_server_t);
+location_access_loc_bootkpi(kinematics_server_t);
+device_search_sockets(kinematics_server_t);
+dev_write_kmsg(kinematics_server_t);
