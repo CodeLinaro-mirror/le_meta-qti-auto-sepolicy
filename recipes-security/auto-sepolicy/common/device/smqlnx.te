@@ -27,7 +27,7 @@
 
 #  Changes from Qualcomm Innovation Center are provided under the following license:
 #
-#  Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+#  Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -94,6 +94,7 @@ gen_require(`
     type unreserved_port_t;
     type mount_t;
     type mount_copybind_t;
+    type urandom_device_t;
 ')
 
 fs_associate(smqlnx_data_t);
@@ -139,6 +140,7 @@ manage_files_pattern(smqlnx_t, var_run_t, smqlnx_var_run_t);
 allow smqlnx_t dns_port_t:tcp_socket name_connect;
 allow smqlnx_t softsku_data_conf_t:file { read open };
 allow smqlnx_t unreserved_port_t:tcp_socket { name_connect name_bind read };
+allow smqlnx_t urandom_device_t:chr_file { read getattr open };
 
 # allow smqlnx to read dev/daig file
 userdebug_or_eng(`rw_diag_dev(smqlnx_t)')
