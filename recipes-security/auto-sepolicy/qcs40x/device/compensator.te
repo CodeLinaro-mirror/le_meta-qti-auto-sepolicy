@@ -1,5 +1,5 @@
 #
-#  Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+#  Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -49,6 +49,7 @@ gen_require(`
     type shell_exec_t;
     type proc_t;
     type sysfs_t;
+    type tty_device_t;
 ')
 
 allow compensator_t compensator_etc_t:file read_file_perms;
@@ -63,3 +64,5 @@ telux_allow_data(compensator_t)
 allow compensator_t shell_exec_t:file { execute read open execute_no_trans };
 allow compensator_t proc_t:file { read write open getattr };
 allow compensator_t sysfs_t:file { read open write };
+allow compensator_t tty_device_t:chr_file { read write ioctl };
+allow compensator_t self:capability { setgid };
