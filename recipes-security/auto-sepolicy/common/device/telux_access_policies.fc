@@ -1,4 +1,4 @@
-#  Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+#  Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 #  Redistribution and use in source and binary forms, with or without
 #  modification, are permitted (subject to the limitations in the
@@ -146,6 +146,11 @@
 /etc/telux/permissions/telux_sec_key_ops     --  gen_context(system_u:object_r:telux_access_sec_key_ops_t,s0)
 /etc/telux/permissions/telux_sec_sign_ops   --  gen_context(system_u:object_r:telux_access_sec_sign_ops_t,s0)
 /etc/telux/permissions/telux_sec_encryption_ops  --  gen_context(system_u:object_r:telux_access_sec_encryption_ops_t,s0)
+
+##################################################################################################
+# Add context to the files used for controlling access to Crypto accelerator related APIs in SDK
+##################################################################################################
+/etc/telux/permissions/telux_sec_accelerator_mgr  --  gen_context(system_u:object_r:telux_access_sec_accelerator_mgr_t,s0)
 
 ##################################################################################################
 # Add context to the files used for controlling access to WLAN related APIs in SDK.

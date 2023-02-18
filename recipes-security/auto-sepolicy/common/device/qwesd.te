@@ -25,9 +25,10 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-#  Changes from Qualcomm Innovation Center are provided under the following license:
+# Changes from Qualcomm Innovation Center are provided under the following license:
 #
-#  Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
 #
 #Redistribution and use in source and binary forms, with or without
 #modification, are permitted (subject to the limitations in the
@@ -67,6 +68,7 @@ type qwes_data_t;
 type qwes_config_etc_t;
 type qwes_mink_socket_t;
 
+files_type(qwes_mink_socket_t)
 files_type(qwes_config_etc_t)
 
 init_vendor_domain(qwesd_t, qwesd_exec_t)
@@ -84,6 +86,8 @@ gen_require(`
        type systemd_resolved_var_run_t;
        type http_port_t;
        type cert_t;
+       type vendor_dmabuf_qseecom_heap_device_t;
+       type vendor_dmabuf_qseecomta_heap_device_t;
 ')
 allow qwesd_t net_conf_t:file write_file_perms;
 #allow qwesd to read qnetmgrd confi file.
@@ -136,6 +140,9 @@ files_pid_filetrans({ qwesd_t }, qwes_mink_socket_t, { sock_file file dir })
 manage_sock_files_pattern({ qwesd_t }, qwes_mink_socket_t, qwes_mink_socket_t)
 manage_dirs_pattern({ qwesd_t }, qwes_mink_socket_t, qwes_mink_socket_t)
 allow qwesd_t self:socket { create rw_socket_perms };
+#============= qwes_mink_socket_t ==============
+allow qwes_mink_socket_t device_t:filesystem associate;
+allow qwesd_t qwes_mink_socket_t:dir { write add_name remove_name};
 
 # allow qwesd for self capability.
 allow qwesd_t self:capability { net_raw chown net_bind_service };
@@ -178,6 +185,41 @@ allow qwesd_t self:netlink_route_socket { create_socket_perms nlmsg_read };
 allow qwesd_t cert_t:file { open read getattr };
 mls_file_read_all_levels(qwesd_t)
 mls_file_write_all_levels(qwesd_t)
+
+allow qwesd_t vendor_dmabuf_qseecom_heap_device_t:chr_file { read ioctl open };
+allow qwesd_t self:process signull;
+
+# allow qwesd to access /dev/dma_heap/qcom,qseecom-ta
+rw_chr_files_pattern(qwesd_t, device_t, vendor_dmabuf_qseecomta_heap_device_t);
+
+# allow qwesd to be restarted
+userdebug_or_eng(`
+    gen_require(`
+        type unconfined_t;
+        class service { start status stop };
+    ')
+    allow unconfined_t qwesd_exec_t:service { start status stop };
+')
+
+# setup qwes_ipc socket
+type qwes_ipc_setup_t;
+type qwes_ipc_setup_exec_t;
+
+init_script_domain(qwes_ipc_setup_t, qwes_ipc_setup_exec_t);
+
+gen_require(`
+    type proc_t;
+    type kmsg_device_t;
+')
+
+#============= qwes_ipc_setup_t ==============
+dev_write_kmsg(qwes_ipc_setup_t)
+files_read_etc_files(qwes_ipc_setup_t)
+mls_file_write_all_levels(qwes_ipc_setup_t)
+allow qwes_ipc_setup_t qwes_mink_socket_t:dir { create getattr setattr };
+allow qwes_ipc_setup_t socket_device_t:dir { write search setattr create getattr add_name };
+device_manage_socket_file({ qwesd_t qwes_ipc_setup_t }, qwes_mink_socket_t)
+allow qwes_ipc_setup_t proc_t:file { read open getattr };
 #################################################################################
 # Rules ending for configuring network connection for sync.
 #################################################################################
