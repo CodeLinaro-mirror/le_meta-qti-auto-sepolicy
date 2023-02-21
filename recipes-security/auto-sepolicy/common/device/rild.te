@@ -27,7 +27,7 @@
 
 #  Changes from Qualcomm Innovation Center are provided under the following license:
 #
-#  Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+#  Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -91,7 +91,6 @@ allow rild_t data_t:dir search;
 allow rild_t self:qipcrtr_socket { read write create getattr setopt };
 allow rild_t self:unix_stream_socket { listen accept };
 
-access_telux_files(rild_t);
 type qmux_radio_sock_t;
 files_type(qmux_radio_sock_t);
 device_manage_socket_file(rild_t, qmux_radio_sock_t)
@@ -104,3 +103,6 @@ allow rild_t netmgrd_socket_device_t:sock_file rw_sock_file_perms;
 
 dontaudit rild_t self:capability dac_override;
 dontaudit rild_t default_t:dir search;
+
+#Telux power management
+telux_allow_power(rild_t)
