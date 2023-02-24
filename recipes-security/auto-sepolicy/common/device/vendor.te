@@ -54,6 +54,9 @@ allow post_boot_script_t init_qti_etc_t:file { read open write getattr };
 allow post_boot_script_t debugfs_t:dir search;
 allow post_boot_script_t tracefs_t:dir { search getattr };
 allow post_boot_script_t tracefs_t:file { open write };
+allow post_boot_script_t device_t:chr_file { getattr setattr };
+allow post_boot_script_t self:capability fowner;
+allow post_boot_script_t sysfs_t:file setattr;
 
 type vendor_dmabuf_qseecomta_heap_device_t;
 dev_node(vendor_dmabuf_qseecomta_heap_device_t);
