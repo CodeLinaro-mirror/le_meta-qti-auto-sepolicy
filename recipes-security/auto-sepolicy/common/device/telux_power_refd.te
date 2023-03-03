@@ -1,4 +1,4 @@
-#  Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+#  Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 #  Redistribution and use in source and binary forms, with or without
 #  modification, are permitted (subject to the limitations in the
@@ -54,6 +54,7 @@ gen_require(`
     type http_cache_port_t;
     type system_dbusd_t;
     type power_unit_t;
+    type system_dir_t;
 ')
 
 #config
@@ -101,3 +102,10 @@ telux_allow_power(telux_power_refd_t)
 telux_allow_data_call_ops(telux_power_refd_t)
 telux_allow_data_filter_ops(telux_power_refd_t)
 telux_allow_data(telux_power_refd_t)
+
+#Allow CAN trigger
+allow telux_power_refd_t self:can_socket { create bind ioctl read setopt };
+dontaudit telux_power_refd_t system_dir_t:dir { search };
+
+#Allow SMS trigger
+telux_allow_tel_sms_listen(telux_power_refd_t)

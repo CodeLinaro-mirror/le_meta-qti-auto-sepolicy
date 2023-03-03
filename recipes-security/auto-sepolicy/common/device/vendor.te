@@ -1,4 +1,4 @@
-#  Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+#  Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -38,6 +38,8 @@ gen_require(`
     type sysfs_t;
     type debugfs_t;
     type tracefs_t;
+    type etc_t;
+    type configfs_t;
 ')
 
 userdebug_or_eng(`
@@ -52,3 +54,10 @@ allow post_boot_script_t init_qti_etc_t:file { read open write getattr };
 allow post_boot_script_t debugfs_t:dir search;
 allow post_boot_script_t tracefs_t:dir { search getattr };
 allow post_boot_script_t tracefs_t:file { open write };
+
+type vendor_dmabuf_qseecomta_heap_device_t;
+dev_node(vendor_dmabuf_qseecomta_heap_device_t);
+
+allow post_boot_script_t etc_t:file { getattr read open };
+allow post_boot_script_t configfs_t:dir { search write add_name create getattr setattr };
+dontaudit post_boot_script_t self:capability { dac_read_search dac_override };

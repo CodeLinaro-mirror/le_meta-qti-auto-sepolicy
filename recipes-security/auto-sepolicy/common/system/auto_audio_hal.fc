@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2022-2023, Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -32,3 +32,4 @@
 #
 
 /data/vendor/audio(/.*)?           gen_context(system_u:object_r:audio_delta_acdb_data_t,s0)
+/dev/dma_heap/qcom,system-uncached     -c    gen_context(system_u:object_r:audio_dma_heap_t,s0)

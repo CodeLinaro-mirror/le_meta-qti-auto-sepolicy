@@ -83,6 +83,7 @@ interface(`transition_to_confined_domain',`
     # permission required for tty
     allow $1 tty_device_t:chr_file { read write getattr ioctl };
     dontaudit $1 default_t:dir { search };
+    allow $1 self:capability kill;
 ')
 
 # Telux logging interfaces
@@ -316,6 +317,11 @@ interface(`telux_allow_power',`
     telux_allow_qmi_client($1)
     access_telux_files($1)
     telux_allow_group($1)
+    # To allow machine name node reading
+    gen_require(`
+        type sysdevice_sysfs_t;
+    ')
+    allow $1 sysdevice_sysfs_t:file { read open };
 ')
 
 # Modem config client interface

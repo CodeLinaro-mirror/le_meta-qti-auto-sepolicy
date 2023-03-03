@@ -26,7 +26,7 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 # Changes from Qualcomm Innovation Center are provided under the following license:
-# Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## Automotive specific sepolicy rules for location.
@@ -72,6 +72,11 @@ gptp_rw_daemon_cl_device(loc_hald_t);
 gptp_rw_tmpfs_files(loc_hald_t);
 read_files_pattern(loc_hald_t, systemd_resolved_var_run_t, systemd_resolved_var_run_t)
 
+allow loc_hald_t slim_daemon_t :unix_dgram_socket sendto;
+allow loc_hald_t qwes_mink_socket_t:dir search;
+allow loc_hald_t qwes_mink_socket_t:sock_file write;
+allow loc_hald_t qwesd_t:unix_stream_socket connectto;
+
 #### engine service #####
 corenet_tcp_connect_soundd_port(engine_service_t);
 corenet_tcp_connect_xen_port(engine_service_t);
@@ -80,6 +85,8 @@ miscfiles_read_generic_certs(engine_service_t);
 allow engine_service_t qwesd_t:unix_stream_socket connectto;
 allow engine_service_t qwes_mink_socket_t:sock_file write;
 allow engine_service_t self:qipcrtr_socket { create getattr read setopt write };
+allow engine_service_t loc_t:unix_dgram_socket { read write sendto };
+allow engine_service_t qwes_mink_socket_t:dir search;
 
 #### slim_daemon ####
 allow slim_daemon_t self:udp_socket create_socket_perms;
@@ -96,6 +103,8 @@ allow slim_daemon_t system_data_t:dir search;
 dontaudit slim_daemon_t self:capability net_admin;
 sensor_dev_socket(slim_daemon_t)
 sensor_configuration_access(slim_daemon_t)
+allow slim_daemon_t { loc_hald_t lowi_server_t }:unix_dgram_socket sendto;
+allow slim_daemon_t device_t:dir search;
 
 # IPC router
 allow slim_daemon_t self:qipcrtr_socket create_socket_perms;
@@ -126,8 +135,9 @@ leprop_read_props(loc_t)
 stream_connect_pattern(xtra_daemon_t,qmux_radio_sock_t,qmux_radio_sock_t,rilmuxd_t);
 stream_connect_pattern(loc_t,qmux_radio_sock_t,qmux_radio_sock_t,rilmuxd_t);
 allow loc_t cert_t:lnk_file read_lnk_file_perms;
-
 telux_allow_data(loc_t)
 telux_allow_data(xtra_daemon_t)
 telux_allow_tel(loc_t)
 telux_allow_tel(xtra_daemon_t)
+telux_allow_data_call_ops(xtra_daemon_t)
+telux_allow_tel_private_info_read(xtra_daemon_t)
