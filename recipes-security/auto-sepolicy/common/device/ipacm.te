@@ -27,6 +27,8 @@
 
 gen_require(`
        type udev_t;
+       type mount_copybind_t;
+       type mount_t;
 ')
 
 allow ipacm_t qcmap_var_run_t:dir rw_dir_perms;
@@ -38,5 +40,14 @@ type ipa_vlan_cfg_t;
 files_type(ipa_vlan_cfg_t);
 fs_associate(ipa_vlan_cfg_t);
 
-allow udev_t qcmap_etc_data_t: dir {search};
-allow udev_t ipa_vlan_cfg_t: file {open read write getattr};
+allow udev_t qcmap_etc_data_t: dir { search };
+allow udev_t ipa_vlan_cfg_t: file { open read write getattr };
+
+## mount copybind
+allow mount_copybind_t ipa_vlan_cfg_t: file { create open read write getattr setattr };
+
+## ipa_fw_initrc_t access to vlan cfg
+allow ipa_fw_initrc_t ipa_vlan_cfg_t: file { open read write getattr };
+
+## mount_t
+allow mount_t ipa_vlan_cfg_t: file { create mounton open read write getattr };
