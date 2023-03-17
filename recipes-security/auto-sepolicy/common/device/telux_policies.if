@@ -150,6 +150,15 @@ interface(`access_telux_files',`
 
     # To allow libraries to log to logcat
     allow $1 socket_device_t:dir search;
+
+    # Allow QMI access for telux-config service
+    telux_allow_qmi_client($1)
+
+    # To allow machine name node reading
+    gen_require(`
+        type sysdevice_sysfs_t;
+    ')
+    allow $1 sysdevice_sysfs_t:file { read open };
 ')
 
 # Qmi client interfaces
@@ -483,4 +492,20 @@ interface(`telux_allow_v2x',`
     telux_allow_qmi_client($1)
     access_telux_files($1)
     device_rw_socket_files($1, netmgrd_socket_device_t)
+')
+
+# Config client interface
+# @brief: The Config client interface allow the domain to contain a config manager
+# client by providing necessary permissions for its operation.
+#
+# Parameters:
+#   1) Domain context
+
+interface(`telux_allow_config',`
+    telux_allow_group($1)
+
+    access_telux_files($1)
+
+    # For socket communication: /etc/nsswitch.conf, /etc/group for getgrnam
+    read_files_pattern($1, etc_t, etc_t);
 ')

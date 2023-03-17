@@ -66,6 +66,14 @@ files_type(telux_access_audio_transcode_t);
 type telux_access_config_modem_config_t;
 files_type(telux_access_config_modem_config_t);
 
+##################################################################################################
+# Type identifiers for the files used to control access for Config Manager APIs in SDK
+##################################################################################################
+type telux_access_set_global_config_t;
+files_type(telux_access_set_global_config_t);
+type telux_access_set_local_config_t;
+files_type(telux_access_set_local_config_t);
+
 
 ##################################################################################################
 # Type identifiers for the files used to control access for Data APIs in SDK
