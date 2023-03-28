@@ -64,7 +64,7 @@ allow qvirtmgr_t self:udp_socket { create ioctl };
 allow qvirtmgr_t tracefs_t:dir search;
 allow qvirtmgr_t trace_marker_t:file { write open };
 allow qvirtmgr_t vm-bootsys_t:dir search_dir_perms;
-allow qvirtmgr_t vm-bootsys_t:file { read lock getattr open };
+allow qvirtmgr_t vm-bootsys_t:file { read write lock getattr open };
 allow qvirtmgr_t vm-bootsys_t:filesystem getattr;
 corenet_rw_tun_tap_dev(qvirtmgr_t)
 device_search_sockets(qvirtmgr_t)
