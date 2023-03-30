@@ -58,6 +58,8 @@ type telux_access_audio_factory_test_t;
 files_type(telux_access_audio_factory_test_t);
 type telux_access_audio_transcode_t;
 files_type(telux_access_audio_transcode_t);
+type telux_access_audio_voice_data_t;
+files_type(telux_access_audio_voice_data_t);
 
 
 ##################################################################################################
