@@ -1,4 +1,5 @@
-#Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+#Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
 #SPDX-License-Identifier: BSD-3-Clause-Clear
 
-/usr/bin/eth_pwr_power_app_t   --  gen_context(system_u:object_r:eth_pwr_power_app_exec_t,s0)
+/etc/initscripts/start_eth_pwr_mgr_le    -- gen_context(system_u:object_r:start_eth_pwr_m_initrc_exec_t,s0)
+/usr/bin/ethpwrmgr                       -- gen_context(system_u:object_r:start_eth_pwr_m_exec_t,s0)
