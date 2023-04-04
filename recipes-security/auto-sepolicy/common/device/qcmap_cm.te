@@ -69,10 +69,12 @@ gen_require(`
   type modem_monitor_t;
   type socket_device_t;
   type default_t;
+  type ipa_vlan_cfg_t;
 ')
 
 allow qcmap_cm_t modem_monitor_t:unix_stream_socket connectto;
 allow qcmap_cm_t socket_device_t:sock_file write;
+allow qcmap_cm_t ipa_vlan_cfg_t:file { open read write getattr };
 
 #DHCPCD Rules
 files_pid_file(dhcpc_var_run_t)
