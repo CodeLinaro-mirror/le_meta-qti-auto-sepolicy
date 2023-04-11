@@ -1,4 +1,4 @@
-# Copyright (c) 2020-2021 The Linux Foundation. All rights reserved.
+# Copyright (c) 2020 The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -24,50 +24,8 @@
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-# Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+#
+# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
-policy_module(cv2x-daemon, 1.0)
-type cv2xd_t;
-type cv2xd_exec_t;
-type cv2xd_etc_t;
-type cv2xd_init_t;
-
-#domain transition if started from init
-init_vendor_domain(cv2xd_t, cv2xd_exec_t)
-
-# V2x client Permissions
-telux_allow_v2x(cv2xd_t)
-
-# Power Client Permissions
-telux_allow_power(cv2xd_t)
-
-# Data Client Permissions
-telux_allow_data(cv2xd_t)
-
-gen_require(`
-    type default_t;
-    type sysctl_t;
-    type init_var_run_t;
-    type debugfs_t;
-')
-
-# To notify systemd service about the health of the daemon
-allow cv2xd_t init_var_run_t:sock_file write_file_perms;
-
-dev_write_kmsg(cv2xd_t)
-corecmd_exec_shell(cv2xd_t)
-kernel_read_system_state(cv2xd_t)
-logging_send_syslog_msg(cv2xd_t)
-dontaudit cv2xd_t default_t:dir search;
-dontaudit cv2xd_t sysctl_t:dir search;
-allow cv2xd_t self:process signal;
-allow init_t cv2xd_init_t:file execute;
-files_type(cv2xd_etc_t)
-
-telux_allow_cv2x_ops(cv2xd_t)
-telux_allow_data_call_ops(cv2xd_t)
-
-allow cv2xd_t debugfs_t:dir search;
-allow cv2xd_t debugfs_t:file { write open getattr append };
+## <summary>cv2x_tcp_app</summary>
