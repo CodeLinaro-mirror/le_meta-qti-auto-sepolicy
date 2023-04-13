@@ -311,6 +311,19 @@ interface(`telux_allow_data_network_config',`
     allow $1 telux_access_data_network_config_t:file {getattr};
 ')
 
+# Interface to get access for data serving system APIs.
+# @brief: This interface allows the client to change data serving system configurations.
+# The operations supported are change/create configurations for data serving system
+#
+# Parameters:
+#    1) Domain context.
+
+interface(`telux_allow_data_service_mgmt',`
+    gen_require(`
+        type telux_access_data_service_mgmt_t;
+    ')
+    allow $1 telux_access_data_service_mgmt_t:file {getattr};
+')
 
 ##################################################################################################
 # Interfaces to control access for Platform related APIs in SDK

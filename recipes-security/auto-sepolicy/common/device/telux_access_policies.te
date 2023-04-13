@@ -90,6 +90,8 @@ type telux_access_data_filter_ops_t;
 files_type(telux_access_data_filter_ops_t);
 type telux_access_data_network_config_t;
 files_type(telux_access_data_network_config_t);
+type telux_access_data_service_mgmt_t;
+files_type(telux_access_data_service_mgmt_t);
 
 
 ##################################################################################################
