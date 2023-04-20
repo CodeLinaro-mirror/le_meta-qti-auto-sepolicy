@@ -69,5 +69,7 @@ files_type(cv2xd_etc_t)
 telux_allow_cv2x_ops(cv2xd_t)
 telux_allow_data_call_ops(cv2xd_t)
 
+mls_file_write_all_levels(cv2xd_t)
+
 allow cv2xd_t debugfs_t:dir search;
 allow cv2xd_t debugfs_t:file { write open getattr append };
