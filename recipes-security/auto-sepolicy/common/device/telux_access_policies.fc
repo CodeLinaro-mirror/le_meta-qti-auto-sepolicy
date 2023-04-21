@@ -70,6 +70,7 @@
 /etc/telux/permissions/telux_data_profile_ops     --  gen_context(system_u:object_r:telux_access_data_profile_ops_t,s0)
 /etc/telux/permissions/telux_data_filter_ops      --  gen_context(system_u:object_r:telux_access_data_filter_ops_t,s0)
 /etc/telux/permissions/telux_data_network_config  --  gen_context(system_u:object_r:telux_access_data_network_config_t,s0)
+/etc/telux/permissions/telux_data_service_mgmt    --  gen_context(system_u:object_r:telux_access_data_service_mgmt_t,s0)
 
 
 ##################################################################################################
