@@ -150,6 +150,8 @@ allow qwesd_t self:process signal;
 allow qwesd_t self:fifo_file rw_fifo_file_perms;
 allow qwesd_t self:qipcrtr_socket { read create write getattr setopt };
 kernel_read_system_state(qwesd_t)
+allow qwesd_t self:capability2 block_suspend;
+dev_rw_sysfs(qwesd_t)
 #################################################################
 # Rules ending for generic permissions for qwesd.
 ##################################################################
