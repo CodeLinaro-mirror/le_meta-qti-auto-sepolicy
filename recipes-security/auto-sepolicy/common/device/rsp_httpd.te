@@ -25,6 +25,10 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+# Changes from Qualcomm Innovation Center are provided under the following license:
+# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
 policy_module(rsp_httpd, 1.0)
 type rsp_httpd_t;
 type rsp_httpd_exec_t;
@@ -63,6 +67,9 @@ telux_allow_data(rsp_httpd_t)
 
 # Allow telsdk telephony clients
 telux_allow_tel(rsp_httpd_t)
+
+# Allow rsp_httpd to receive HTTP request payload from modem and send HTTP response to modem.
+telux_allow_tel_sim_profile_http_proxy(rsp_httpd_t)
 
 # Allow creation of IP sockets that are neither TCP or UDP, read from socket, write to socket,
 # set socket options and also allow IO control system call requests.
