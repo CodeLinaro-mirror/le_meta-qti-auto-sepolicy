@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear.
 
 policy_module(openavb_harness, 1.0)
@@ -8,8 +8,65 @@ type openavb_harness_exec_t;
 
 init_vendor_domain(openavb_harness_t, openavb_harness_exec_t)
 
+gen_require(`
+        type data_t;
+        type tmpfs_t;
+        type gptp_tmpfs_t;
+        type socket_device_t;
+        type sysfs_t;
+        type audio_hal_etc_t;
+        type proc_net_t;
+        type proc_t;
+        type sound_device_t;
+        type devlog_t;
+        type syslogd_t;
+        type agm_server_t;
+        class dbus send_msg;
+        type system_dbusd_var_run_t;
+        type systemd_logind_var_run_t;
+        type system_dbusd_t;
+        type snd_card_state_t;
+')
+
+#domain transition if started from adb shell
+transition_to_confined_domain(openavb_harness_t, openavb_harness_exec_t)
 type openavb_harness_tmp_t;
 files_tmp_file(openavb_harness_tmp_t);
 files_tmp_filetrans(openavb_harness_t, openavb_harness_tmp_t, sock_file)
+logging_send_syslog_msg(openavb_harness_t)
+# To store and play recordings in data partition
+manage_user_data_files(openavb_harness_t, data_t)
+# Gives permissions to access to hal devices such as sound devices.
+auto_audio_hal_access(openavb_harness_t)
+allow openavb_harness_t openavb_harness_tmp_t:sock_file { read create unlink getattr write };
+allow openavb_harness_t devlog_t:sock_file { write };
+allow openavb_harness_t self:unix_stream_socket { listen accept connectto };
+allow openavb_harness_t self:tcp_socket { create ioctl };
+allow openavb_harness_t self:capability { sys_nice net_raw net_admin };
+allow openavb_harness_t self:packet_socket { create map bind setopt getopt read write ioctl };
+allow openavb_harness_t syslogd_t:unix_dgram_socket { sendto };
+allow openavb_harness_t self:udp_socket { create ioctl };
+allow openavb_harness_t self:fifo_file rw_fifo_file_perms;
+allow openavb_harness_t sysfs_t:lnk_file read;
+allow openavb_harness_t socket_device_t:dir search;
+allow openavb_harness_t tmpfs_t:dir { search write };
+allow openavb_harness_t gptp_tmpfs_t:file { rw_file_perms map };
+allow openavb_harness_t snd_card_state_t:file { rw_file_perms };
+allow openavb_harness_t audio_hal_etc_t:file read_file_perms;
+allow openavb_harness_t proc_net_t:file { open read getattr };
+allow openavb_harness_t proc_t:file read_file_perms;
+allow openavb_harness_t sound_device_t:chr_file rw_chr_file_perms;
+allow openavb_harness_t self:process { setsched signal };
 
-allow openavb_harness_t openavb_harness_tmp_t:sock_file { read getattr write };
+# Dbus communication permissions
+#Manage Dbus sockets
+ifdef(`init_systemd',`
+    dbus_system_bus_client(openavb_harness_t)
+    init_dbus_chat(openavb_harness_t)
+    allow openavb_harness_t self:dbus send_msg;
+    rw_sock_files_pattern(openavb_harness_t, systemd_logind_var_run_t, systemd_logind_var_run_t)
+')
+allow openavb_harness_t system_dbusd_var_run_t:dir search_dir_perms;
+allow openavb_harness_t system_dbusd_var_run_t:sock_file write_sock_file_perms;
+allow openavb_harness_t system_dbusd_t:unix_stream_socket connectto;
+allow openavb_harness_t agm_server_t:dbus send_msg;

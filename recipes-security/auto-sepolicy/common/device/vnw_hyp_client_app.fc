@@ -1,0 +1,4 @@
+# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear.
+
+/usr/bin/vnw_hyp_client_app        --      gen_context(system_u:object_r:vnw_hyp_client_app_exec_t,s0)

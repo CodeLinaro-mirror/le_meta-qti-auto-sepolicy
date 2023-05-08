@@ -1,0 +1,117 @@
+# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear.
+
+policy_module(vnw_hyp_host_server, 1.0)
+
+type vnw_hyp_host_server_t;
+type vnw_hyp_host_server_exec_t;
+
+init_vendor_domain(vnw_hyp_host_server_t, vnw_hyp_host_server_exec_t)
+
+#domain transition if started from adb shell
+transition_to_confined_domain(vnw_hyp_host_server_t, vnw_hyp_host_server_exec_t)
+
+gen_require(`
+        type data_t;
+        type tmpfs_t;
+        type socket_device_t;
+        type daemon_cl_device_t;
+        type sysfs_t;
+        type audio_hal_etc_t;
+        type proc_net_t;
+        type proc_t;
+        type sound_device_t;
+        type gptp_tmpfs_t;
+        class dbus send_msg;
+        type agm_server_t;
+        type systemd_logind_var_run_t;
+        type devlog_t;
+        type syslogd_t;
+        type system_dbusd_t;
+        type daemon_cl_exec_t;
+        type openavb_harness_exec_t;
+        type qavb_app_exec_t;
+        type multiqavb_app_exec_t;
+        type audio_talker_avb_exec_t;
+        type audio_listener_avb_exec_t;
+        type shell_exec_t;
+        type system_dbusd_var_run_t;
+        type telaf_fw_t;
+')
+
+#logging_send_syslog_msg(vnw_hyp_host_server_t)
+# To store and play recordings in data partition
+manage_user_data_files(vnw_hyp_host_server_t, data_t)
+
+# Gives permissions to access to hal devices such as sound devices.
+auto_audio_hal_access(vnw_hyp_host_server_t)
+
+type vnw_hyp_host_server_tmp_t;
+files_tmp_file(vnw_hyp_host_server_tmp_t);
+files_tmp_filetrans(vnw_hyp_host_server_t, vnw_hyp_host_server_tmp_t, sock_file)
+
+# daemon_cl
+allow vnw_hyp_host_server_t daemon_cl_exec_t:file { read open execute execute_no_trans map };
+
+# openavb_harness
+allow vnw_hyp_host_server_t openavb_harness_exec_t:file { read open execute execute_no_trans map };
+
+# qavb_app
+allow vnw_hyp_host_server_t qavb_app_exec_t:file { read open execute execute_no_trans map };
+
+# qavb_app
+allow vnw_hyp_host_server_t multiqavb_app_exec_t:file { read open execute execute_no_trans map };
+
+# audio_talker_avb
+allow vnw_hyp_host_server_t audio_talker_avb_exec_t:file { read open execute execute_no_trans map };
+
+# audio_listener_avb
+allow vnw_hyp_host_server_t audio_listener_avb_exec_t:file { read open execute execute_no_trans map };
+
+# shell_exec
+allow vnw_hyp_host_server_t shell_exec_t:file { read open execute execute_no_trans map };
+
+#telaf_fw
+allow vnw_hyp_host_server_t telaf_fw_t:dir search;
+
+# self
+allow vnw_hyp_host_server_t self:qipcrtr_socket { create getattr read setopt write };
+allow vnw_hyp_host_server_t self:unix_stream_socket { listen accept connectto };
+allow vnw_hyp_host_server_t self:process { setsched signal sigkill };
+allow vnw_hyp_host_server_t self:tcp_socket { create ioctl };
+allow vnw_hyp_host_server_t self:netlink_route_socket { create bind read };
+
+allow vnw_hyp_host_server_t self:packet_socket { create map bind setopt getopt read write ioctl };
+allow vnw_hyp_host_server_t self:capability { sys_nice net_raw net_admin chown };
+
+allow vnw_hyp_host_server_t devlog_t:sock_file { write };
+allow vnw_hyp_host_server_t syslogd_t:unix_dgram_socket { sendto };
+allow vnw_hyp_host_server_t vnw_hyp_host_server_tmp_t:sock_file { read create unlink getattr write };
+allow vnw_hyp_host_server_t daemon_cl_device_t:chr_file { read write open ioctl };
+allow vnw_hyp_host_server_t socket_device_t:dir search;
+allow vnw_hyp_host_server_t audio_hal_etc_t:file read_file_perms;
+allow vnw_hyp_host_server_t sound_device_t:chr_file rw_chr_file_perms;
+allow vnw_hyp_host_server_t proc_t:file read_file_perms;
+allow vnw_hyp_host_server_t system_dbusd_var_run_t:dir search_dir_perms;
+allow vnw_hyp_host_server_t system_dbusd_var_run_t:sock_file write;
+allow vnw_hyp_host_server_t system_dbusd_t:unix_stream_socket connectto;
+allow vnw_hyp_host_server_t proc_net_t:file { read_file_perms };
+allow vnw_hyp_host_server_t sysfs_t:lnk_file read;
+allow vnw_hyp_host_server_t self:fifo_file rw_fifo_file_perms;
+allow vnw_hyp_host_server_t self:udp_socket { create ioctl };
+allow vnw_hyp_host_server_t tmpfs_t:dir search;
+files_tmp_file(gptp_tmpfs_t);
+fs_tmpfs_filetrans(vnw_hyp_host_server_t, gptp_tmpfs_t, file)
+allow vnw_hyp_host_server_t gptp_tmpfs_t:file manage_file_perms;
+allow vnw_hyp_host_server_t gptp_tmpfs_t:file { rw_file_perms map };
+files_read_etc_files(vnw_hyp_host_server_t) #/etc/nsswitch.conf
+
+# Dbus communication permissions
+#Manage Dbus sockets
+ifdef(`init_systemd',`
+    dbus_system_bus_client(vnw_hyp_host_server_t)
+    init_dbus_chat(vnw_hyp_host_server_t)
+    allow vnw_hyp_host_server_t self:dbus send_msg;
+    rw_sock_files_pattern(vnw_hyp_host_server_t, systemd_logind_var_run_t, systemd_logind_var_run_t)
+')
+allow vnw_hyp_host_server_t agm_server_t:dbus send_msg;

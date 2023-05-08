@@ -1,8 +1,8 @@
-# Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear.
 
 ######################################
 ## <summary>
-##      openavb harness interface
+##      audio listener avb interface
 ## </summary>
 #
