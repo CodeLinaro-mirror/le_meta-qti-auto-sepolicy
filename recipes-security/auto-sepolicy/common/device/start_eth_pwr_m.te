@@ -53,7 +53,7 @@ gen_require(`
 
 allow start_eth_pwr_m_t sysdevice_sysfs_t:file { getattr read open };
 allow start_eth_pwr_m_initrc_t proc_t:file { getattr read open };
-allow start_eth_pwr_m_initrc_t sysfs_t:file { getattr read open };
+allow start_eth_pwr_m_initrc_t sysfs_t:file { getattr read open write };
 allow start_eth_pwr_m_initrc_t start_eth_pwr_m_initrc_t:fifo_file { open read write getattr };
 allow start_eth_pwr_m_initrc_t sysdevice_sysfs_t:file { getattr read open };
 allow start_eth_pwr_m_initrc_t devlog_t:sock_file write;
@@ -64,3 +64,4 @@ allow start_eth_pwr_m_initrc_t socket_device_t:dir search;
 allow start_eth_pwr_m_initrc_t syslogd_t:unix_dgram_socket sendto;
 allow start_eth_pwr_m_initrc_t start_eth_pwr_m_exec_t:file { execute execute_no_trans map open read };
 allow start_eth_pwr_m_initrc_t shell_exec_t:file { execute execute_no_trans open read };
+allow start_eth_pwr_m_initrc_t sysfs_t:lnk_file read;
