@@ -73,6 +73,9 @@ gen_require(`
     type ion_device_t;
     type qseecom_device_t;
     type socket_device_t;
+    type smcinvoke_device_t;
+    type vendor_dmabuf_qseecom_heap_device_t;
+    type vendor_dmabuf_qseecomta_heap_device_t;
 ')
 
 dontaudit tsens_t default_t:dir search;
@@ -94,3 +97,7 @@ rw_chr_files_pattern(tsens_t, device_t, qseecom_device_t)
 allow tsens_t self:qipcrtr_socket { create getattr read write };
 allow tsens_t self:capability2 wake_alarm;
 dontaudit tsens_t socket_device_t:dir search;
+allow tsens_t self:process signal;
+allow tsens_t smcinvoke_device_t:chr_file { ioctl open read write };
+allow tsens_t vendor_dmabuf_qseecom_heap_device_t:chr_file { ioctl open read };
+allow tsens_t vendor_dmabuf_qseecomta_heap_device_t:chr_file { ioctl open read };

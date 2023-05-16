@@ -27,7 +27,7 @@
 
 #  Changes from Qualcomm Innovation Center are provided under the following license:
 #
-#  Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+#  Copyright (c) 2022- 2023 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 #  Redistribution and use in source and binary forms, with or without
 #  modification, are permitted (subject to the limitations in the
@@ -75,6 +75,7 @@ telux_allow_loc(location_test_app_t)
 gen_require(`
         type etc_t;
         type user_home_dir_t;
+        type sysctl_t;
 ')
 #Allow setting secondary groups
 allow location_test_app_t self:capability setgid;
@@ -82,6 +83,7 @@ allow location_test_app_t self:process signal;
 allow location_test_app_t etc_t:file read_file_perms;
 allow location_test_app_t user_home_dir_t:dir search;
 allow location_test_app_t user_home_dir_t:file { read open };
+dontaudit location_test_app_t sysctl_t:dir search;
 
 #Allow Location permissions.
 telux_allow_loc_data(location_test_app_t)

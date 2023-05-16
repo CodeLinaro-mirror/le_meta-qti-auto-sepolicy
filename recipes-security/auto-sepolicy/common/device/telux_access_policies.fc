@@ -54,6 +54,12 @@
 ##################################################################################################
 /etc/telux/permissions/telux_config_modem_config   --  gen_context(system_u:object_r:telux_access_config_modem_config_t,s0)
 
+##################################################################################################
+# Add context to the files used for controlling access to Config Manager related APIs in SDK.
+##################################################################################################
+/etc/telux/permissions/telux_set_global_config   --  gen_context(system_u:object_r:telux_access_set_global_config_t,s0)
+/etc/telux/permissions/telux_set_local_config   --  gen_context(system_u:object_r:telux_access_set_local_config_t,s0)
+
 
 ##################################################################################################
 # Add context to the files used for controlling access to Data related APIs in SDK.
@@ -64,13 +70,14 @@
 /etc/telux/permissions/telux_data_profile_ops     --  gen_context(system_u:object_r:telux_access_data_profile_ops_t,s0)
 /etc/telux/permissions/telux_data_filter_ops      --  gen_context(system_u:object_r:telux_access_data_filter_ops_t,s0)
 /etc/telux/permissions/telux_data_network_config  --  gen_context(system_u:object_r:telux_access_data_network_config_t,s0)
+/etc/telux/permissions/telux_data_service_mgmt    --  gen_context(system_u:object_r:telux_access_data_service_mgmt_t,s0)
 
 
 ##################################################################################################
 # Add context to the files used for controlling access to Platform related APIs in SDK.
 ##################################################################################################
-/etc/telux/permissions/telux_platform_listen_efs_events  --  gen_context(system_u:object_r:telux_access_platform_listen_efs_events_t,s0)
-/etc/telux/permissions/telux_platform_efs_ops_ctrl       --  gen_context(system_u:object_r:telux_access_platform_efs_ops_ctrl_t,s0)
+/etc/telux/permissions/telux_platform_listen_fs_events  --  gen_context(system_u:object_r:telux_access_platform_listen_fs_events_t,s0)
+/etc/telux/permissions/telux_platform_fs_ops_ctrl       --  gen_context(system_u:object_r:telux_access_platform_fs_ops_ctrl_t,s0)
 /etc/telux/permissions/telux_platform_ota_mgmt           --  gen_context(system_u:object_r:telux_access_platform_ota_mgmt_t,s0)
 
 

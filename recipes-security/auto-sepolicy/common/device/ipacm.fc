@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -27,3 +27,4 @@
 
 
 /var/run/data/monitor(/.*)?           gen_context(system_u:object_r:ipacm_var_run_t,s0)
+/etc/data/ipa_config.txt              gen_context(system_u:object_r:ipa_vlan_cfg_t,s0)

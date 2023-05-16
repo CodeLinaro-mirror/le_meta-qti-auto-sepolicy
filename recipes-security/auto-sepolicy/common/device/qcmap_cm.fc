@@ -1,0 +1,5 @@
+# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+#dhcpcd
+/var/run/dhcpcd.sock                  system_u:object_r:dhcpc_var_run_t:s0

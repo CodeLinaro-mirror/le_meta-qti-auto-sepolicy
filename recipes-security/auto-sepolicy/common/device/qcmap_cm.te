@@ -69,10 +69,14 @@ gen_require(`
   type modem_monitor_t;
   type socket_device_t;
   type default_t;
+  type ipa_vlan_cfg_t;
+  type system_data_t;
 ')
 
 allow qcmap_cm_t modem_monitor_t:unix_stream_socket connectto;
 allow qcmap_cm_t socket_device_t:sock_file write;
+allow qcmap_cm_t ipa_vlan_cfg_t:file { open read write getattr };
+allow qcmap_cm_t system_data_t:file { create open read write unlink };
 
 #DHCPCD Rules
 files_pid_file(dhcpc_var_run_t)
@@ -81,5 +85,5 @@ files_pid_filetrans(dhcpc_t, dhcpc_var_run_t, sock_file)
 allow dhcpc_t self:capability { kill };
 write_sock_files_pattern(dhcpc_t, systemd_logind_var_run_t, systemd_logind_var_run_t)
 
-allow dhcpc_t default_t:dir { search read };
+allow dhcpc_t default_t:dir { search read open getattr };
 allow dhcpc_t default_t:file { read open execute execute_no_trans getattr };
