@@ -29,6 +29,7 @@ gen_require(`
        type udev_t;
        type mount_copybind_t;
        type mount_t;
+       type ifconfig_exec_t;
 ')
 
 allow ipacm_t qcmap_var_run_t:dir rw_dir_perms;
@@ -51,3 +52,11 @@ allow ipa_fw_initrc_t ipa_vlan_cfg_t: file { open read write getattr };
 
 ## mount_t
 allow mount_t ipa_vlan_cfg_t: file { create mounton open read write getattr };
+
+## ipacm script chown permissions
+allow ipacm_t sysfs_t: dir { read };
+allow ipacm_t sysfs_t: file { getattr };
+allow ipacm_t ifconfig_exec_t: file { getattr execute read open execute_no_trans map };
+allow ipacm_t ipacm_t: process { getcap };
+allow ipacm_t ipacm_t: netlink_route_socket { nlmsg_write };
+allow ipacm_t sysfs_t: lnk_file { getattr };
