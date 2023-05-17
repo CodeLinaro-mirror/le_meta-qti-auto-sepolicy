@@ -37,6 +37,9 @@ type telux_thermal_server_exec_t;
 
 gen_require(`
     type default_t;
+    type sysctl_t;
+    type sysctl_vm_t;
+    type sysctl_vm_overcommit_t;
 ')
 
 init_vendor_domain(telux_thermal_server_t, telux_thermal_server_exec_t)
@@ -57,8 +60,15 @@ logging_send_syslog_msg(telux_thermal_server_t);
 # Allow thermal service to write on pipe
 allow telux_thermal_server_t self:fifo_file rw_fifo_file_perms;
 
-# Allow thermal service to write/read/create/getattr on qipcrtr socket
-allow telux_thermal_server_t self:qipcrtr_socket { write read create getattr };
+# Allow thermal service to write/read/create/getattr/setopt on qipcrtr socket
+allow telux_thermal_server_t self:qipcrtr_socket { write read create getattr setopt };
+
+# Allow thermal service to search sys and vm directory to read and open vm overcommit memory
+allow telux_thermal_server_t sysctl_t:dir search;
+allow telux_thermal_server_t sysctl_vm_t:dir search;
+
+# Allow thermal service to open and read vm overcommit memory
+allow telux_thermal_server_t sysctl_vm_overcommit_t:file { read open };
 
 # Allow thermal service to communicate with netlink socket
 allow telux_thermal_server_t self:netlink_generic_socket { write getattr setopt read bind create };
