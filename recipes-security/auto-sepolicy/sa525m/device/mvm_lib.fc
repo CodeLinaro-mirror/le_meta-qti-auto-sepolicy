@@ -31,3 +31,4 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /dev/mvm  -c  gen_context(system_u:object_r:mvm_device_t,s0)
+/dev/mvm_stats  -c gen_context(system_u:object_r:mvm_stats_device_t,s0)

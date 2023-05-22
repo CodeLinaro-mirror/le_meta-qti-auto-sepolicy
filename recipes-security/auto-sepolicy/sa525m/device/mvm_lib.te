@@ -34,3 +34,6 @@ policy_module(mvm_lib, 1.0)
 
 type mvm_device_t;
 dev_node(mvm_device_t);
+
+type mvm_stats_device_t;
+dev_node(mvm_stats_device_t);

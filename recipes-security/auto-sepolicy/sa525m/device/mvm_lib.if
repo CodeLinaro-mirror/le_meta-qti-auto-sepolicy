@@ -40,3 +40,12 @@ interface(`allow_mvm_lib',`
     ')
     allow $1 mvm_device_t:chr_file rw_chr_file_perms;
 ')
+
+# @brief: This interface allows the domain to use libmvm library
+# for the mvm stats operation by providing necessary permissions for its operation.
+interface(`allow_mvm_stats_lib',`
+    gen_require(`
+        type mvm_stats_device_t;
+    ')
+    allow $1 mvm_stats_device_t:chr_file rw_chr_file_perms;
+')
