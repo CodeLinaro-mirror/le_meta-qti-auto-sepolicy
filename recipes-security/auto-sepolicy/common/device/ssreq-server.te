@@ -25,7 +25,7 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#  Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+#  Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -57,6 +57,9 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+type init_sys_mss_rproc_unit_t;
+init_script_file(init_sys_mss_rproc_unit_t)
+
 gen_require(`
     type socket_device_t;
     type proc_t;
@@ -64,3 +67,4 @@ gen_require(`
 
 dontaudit ssreq_server_t socket_device_t:dir search;
 dontaudit ssreq_server_t proc_t:file { open read getattr }; #/proc/filesystems
+allow ssreq_server_t init_sys_mss_rproc_unit_t:service { start stop status};

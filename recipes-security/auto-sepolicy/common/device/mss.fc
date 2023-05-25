@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -31,3 +31,4 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /usr/sbin/init_mss       --      gen_context(system_u:object_r:mss_exec_t,s0)
+/usr/lib/systemd/system/init_sys_mss_rproc\.service        --      gen_context(system_u:object_r:init_sys_mss_rproc_unit_t,s0)
