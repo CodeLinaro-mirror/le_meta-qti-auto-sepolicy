@@ -18,4 +18,7 @@ do_patch_append() {
 
 do_install_append() {
     rm -rf ${D}/${datadir}/selinux/${POLICY_NAME}/*.pp
+    rm -rf ${D}/var/lib/selinux/mls/active/modules
+    rm -rf ${D}/var/lib/selinux/mls/active/policy.kern
+    rm -rf ${D}/var/lib/selinux/mls/active/policy.linked
 }
