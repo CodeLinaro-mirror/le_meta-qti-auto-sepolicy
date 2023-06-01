@@ -160,6 +160,11 @@
 /etc/telux/permissions/telux_sec_accelerator_mgr  --  gen_context(system_u:object_r:telux_access_sec_accelerator_mgr_t,s0)
 
 ##################################################################################################
+# Add context to the files used for controlling access to Cellular connection security related APIs
+##################################################################################################
+/etc/telux/permissions/telux_sec_ccs_report  --  gen_context(system_u:object_r:telux_access_sec_ccs_report_t,s0)
+
+##################################################################################################
 # Add context to the files used for controlling access to WLAN related APIs in SDK.
 ##################################################################################################
 /etc/telux/permissions/telux_wlan_device_config     --  gen_context(system_u:object_r:telux_access_wlan_device_config_t,s0)

@@ -231,6 +231,13 @@ type telux_access_sec_accelerator_mgr_t;
 files_type(telux_access_sec_accelerator_mgr_t);
 
 ##################################################################################################
+# Type identifiers for the files used to control access for Cellular connection security related
+# APIs in SDK
+##################################################################################################
+type telux_access_sec_ccs_report_t;
+files_type(telux_access_sec_ccs_report_t);
+
+##################################################################################################
 # Type identifiers for the files used to control access for WLAN APIs in SDK
 ##################################################################################################
 type telux_access_wlan_device_config_t;

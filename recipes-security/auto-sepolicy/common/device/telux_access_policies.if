@@ -1008,6 +1008,23 @@ interface(`telux_allow_sec_accelerator_mgr',`
 ')
 
 ##################################################################################################
+# Interfaces to control access for Cellular connection security related APIs in SDK
+##################################################################################################
+
+# Interface to register/deregister and getting session info.
+# @brief: This interface allows the client to register/deregister and get session info.
+#
+# Parameters:
+#    1) Domain context.
+
+interface(`telux_allow_sec_ccs_report',`
+    gen_require(`
+        type telux_access_sec_ccs_report_t;
+    ')
+    allow $1 telux_access_sec_ccs_report_t:file { getattr };
+')
+
+##################################################################################################
 # Interfaces to control access for WLAN related APIs in SDK
 ##################################################################################################
 
