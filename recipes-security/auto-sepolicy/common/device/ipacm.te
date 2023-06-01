@@ -44,7 +44,7 @@ allow udev_t qcmap_etc_data_t: dir { search };
 allow udev_t ipa_vlan_cfg_t: file { open read write getattr };
 
 ## mount copybind
-allow mount_copybind_t ipa_vlan_cfg_t: file { create open read write getattr setattr };
+allow mount_copybind_t ipa_vlan_cfg_t: file { create open read write getattr setattr relabelfrom relabelto };
 
 ## ipa_fw_initrc_t access to vlan cfg
 allow ipa_fw_initrc_t ipa_vlan_cfg_t: file { open read write getattr };
