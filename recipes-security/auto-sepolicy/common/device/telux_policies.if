@@ -502,10 +502,16 @@ interface(`telux_allow_wlan',`
 interface(`telux_allow_v2x',`
     gen_require(`
         type netmgrd_socket_device_t;
-    ')
+        type cv2xIpc_sock_t;
+        type cv2xd_t;
+     ')
     telux_allow_qmi_client($1)
     access_telux_files($1)
     device_rw_socket_files($1, netmgrd_socket_device_t)
+
+    #cv2x-daemon IPC support
+    allow $1 cv2xd_t:unix_stream_socket { connectto };
+    device_rw_socket_files($1, cv2xIpc_sock_t)
 ')
 
 # Config client interface
