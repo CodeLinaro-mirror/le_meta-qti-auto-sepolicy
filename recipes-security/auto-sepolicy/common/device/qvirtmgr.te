@@ -40,6 +40,8 @@ type qcrosvm_exec_t;
 
 type vm-bootsys_t;
 
+type vm_systemrw_t;
+
 type gunyah_device_t;
 dev_node(gunyah_device_t)
 
@@ -71,9 +73,16 @@ device_search_sockets(qvirtmgr_t)
 dev_rw_vhost(qvirtmgr_t)
 dontaudit qvirtmgr_t self:capability dac_override;
 
+allow qvirtmgr_t vm_systemrw_t:dir search_dir_perms;
+allow qvirtmgr_t vm_systemrw_t:file { read write lock getattr open };
+allow qvirtmgr_t vm_systemrw_t:filesystem getattr;
+
 #============= vm-bootsys_t ==============
 files_mountpoint(vm-bootsys_t)
 allow mount_t vm-bootsys_t:filesystem relabelfrom;
+
+files_mountpoint(vm_systemrw_t)
+allow mount_t vm_systemrw_t:filesystem relabelfrom;
 
 #============= gunyah_device_t ==============
 rw_chr_files_pattern(qvirtmgr_t, device_t, gunyah_device_t)
