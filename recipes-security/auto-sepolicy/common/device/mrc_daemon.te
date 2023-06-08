@@ -76,6 +76,7 @@ gen_require(`
     type mbim_device_t;
     type mtd_device_t;
     type datamtd_device_t;
+    type removable_device_t;
 ')
 
 init_vendor_domain(mrc_daemon_t, mrc_daemon_exec_t)
@@ -121,3 +122,7 @@ allow mrc_daemon_t self:socket { create ioctl read write getattr setopt };
 
 allow mrc_daemon_t self:qipcrtr_socket create;
 allow mrc_daemon_t self:qipcrtr_socket { getattr read setopt write };
+
+allow mrc_daemon_t removable_device_t:blk_file { read open write };
+allow mrc_daemon_t removable_device_t:blk_file { getattr write };
+
