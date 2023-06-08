@@ -76,6 +76,7 @@ gen_require(`
     type mbim_device_t;
     type mtd_device_t;
     type datamtd_device_t;
+    type removable_device_t;
 ')
 
 init_vendor_domain(mrc_daemon_t, mrc_daemon_exec_t)
