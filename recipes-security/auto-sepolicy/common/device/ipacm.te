@@ -60,3 +60,5 @@ allow ipacm_t ifconfig_exec_t: file { getattr execute read open execute_no_trans
 allow ipacm_t ipacm_t: process { getcap };
 allow ipacm_t ipacm_t: netlink_route_socket { nlmsg_write };
 allow ipacm_t sysfs_t: lnk_file { getattr };
+allow ipacm_t proc_net_t: dir { getattr read open search };
+allow ipacm_t proc_net_t: file { getattr };
