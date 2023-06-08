@@ -47,6 +47,7 @@
 /etc/telux/permissions/telux_audio_capture        --  gen_context(system_u:object_r:telux_access_audio_capture_t,s0)
 /etc/telux/permissions/telux_audio_factory_test   --  gen_context(system_u:object_r:telux_access_audio_factory_test_t,s0)
 /etc/telux/permissions/telux_audio_transcode      --  gen_context(system_u:object_r:telux_access_audio_transcode_t,s0)
+/etc/telux/permissions/telux_audio_voice_data     --  gen_context(system_u:object_r:telux_access_audio_voice_data_t,s0)
 
 
 ##################################################################################################
