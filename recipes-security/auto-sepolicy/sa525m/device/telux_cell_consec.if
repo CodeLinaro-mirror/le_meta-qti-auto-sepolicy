@@ -30,15 +30,4 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(telux_cell_consec_app, 1.0)
-
-type telux_cell_consec_app_t;
-type telux_cell_consec_app_exec_t;
-
-init_vendor_domain(telux_cell_consec_app_t, telux_cell_consec_app_exec_t)
-
-transition_to_confined_domain(telux_cell_consec_app_t, telux_cell_consec_app_exec_t)
-
-telux_allow_cellular_con_sec(telux_cell_consec_app_t)
-telux_allow_sec_ccs_report(telux_cell_consec_app_t)
-allow telux_cell_consec_app_t self:capability setgid;
+## <summary> telux_cell_consec </summary>
