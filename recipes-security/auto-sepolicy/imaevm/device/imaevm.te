@@ -109,6 +109,10 @@ gen_require(`
 	type sensor_test_app_t;
 	type thermal_shutdown_t;
 	type wlan_test_app_t;
+	type agm_server_t;
+	type engine_service_t;
+	type telux_config_server_t;
+	type ifconfig_t;
 	attribute domain;
 ')
 
@@ -175,3 +179,7 @@ mls_key_write_all_levels(modem_cfg_t)
 mls_key_write_all_levels(sensor_test_app_t)
 mls_key_write_all_levels(thermal_shutdown_t)
 mls_key_write_all_levels(wlan_test_app_t)
+mls_key_write_all_levels(agm_server_t)
+mls_key_write_all_levels(engine_service_t)
+mls_key_write_all_levels(telux_config_server_t)
+mls_key_write_all_levels(ifconfig_t)
