@@ -75,7 +75,7 @@ gen_require(`
 
 allow qcmap_cm_t modem_monitor_t:unix_stream_socket connectto;
 allow qcmap_cm_t socket_device_t:sock_file write;
-allow qcmap_cm_t ipa_vlan_cfg_t:file { open read write getattr };
+allow qcmap_cm_t ipa_vlan_cfg_t:file { open read write getattr lock append };
 allow qcmap_cm_t system_data_t:file { create open read write unlink };
 dontaudit qcmap_cm_t self:capability { dac_override } ;
 
