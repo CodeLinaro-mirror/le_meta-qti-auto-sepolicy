@@ -512,6 +512,7 @@ interface(`telux_allow_v2x',`
     #cv2x-daemon IPC support
     allow $1 cv2xd_t:unix_stream_socket { connectto };
     device_rw_socket_files($1, cv2xIpc_sock_t)
+    allow $1 self:process signal;
 ')
 
 # Config client interface
