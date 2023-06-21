@@ -36,6 +36,7 @@ gen_require(`
       type data_t;
       type default_t;
       type netmgrd_socket_device_t;
+      type sysctl_t;
 ')
 
 userdebug_or_eng(`
