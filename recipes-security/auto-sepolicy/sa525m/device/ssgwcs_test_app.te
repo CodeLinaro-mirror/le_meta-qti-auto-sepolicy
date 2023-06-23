@@ -1,0 +1,22 @@
+# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+#
+
+policy_module(ssgwcs_test_app, 1.0)
+
+########################################
+#
+# Declarations
+#
+
+type ssgwcs_sample_app_t;
+type ssgwcs_sample_app_exec_t;
+
+# domain transition if started from init
+init_vendor_domain(ssgwcs_sample_app_t, ssgwcs_sample_app_exec_t)
+
+data_mount_user_dir(ssgwcs_sample_app_t)
+location_client_generic_rules(ssgwcs_sample_app_t)
+files_read_loc_etc_files(ssgwcs_sample_app_t)
+
+access_wcs(ssgwcs_sample_app_t)
