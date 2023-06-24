@@ -41,3 +41,5 @@
 /vm_systemrw(/.*)?      gen_context(system_u:object_r:vm_systemrw_t,s0)
 
 /dev/gunyah         -c  gen_context(system_u:object_r:gunyah_device_t,s0)
+
+/dev/vhost-scmi      -c gen_context(system_u:object_r:vhost_device_t,s0)
