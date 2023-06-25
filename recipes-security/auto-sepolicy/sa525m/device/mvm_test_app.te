@@ -42,3 +42,4 @@ transition_to_confined_domain(mvm_test_app_t, mvm_test_app_exec_t)
 
 allow_mvm_lib(mvm_test_app_t)
 dontaudit mvm_test_app_t self:process signal;
+allow_mvm_stats_lib(mvm_test_app_t)

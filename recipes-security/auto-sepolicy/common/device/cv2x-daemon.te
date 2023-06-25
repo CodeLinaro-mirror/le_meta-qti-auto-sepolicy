@@ -33,6 +33,7 @@ type cv2xd_t;
 type cv2xd_exec_t;
 type cv2xd_etc_t;
 type cv2xd_init_t;
+type cv2xIpc_sock_t;
 
 #domain transition if started from init
 init_vendor_domain(cv2xd_t, cv2xd_exec_t)
@@ -51,6 +52,7 @@ gen_require(`
     type sysctl_t;
     type init_var_run_t;
     type debugfs_t;
+    type socket_device_t;
 ')
 
 # To notify systemd service about the health of the daemon
@@ -73,3 +75,11 @@ mls_file_write_all_levels(cv2xd_t)
 
 allow cv2xd_t debugfs_t:dir search;
 allow cv2xd_t debugfs_t:file { write open getattr append };
+
+#cv2x-daemon IPC support
+files_type(cv2xIpc_sock_t)
+dev_node(cv2xIpc_sock_t)
+allow cv2xd_t socket_device_t:sock_file { unlink };
+device_manage_socket_file(cv2xd_t, cv2xIpc_sock_t, "cv2xIpc")
+allow cv2xd_t self:unix_stream_socket { listen accept };
+allow cv2xd_t self:udp_socket { ioctl create shutdown };

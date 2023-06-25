@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -40,6 +40,8 @@ files_tmpfs_file(adb_tmp_t)
 
 gen_require(`
     type systemd_tmpfiles_t;
+    type tmpfs_t;
 ')
 files_tmp_filetrans(adbd_t, adb_tmp_t, file, ".adb.root")
 dontaudit systemd_tmpfiles_t adb_tmp_t:file getattr;
+dontaudit usb_t tmpfs_t:dir search;
