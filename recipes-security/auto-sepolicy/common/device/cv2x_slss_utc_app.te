@@ -12,7 +12,5 @@ transition_to_confined_domain(cv2x_slss_utc_app_t, cv2x_slss_utc_app_exec_t)
 
 telux_allow_v2x(cv2x_slss_utc_app_t);
 telux_allow_data(cv2x_slss_utc_app_t);
-write_telux_log_file(cv2x_slss_utc_app_t);
-telux_allow_qmi_client(cv2x_slss_utc_app_t);
 telux_allow_cv2x_info(cv2x_slss_utc_app_t);
 telux_allow_cv2x_config(cv2x_slss_utc_app_t);

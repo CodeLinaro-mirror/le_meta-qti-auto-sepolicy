@@ -43,14 +43,8 @@ files_tmp_file(cv2x_config_tmp_t)
 files_tmp_filetrans(cv2x_config_app_t, cv2x_config_tmp_t, { file lnk_file dir })
 manage_files_pattern(cv2x_config_app_t, cv2x_config_tmp_t, cv2x_config_tmp_t)
 
-gen_require(`
-    type netmgrd_socket_device_t;
-')
-
 telux_allow_data(cv2x_config_app_t);
-telux_allow_qmi_client(cv2x_config_app_t);
-write_telux_log_file(cv2x_config_app_t);
-device_rw_socket_files(cv2x_config_app_t, netmgrd_socket_device_t);
+telux_allow_v2x(cv2x_config_app_t);
 
 dontaudit cv2x_config_app_t self:capability dac_override;
 

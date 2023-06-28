@@ -38,8 +38,6 @@ transition_to_confined_domain(cv2x_get_capabilities_t, cv2x_get_capabilities_exe
 
 telux_allow_v2x(cv2x_get_capabilities_t);
 telux_allow_data(cv2x_get_capabilities_t);
-write_telux_log_file(cv2x_get_capabilities_t);
-telux_allow_qmi_client(cv2x_get_capabilities_t);
 
 dontaudit cv2x_get_capabilities_t self:capability dac_override;
 allow cv2x_get_capabilities_t self:udp_socket { ioctl read create connect write getopt setopt accept bind listen shutdown };

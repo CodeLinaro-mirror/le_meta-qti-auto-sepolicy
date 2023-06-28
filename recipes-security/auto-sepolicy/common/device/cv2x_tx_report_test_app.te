@@ -44,8 +44,6 @@ allow cv2x_tx_report_test_app_t var_log_t:lnk_file read;
 
 telux_allow_v2x(cv2x_tx_report_test_app_t);
 telux_allow_data(cv2x_tx_report_test_app_t);
-write_telux_log_file(cv2x_tx_report_test_app_t);
-telux_allow_qmi_client(cv2x_tx_report_test_app_t);
 
 kernel_read_network_state(cv2x_tx_report_test_app_t)
 corenet_udp_bind_all_unreserved_ports(cv2x_tx_report_test_app_t)
