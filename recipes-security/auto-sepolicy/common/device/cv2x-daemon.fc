@@ -60,3 +60,4 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /usr/bin/cv2x-daemon            --         gen_context(system_u:object_r:cv2xd_exec_t,s0)
+/etc/cv2x/enable                --         gen_context(system_u:object_r:cv2xd_etc_t,s0)

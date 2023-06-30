@@ -53,6 +53,8 @@ gen_require(`
     type init_var_run_t;
     type debugfs_t;
     type socket_device_t;
+    type mount_copybind_t;
+    type mount_t;
 ')
 
 # To notify systemd service about the health of the daemon
@@ -83,3 +85,6 @@ allow cv2xd_t socket_device_t:sock_file { unlink };
 device_manage_socket_file(cv2xd_t, cv2xIpc_sock_t, "cv2xIpc")
 allow cv2xd_t self:unix_stream_socket { listen accept };
 allow cv2xd_t self:udp_socket { ioctl create shutdown };
+
+allow mount_copybind_t cv2xd_etc_t:file { getattr relabelto setattr read open create write };
+allow mount_t cv2xd_etc_t:file { getattr mounton };
