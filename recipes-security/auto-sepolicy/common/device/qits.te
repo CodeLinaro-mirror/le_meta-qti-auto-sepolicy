@@ -1,0 +1,83 @@
+# Copyright (c) 2021 The Linux Foundation. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are
+# met:
+#     * Redistributions of source code must retain the above copyright
+#       notice, this list of conditions and the following disclaimer.
+#     * Redistributions in binary form must reproduce the above
+#       copyright notice, this list of conditions and the following
+#       disclaimer in the documentation and/or other materials provided
+#       with the distribution.
+#     * Neither the name of The Linux Foundation nor the names of its
+#       contributors may be used to endorse or promote products derived
+#       from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
+# ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+# BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+# IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+# Changes from Qualcomm Innovation Center are provided under the following license:
+# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(qits, 1.0)
+
+type qits_t;
+type qits_exec_t;
+type qits_etc_t;
+type qits_stats_t;
+
+files_type(qits_etc_t);
+files_type(qits_stats_t);
+
+init_vendor_domain(qits_t, qits_exec_t)
+transition_to_confined_domain(qits_t, qits_exec_t)
+
+gen_require(`
+    type tmp_t;
+    type proc_net_t;
+    type node_t;
+    type unreserved_port_t;
+    type cslistener_port_t;
+    type mount_copybind_t;
+    type mount_t;
+')
+
+filetrans_pattern(qits_t, tmp_t, qits_stats_t, file)
+
+allow qits_t qits_etc_t:file read_file_perms;
+allow qits_t qits_stats_t:file manage_file_perms;
+allow qits_t self:udp_socket create_socket_perms;
+allow qits_t proc_net_t:file read_file_perms;
+allow qits_t self:netlink_route_socket create_netlink_socket_perms;
+allow qits_t node_t:udp_socket node_bind;
+allow qits_t unreserved_port_t:udp_socket name_bind;
+allow qits_t cslistener_port_t:udp_socket name_bind;
+allow qits_t self:capability {net_raw setgid};
+allow qits_t self:process {signal};
+allow qits_t self:packet_socket create_socket_perms;
+allow qits_t self:tcp_socket create_socket_perms;
+allow qits_t node_t:tcp_socket node_bind;
+
+dontaudit qits_t self:capability sys_module;
+
+telux_allow_v2x(qits_t)
+telux_allow_loc(qits_t)
+telux_allow_data(qits_t)
+
+aerolink_allow_use(qits_t)
+aerolink_allow_sign(qits_t)
+aerolink_allow_verify(qits_t)
+
+# copybind /etc/ObeConfig.conf to /systemrw/ObeConfig.conf
+allow mount_copybind_t qits_etc_t:file { getattr relabelto setattr read open create write };
+allow mount_t qits_etc_t:file { getattr mounton };
