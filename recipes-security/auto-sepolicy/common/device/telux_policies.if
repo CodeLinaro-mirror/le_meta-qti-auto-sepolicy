@@ -510,6 +510,9 @@ interface(`telux_allow_v2x',`
     access_telux_files($1)
     device_rw_socket_files($1, netmgrd_socket_device_t)
 
+    #permission for creating sock to get MTU in radio
+    allow $1 self:udp_socket create_socket_perms;
+
     #cv2x-daemon IPC support
     allow $1 cv2xd_t:unix_stream_socket { connectto };
     device_rw_socket_files($1, cv2xIpc_sock_t)
