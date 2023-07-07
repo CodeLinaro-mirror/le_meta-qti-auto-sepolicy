@@ -75,8 +75,11 @@ gen_require(`
 #domain transition if started from adb shell
 transition_to_confined_domain(audio_console_app_t, audio_console_app_exec_t)
 
-# To store and play recordings in data partition
+# To store and play recordings in /data partition
 manage_user_data_files(audio_console_app_t, data_t)
+
+# To store and play recordings in /systemrw partition
+manage_system_data_files(audio_console_app_t, system_data_t)
 
 #Audio services
 telux_allow_audio(audio_console_app_t)
