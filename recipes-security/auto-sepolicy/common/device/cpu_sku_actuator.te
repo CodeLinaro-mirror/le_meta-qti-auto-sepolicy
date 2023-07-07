@@ -27,7 +27,7 @@
 
 #  Changes from Qualcomm Innovation Center are provided under the following license:
 #
-#  Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+#  Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -71,6 +71,11 @@ gen_require(`
        type qseecom_device_t;
        type ion_device_t;
        type kmsg_device_t;
+       type qwes_mink_socket_t;
+       type qwesd_t;
+       type socket_device_t;
+       type smcinvoke_device_t;
+       type vendor_dmabuf_qseecomta_heap_device_t;
 ')
 
 #####################################################################
@@ -82,6 +87,15 @@ rw_chr_files_pattern(cpu_sku_actuator_t, device_t, ion_device_t);
 
 # allow cpu_sku_actuator to read /firmware/image/softsku.mbn TA file
 firmware_read_files(cpu_sku_actuator_t);
+
+# For using QWES framework
+allow cpu_sku_actuator_t qwes_mink_socket_t:sock_file write;
+allow cpu_sku_actuator_t qwesd_t:unix_stream_socket connectto;
+
+# allow cpu_sku_actuator to read /dev/smcinvoke file
+rw_chr_files_pattern(cpu_sku_actuator_t, device_t, smcinvoke_device_t);
+
+allow cpu_sku_actuator_t socket_device_t:dir search;
 
 #####################################################################
 # Allow access to /sys nodes
