@@ -534,3 +534,15 @@ interface(`telux_allow_config',`
     # For socket communication: /etc/nsswitch.conf, /etc/group for getgrnam
     read_files_pattern($1, etc_t, etc_t);
 ')
+
+# Platform time client interface
+# @brief: The Platform time client interface allow the domain to contain a time manager
+# client by providing necessary permissions for its operation.
+#
+# Parameters:
+#   1) Domain context
+
+interface(`telux_allow_platform_time',`
+    # only need location permissions for now
+    telux_allow_loc($1)
+')
