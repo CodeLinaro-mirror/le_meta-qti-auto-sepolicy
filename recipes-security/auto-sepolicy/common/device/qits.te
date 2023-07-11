@@ -61,16 +61,21 @@ allow qits_t proc_net_t:file read_file_perms;
 allow qits_t self:netlink_route_socket create_netlink_socket_perms;
 allow qits_t node_t:udp_socket node_bind;
 allow qits_t unreserved_port_t:udp_socket name_bind;
+allow qits_t unreserved_port_t:tcp_socket name_bind;
 allow qits_t cslistener_port_t:udp_socket name_bind;
 allow qits_t self:capability {net_raw setgid};
 allow qits_t self:process {signal};
 allow qits_t self:packet_socket create_socket_perms;
-allow qits_t self:tcp_socket create_socket_perms;
+allow qits_t self:tcp_socket { create_socket_perms listen bind accept read write connect shutdown getopt setopt};
 allow qits_t node_t:tcp_socket node_bind;
+allow qits_t self:can_socket { create bind ioctl read setopt };
 
 dontaudit qits_t self:capability sys_module;
 
 telux_allow_v2x(qits_t)
+telux_allow_cv2x_config(qits_t)
+telux_allow_cv2x_flow_ops(qits_t)
+telux_allow_cv2x_info(qits_t)
 telux_allow_loc(qits_t)
 telux_allow_data(qits_t)
 
