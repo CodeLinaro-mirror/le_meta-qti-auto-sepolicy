@@ -382,6 +382,19 @@ interface(`telux_allow_platform_ota_mgmt',`
     allow $1 telux_access_platform_ota_mgmt_t:file { getattr };
 ')
 
+# Interface to get access to platform namespace APIs used for antenna management.
+# @brief: This interface allows the client to access APIs related to antenna management like indicating
+# set, get the active antenna.
+#
+# Parameters:
+#    1) Domain context.
+
+interface(`telux_allow_platform_antenna_mgmt',`
+    gen_require(`
+        type telux_access_platform_antenna_mgmt_t;
+    ')
+    allow $1 telux_access_platform_antenna_mgmt_t:file { getattr };
+')
 
 ##################################################################################################
 # Interfaces to control access for Power related APIs in SDK
