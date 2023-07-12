@@ -105,6 +105,8 @@ type telux_access_platform_fs_ops_ctrl_t;
 files_type(telux_access_platform_fs_ops_ctrl_t);
 type telux_access_platform_ota_mgmt_t;
 files_type(telux_access_platform_ota_mgmt_t);
+type telux_access_platform_antenna_mgmt_t;
+files_type(telux_access_platform_antenna_mgmt_t);
 
 
 ##################################################################################################
