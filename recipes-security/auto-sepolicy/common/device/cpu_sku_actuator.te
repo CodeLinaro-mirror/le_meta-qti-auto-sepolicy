@@ -76,6 +76,7 @@ gen_require(`
        type socket_device_t;
        type smcinvoke_device_t;
        type vendor_dmabuf_qseecomta_heap_device_t;
+       type vendor_dmabuf_qseecom_heap_device_t;
 ')
 
 #####################################################################
@@ -96,6 +97,10 @@ allow cpu_sku_actuator_t qwesd_t:unix_stream_socket connectto;
 rw_chr_files_pattern(cpu_sku_actuator_t, device_t, smcinvoke_device_t);
 
 allow cpu_sku_actuator_t socket_device_t:dir search;
+
+# allow qwesd to access /dev/dma_heap/qcom,qseecom-ta
+rw_chr_files_pattern(cpu_sku_actuator_t, device_t, vendor_dmabuf_qseecomta_heap_device_t);
+rw_chr_files_pattern(cpu_sku_actuator_t, device_t, vendor_dmabuf_qseecom_heap_device_t);
 
 #####################################################################
 # Allow access to /sys nodes
