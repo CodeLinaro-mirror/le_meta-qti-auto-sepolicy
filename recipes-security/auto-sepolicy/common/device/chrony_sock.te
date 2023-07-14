@@ -85,5 +85,4 @@ dontaudit chrony_sock_t self:capability dac_override;
 telux_allow_loc(chrony_sock_t)
 telux_allow_v2x(chrony_sock_t);
 telux_allow_data(chrony_sock_t);
-telux_allow_qmi_client(chrony_sock_t);
 telux_allow_cv2x_info(chrony_sock_t);

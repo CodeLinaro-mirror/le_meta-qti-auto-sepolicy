@@ -38,19 +38,13 @@ init_vendor_domain(cv2x_unicast_app_t, cv2x_unicast_app_exec_t)
 
 transition_to_confined_domain(cv2x_unicast_app_t, cv2x_unicast_app_exec_t)
 
-gen_require(`
-    type netmgrd_socket_device_t;
-')
-
+telux_allow_v2x(cv2x_unicast_app_t);
 telux_allow_data(cv2x_unicast_app_t);
-telux_allow_qmi_client(cv2x_unicast_app_t);
-write_telux_log_file(cv2x_unicast_app_t);
 
 corenet_udp_bind_commplex_main_port(cv2x_unicast_app_t);
 corenet_udp_bind_commplex_link_port(cv2x_unicast_app_t);
 corenet_udp_bind_generic_node(cv2x_unicast_app_t);
 corenet_udp_bind_all_unreserved_ports(cv2x_unicast_app_t);
-device_rw_socket_files(cv2x_unicast_app_t, netmgrd_socket_device_t);
 dev_read_sysfs(cv2x_unicast_app_t);
 kernel_read_network_state(cv2x_unicast_app_t);
 allow cv2x_unicast_app_t self:netlink_route_socket { read write bind create getattr nlmsg_read };

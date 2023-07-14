@@ -39,8 +39,6 @@ transition_to_confined_domain(cv2x_rssi_t, cv2x_rssi_exec_t)
 
 telux_allow_v2x(cv2x_rssi_t);
 telux_allow_data(cv2x_rssi_t);
-write_telux_log_file(cv2x_rssi_t);
-telux_allow_qmi_client(cv2x_rssi_t);
 
 kernel_read_network_state(cv2x_rssi_t)
 

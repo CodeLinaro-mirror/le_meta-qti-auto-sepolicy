@@ -55,11 +55,18 @@ allow mount_copybind_t sensor_util_rw_t:file { getattr relabelto setattr read op
 allow mount_t sensor_util_rw_t:file { getattr mounton };
 allow sensor_util_rw_t fs_t:filesystem associate;
 
+# Adding unique context to /etc/sensorhal
+allow mount_t sensor_util_t:dir search;
+allow setfiles_t sensor_util_t:dir search;
+allow unconfined_t sensor_util_t:dir { read getattr open search };
+allow mount_copybind_t sensor_util_t:dir list_dir_perms;
+dontaudit init_t sensor_util_t:dir search;
+
 typeattribute sensor_util_t sensor_util_rw_t;
 
 dontaudit init_t sensor_util_t:file write;
 allow sensor_hal_daemon_t self:qipcrtr_socket { create write read getattr setopt };
-allow mount_copybind_t sensor_util_t:file { write create };
+allow mount_copybind_t sensor_util_t:file { write create};
 allow sensor_hal_daemon_t self:socket { write read getattr create setopt };
 allow sensor_hal_daemon_t sensor_hal_daemon_socket_t:file { write create unlink open getattr };
 allow sensor_hal_daemon_t default_t:dir search;
