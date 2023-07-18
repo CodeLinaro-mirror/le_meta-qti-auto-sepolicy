@@ -64,3 +64,6 @@ dev_node(vendor_dmabuf_qseecomta_heap_device_t);
 allow post_boot_script_t etc_t:file { getattr read open };
 allow post_boot_script_t configfs_t:dir { search write add_name create getattr setattr };
 dontaudit post_boot_script_t self:capability { dac_read_search dac_override };
+
+type dm_device_t;
+dev_node(dm_device_t);
