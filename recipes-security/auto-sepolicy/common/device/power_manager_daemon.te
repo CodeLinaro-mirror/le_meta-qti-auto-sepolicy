@@ -27,7 +27,7 @@
 #
 # Changes from Qualcomm Innovation Center are provided under the following license:
 #
-# Copyright (c) 2021-2022 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2021-2023 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -74,6 +74,8 @@ gen_require(`
     type power_unit_t;
     type sysctl_t;
     type sysctl_kernel_t;
+    type mount_copybind_t;
+    type mount_t;
 ')
 
 type power_tmp_t;
@@ -138,11 +140,13 @@ ifdef(`init_systemd', `
 dontaudit power_manager_daemon_t init_t:dir search;
 allow power_manager_daemon_t self:fifo_file rw_fifo_file_perms;
 allow power_manager_daemon_t self:can_socket { create write };
-allow power_manager_daemon_t self:qipcrtr_socket { read write create getattr };
+allow power_manager_daemon_t self:qipcrtr_socket { read write create getattr setopt };
 allow power_manager_daemon_t self:unix_stream_socket { listen accept };
 allow power_manager_daemon_t power_unit_t:service {start status stop } ;
 allow power_manager_daemon_t gpiochip_device_t:chr_file read_file_perms;
 allow power_manager_daemon_t self:can_socket { bind ioctl read setopt };
+allow mount_copybind_t power_manager_conf_t:file { create open read setattr write getattr relabelto };
+allow mount_t power_manager_conf_t:file { getattr mounton };
 dontaudit power_manager_daemon_t init_t:file { getattr ioctl open read };
 dontaudit power_manager_daemon_t init_t:lnk_file read;
 dontaudit power_manager_daemon_t sysctl_kernel_t:dir search;

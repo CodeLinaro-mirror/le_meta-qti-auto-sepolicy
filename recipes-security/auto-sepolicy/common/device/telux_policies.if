@@ -510,6 +510,9 @@ interface(`telux_allow_v2x',`
     access_telux_files($1)
     device_rw_socket_files($1, netmgrd_socket_device_t)
 
+    #permission for creating sock to get MTU in radio
+    allow $1 self:udp_socket create_socket_perms;
+
     #cv2x-daemon IPC support
     allow $1 cv2xd_t:unix_stream_socket { connectto };
     device_rw_socket_files($1, cv2xIpc_sock_t)
@@ -530,4 +533,16 @@ interface(`telux_allow_config',`
 
     # For socket communication: /etc/nsswitch.conf, /etc/group for getgrnam
     read_files_pattern($1, etc_t, etc_t);
+')
+
+# Platform time client interface
+# @brief: The Platform time client interface allow the domain to contain a time manager
+# client by providing necessary permissions for its operation.
+#
+# Parameters:
+#   1) Domain context
+
+interface(`telux_allow_platform_time',`
+    # only need location permissions for now
+    telux_allow_loc($1)
 ')

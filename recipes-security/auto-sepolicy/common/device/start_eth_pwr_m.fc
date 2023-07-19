@@ -1,5 +1,0 @@
-#Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
-#SPDX-License-Identifier: BSD-3-Clause-Clear
-
-/etc/initscripts/start_eth_pwr_mgr_le    -- gen_context(system_u:object_r:start_eth_pwr_m_initrc_exec_t,s0)
-/usr/bin/ethpwrmgr                       -- gen_context(system_u:object_r:start_eth_pwr_m_exec_t,s0)

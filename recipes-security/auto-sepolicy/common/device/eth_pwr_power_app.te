@@ -29,15 +29,12 @@
 #Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
 #SPDX-License-Identifier: BSD-3-Clause-Clear
 
-policy_module(start_eth_pwr_m, 1.0)
+policy_module(eth_pwr_power_app, 1.0)
 
-type start_eth_pwr_m_t;
-type start_eth_pwr_m_exec_t;
-type start_eth_pwr_m_initrc_exec_t;
-type start_eth_pwr_m_initrc_t;
+type eth_pwr_power_app_t;
+type eth_pwr_power_app_exec_t;
 
-init_vendor_domain(start_eth_pwr_m_t, start_eth_pwr_m_exec_t)
-init_vendor_domain(start_eth_pwr_m_initrc_t, start_eth_pwr_m_initrc_exec_t)
+init_vendor_domain(eth_pwr_power_app_t,eth_pwr_power_app_exec_t)
 
 gen_require(`
        type sysdevice_sysfs_t;
@@ -51,17 +48,16 @@ gen_require(`
        type shell_exec_t;
 ')
 
-allow start_eth_pwr_m_t sysdevice_sysfs_t:file { getattr read open };
-allow start_eth_pwr_m_initrc_t proc_t:file { getattr read open };
-allow start_eth_pwr_m_initrc_t sysfs_t:file { getattr read open write };
-allow start_eth_pwr_m_initrc_t start_eth_pwr_m_initrc_t:fifo_file { open read write getattr };
-allow start_eth_pwr_m_initrc_t sysdevice_sysfs_t:file { getattr read open };
-allow start_eth_pwr_m_initrc_t devlog_t:sock_file write;
-allow start_eth_pwr_m_initrc_t power_manager_daemon_t:unix_stream_socket connectto;
-allow start_eth_pwr_m_initrc_t power_socket_t:dir search;
-allow start_eth_pwr_m_initrc_t power_socket_t:sock_file write;
-allow start_eth_pwr_m_initrc_t socket_device_t:dir search;
-allow start_eth_pwr_m_initrc_t syslogd_t:unix_dgram_socket sendto;
-allow start_eth_pwr_m_initrc_t start_eth_pwr_m_exec_t:file { execute execute_no_trans map open read };
-allow start_eth_pwr_m_initrc_t shell_exec_t:file { execute execute_no_trans open read };
-allow start_eth_pwr_m_initrc_t sysfs_t:lnk_file read;
+allow eth_pwr_power_app_t proc_t:file { getattr read open };
+allow eth_pwr_power_app_t sysfs_t:file { getattr read open write };
+allow eth_pwr_power_app_t eth_pwr_power_app_t:fifo_file { open read write getattr };
+allow eth_pwr_power_app_t sysdevice_sysfs_t:file { getattr read open };
+allow eth_pwr_power_app_t devlog_t:sock_file write;
+allow eth_pwr_power_app_t power_manager_daemon_t:unix_stream_socket connectto;
+allow eth_pwr_power_app_t power_socket_t:dir search;
+allow eth_pwr_power_app_t power_socket_t:sock_file write;
+allow eth_pwr_power_app_t socket_device_t:dir search;
+allow eth_pwr_power_app_t syslogd_t:unix_dgram_socket sendto;
+allow eth_pwr_power_app_t eth_pwr_power_app_exec_t:file { execute execute_no_trans map open read };
+allow eth_pwr_power_app_t shell_exec_t:file { execute execute_no_trans open read };
+allow eth_pwr_power_app_t sysfs_t:lnk_file read;

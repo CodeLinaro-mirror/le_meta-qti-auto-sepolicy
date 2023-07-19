@@ -33,6 +33,8 @@
 gen_require(`
     class dbus send_msg;
     type telux_audio_server_t;
+    type snd_card_state_t;
 ')
 
 allow agm_server_t telux_audio_server_t:dbus send_msg;
+allow agm_server_t snd_card_state_t:file rw_file_perms;

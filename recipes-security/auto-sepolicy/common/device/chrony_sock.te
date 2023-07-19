@@ -82,7 +82,4 @@ allow chrony_sock_t chronyd_t:unix_dgram_socket sendto;
 write_telux_log_file(chrony_sock_t);
 
 dontaudit chrony_sock_t self:capability dac_override;
-telux_allow_loc(chrony_sock_t)
-telux_allow_v2x(chrony_sock_t);
-telux_allow_data(chrony_sock_t);
-telux_allow_cv2x_info(chrony_sock_t);
+telux_allow_platform_time(chrony_sock_t);
