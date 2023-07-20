@@ -49,6 +49,7 @@ gen_require(`
     type etc_t;
     type systemd_resolved_var_run_t;
     type home_root_t;
+    type sysctl_t;
 ')
 
 dev_write_kmsg(acme_t)
@@ -65,6 +66,7 @@ read_files_pattern(acme_t, systemd_resolved_var_run_t, systemd_resolved_var_run_
 userdom_manage_user_home_dirs(acme_t)
 dontaudit acme_t self:capability sys_module;
 allow acme_t self:netlink_route_socket create_netlink_socket_perms;
+dontaudit acme_t sysctl_t:dir search;
 
 # Networking related policies.
 kernel_read_network_state(acme_t)
