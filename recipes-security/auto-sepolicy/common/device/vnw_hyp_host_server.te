@@ -36,7 +36,6 @@ gen_require(`
         type audio_listener_avb_exec_t;
         type shell_exec_t;
         type system_dbusd_var_run_t;
-        type telaf_fw_t;
 ')
 
 #logging_send_syslog_msg(vnw_hyp_host_server_t)
@@ -70,9 +69,6 @@ allow vnw_hyp_host_server_t audio_listener_avb_exec_t:file { read open execute e
 
 # shell_exec
 allow vnw_hyp_host_server_t shell_exec_t:file { read open execute execute_no_trans map };
-
-#telaf_fw
-allow vnw_hyp_host_server_t telaf_fw_t:dir search;
 
 # self
 allow vnw_hyp_host_server_t self:qipcrtr_socket { create getattr read setopt write };
@@ -115,3 +111,10 @@ ifdef(`init_systemd',`
     rw_sock_files_pattern(vnw_hyp_host_server_t, systemd_logind_var_run_t, systemd_logind_var_run_t)
 ')
 allow vnw_hyp_host_server_t agm_server_t:dbus send_msg;
+
+ifdef(`qti-nad-telaf',`
+    gen_require(`
+        type telaf_fw_t;
+    ')
+    allow vnw_hyp_host_server_t telaf_fw_t:dir search;
+')
