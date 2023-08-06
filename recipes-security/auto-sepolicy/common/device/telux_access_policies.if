@@ -1067,6 +1067,19 @@ interface(`telux_allow_sec_wcs_report',`
     allow $1 telux_access_sec_wcs_report_t:file { getattr };
 ')
 
+# Interface to trust the AP.
+# @brief: This interface allows the client to trust the AP.
+#
+# Parameters:
+#    1) Domain context.
+
+interface(`telux_allow_sec_wcs_config',`
+    gen_require(`
+        type telux_access_sec_wcs_config_t;
+    ')
+    allow $1 telux_access_sec_wcs_config_t:file { getattr };
+')
+
 ##################################################################################################
 # Interfaces to control access for WLAN related APIs in SDK
 ##################################################################################################
