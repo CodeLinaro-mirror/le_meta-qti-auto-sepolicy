@@ -42,4 +42,3 @@ transition_to_confined_domain(telux_crypto_accel_app_t, telux_crypto_accel_app_e
 telux_allow_crypto_accel(telux_crypto_accel_app_t)
 telux_allow_sec_accelerator_mgr(telux_crypto_accel_app_t)
 allow telux_crypto_accel_app_t self:capability setgid;
-allow_mvm_lib(telux_crypto_accel_app_t)

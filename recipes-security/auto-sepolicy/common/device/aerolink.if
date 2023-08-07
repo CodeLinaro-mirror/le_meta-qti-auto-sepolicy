@@ -45,6 +45,7 @@ interface(`aerolink_allow_use',`
         type syslogd_t;
         type ion_device_t;
         type aerolink_data_t;
+        type smcinvoke_device_t;
     ')
     # manage /data/aerolink dirs
     manage_user_data_files($1, aerolink_data_t)
@@ -52,6 +53,8 @@ interface(`aerolink_allow_use',`
     # qwes permissions
     allow $1 qwesd_t:unix_stream_socket connectto;
     allow $1 qwes_mink_socket_t:sock_file write;
+    allow $1 qwes_mink_socket_t:dir { getattr setattr search };
+    allow $1 smcinvoke_device_t:chr_file { read write open ioctl};
 
     # syslog
     allow $1 devlog_t:sock_file write;
@@ -64,6 +67,10 @@ interface(`aerolink_allow_use',`
 
     # ion_device_t:chr_file { read write } open,ioctl
     rw_chr_files_pattern($1, device_t, ion_device_t)
+    # add permissions for keymaster
+    telux_allow_crypto($1)
+
+    allow $1 self:process signal;
 ')
 
 # @brief: This interface allows the domain to use aerolink library to sign
@@ -91,8 +98,16 @@ interface(`aerolink_allow_ipc_channel',`
     allow $1 self:capability sys_resource;
 ')
 
+# @brief: This interface allows the domain to verify messages
+# by providing necessary permissions for its operation.
+#
+# Parameters:
+#   1) Domain context
 interface(`aerolink_allow_verify',`
-    # allow aerolink to use qecc dispatcher
-#     qecc_dispatcher_allow_use($1)
+    # add pemissions for mvm
+    telux_allow_sec_key_ops($1)
+    telux_allow_sec_encryption_ops($1)
+    telux_allow_crypto_accel($1)
+    telux_allow_sec_accelerator_mgr($1)
 ')
 
