@@ -59,7 +59,6 @@ gen_require(`
 	type qmi_shutdown_modem_t;
 	type local_login_t;
 	type setfiles_t;
-	type irsc_util_t;
 	type dnsmasq_t;
 	type rilmuxd_t;
 	type systemd_tmpfiles_t;
@@ -130,7 +129,6 @@ mls_key_write_all_levels(xtra_daemon_t)
 mls_key_write_all_levels(lowi_server_t)
 mls_key_write_all_levels(thermal-engine_t)
 mls_key_write_all_levels(setfiles_t)
-mls_key_write_all_levels(irsc_util_t)
 mls_key_write_all_levels(dnsmasq_t)
 mls_key_write_all_levels(rilmuxd_t)
 mls_key_write_all_levels(systemd_tmpfiles_t)
