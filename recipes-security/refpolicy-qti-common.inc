@@ -5,6 +5,8 @@ SRC_URI += "file://auto-sepolicy/common/ \
             file://auto-sepolicy/${MACHINE}/ "
 
 SRC_URI += "${@bb.utils.contains('DISTRO_FEATURES', 'vbleima', 'file://auto-sepolicy/imaevm/', '', d)}"
+SRC_URI += "${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm-tele', 'file://auto-sepolicy/televm/', '', d)}"
+SRC_URI += "${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm-fota', 'file://auto-sepolicy/fotavm/', '', d)}"
 
 do_patch_append() {
     install_device_policy(d, os.path.join("auto-sepolicy", "common"))
@@ -14,6 +16,10 @@ do_patch_append() {
         install_device_policy(d, os.path.join("auto-sepolicy", d.getVar("MACHINE")))
     if bb.utils.contains('DISTRO_FEATURES', 'vbleima', True, False, d):
         install_device_policy(d, os.path.join("auto-sepolicy", "imaevm"))
+    if bb.utils.contains('MACHINE_FEATURES', 'qti-vm-tele', True, False, d):
+        install_device_policy(d, os.path.join("auto-sepolicy", "televm"))
+    if bb.utils.contains('MACHINE_FEATURES', 'qti-vm-fota', True, False, d):
+        install_device_policy(d, os.path.join("auto-sepolicy", "fotavm"))
 }
 
 do_install_append() {
