@@ -27,9 +27,11 @@ do_patch_append() {
 
 do_install_append() {
     rm -rf ${D}/${datadir}/selinux/${POLICY_NAME}/*.pp
-    rm -rf ${D}/var/lib/selinux/mls/active/modules
     rm -rf ${D}/var/lib/selinux/mls/active/policy.kern
     rm -rf ${D}/var/lib/selinux/mls/active/policy.linked
+    if ${@bb.utils.contains('COMBINED_FEATURES', 'qti-nad-telaf', 'false', 'true', d)}; then
+        rm -rf ${D}/var/lib/selinux/mls/active/modules
+    fi
 }
 
 python remove_modules_conf () {
@@ -54,6 +56,16 @@ python remove_modules_conf () {
         modules_file.write(new_file)
 }
 
+python remove_cil () {
+    import os
+    rootdir = os.path.join(d.getVar("D"), "var", "lib", "selinux", "mls", "active", "modules" , "100")
+    for subdir, dirs, files in os.walk(rootdir):
+        for file in files :
+            if file == "hll":
+                os.remove(os.path.join(subdir, file))
+}
+
 do_compile[postfuncs] += "remove_modules_conf"
 
 POLICY_CUSTOM_BUILDOPT_append = "${@bb.utils.contains('COMBINED_FEATURES', 'qti-mvm', '"qti-mvm "', '', d)}"
+do_install[postfuncs] += "${@bb.utils.contains('COMBINED_FEATURES', 'qti-nad-telaf', 'remove_cil', '', d)}"
