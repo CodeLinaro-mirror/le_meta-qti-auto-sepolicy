@@ -55,3 +55,5 @@ python remove_modules_conf () {
 }
 
 do_compile[postfuncs] += "remove_modules_conf"
+
+POLICY_CUSTOM_BUILDOPT_append = "${@bb.utils.contains('COMBINED_FEATURES', 'qti-mvm', '"qti-mvm "', '', d)}"
