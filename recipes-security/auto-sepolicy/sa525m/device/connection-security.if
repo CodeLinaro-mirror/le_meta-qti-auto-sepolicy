@@ -32,7 +32,8 @@
 
 ## <summary> connection-security </summary>
 
-# @brief: This interface allows the domain to access to WCS access
+# @brief: This interface allows the domain to access resources required
+# for the WCS feature. It protects against malicious WiFi access points.
 #
 # Parameters:
 #   1. Domain context
@@ -43,14 +44,18 @@ interface(`access_wcs',`
         type mlid_t;
         type lowi_server_t;
     ')
-    allow $1 access_wcs_t:file { read open getattr};
-    allow $1 self:capability setgid;
+    logging_send_syslog_msg($1)
+    allow $1 access_wcs_t:file { read open getattr };
     allow $1 self:process signal;
     allow $1 lowi_server_t:unix_dgram_socket sendto;
     allow $1 mlid_t:unix_dgram_socket sendto;
+    data_mount_user_dir($1)
+    location_client_generic_rules($1)
+    files_read_loc_etc_files($1)
 ')
 
-# @brief: This interface allows the domain to access to CCS access
+# @brief: This interface allows the domain to access resources required
+# for the CCS feature. It protects against malicious cellular base station.
 #
 # Parameters:
 #   1. Domain context
@@ -59,5 +64,5 @@ interface(`access_ccs',`
     gen_require(`
         type access_ccs_t;
     ')
-    allow $1 access_ccs_t:file { read open getattr};
+    allow $1 access_ccs_t:file { read open getattr };
 ')

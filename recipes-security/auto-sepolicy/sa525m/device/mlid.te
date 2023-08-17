@@ -30,44 +30,27 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
 policy_module(mlid, 1.0)
 
-########################################
-#
-# Declarations
-#
-
-### mlid
 type mlid_t;
 type mlid_exec_t;
-gen_require(`
-    type lowi_server_t;
-    type loc_hald_t;
-    type loc_data_t;
-    type slim_daemon_t;
-')
+type mlid_sock_t;
+
 init_vendor_domain(mlid_t, mlid_exec_t)
 
-logging_send_syslog_msg(mlid_t)
+gen_require(`
+    type lowi_server_t;
+    type sysctl_t;
+')
 
-# Manage socket files inside /dev/socket
-type mlid_sock_t;
 files_type(mlid_sock_t)
+
 dev_node(mlid_sock_t)
-
-files_read_etc_files(mlid_t)
-files_read_loc_etc_files(mlid_t)
-
 device_manage_socket_file(mlid_t, mlid_sock_t)
-#Location services
-telux_allow_loc(mlid_t)
-#Allow Location permissions.
-telux_allow_loc_data(mlid_t)
-telux_allow_loc_config(mlid_t)
-telux_allow_loc_consent(mlid_t)
-
 kernel_read_network_state(mlid_t)
+files_read_loc_etc_files(mlid_t)
+location_client_generic_rules(mlid_t)
 allow mlid_t self:{ socket netlink_generic_socket unix_dgram_socket } create_socket_perms;
-allow mlid_t { self loc_hald_t  lowi_server_t slim_daemon_t }:unix_dgram_socket sendto;
+allow mlid_t { self lowi_server_t }:unix_dgram_socket sendto;
 allow mlid_t self:unix_stream_socket { accept connectto listen };
+allow mlid_t sysctl_t:dir search;
