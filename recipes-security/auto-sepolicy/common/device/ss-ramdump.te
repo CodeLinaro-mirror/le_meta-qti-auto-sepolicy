@@ -66,6 +66,8 @@ gen_require(`
 allow ss-ramdump_t sdcard_t:dir { write search create add_name getattr };
 allow ss-ramdump_t sdcard_t:file { write create open };
 allow ss-ramdump_t sdcard_t:lnk_file read;
+allow ss-ramdump_t sysfs_t:file { write read open };
+
 mls_file_read_all_levels(ss-ramdump_t);
 
 files_search_mnt(ss-ramdump_t)

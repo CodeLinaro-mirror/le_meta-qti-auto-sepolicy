@@ -62,3 +62,6 @@ allow throttleman_t throttleman_socket_t:dir { add_entry_dir_perms remove_name }
 allow throttleman_t throttleman_socket_t:sock_file { read create write getattr };
 rw_chr_files_pattern(throttleman_t, device_t, ion_device_t);
 allow throttleman_t throttleman_t:unix_stream_socket{ listen accept };
+
+allow_mvm_stats_lib(throttleman_t);
+allow_mvm_lib(throttleman_t);
