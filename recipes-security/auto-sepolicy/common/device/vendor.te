@@ -67,3 +67,5 @@ dontaudit post_boot_script_t self:capability { dac_read_search dac_override };
 
 type dm_device_t;
 dev_node(dm_device_t);
+
+allow tftp_server_t rfs_persist_t:file unlink;

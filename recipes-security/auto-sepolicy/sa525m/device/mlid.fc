@@ -30,7 +30,6 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-/usr/bin/mink_lowi_server  -- gen_context(system_u:object_r:mlid_exec_t,s0)
+/usr/bin/mink_lowi_server  --  gen_context(system_u:object_r:mlid_exec_t,s0)
 
-## socket files
-/dev/socket/mlid                    gen_context(system_u:object_r:mlid_sock_t,s0)
+/dev/socket/mlid  --  gen_context(system_u:object_r:mlid_sock_t,s0)
