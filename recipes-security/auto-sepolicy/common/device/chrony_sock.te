@@ -52,7 +52,7 @@ userdebug_or_eng(`
 ')
 
 allow chrony_sock_t chronyd_var_run_t:sock_file write;
-allow chrony_sock_t self:capability { setgid };
+allow chrony_sock_t self:capability { setgid sys_time };
 allow chrony_sock_t self:fifo_file { ioctl };
 allow chrony_sock_t self:udp_socket { create };
 allow chrony_sock_t self:socket create_socket_perms;
