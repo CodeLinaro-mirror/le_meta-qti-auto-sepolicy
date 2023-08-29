@@ -51,3 +51,10 @@ allow location_test_app_t user_home_dir_t:dir search;
 allow location_test_app_t user_home_dir_t:file { read open };
 allow location_test_app_t self:tcp_socket { create_socket_perms listen bind accept read write connect shutdown getopt setopt};
 allow location_test_app_t commplex_main_port_t:tcp_socket name_connect;
+allow location_test_app_t self:socket {create_socket_perms read write setopt getattr};
+dontaudit location_test_app_t sysctl_t:dir search;
+
+#Allow Location permissions.
+telux_allow_loc_data(location_test_app_t)
+telux_allow_loc_config(location_test_app_t)
+telux_allow_loc_consent(location_test_app_t)
