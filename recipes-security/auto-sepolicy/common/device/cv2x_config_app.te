@@ -33,11 +33,16 @@ policy_module(cv2x_config_app, 1.0)
 type cv2x_config_app_t;
 type cv2x_config_app_exec_t;
 type cv2x_config_tmp_t;
+type cv2x_config_app_file_t;
 
 #domain transition if started from init
 init_vendor_domain(cv2x_config_app_t, cv2x_config_app_exec_t)
 
 transition_to_confined_domain(cv2x_config_app_t, cv2x_config_app_exec_t)
+
+# add permissions for /var/tmp/v2x.xml
+files_type(cv2x_config_app_file_t);
+allow cv2x_config_app_t cv2x_config_app_file_t:file { read open getattr };
 
 files_tmp_file(cv2x_config_tmp_t)
 files_tmp_filetrans(cv2x_config_app_t, cv2x_config_tmp_t, { file lnk_file dir })
