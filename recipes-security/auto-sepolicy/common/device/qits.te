@@ -50,6 +50,7 @@ gen_require(`
     type cslistener_port_t;
     type mount_copybind_t;
     type mount_t;
+    type sysctl_t;
 ')
 
 filetrans_pattern(qits_t, tmp_t, qits_stats_t, file)
@@ -71,6 +72,7 @@ allow qits_t node_t:tcp_socket node_bind;
 allow qits_t self:can_socket { create bind ioctl read setopt };
 
 dontaudit qits_t self:capability sys_module;
+dontaudit qits_t sysctl_t:dir search;
 
 telux_allow_v2x(qits_t)
 telux_allow_cv2x_config(qits_t)
