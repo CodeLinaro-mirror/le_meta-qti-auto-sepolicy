@@ -34,6 +34,9 @@
 gen_require(`
     type systemd_tmpfiles_t;
     type initrc_tmp_t;
+    type init_t;
+    type wifi_system_data_t;
 ')
 
 dontaudit systemd_tmpfiles_t initrc_tmp_t:dir setattr;
+allow init_t wifi_system_data_t:dir search;
