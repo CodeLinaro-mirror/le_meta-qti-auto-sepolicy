@@ -42,7 +42,6 @@ type vm-bootsys_t;
 
 type vm_systemrw_t;
 
-type removable_device_t;
 
 type gunyah_device_t;
 dev_node(gunyah_device_t)
@@ -57,6 +56,11 @@ gen_require(`
     type trace_marker_t;
     type mount_t;
     type tracefs_t;
+')
+
+
+gen_require(`
+    type removable_device_t;
 ')
 
 #============= qvirtmgr_t ==============
