@@ -63,6 +63,9 @@ allow throttleman_t throttleman_socket_t:sock_file { read create write getattr }
 rw_chr_files_pattern(throttleman_t, device_t, ion_device_t);
 allow throttleman_t throttleman_t:unix_stream_socket{ listen accept };
 
+# Obtain required permission in terms of API access control
+telux_allow_therm_data_read(throttleman_t)
+
 ifdef(`qti-mvm',`
     allow_mvm_stats_lib(throttleman_t);
     allow_mvm_lib(throttleman_t);
