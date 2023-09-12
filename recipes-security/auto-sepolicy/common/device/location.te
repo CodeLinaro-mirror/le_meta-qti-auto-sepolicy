@@ -74,6 +74,10 @@ miscfiles_read_generic_certs(engine_service_t);
 allow engine_service_t qwesd_t:unix_stream_socket connectto;
 allow engine_service_t qwes_mink_socket_t:sock_file write;
 
+#### xtra-daemon ####
+allow xtra_daemon_t qwesd_t:unix_stream_socket connectto;
+allow xtra_daemon_t qwes_mink_socket_t:sock_file write;
+
 #### slim_daemon ####
 allow slim_daemon_t self:udp_socket create_socket_perms;
 allow slim_daemon_t unreserved_port_t:udp_socket name_bind;
