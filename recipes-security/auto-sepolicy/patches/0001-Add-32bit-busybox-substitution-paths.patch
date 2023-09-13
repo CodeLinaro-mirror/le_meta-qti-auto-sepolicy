@@ -1,0 +1,24 @@
+From efd92c0f8ac36b0d36eb529ccf1c13518cc59a6d Mon Sep 17 00:00:00 2001
+From: Abinaya P <quic_abinayap@quicinc.com>
+Date: Wed, 13 Sep 2023 10:45:42 +0530
+Subject: [PATCH] Add 32 bit busybox substitution paths
+
+---
+ config/file_contexts.subs_dist | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/config/file_contexts.subs_dist b/config/file_contexts.subs_dist
+index c720871ea..e46b32be1 100644
+--- a/config/file_contexts.subs_dist
++++ b/config/file_contexts.subs_dist
+@@ -48,3 +48,7 @@
+ /usr/lib/busybox/sbin /usr/sbin
+ /usr/lib/busybox/usr /usr
+ 
++/usr/lib/lib32-busybox/bin /usr/bin
++/usr/lib/lib32-busybox/sbin /usr/sbin
++/usr/lib/lib32-busybox/usr /usr
++
+-- 
+2.17.1
+
