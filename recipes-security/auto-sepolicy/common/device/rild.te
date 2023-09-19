@@ -70,6 +70,7 @@ gen_require(`
       type data_t;
       type default_t;
       type netmgrd_socket_device_t;
+      type sysctl_t;
 ')
 
 userdebug_or_eng(`
@@ -103,6 +104,7 @@ allow rild_t netmgrd_socket_device_t:sock_file rw_sock_file_perms;
 
 dontaudit rild_t self:capability dac_override;
 dontaudit rild_t default_t:dir search;
+dontaudit rild_t sysctl_t:dir search;
 
 #Telux power management
 telux_allow_power(rild_t)
