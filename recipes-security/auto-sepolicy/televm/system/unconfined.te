@@ -1,4 +1,4 @@
-#  Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -29,14 +29,10 @@
 # IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#
+
 
 gen_require(`
-    type systemd_tmpfiles_t;
-    type initrc_tmp_t;
-    type init_t;
-    type wifi_system_data_t;
+    type system_data_t;
 ')
 
-dontaudit systemd_tmpfiles_t initrc_tmp_t:dir setattr;
-allow init_t wifi_system_data_t:dir search;
+allow unconfined_t system_data_t:file map;

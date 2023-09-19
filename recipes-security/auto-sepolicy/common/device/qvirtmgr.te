@@ -42,6 +42,7 @@ type vm-bootsys_t;
 
 type vm_systemrw_t;
 
+
 type gunyah_device_t;
 dev_node(gunyah_device_t)
 
@@ -57,6 +58,11 @@ gen_require(`
     type tracefs_t;
 ')
 
+
+gen_require(`
+    type removable_device_t;
+')
+
 #============= qvirtmgr_t ==============
 allow qvirtmgr_t qcrosvm_exec_t:file { read map execute open execute_no_trans };
 allow qvirtmgr_t qvirtmgr_etc_t:file read_file_perms;
@@ -69,6 +75,7 @@ allow qvirtmgr_t vm-bootsys_t:dir search_dir_perms;
 allow qvirtmgr_t vm-bootsys_t:file { read write lock getattr open };
 allow qvirtmgr_t vm-bootsys_t:filesystem getattr;
 allow qvirtmgr_t vhost_device_t:file { read write };
+allow qvirtmgr_t device_t:filesystem getattr;
 corenet_rw_tun_tap_dev(qvirtmgr_t)
 device_search_sockets(qvirtmgr_t)
 dev_rw_vhost(qvirtmgr_t)
@@ -77,6 +84,10 @@ dontaudit qvirtmgr_t self:capability dac_override;
 allow qvirtmgr_t vm_systemrw_t:dir search_dir_perms;
 allow qvirtmgr_t vm_systemrw_t:file { read write lock getattr open };
 allow qvirtmgr_t vm_systemrw_t:filesystem getattr;
+
+allow qvirtmgr_t removable_device_t:dir search_dir_perms;
+allow qvirtmgr_t removable_device_t:blk_file { read write lock getattr open };
+allow qvirtmgr_t removable_device_t:filesystem getattr;
 
 #============= vm-bootsys_t ==============
 files_mountpoint(vm-bootsys_t)
