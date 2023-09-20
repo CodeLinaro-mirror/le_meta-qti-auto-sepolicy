@@ -27,7 +27,7 @@
 
 #  Changes from Qualcomm Innovation Center are provided under the following license:
 #
-#  Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+#  Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 #  Redistribution and use in source and binary forms, with or without
 #  modification, are permitted (subject to the limitations in the
@@ -69,7 +69,6 @@ init_vendor_domain(audio_console_app_t, audio_console_app_exec_t)
 gen_require(`
     type data_t;
     type etc_t;
-    type tmp_t;
     type sdcard_t;
 ')
 
@@ -78,14 +77,6 @@ transition_to_confined_domain(audio_console_app_t, audio_console_app_exec_t)
 
 # To store and play recordings in /data partition
 manage_user_data_files(audio_console_app_t, data_t)
-
-# To store and play recordings in /systemrw partition
-manage_system_data_files(audio_console_app_t, system_data_t)
-
-# To push and play recordings in /tmp partition
-allow audio_console_app_t tmp_t:dir { write search read create open getattr add_name remove_name rmdir };
-allow audio_console_app_t tmp_t:file { write create open read getattr unlink };
-allow audio_console_app_t tmp_t:filesystem getattr;
 
 #Audio services
 telux_allow_audio(audio_console_app_t)
