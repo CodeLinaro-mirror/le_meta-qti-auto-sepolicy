@@ -37,10 +37,10 @@ type telux_wifi_consec_exec_t;
 
 init_vendor_domain(telux_wifi_consec_t, telux_wifi_consec_exec_t)
 
+transition_to_confined_domain(telux_wifi_consec_t, telux_wifi_consec_exec_t)
+
 telux_allow_wifi_con_sec(telux_wifi_consec_t)
 telux_allow_sec_wcs_report(telux_wifi_consec_t)
 telux_allow_sec_wcs_config(telux_wifi_consec_t)
 
 allow telux_wifi_consec_t self:capability setgid;
-
-access_wcs(telux_wifi_consec_t)

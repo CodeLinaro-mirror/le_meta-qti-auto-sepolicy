@@ -31,9 +31,3 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 policy_module(connection-security, 1.0)
-
-type access_ccs_t;
-files_type(access_ccs_t);
-
-type access_wcs_t;
-files_type(access_wcs_t);

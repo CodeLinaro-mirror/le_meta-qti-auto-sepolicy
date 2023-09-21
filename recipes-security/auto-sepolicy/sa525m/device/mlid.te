@@ -43,13 +43,11 @@ gen_require(`
     type sysctl_t;
 ')
 
-files_type(mlid_sock_t)
-
 dev_node(mlid_sock_t)
 device_manage_socket_file(mlid_t, mlid_sock_t)
 kernel_read_network_state(mlid_t)
-files_read_loc_etc_files(mlid_t)
 location_client_generic_rules(mlid_t)
+
 allow mlid_t self:{ socket netlink_generic_socket unix_dgram_socket } create_socket_perms;
 allow mlid_t { self lowi_server_t }:unix_dgram_socket sendto;
 allow mlid_t self:unix_stream_socket { accept connectto listen };
