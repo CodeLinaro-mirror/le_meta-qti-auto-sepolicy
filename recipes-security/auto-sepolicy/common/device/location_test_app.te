@@ -24,6 +24,11 @@
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+# Changes from Qualcomm Innovation Center are provided under the following license:
+# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
 
 policy_module(location_test_app, 1.0)
 type location_test_app_t;
@@ -53,8 +58,3 @@ allow location_test_app_t self:tcp_socket { create_socket_perms listen bind acce
 allow location_test_app_t commplex_main_port_t:tcp_socket name_connect;
 allow location_test_app_t self:socket {create_socket_perms read write setopt getattr};
 dontaudit location_test_app_t sysctl_t:dir search;
-
-#Allow Location permissions.
-telux_allow_loc_data(location_test_app_t)
-telux_allow_loc_config(location_test_app_t)
-telux_allow_loc_consent(location_test_app_t)
