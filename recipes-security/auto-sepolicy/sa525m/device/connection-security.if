@@ -40,29 +40,22 @@
 
 interface(`access_wcs',`
     gen_require(`
-        type access_wcs_t;
+        type data_t;
         type mlid_t;
+        type mlid_sock_t;
         type lowi_server_t;
+        type socket_device_t;
+        type urandom_device_t;
     ')
-    logging_send_syslog_msg($1)
-    allow $1 access_wcs_t:file { read open getattr };
     allow $1 self:process signal;
+    allow $1 socket_device_t:dir search;
+    allow $1 urandom_device_t:chr_file { open read };
     allow $1 lowi_server_t:unix_dgram_socket sendto;
     allow $1 mlid_t:unix_dgram_socket sendto;
-    data_mount_user_dir($1)
+    allow $1 mlid_t:unix_stream_socket connectto;
+    allow $1 mlid_sock_t:sock_file write;
+    allow $1 self:qipcrtr_socket { write read create getattr setopt shutdown };
+    logging_send_syslog_msg($1)
+    manage_user_data_files($1, data_t)
     location_client_generic_rules($1)
-    files_read_loc_etc_files($1)
-')
-
-# @brief: This interface allows the domain to access resources required
-# for the CCS feature. It protects against malicious cellular base station.
-#
-# Parameters:
-#   1. Domain context
-
-interface(`access_ccs',`
-    gen_require(`
-        type access_ccs_t;
-    ')
-    allow $1 access_ccs_t:file { read open getattr };
 ')

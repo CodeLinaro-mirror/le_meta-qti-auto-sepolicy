@@ -8,6 +8,7 @@ type ssgwcs_sample_app_t;
 type ssgwcs_sample_app_exec_t;
 
 init_vendor_domain(ssgwcs_sample_app_t, ssgwcs_sample_app_exec_t)
+transition_to_confined_domain(ssgwcs_sample_app_t, ssgwcs_sample_app_exec_t)
 
 allow ssgwcs_sample_app_t self:capability setgid;
 
