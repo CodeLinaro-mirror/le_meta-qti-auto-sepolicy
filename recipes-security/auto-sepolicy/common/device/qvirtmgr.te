@@ -58,11 +58,16 @@ gen_require(`
     type tracefs_t;
 ')
 
-
+userdebug_or_eng(`
+    gen_require(`
+        type debugfs_t;
+    ')
+     allow qvirtmgr_t debugfs_t:file { read open execute getattr write };
+')
 gen_require(`
     type removable_device_t;
+    type proc_t;
 ')
-
 #============= qvirtmgr_t ==============
 allow qvirtmgr_t qcrosvm_exec_t:file { read map execute open execute_no_trans };
 allow qvirtmgr_t qvirtmgr_etc_t:file read_file_perms;
@@ -88,7 +93,12 @@ allow qvirtmgr_t vm_systemrw_t:filesystem getattr;
 allow qvirtmgr_t removable_device_t:dir search_dir_perms;
 allow qvirtmgr_t removable_device_t:blk_file { read write lock getattr open };
 allow qvirtmgr_t removable_device_t:filesystem getattr;
+allow qvirtmgr_t proc_t:file { getattr read write open };
 
+type qvirt_data_t;
+user_data_files_type(qvirt_data_t)
+data_filetrans(qvirtmgr_t, qvirt_data_t, { file dir })
+manage_user_data_files(qvirtmgr_t, qvirt_data_t)
 #============= vm-bootsys_t ==============
 files_mountpoint(vm-bootsys_t)
 allow mount_t vm-bootsys_t:filesystem relabelfrom;
