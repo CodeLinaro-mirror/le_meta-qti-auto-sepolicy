@@ -46,6 +46,7 @@ interface(`aerolink_allow_use',`
         type ion_device_t;
         type aerolink_data_t;
         type smcinvoke_device_t;
+        type cert_t;
     ')
     # manage /data/aerolink dirs
     manage_user_data_files($1, aerolink_data_t)
@@ -71,6 +72,8 @@ interface(`aerolink_allow_use',`
     telux_allow_crypto($1)
 
     allow $1 self:process signal;
+
+    read_files_pattern($1, cert_t, cert_t)
 ')
 
 # @brief: This interface allows the domain to use aerolink library to sign
