@@ -24,53 +24,65 @@
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
+#
 # Changes from Qualcomm Innovation Center are provided under the following license:
 #
 # Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
-policy_module(daemon_cl, 1.0)
+## <summary>gptp daemon</summary>
+########################################
+## <summary>
+##      Read and write gptp_tmpfs_t tmp files.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`gptp_rw_tmpfs_files',`
+        gen_require(`
+                type gptp_tmpfs_t;
+        ')
 
-type daemon_cl_t;
-type daemon_cl_exec_t;
-
-init_vendor_domain(daemon_cl_t, daemon_cl_exec_t)
-#domain transition if started from adb shell
-transition_to_confined_domain(daemon_cl_t, daemon_cl_exec_t)
-
-gen_require(`
-	type tmpfs_t;
-	type socket_device_t;
-	type etc_t;
+        rw_files_pattern($1, gptp_tmpfs_t, gptp_tmpfs_t)
 ')
 
-type daemon_cl_device_t;
-type gptp_socket_t;
-dev_node(daemon_cl_device_t)
-files_type(gptp_socket_t)
-dev_node(gptp_socket_t)
-type gptp_tmpfs_t;
-files_tmp_file(gptp_tmpfs_t);
-fs_tmpfs_filetrans(daemon_cl_t, gptp_tmpfs_t, file)
-logging_send_syslog_msg(daemon_cl_t)
-
-userdebug_or_eng(`
-	gen_require(`
-	    type unconfined_t;
-   ')
-    allow unconfined_t gptp_tmpfs_t:file { getattr rw_file_perms };
+########################################
+## <summary>
+##      Read and write gptp device node
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+## <rolecap/>
+#
+interface(`gptp_rw_qgptp_device',`
+    gen_require(`
+        type device_t;
+        type qgptp_device_t;
+    ')
+    rw_chr_files_pattern($1, device_t, qgptp_device_t)
 ')
 
-allow daemon_cl_t etc_t:file read_file_perms;
-allow daemon_cl_t self:capability { net_raw net_admin chown };
-allow daemon_cl_t self:netlink_route_socket { read bind create };
-allow daemon_cl_t self:packet_socket create_socket_perms;
-allow daemon_cl_t self:tcp_socket { create ioctl };
-allow daemon_cl_t tmpfs_t:filesystem getattr;
-allow daemon_cl_t gptp_tmpfs_t:file manage_file_perms;
-allow daemon_cl_t gptp_tmpfs_t:file { getattr rw_file_perms map };
-allow daemon_cl_t daemon_cl_device_t:chr_file { rw_chr_file_perms setattr };
-allow daemon_cl_t socket_device_t:dir search;
-allow daemon_cl_t gptp_socket_t:dir rw_dir_perms;
-allow daemon_cl_t gptp_socket_t:sock_file { create unlink };
+########################################
+## <summary>
+##      Communicate with gptp socket file
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+## <rolecap/>
+#
+interface(`gptp_rw_gptp_sock_file',`
+        gen_require(`
+                type qgptp_t;
+                type gptp_socket_t;
+        ')
+    stream_connect_pattern($1, gptp_socket_t, gptp_socket_t, qgptp_t);
+')
