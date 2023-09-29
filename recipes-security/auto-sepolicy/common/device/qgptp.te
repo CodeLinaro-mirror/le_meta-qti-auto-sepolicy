@@ -25,7 +25,52 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-/usr/bin/daemon_cl       --      gen_context(system_u:object_r:daemon_cl_exec_t,s0)
-/dev/ptp0                -c      gen_context(system_u:object_r:daemon_cl_device_t,s0)
-/dev/socket/gptp(/.*)?		 gen_context(system_u:object_r:gptp_socket_t,s0)
-/dev/shm/ptp             --      gen_context(system_u:object_r:gptp_tmpfs_t,s0)
+# Changes from Qualcomm Innovation Center are provided under the following license:
+#
+# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(qgptp, 1.0)
+
+type qgptp_t;
+type qgptp_exec_t;
+
+init_vendor_domain(qgptp_t, qgptp_exec_t)
+#domain transition if started from adb shell
+transition_to_confined_domain(qgptp_t, qgptp_exec_t)
+
+gen_require(`
+	type tmpfs_t;
+	type socket_device_t;
+	type etc_t;
+')
+
+type qgptp_device_t;
+type gptp_socket_t;
+dev_node(qgptp_device_t)
+files_type(gptp_socket_t)
+dev_node(gptp_socket_t)
+type gptp_tmpfs_t;
+files_tmp_file(gptp_tmpfs_t);
+fs_tmpfs_filetrans(qgptp_t, gptp_tmpfs_t, file)
+logging_send_syslog_msg(qgptp_t)
+
+userdebug_or_eng(`
+	gen_require(`
+	    type unconfined_t;
+   ')
+    allow unconfined_t gptp_tmpfs_t:file { getattr rw_file_perms };
+')
+
+allow qgptp_t etc_t:file read_file_perms;
+allow qgptp_t self:capability { net_raw net_admin chown };
+allow qgptp_t self:netlink_route_socket { read bind create };
+allow qgptp_t self:packet_socket create_socket_perms;
+allow qgptp_t self:tcp_socket { create ioctl };
+allow qgptp_t tmpfs_t:filesystem getattr;
+allow qgptp_t gptp_tmpfs_t:file manage_file_perms;
+allow qgptp_t gptp_tmpfs_t:file { getattr rw_file_perms map };
+allow qgptp_t qgptp_device_t:chr_file { rw_chr_file_perms setattr };
+allow qgptp_t socket_device_t:dir search;
+allow qgptp_t gptp_socket_t:dir rw_dir_perms;
+allow qgptp_t gptp_socket_t:sock_file { create unlink };
