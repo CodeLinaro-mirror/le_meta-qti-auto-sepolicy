@@ -14,7 +14,7 @@ transition_to_confined_domain(multiqavb_app_t, multiqavb_app_exec_t)
 gen_require(`
         type data_t;
         type tmpfs_t;
-        type daemon_cl_device_t;
+        type qgptp_device_t;
         type sysfs_t;
         type proc_net_t;
         type devlog_t;
@@ -36,7 +36,7 @@ allow multiqavb_app_t self:capability { sys_nice net_raw net_admin };
 allow multiqavb_app_t self:packet_socket { create map bind setopt getopt read write ioctl };
 allow multiqavb_app_t syslogd_t:unix_dgram_socket sendto;
 allow multiqavb_app_t self:udp_socket { create ioctl };
-allow multiqavb_app_t daemon_cl_device_t:chr_file { read open };
+allow multiqavb_app_t qgptp_device_t:chr_file { read open };
 allow multiqavb_app_t sysfs_t:lnk_file read;
 allow multiqavb_app_t tmpfs_t:dir search;
 allow multiqavb_app_t proc_t:file read_file_perms;
