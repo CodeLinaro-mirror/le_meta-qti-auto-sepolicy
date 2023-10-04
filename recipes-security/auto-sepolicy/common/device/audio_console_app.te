@@ -99,3 +99,6 @@ telux_allow_audio_capture(audio_console_app_t)
 telux_allow_audio_transcode(audio_console_app_t)
 telux_allow_audio_factory_test(audio_console_app_t)
 telux_allow_audio_voice_data(audio_console_app_t)
+
+#Allow Signalling
+allow audio_console_app_t self:process signal;
