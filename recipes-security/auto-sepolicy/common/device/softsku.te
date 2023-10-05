@@ -63,14 +63,11 @@ policy_module(softsku, 1.0)
 type softsku_t;
 type softsku_exec_t;
 type softsku_data_conf_t;
-type softsku_rc_t;
 files_type(softsku_data_conf_t)
-files_type(softsku_rc_t)
 init_vendor_domain(softsku_t, softsku_exec_t)
 
 gen_require(`
     type net_conf_t;
-    type etc_t;
     type systemd_resolved_var_run_t;
     type socket_device_t;
     type init_var_run_t;
@@ -86,7 +83,6 @@ gen_require(`
     type smcinvoke_device_t;
     type persist_t;
     type qseecomd_persist_t;
-    type qwes_data_t;
     type syslogd_t;
     type var_run_t;
 ')
@@ -110,8 +106,7 @@ corenet_tcp_connect_http_port(softsku_t);
 allow softsku_t socket_device_t:dir search;
 allow softsku_t init_var_run_t:dir search;
 allow softsku_t system_data_t:dir search;
-allow softsku_t softsku_rc_t:dir { getattr read open search };
-allow softsku_t softsku_rc_t:file { getattr read open };
+
 allow softsku_t softsku_data_conf_t:file { getattr read open };
 allow softsku_t softsku_data_conf_t:dir { open search read getattr};
 allow softsku_t unreserved_port_t:tcp_socket { name_bind name_connect };

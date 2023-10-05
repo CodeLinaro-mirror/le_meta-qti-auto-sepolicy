@@ -31,4 +31,3 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /usr/bin/softsku_daemon     --  gen_context(system_u:object_r:softsku_daemon_exec_t,s0)
-/etc/c2c/softskud.rc        --  gen_context(system_u:object_r:softsku_rc_t,s0)

@@ -60,4 +60,3 @@
 
 /usr/bin/softsku                --  gen_context(system_u:object_r:softsku_exec_t,s0)
 /etc/c2c/car2cloud.conf        --  gen_context(system_u:object_r:softsku_data_conf_t,s0)
-/etc/c2c/softskud.rc        --  gen_context(system_u:object_r:softsku_rc_t,s0)
