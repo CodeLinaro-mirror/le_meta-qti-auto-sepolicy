@@ -8,14 +8,14 @@ type ssgtzd_exec_t;
 
 init_vendor_domain(ssgtzd_t, ssgtzd_exec_t)
 
-require {
+gen_require(`
         type devlog_t;
         type syslogd_t;
         type smcinvoke_device_t;
         type unconfined_t;
         type socket_device_t;
         class service { start status };
-}
+')
 #============= ssgtzd_t ==============
 allow ssgtzd_t devlog_t:sock_file write;
 allow ssgtzd_t self:fifo_file write;
