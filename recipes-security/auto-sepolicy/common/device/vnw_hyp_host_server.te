@@ -84,7 +84,7 @@ allow vnw_hyp_host_server_t self:tcp_socket { create ioctl };
 allow vnw_hyp_host_server_t self:netlink_route_socket { create bind read };
 
 allow vnw_hyp_host_server_t self:packet_socket { create map bind setopt getopt read write ioctl };
-allow vnw_hyp_host_server_t self:capability { sys_nice net_raw net_admin chown };
+allow vnw_hyp_host_server_t self:capability { sys_nice net_raw net_admin chown setgid setuid };
 
 allow vnw_hyp_host_server_t devlog_t:sock_file { write };
 allow vnw_hyp_host_server_t syslogd_t:unix_dgram_socket { sendto };
