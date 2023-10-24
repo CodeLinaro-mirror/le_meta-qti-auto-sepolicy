@@ -27,7 +27,7 @@
 
 #  Changes from Qualcomm Innovation Center are provided under the following license:
 #
-#  Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+#  Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -82,4 +82,8 @@ userdebug_or_eng(`
     allow unconfined_t self:cap_userns { net_admin net_raw sys_admin };
     allow unconfined_t sysfs_cpu_present:file getattr;
     allow unconfined_t kernel_t:process getpgid;
+    type alsaucm_test_t;
+    user_data_files_type(alsaucm_test_t)
+    data_filetrans(unconfined_t, alsaucm_test_t, { fifo_file })
+    allow unconfined_t alsaucm_test_t:fifo_file { create open read write getattr unlink execute };
 ')
