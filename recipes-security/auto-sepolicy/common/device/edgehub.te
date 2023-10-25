@@ -103,6 +103,7 @@ allow c2c_hub_t unreserved_port_t:tcp_socket name_connect;
 allow c2c_hub_t urandom_device_t:chr_file { read getattr open create};
 corenet_tcp_connect_http_port(c2c_hub_t);
 allow c2c_hub_t edgehub_etc_conf_t:dir { open search read getattr};
+allow c2c_hub_t self:fifo_file {read getattr write};
 
 # softsku_manager policy
 init_vendor_domain(softsku_manager_t, softsku_manager_exec_t)
@@ -122,6 +123,7 @@ allow softsku_manager_t systemd_resolved_var_run_t:file { read getattr open };
 allow softsku_manager_t unreserved_port_t:tcp_socket name_connect;
 allow softsku_manager_t urandom_device_t:chr_file { read getattr open create};
 allow softsku_manager_t edgehub_etc_conf_t:dir { open search read getattr};
+allow softsku_manager_t self:fifo_file {read getattr write};
 
 # dm policy
 init_vendor_domain(dm_manager_t, dm_manager_exec_t)
@@ -144,6 +146,7 @@ allow dm_manager_t systemd_resolved_var_run_t:file { read getattr open };
 allow dm_manager_t unreserved_port_t:tcp_socket name_connect;
 allow dm_manager_t urandom_device_t:chr_file { read getattr open create};
 allow dm_manager_t edgehub_etc_conf_t:dir { open search read getattr};
+allow dm_manager_t self:fifo_file {read getattr write};
 
 #smq_manager policy
 init_vendor_domain(smq_manager_t, smq_manager_exec_t)
