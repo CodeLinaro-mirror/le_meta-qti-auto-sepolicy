@@ -63,9 +63,12 @@ init_script_file(init_sys_mss_rproc_unit_t)
 gen_require(`
     type socket_device_t;
     type proc_t;
+    type sysfs_t;
 ')
 
 dontaudit ssreq_server_t socket_device_t:dir search;
 dontaudit ssreq_server_t proc_t:file { open read getattr }; #/proc/filesystems
 dontaudit ssreq_server_t init_t:system { start stop status};
+allow ssreq_server_t sysfs_t:file { append getattr open }; # for remoteproc nodes
+allow ssreq_server_t sysfs_t:lnk_file read; # for remoteproc nodes
 allow ssreq_server_t init_sys_mss_rproc_unit_t:service { start stop status};
