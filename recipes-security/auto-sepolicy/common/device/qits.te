@@ -92,7 +92,10 @@ aerolink_allow_use(qits_t)
 aerolink_allow_sign(qits_t)
 aerolink_allow_verify(qits_t)
 aerolink_allow_ipc_channel(qits_t)
-allow_mvm_stats_lib(qits_t);
+# /dev/mvm_stats
+ifdef(`qti-mvm',`
+    allow_mvm_stats_lib(qits_t)
+')
 
 # copybind /etc/ObeConfig.conf to /systemrw/ObeConfig.conf
 allow mount_copybind_t qits_etc_t:file { getattr relabelto setattr read open create write };

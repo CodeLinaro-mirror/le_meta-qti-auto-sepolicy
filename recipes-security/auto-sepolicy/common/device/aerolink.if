@@ -112,6 +112,5 @@ interface(`aerolink_allow_verify',`
     telux_allow_sec_encryption_ops($1)
     telux_allow_crypto_accel($1)
     telux_allow_sec_accelerator_mgr($1)
-    allow_mvm_stats_lib($1)
 ')
 
