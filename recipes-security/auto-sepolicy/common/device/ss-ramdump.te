@@ -79,6 +79,7 @@ userdebug_or_eng(`
     type ramdump_memshare_DIAG_device_t;
     type ramdump_memshare_FTM_device_t;
     type ramdump_memshare_GPS_device_t;
+    type ramdump_AR6320_device_t;
     dev_node(ramdump_md_adsp_device_t)
     dev_node(ramdump_adsp_device_t)
     dev_node(ramdump_cdsp_minidump_device_t);
@@ -86,6 +87,7 @@ userdebug_or_eng(`
     dev_node(ramdump_memshare_DIAG_device_t);
     dev_node(ramdump_memshare_FTM_device_t);
     dev_node(ramdump_memshare_GPS_device_t);
+    dev_node(ramdump_AR6320_device_t);
     read_chr_files_pattern(ss-ramdump_t, device_t, ramdump_md_adsp_device_t)
     read_chr_files_pattern(ss-ramdump_t, device_t, ramdump_adsp_device_t)
     read_chr_files_pattern(ss-ramdump_t, device_t, ramdump_cdsp_minidump_device_t)
@@ -93,5 +95,6 @@ userdebug_or_eng(`
     read_chr_files_pattern(ss-ramdump_t, device_t, ramdump_memshare_DIAG_device_t)
     read_chr_files_pattern(ss-ramdump_t, device_t, ramdump_memshare_FTM_device_t)
     read_chr_files_pattern(ss-ramdump_t, device_t, ramdump_memshare_GPS_device_t)
+    read_chr_files_pattern(ss-ramdump_t, device_t, ramdump_AR6320_device_t)
 ')
 
