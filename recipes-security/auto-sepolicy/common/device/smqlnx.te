@@ -174,7 +174,7 @@ firmware_read_files(smqlnx_t);
 miscfiles_read_generic_certs(smqlnx_t);
 
 #============  Allow unconfined access for smqlnx_exec_t ===========
-userdebug_or_eng('
+userdebug_or_eng(`
     can_exec(unconfined_t, smqlnx_exec_t);
 ')
 

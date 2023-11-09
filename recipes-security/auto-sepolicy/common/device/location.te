@@ -68,7 +68,7 @@ dgram_send_pattern(loc_hald_t, loc_socket_t, loc_socket_t, ecall_app_t);
 
 #### loc hal daemon ####
 gptp_rw_gptp_sock_file(loc_hald_t);
-gptp_rw_daemon_cl_device(loc_hald_t);
+gptp_rw_qgptp_device(loc_hald_t);
 gptp_rw_tmpfs_files(loc_hald_t);
 read_files_pattern(loc_hald_t, systemd_resolved_var_run_t, systemd_resolved_var_run_t)
 
@@ -95,6 +95,7 @@ allow engine_service_t qwes_mink_socket_t:sock_file write;
 allow engine_service_t self:qipcrtr_socket { create getattr read setopt write };
 allow engine_service_t loc_t:unix_dgram_socket { read write sendto };
 allow engine_service_t qwes_mink_socket_t:dir search;
+allow engine_service_t self:process signal;
 
 #### slim_daemon ####
 allow slim_daemon_t self:udp_socket create_socket_perms;
@@ -119,7 +120,7 @@ allow slim_daemon_t self:qipcrtr_socket create_socket_perms;
 read_files_pattern(slim_daemon_t, systemd_resolved_var_run_t, systemd_resolved_var_run_t)
 dev_read_urand(slim_daemon_t);
 gptp_rw_gptp_sock_file(slim_daemon_t);
-gptp_rw_daemon_cl_device(slim_daemon_t);
+gptp_rw_qgptp_device(slim_daemon_t);
 gptp_rw_tmpfs_files(slim_daemon_t);
 
 #### add telux related services for loc_t and xtra-daemon####

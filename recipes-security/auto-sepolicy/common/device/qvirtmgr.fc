@@ -43,3 +43,10 @@
 /dev/gunyah         -c  gen_context(system_u:object_r:gunyah_device_t,s0)
 
 /dev/vhost-scmi      -c gen_context(system_u:object_r:vhost_device_t,s0)
+
+/sys/kernel/debug/televm/dump  -c gen_context(system_u:object_r:debugfs_t,s0)
+
+/sys/kernel/debug/fotavm/dump  -c gen_context(system_u:object_r:debugfs_t,s0)
+
+/data/gvm_dumps       -c gen_context(system_u:object_r:qvirt_data_t,s0)
+

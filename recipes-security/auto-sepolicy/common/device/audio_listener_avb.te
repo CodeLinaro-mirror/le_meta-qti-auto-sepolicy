@@ -15,7 +15,7 @@ gen_require(`
         type data_t;
         type tmpfs_t;
         type socket_device_t;
-        type daemon_cl_device_t;
+        type qgptp_device_t;
         type sysfs_t;
         type audio_hal_etc_t;
         type proc_net_t;
@@ -40,9 +40,9 @@ auto_audio_hal_access(audio_listener_avb_t)
 
 allow audio_listener_avb_t devlog_t:sock_file { write };
 allow audio_listener_avb_t syslogd_t:unix_dgram_socket { sendto };
-allow audio_listener_avb_t daemon_cl_device_t:chr_file { read open };
+allow audio_listener_avb_t qgptp_device_t:chr_file { read open };
 allow audio_listener_avb_t self:packet_socket { create map bind setopt getopt read write ioctl };
-allow audio_listener_avb_t self:capability { sys_nice net_raw net_admin };
+allow audio_listener_avb_t self:capability { sys_nice net_raw net_admin setgid setuid };
 allow audio_listener_avb_t self:process { setsched signal };
 allow audio_listener_avb_t socket_device_t:dir search;
 allow audio_listener_avb_t audio_hal_etc_t:file read_file_perms;

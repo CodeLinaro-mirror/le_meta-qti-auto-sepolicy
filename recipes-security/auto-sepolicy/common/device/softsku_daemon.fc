@@ -30,17 +30,4 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(telux_wifi_consec, 1.0)
-
-type telux_wifi_consec_t;
-type telux_wifi_consec_exec_t;
-
-init_vendor_domain(telux_wifi_consec_t, telux_wifi_consec_exec_t)
-
-transition_to_confined_domain(telux_wifi_consec_t, telux_wifi_consec_exec_t)
-
-telux_allow_wifi_con_sec(telux_wifi_consec_t)
-telux_allow_sec_wcs_report(telux_wifi_consec_t)
-telux_allow_sec_wcs_config(telux_wifi_consec_t)
-
-allow telux_wifi_consec_t self:capability setgid;
+/usr/bin/softsku_daemon     --  gen_context(system_u:object_r:softsku_daemon_exec_t,s0)

@@ -1,5 +1,6 @@
 FILESEXTRAPATHS_append := "${THISDIR}:"
 
+SRC_URI += "${@bb.utils.contains('MLPREFIX', 'lib32-', 'file://auto-sepolicy/patches/0001-Add-32bit-busybox-substitution-paths.patch', '', d)}"
 SRC_URI += "file://auto-sepolicy/common/ \
             file://auto-sepolicy/${BASEMACHINE}/ \
             file://auto-sepolicy/${MACHINE}/ "
