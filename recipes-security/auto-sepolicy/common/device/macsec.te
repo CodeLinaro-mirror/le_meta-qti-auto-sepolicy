@@ -33,14 +33,14 @@ ifdef(`init_systemd',`
 	allow qcmap_cm_t mka_authenticator_exec_t:service { start stop status reload };
 ')
 
-allow mount_copybind_t mka_supplicant_conf_t:file { read_file_perms create write };
+allow mount_copybind_t mka_supplicant_conf_t:file { read_file_perms create write setattr };
 userdebug_or_eng(`
 	allow unconfined_t mka_supplicant_conf_t:file getattr_file_perms;
 	allow unconfined_t mka_supplicant_t:file getattr_file_perms;
 ')
 allow mount_t mka_supplicant_conf_t:file { mounton getattr_file_perms};
 
-allow mount_copybind_t mka_authenticator_conf_t:file { read_file_perms create write };
+allow mount_copybind_t mka_authenticator_conf_t:file { read_file_perms create write setattr };
 userdebug_or_eng(`
 	allow unconfined_t mka_authenticator_conf_t:file getattr_file_perms;
         allow unconfined_t mka_authenticator_t:file getattr_file_perms;
