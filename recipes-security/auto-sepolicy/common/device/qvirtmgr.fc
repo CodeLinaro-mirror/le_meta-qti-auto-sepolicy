@@ -48,5 +48,4 @@
 
 /sys/kernel/debug/fotavm/dump  -c gen_context(system_u:object_r:debugfs_t,s0)
 
-/data/gvm_dumps       -c gen_context(system_u:object_r:qvirt_data_t,s0)
-
+/tmp/qvirtmgr(/.*)?      -c gen_context(system_u:object_r:qvirt_tmp_t,s0)
