@@ -77,6 +77,10 @@ gen_require(`
        type smcinvoke_device_t;
        type vendor_dmabuf_qseecomta_heap_device_t;
        type vendor_dmabuf_qseecom_heap_device_t;
+       type qvirtmgr_t;
+       type tmp_t;
+       type proc_t;
+       type shell_exec_t;
 ')
 
 #####################################################################
@@ -122,4 +126,12 @@ allow cpu_sku_actuator_t self:capability2 { wake_alarm block_suspend };
 #####################################################################
 # Allow reboot
 #####################################################################
-allow cpu_sku_actuator_t self:capability sys_boot;
+allow cpu_sku_actuator_t self:capability { sys_boot kill };
+
+qvirtmgr_tmp_file(cpu_sku_actuator_t);
+allow cpu_sku_actuator_t tmp_t:dir { search };
+allow cpu_sku_actuator_t tmp_t:file { open read };
+allow cpu_sku_actuator_t qvirtmgr_t:process { signal };
+allow cpu_sku_actuator_t self:fifo_file { read getattr };
+allow cpu_sku_actuator_t shell_exec_t:file { read open execute execute_no_trans };
+allow cpu_sku_actuator_t proc_t:file { read  open };
