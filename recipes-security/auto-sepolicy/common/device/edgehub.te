@@ -103,6 +103,7 @@ allow c2c_hub_t unreserved_port_t:tcp_socket name_connect;
 allow c2c_hub_t urandom_device_t:chr_file { read getattr open create};
 corenet_tcp_connect_http_port(c2c_hub_t);
 allow c2c_hub_t edgehub_etc_conf_t:dir { open search read getattr};
+allow c2c_hub_t self:fifo_file {read getattr write};
 
 # softsku_manager policy
 init_vendor_domain(softsku_manager_t, softsku_manager_exec_t)
@@ -115,13 +116,14 @@ allow softsku_manager_t net_conf_t:file { read getattr open };
 allow softsku_manager_t proc_t:file { read getattr open };
 allow softsku_manager_t self:netlink_route_socket { read write bind create getattr nlmsg_read };
 allow softsku_manager_t self:tcp_socket { write connect shutdown read getopt create };
-allow softsku_manager_t self:udp_socket { read write create connect getattr };
+allow softsku_manager_t self:udp_socket { read write create connect getattr setopt };
 allow softsku_manager_t socket_device_t:dir search;
 allow softsku_manager_t systemd_resolved_var_run_t:dir search;
 allow softsku_manager_t systemd_resolved_var_run_t:file { read getattr open };
 allow softsku_manager_t unreserved_port_t:tcp_socket name_connect;
 allow softsku_manager_t urandom_device_t:chr_file { read getattr open create};
 allow softsku_manager_t edgehub_etc_conf_t:dir { open search read getattr};
+allow softsku_manager_t self:fifo_file {read getattr write};
 
 # dm policy
 init_vendor_domain(dm_manager_t, dm_manager_exec_t)
@@ -137,13 +139,14 @@ allow dm_manager_t net_conf_t:file { read getattr open };
 allow dm_manager_t proc_t:file { read getattr open };
 allow dm_manager_t self:netlink_route_socket { read write bind create getattr nlmsg_read };
 allow dm_manager_t self:tcp_socket { write connect shutdown getopt read bind create };
-allow dm_manager_t self:udp_socket { read write create connect getattr };
+allow dm_manager_t self:udp_socket { read write create connect getattr setopt };
 allow dm_manager_t socket_device_t:dir search;
 allow dm_manager_t systemd_resolved_var_run_t:dir search;
 allow dm_manager_t systemd_resolved_var_run_t:file { read getattr open };
 allow dm_manager_t unreserved_port_t:tcp_socket name_connect;
 allow dm_manager_t urandom_device_t:chr_file { read getattr open create};
 allow dm_manager_t edgehub_etc_conf_t:dir { open search read getattr};
+allow dm_manager_t self:fifo_file {read getattr write};
 
 #smq_manager policy
 init_vendor_domain(smq_manager_t, smq_manager_exec_t)

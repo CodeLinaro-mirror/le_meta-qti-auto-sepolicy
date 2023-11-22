@@ -30,17 +30,34 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(telux_wifi_consec, 1.0)
+policy_module(softsku_daemon, 1.0)
 
-type telux_wifi_consec_t;
-type telux_wifi_consec_exec_t;
+type softsku_daemon_t;
+type softsku_daemon_exec_t;
 
-init_vendor_domain(telux_wifi_consec_t, telux_wifi_consec_exec_t)
+init_vendor_domain(softsku_daemon_t, softsku_daemon_exec_t)
 
-transition_to_confined_domain(telux_wifi_consec_t, telux_wifi_consec_exec_t)
+gen_require(`
+    type socket_device_t;
+    type smcinvoke_device_t;
+    type persist_t;
+    type qseecomd_persist_t;
+    type qwes_data_t;
+    type unreserved_port_t;
+    type node_t;
+')
 
-telux_allow_wifi_con_sec(telux_wifi_consec_t)
-telux_allow_sec_wcs_report(telux_wifi_consec_t)
-telux_allow_sec_wcs_config(telux_wifi_consec_t)
+allow softsku_daemon_t socket_device_t:dir search;
+allow softsku_daemon_t self:tcp_socket { create_socket_perms name_connect accept listen };
+allow softsku_daemon_t smcinvoke_device_t:chr_file { read write open ioctl};
+allow softsku_daemon_t self: process { signal };
 
-allow telux_wifi_consec_t self:capability setgid;
+allow softsku_daemon_t qwes_data_t:dir {search write add_name};
+allow softsku_daemon_t unreserved_port_t:tcp_socket { name_bind };
+allow softsku_daemon_t node_t:tcp_socket { node_bind };
+
+filetrans_pattern(softsku_daemon_t, persist_t, qseecomd_persist_t, { file dir });
+manage_user_data_files(softsku_daemon_t, qseecomd_persist_t);
+allow softsku_daemon_t qseecomd_persist_t:dir manage_dir_perms;
+
+logging_send_syslog_msg(softsku_daemon_t);
