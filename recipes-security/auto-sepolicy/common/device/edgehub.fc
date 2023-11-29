@@ -54,3 +54,6 @@
 /usr/bin/dm                                  --     gen_context(system_u:object_r:dm_manager_exec_t,s0)
 /usr/bin/softsku_manager                     --     gen_context(system_u:object_r:softsku_manager_exec_t,s0)
 /usr/bin/smq_manager                         --     gen_context(system_u:object_r:smq_manager_exec_t,s0)
+/etc/c2c/cacert.pem                          --     gen_context(system_u:object_r:cacert_t,s0)
+/etc/c2c/clientcert.pem.crt                  --     gen_context(system_u:object_r:clientcert_t,s0)
+/etc/c2c/private.pem.key                     --     gen_context(system_u:object_r:private_t,s0)
