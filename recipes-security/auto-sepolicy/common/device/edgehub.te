@@ -36,6 +36,13 @@ type edgehub_etc_conf_t;
 type edgehub_data_conf_t;
 type edgehub_data_certs_t;
 type edgehub_data_log_t;
+type cacert_t;
+type clientcert_t;
+type private_t;
+
+files_type(cacert_t)
+files_type(clientcert_t)
+files_type(private_t)
 
 files_type(edgehub_etc_conf_t)
 files_type(edgehub_data_conf_t)
@@ -131,7 +138,7 @@ allow dm_manager_t edgehub_data_log_t:file { open read append write create getat
 allow dm_manager_t edgehub_etc_conf_t:file { open read append write create getattr };
 allow dm_manager_t edgehub_data_conf_t:file { open read append write create getattr };
 allow dm_manager_t edgehub_data_certs_t:file { open read append write create getattr };
-allow dm_manager_t edgehub_data_certs_t:dir { open search read append write create getattr };
+allow dm_manager_t edgehub_data_certs_t:dir { open search read append write create getattr add_name};
 allow dm_manager_t etc_t:file { read mounton write getattr open };
 allow dm_manager_t etc_t:lnk_file read;
 allow dm_manager_t init_var_run_t:dir search;
@@ -147,6 +154,8 @@ allow dm_manager_t unreserved_port_t:tcp_socket name_connect;
 allow dm_manager_t urandom_device_t:chr_file { read getattr open create};
 allow dm_manager_t edgehub_etc_conf_t:dir { open search read getattr};
 allow dm_manager_t self:fifo_file {read getattr write};
+allow dm_manager_t self:qipcrtr_socket { read create write getattr setopt };
+telux_allow_loc(dm_manager_t);
 
 #smq_manager policy
 init_vendor_domain(smq_manager_t, smq_manager_exec_t)
@@ -159,10 +168,29 @@ allow smq_manager_t net_conf_t:file { read getattr open };
 allow smq_manager_t proc_t:file { read getattr open };
 allow smq_manager_t self:netlink_route_socket { read write bind create getattr nlmsg_read };
 allow smq_manager_t self:tcp_socket { write connect shutdown read getopt create };
-allow smq_manager_t self:udp_socket { read write create connect getattr };
+allow smq_manager_t self:udp_socket { read write create connect getattr setopt};
 allow smq_manager_t socket_device_t:dir search;
 allow smq_manager_t systemd_resolved_var_run_t:dir search;
 allow smq_manager_t systemd_resolved_var_run_t:file { read getattr open };
 allow smq_manager_t unreserved_port_t:tcp_socket name_connect;
 allow smq_manager_t urandom_device_t:chr_file { read getattr open create};
 allow smq_manager_t edgehub_etc_conf_t:dir { open search read getattr};
+
+
+#certs file policy
+allow mount_t cacert_t:file { getattr mounton };
+allow mount_t clientcert_t:file { getattr mounton };
+allow mount_t private_t:file { getattr mounton };
+allow mount_copybind_t cacert_t:dir { open read search mounton getattr };
+allow mount_copybind_t cacert_t:file { setattr read create write relabelfrom getattr relabelto open };
+allow mount_copybind_t clientcert_t:dir { open read search mounton getattr };
+allow mount_copybind_t clientcert_t:file { setattr read create write relabelfrom getattr relabelto open };
+allow mount_copybind_t private_t:dir { open read search mounton getattr };
+allow mount_copybind_t private_t:file { setattr read create write relabelfrom getattr relabelto open };
+allow c2c_hub_t cacert_t:file { getattr read open };
+allow c2c_hub_t cacert_t:dir { open search read getattr};
+allow c2c_hub_t clientcert_t:file { getattr read open };
+allow c2c_hub_t clientcert_t:dir { open search read getattr};
+allow c2c_hub_t private_t:file { getattr read open };
+allow c2c_hub_t private_t:dir { open search read getattr};
+allow c2c_hub_t system_data_t:dir search;

@@ -34,11 +34,15 @@ policy_module(softsku_daemon, 1.0)
 
 type softsku_daemon_t;
 type softsku_daemon_exec_t;
+type softskud_rc_t;
+type softsku_etc_t;
 
+files_type(softskud_rc_t)
 init_vendor_domain(softsku_daemon_t, softsku_daemon_exec_t)
 
 gen_require(`
     type socket_device_t;
+    type etc_t;
     type smcinvoke_device_t;
     type persist_t;
     type qseecomd_persist_t;
@@ -48,6 +52,7 @@ gen_require(`
 ')
 
 allow softsku_daemon_t socket_device_t:dir search;
+allow softsku_daemon_t etc_t:file {getattr read open};
 allow softsku_daemon_t self:tcp_socket { create_socket_perms name_connect accept listen };
 allow softsku_daemon_t smcinvoke_device_t:chr_file { read write open ioctl};
 allow softsku_daemon_t self: process { signal };
@@ -59,5 +64,7 @@ allow softsku_daemon_t node_t:tcp_socket { node_bind };
 filetrans_pattern(softsku_daemon_t, persist_t, qseecomd_persist_t, { file dir });
 manage_user_data_files(softsku_daemon_t, qseecomd_persist_t);
 allow softsku_daemon_t qseecomd_persist_t:dir manage_dir_perms;
+
+allow softsku_daemon_t softskud_rc_t:file { getattr read open };
 
 logging_send_syslog_msg(softsku_daemon_t);

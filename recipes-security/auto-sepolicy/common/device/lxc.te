@@ -1,0 +1,12 @@
+#Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+#SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(lxc, 1.0)
+
+type lxcrootfs_t;
+files_mountpoint(lxcrootfs_t)
+
+gen_require(`
+   type mount_t;
+')
+allow mount_t lxcrootfs_t:filesystem relabelfrom;
