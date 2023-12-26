@@ -43,6 +43,7 @@ gen_require(`
 	type tmpfs_t;
 	type socket_device_t;
 	type etc_t;
+	type event_device_t;
 ')
 
 type qgptp_device_t;
@@ -67,10 +68,12 @@ allow qgptp_t self:capability { net_raw net_admin chown };
 allow qgptp_t self:netlink_route_socket { read bind create };
 allow qgptp_t self:packet_socket create_socket_perms;
 allow qgptp_t self:tcp_socket { create ioctl };
+allow qgptp_t self:unix_stream_socket { listen };
 allow qgptp_t tmpfs_t:filesystem getattr;
 allow qgptp_t gptp_tmpfs_t:file manage_file_perms;
 allow qgptp_t gptp_tmpfs_t:file { getattr rw_file_perms map };
 allow qgptp_t qgptp_device_t:chr_file { rw_chr_file_perms setattr };
+allow qgptp_t event_device_t:chr_file { ioctl open read write };
 allow qgptp_t socket_device_t:dir search;
 allow qgptp_t gptp_socket_t:dir rw_dir_perms;
 allow qgptp_t gptp_socket_t:sock_file { create unlink };
