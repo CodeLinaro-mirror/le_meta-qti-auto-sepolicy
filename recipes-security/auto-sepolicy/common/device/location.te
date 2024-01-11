@@ -26,7 +26,7 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 # Changes from Qualcomm Innovation Center are provided under the following license:
-# Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## Automotive specific sepolicy rules for location.
@@ -48,6 +48,12 @@ gen_require(`
     type rilmuxd_t;
     type telsdk_etc_t;
     type telsdk_data_t;
+    type gptp_socket_t;
+    type gptp_tmpfs_t;
+    type qgptp_device_t;
+    type qgptp_t;
+    type unreserved_port_t;
+    type user_tmp_t;
 ')
 
 userdebug_or_eng(`
@@ -55,6 +61,7 @@ userdebug_or_eng(`
         type unconfined_t;
     ')
     allow loc_hald_t unconfined_t:unix_dgram_socket sendto;
+    allow loc_t unconfined_t:unix_stream_socket connectto;
 ')
 
 # power manager access
@@ -151,3 +158,21 @@ telux_allow_tel(loc_t)
 telux_allow_tel(xtra_daemon_t)
 telux_allow_data_call_ops(xtra_daemon_t)
 telux_allow_tel_private_info_read(xtra_daemon_t)
+allow loc_t gptp_socket_t:dir search;
+allow loc_hald_t gptp_tmpfs_t:file map;
+allow loc_t gptp_socket_t:dir search;
+allow loc_t gptp_socket_t:sock_file write;
+allow loc_t gptp_tmpfs_t:file { map open read write };
+allow loc_t qgptp_device_t:chr_file { open read write };
+allow loc_t qgptp_t:unix_stream_socket connectto;
+
+allow loc_t user_tmp_t:sock_file write;
+#address someip realted denials from /tmp
+files_tmp_filetrans(loc_t, loc_tmp_t, {sock_file file });
+manage_sock_files_pattern(loc_t, loc_tmp_t, loc_tmp_t);
+manage_files_pattern(loc_t, loc_tmp_t, loc_tmp_t);
+allow loc_t self:tcp_socket { accept listen };
+allow loc_t unreserved_port_t:tcp_socket name_bind;
+allow loc_t unreserved_port_t:udp_socket name_bind;
+
+
