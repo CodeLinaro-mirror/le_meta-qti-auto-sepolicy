@@ -24,6 +24,10 @@
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+# Changes from Qualcomm Innovation Center, Inc. are provided under the following license:
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(qwesd, 1.0)
 
@@ -50,6 +54,8 @@ gen_require(`
        type systemd_resolved_var_run_t;
        type http_port_t;
        type cert_t;
+       type telsdk_data_t;
+       type telsdk_etc_t;
 ')
 
 #allow qwesd to read qnetmgrd confi file.
@@ -192,3 +198,9 @@ allow qwes_license_store_setup_t self:capability { fowner chown };
 #################################################################################
 
 dontaudit qwesd_t self:capability kill;
+
+#################################################################################
+# Rules starting for configuring network connection using teleSDK
+#################################################################################
+allow qwesd_t telsdk_data_t:file { append create getattr open};
+allow qwesd_t telsdk_etc_t:file { open read};
