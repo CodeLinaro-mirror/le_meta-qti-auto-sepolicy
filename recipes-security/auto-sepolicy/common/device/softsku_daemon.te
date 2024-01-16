@@ -34,10 +34,8 @@ policy_module(softsku_daemon, 1.0)
 
 type softsku_daemon_t;
 type softsku_daemon_exec_t;
-type softsku_rc_t;
 type softsku_etc_t;
 
-files_type(softsku_rc_t)
 init_vendor_domain(softsku_daemon_t, softsku_daemon_exec_t)
 
 gen_require(`
@@ -49,6 +47,7 @@ gen_require(`
     type qwes_data_t;
     type unreserved_port_t;
     type node_t;
+    type softsku_rc_t;
 ')
 
 allow softsku_daemon_t socket_device_t:dir search;
