@@ -37,6 +37,14 @@ do_install:append() {
     fi
 }
 
+create_data_ubi_mounted_contexts:append() {
+    # Create seperate file_contexts file for /systemrw
+    sed -n '/^\/systemrw/p' \
+        ${D}/etc/selinux/mls/contexts/files/file_contexts | \
+        sed 's/^\/systemrw//g' > \
+        ${D}/etc/selinux/mls/contexts/files/systemrw_file_contexts
+}
+
 python remove_modules_conf () {
     remove_modules = d.getVar("REMOVE_MODULES").split()
     add_modules = d.getVar("ADD_MODULES").split()
