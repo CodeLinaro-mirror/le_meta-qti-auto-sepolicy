@@ -35,12 +35,12 @@
 policy_module(auto_audio_hal, 1.0)
 
 gen_require(`
-    type auto_audio_hal_etc_t;
+    type audio_hal_etc_t;
     type mount_copybind_t;
     type mount_t;
 ')
-allow mount_copybind_t auto_audio_hal_etc_t:file { setattr getattr read open relabelto create write };
-allow mount_t auto_audio_hal_etc_t:file { getattr mounton };
+allow mount_copybind_t audio_hal_etc_t:file { setattr getattr read open relabelto create write };
+allow mount_t audio_hal_etc_t:file { getattr mounton };
 
 type audio_delta_acdb_data_t;
 user_data_files_type(audio_delta_acdb_data_t)
