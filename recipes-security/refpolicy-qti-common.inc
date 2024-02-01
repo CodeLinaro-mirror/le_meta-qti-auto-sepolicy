@@ -1,4 +1,4 @@
-FILESEXTRAPATHS_append := "${THISDIR}:"
+FILESEXTRAPATHS:append := "${THISDIR}:"
 
 SRC_URI += "${@bb.utils.contains('MLPREFIX', 'lib32-', 'file://auto-sepolicy/patches/0001-Add-32bit-busybox-substitution-paths.patch', '', d)}"
 SRC_URI += "file://auto-sepolicy/common/ \
@@ -12,7 +12,7 @@ SRC_URI += "${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm-fota', 'file://auto
 #these modules are not applicable for telematics targets
 REMOVE_MODULES ?= "adk_message_monitor adk_message_send adkcfg alljoyn allplay mediaplayer_cli mediaplayer_test qcameradaemon splitxr_service gpu iotd iotsys btdaemon button_manager demuratnservice irsc_util msdc"
 
-do_patch_append() {
+do_patch:append() {
     install_device_policy(d, os.path.join("auto-sepolicy", "common"))
     if os.path.exists(os.path.join(d.getVar("WORKDIR"), "auto-sepolicy", d.getVar("BASEMACHINE"))):
         install_device_policy(d, os.path.join("auto-sepolicy", d.getVar("BASEMACHINE")))
@@ -26,7 +26,7 @@ do_patch_append() {
         install_device_policy(d, os.path.join("auto-sepolicy", "fotavm"))
 }
 
-do_install_append() {
+do_install:append() {
     rm -rf ${D}/${datadir}/selinux/${POLICY_NAME}/*.pp
     rm -rf ${D}/var/lib/selinux/mls/active/policy.kern
     rm -rf ${D}/var/lib/selinux/mls/active/policy.linked
@@ -76,5 +76,5 @@ python remove_cil () {
 
 do_compile[postfuncs] += "remove_modules_conf"
 
-POLICY_CUSTOM_BUILDOPT_append = "${@bb.utils.contains('COMBINED_FEATURES', 'qti-mvm', '"qti-mvm "', '', d)}"
+POLICY_CUSTOM_BUILDOPT:append = "${@bb.utils.contains('COMBINED_FEATURES', 'qti-mvm', '"qti-mvm "', '', d)}"
 do_install[postfuncs] += "${@bb.utils.contains('COMBINED_FEATURES', 'qti-nad-telaf', 'remove_cil', '', d)}"
