@@ -54,6 +54,7 @@ gen_require(`
     type sysctl_vm_t;
     type sysctl_t;
     type ubi_device_t;
+    type http_port_t;
     type unconfined_t;
 ')
 
@@ -96,6 +97,10 @@ allow stream_update_engine_t sysctl_kernel_t:file { read open };
 allow stream_update_engine_t binder_device_t:chr_file map;
 
 allow stream_update_engine_t ubi_device_t:chr_file { getattr read write ioctl open };
+
+allow stream_update_engine_t http_port_t:tcp_socket name_connect;
+allow stream_update_engine_t self:tcp_socket { connect create getattr getopt read setopt write };
+allow stream_update_engine_t self:udp_socket create;
 
 mls_file_read_all_levels(stream_update_engine_t)
 mls_file_write_all_levels(stream_update_engine_t)
