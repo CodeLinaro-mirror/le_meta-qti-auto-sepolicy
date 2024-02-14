@@ -76,6 +76,7 @@ gen_require(`
     type sysctl_kernel_t;
     type mount_copybind_t;
     type mount_t;
+    type gpiochip_device_t;
 ')
 
 type power_tmp_t;
@@ -98,9 +99,6 @@ device_manage_socket_file(power_manager_daemon_t, power_socket_t)
 allow power_manager_daemon_t power_socket_t:dir { search write add_name remove_name };
 allow power_manager_daemon_t power_socket_t:sock_file { create unlink };
 allow power_manager_daemon_t sysdevice_sysfs_t:file { read open };
-
-type gpiochip_device_t;
-dev_node(gpiochip_device_t)
 
 dev_read_input(power_manager_daemon_t)
 corecmd_exec_shell(power_manager_daemon_t)

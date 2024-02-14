@@ -113,7 +113,7 @@ allow slim_daemon_t self:udp_socket create_socket_perms;
 allow slim_daemon_t unreserved_port_t:udp_socket name_bind;
 allow slim_daemon_t node_t:udp_socket node_bind;
 allow slim_daemon_t systemd_resolved_var_run_t:dir search;
-allow slim_daemon_t tmpfs_t:filesystem getattr;
+allow slim_daemon_t tmpfs_t:filesystem getattr;
 allow slim_daemon_t tmpfs_t:dir search;
 allow slim_daemon_t self:can_socket create;
 allow slim_daemon_t self:can_socket { bind ioctl read setopt };

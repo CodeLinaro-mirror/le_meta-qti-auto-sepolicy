@@ -49,13 +49,13 @@ interface(`auto_audio_hal_access',`
         type urandom_device_t;
         type device_t;
         type snd_card_state_t;
-        type audio_dma_heap_t;
+        type system_uncached_dmabuf_device_t;
     ')
     allow $1 sound_device_t:chr_file { map };
     allow $1 urandom_device_t:chr_file { read open };
     # the file corresponding to below denial is - /sys/kernel/snd_card/card_state
     allow $1 snd_card_state_t:file { read getattr open };
-    rw_chr_files_pattern($1, device_t, audio_dma_heap_t);
+    rw_chr_files_pattern($1, device_t, system_uncached_dmabuf_device_t);
 ')
 
 interface(`auto_data_files_access',`
