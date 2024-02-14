@@ -99,26 +99,24 @@ files_type(softsku_data_conf_t)
 init_vendor_domain(softsku_t, softsku_exec_t)
 
 gen_require(`
-    type net_conf_t;
-    type etc_t;
-    type systemd_resolved_var_run_t;
-    type socket_device_t;
-    type init_var_run_t;
     type qwes_mink_socket_t;
     type qwesd_t;
-    type unreserved_port_t;
+    type net_conf_t;
+    type systemd_resolved_var_run_t;
     type urandom_device_t;
-    type proc_t;
+    type socket_device_t;
+    type init_var_run_t;
     type system_data_t;
+    type unreserved_port_t;
+    type proc_t;
+    type smcinvoke_device_t;
+    type var_run_t;
     type mount_copybind_t;
     type mount_t;
-    type devlog_t;
-    type smcinvoke_device_t;
-    type persist_t;
     type qseecomd_persist_t;
-    type qwes_data_t;
+    type persist_t;
+    type devlog_t;
     type syslogd_t;
-    type var_run_t;
 ')
 
 read_c2c_conf_file(softsku_t);

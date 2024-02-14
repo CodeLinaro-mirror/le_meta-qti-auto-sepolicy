@@ -32,4 +32,3 @@
 #
 
 /data/vendor/audio(/.*)?           gen_context(system_u:object_r:audio_delta_acdb_data_t,s0)
-/dev/dma_heap/qcom,system-uncached     -c    gen_context(system_u:object_r:audio_dma_heap_t,s0)

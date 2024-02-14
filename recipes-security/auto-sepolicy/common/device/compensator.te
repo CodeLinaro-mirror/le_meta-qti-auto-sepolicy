@@ -57,11 +57,11 @@ gen_require(`
 allow compensator_t compensator_etc_t:file read_file_perms;
 allow compensator_t self:process {signal};
 
-systemd_tmpfilesd_managed(compensator_var_run_t, file)
+systemd_tmpfilesd_managed(compensator_var_run_t)
 allow systemd_tmpfiles_t compensator_var_run_t:file { getattr open write };
 
-files_pid_file(compensator_var_run_t)
-files_pid_filetrans(compensator_t, compensator_var_run_t, { file dir })
+files_runtime_file(compensator_var_run_t)
+files_runtime_filetrans(compensator_t, compensator_var_run_t, { file dir })
 manage_files_pattern(compensator_t, var_run_t, compensator_var_run_t);
 
 telux_allow_v2x(compensator_t)

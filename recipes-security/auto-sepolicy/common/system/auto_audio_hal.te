@@ -36,6 +36,3 @@ policy_module(auto_audio_hal, 1.0)
 
 type audio_delta_acdb_data_t;
 user_data_files_type(audio_delta_acdb_data_t)
-
-type audio_dma_heap_t;
-dev_node(audio_dma_heap_t);

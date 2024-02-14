@@ -135,8 +135,8 @@ rw_files_pattern(qwesd_t, qwes_data_t, qwes_data_t)
 # allow qwesd to read/write to /var/run/qwes_ipc minksocket file.
 allow qwesd_t self:udp_socket create_socket_perms;
 allow qwesd_t self:tcp_socket create_socket_perms;
-files_pid_file(qwes_mink_socket_t)
-files_pid_filetrans({ qwesd_t }, qwes_mink_socket_t, { sock_file file dir })
+files_runtime_file(qwes_mink_socket_t)
+files_runtime_filetrans({ qwesd_t }, qwes_mink_socket_t, { sock_file file dir })
 manage_sock_files_pattern({ qwesd_t }, qwes_mink_socket_t, qwes_mink_socket_t)
 manage_dirs_pattern({ qwesd_t }, qwes_mink_socket_t, qwes_mink_socket_t)
 allow qwesd_t self:socket { create rw_socket_perms };

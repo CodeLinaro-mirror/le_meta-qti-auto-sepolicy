@@ -108,17 +108,11 @@ dontaudit smqlnx_t sysctl_vm_t:dir search;
 files_read_etc_files(smqlnx_t);
 
 #============= smqlnx_t with telux ==============
-telux_allow_tel(smqlnx_data_t);
-telux_allow_qmi_client(smqlnx_data_t);
-access_telux_files(smqlnx_data_t);
-telux_allow_tel(smqlnx_exec_t);
-telux_allow_qmi_client(smqlnx_exec_t);
-access_telux_files(smqlnx_exec_t);
 telux_allow_tel(smqlnx_t);
 telux_allow_qmi_client(smqlnx_t);
 access_telux_files(smqlnx_t);
 user_data_files_type(smqlnx_data_t);
-manage_user_data_files(smqlnx_exec_t, smqlnx_data_t);
+manage_user_data_files(smqlnx_t, smqlnx_data_t);
 
 # Allow telsdk data clients
 telux_allow_data(smqlnx_t);
@@ -134,8 +128,8 @@ allow smqlnx_t self:netlink_route_socket { write getattr read bind create nlmsg_
 allow smqlnx_t self:tcp_socket { create setopt connect write getopt getattr read shutdown };
 allow smqlnx_t self:udp_socket { read write create connect getattr setopt };
 corenet_tcp_connect_http_port(smqlnx_t);
-files_pid_file(smqlnx_var_run_t);
-files_pid_filetrans(smqlnx_t, smqlnx_var_run_t, { file dir })
+files_runtime_file(smqlnx_var_run_t);
+files_runtime_filetrans(smqlnx_t, smqlnx_var_run_t, { file dir })
 manage_files_pattern(smqlnx_t, var_run_t, smqlnx_var_run_t);
 allow smqlnx_t dns_port_t:tcp_socket name_connect;
 allow smqlnx_t softsku_data_conf_t:file { read open };
@@ -174,8 +168,8 @@ firmware_read_files(smqlnx_t);
 miscfiles_read_generic_certs(smqlnx_t);
 
 #============  Allow unconfined access for smqlnx_exec_t ===========
-userdebug_or_eng('
-    can_exec(unconfined_t, smqlnx_exec_t);
+userdebug_or_eng(`
+    can_exec(unconfined_t, smqlnx_t);
 ')
 
 #============ Allow accessing configuration file and certificates ===
@@ -196,4 +190,4 @@ allow smqlnx_t ldconfig_tmp_t:file read;
 allow mount_copybind_t smqlnx_data_t:dir { open read search mounton getattr };
 
 # Allow systemctl commands
-unconfined_allow_systemctl_cmds(smqlnx_exec_t)
+unconfined_allow_systemctl_cmds(smqlnx_t)
