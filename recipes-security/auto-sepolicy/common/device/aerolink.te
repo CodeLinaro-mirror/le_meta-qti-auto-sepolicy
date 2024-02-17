@@ -33,9 +33,11 @@ policy_module(aerolink, 1.0)
 
 type aerolink_t;
 type aerolink_exec_t;
-
 type aerolink_data_t;
 files_type(aerolink_data_t);
+gen_require(`
+    type system_data_t;
+')
 
 init_vendor_domain(aerolink_t, aerolink_exec_t)
 transition_to_confined_domain(aerolink_t, aerolink_exec_t)
@@ -44,5 +46,7 @@ aerolink_allow_use(aerolink_t)
 aerolink_allow_sign(aerolink_t)
 aerolink_allow_ipc_channel(aerolink_t)
 aerolink_allow_verify(aerolink_t)
+allow aerolink_t system_data_t:dir { search getattr read };
+
 
 access_telux_files(aerolink_t)

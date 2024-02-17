@@ -3,3 +3,4 @@
 
 /usr/bin/ssgtzd                   gen_context(system_u:object_r:ssgtzd_exec_t,s0)
 /etc/initscripts/ssgtzd           gen_context(system_u:object_r:ssgtzd_exec_t,s0)
+/etc/taconfig(/.*)?               gen_context(system_u:object_r:ssgtzd_etc_ta_config_t,s0)

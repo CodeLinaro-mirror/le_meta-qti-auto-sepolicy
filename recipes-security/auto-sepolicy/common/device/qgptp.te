@@ -49,9 +49,11 @@ gen_require(`
 ')
 
 type qgptp_device_t;
+type gptp_device_t;
 type gptp_socket_t;
 type gptp_etc_t;
 dev_node(qgptp_device_t)
+dev_node(gptp_device_t)
 files_type(gptp_socket_t)
 files_type(gptp_etc_t)
 dev_node(gptp_socket_t)
@@ -69,8 +71,8 @@ userdebug_or_eng(`
     allow unconfined_t gptp_tmpfs_t:file { getattr rw_file_perms };
 ')
 
-allow mount_copybind_t gptp_etc_t:file { getattr };
-allow mount_t gptp_etc_t:file { mounton };
+allow mount_copybind_t gptp_etc_t:file { getattr read open create write };
+allow mount_t gptp_etc_t:file { mounton getattr };
 
 allow qgptp_t etc_t:file read_file_perms;
 allow qgptp_t self:capability { net_raw net_admin chown };
@@ -82,6 +84,7 @@ allow qgptp_t tmpfs_t:filesystem getattr;
 allow qgptp_t gptp_tmpfs_t:file manage_file_perms;
 allow qgptp_t gptp_tmpfs_t:file { getattr rw_file_perms map };
 allow qgptp_t qgptp_device_t:chr_file { rw_chr_file_perms setattr };
+allow qgptp_t gptp_device_t:chr_file { ioctl open read write };
 allow qgptp_t event_device_t:chr_file { ioctl open read write };
 allow qgptp_t socket_device_t:dir search;
 allow qgptp_t gptp_socket_t:dir rw_dir_perms;

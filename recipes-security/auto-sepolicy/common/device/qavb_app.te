@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear.
 
 policy_module(qavb_app, 1.0)
@@ -32,7 +32,7 @@ allow qavb_app_t gptp_tmpfs_t:file { rw_file_perms map };
 allow qavb_app_t proc_net_t:file { open read getattr };
 allow qavb_app_t self:process { setsched signal };
 allow qavb_app_t self:tcp_socket { create ioctl };
-allow qavb_app_t self:capability { sys_nice net_raw net_admin };
+allow qavb_app_t self:capability { sys_nice net_raw net_admin setgid setuid };
 allow qavb_app_t self:packet_socket { create map bind setopt getopt read write ioctl };
 allow qavb_app_t syslogd_t:unix_dgram_socket sendto;
 allow qavb_app_t self:udp_socket { create ioctl };
