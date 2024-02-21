@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+#  Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -30,24 +30,10 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-/usr/bin/qvirtmgr   --  gen_context(system_u:object_r:qvirtmgr_exec_t,s0)
+gen_require(`
+    type device_t;
+')
 
-/usr/bin/qcrosvm    --  gen_context(system_u:object_r:qcrosvm_exec_t,s0)
-
-/etc/qvirtmgr.json  --  gen_context(system_u:object_r:qvirtmgr_etc_t,s0)
-
-/vm-bootsys(/.*)?       gen_context(system_u:object_r:vm-bootsys_t,s0)
-
-/vm_systemrw(/.*)?      gen_context(system_u:object_r:vm_systemrw_t,s0)
-
-/dev/gunyah         -c  gen_context(system_u:object_r:gunyah_device_t,s0)
-
-/dev/vhost-scmi      -c gen_context(system_u:object_r:vhost_device_t,s0)
-
-/sys/kernel/debug/televm/dump  -c gen_context(system_u:object_r:debugfs_t,s0)
-
-/sys/kernel/debug/fotavm/dump  -c gen_context(system_u:object_r:debugfs_t,s0)
-
-/tmp/qvirtmgr(/.*)?      -c gen_context(system_u:object_r:qvirt_tmp_t,s0)
-
-/data/gvm_dumps       -c gen_context(system_u:object_r:qvirt_data_t,s0)
+allow leprop_t device_t:sock_file { create setattr };
+allow setprop_t device_t:sock_file write;
+dontaudit leprop_t device_t:dir write;

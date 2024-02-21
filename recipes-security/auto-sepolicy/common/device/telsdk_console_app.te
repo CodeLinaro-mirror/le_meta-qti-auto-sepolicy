@@ -72,9 +72,11 @@ transition_to_confined_domain(telsdk_console_app_t, telsdk_console_app_exec_t)
 gen_require(`
         type user_devpts_t;
         type etc_t;
+        type sysctl_t;
         type user_home_dir_t;
 ')
 
+dontaudit telsdk_console_app_t sysctl_t:dir search;
 dontaudit telsdk_console_app_t user_home_dir_t:dir search;
 allow telsdk_console_app_t user_devpts_t:chr_file read;
 

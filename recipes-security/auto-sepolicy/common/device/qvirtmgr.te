@@ -42,6 +42,7 @@ type vm-bootsys_t;
 
 type vm_systemrw_t;
 
+type qvirt_tmp_t;
 
 type gunyah_device_t;
 dev_node(gunyah_device_t)
@@ -57,6 +58,9 @@ gen_require(`
     type mount_t;
     type tracefs_t;
     type shell_exec_t;
+    type device_t;
+    type leprop_t;
+    type leprop_sock_t;
 ')
 
 userdebug_or_eng(`
@@ -87,6 +91,10 @@ device_search_sockets(qvirtmgr_t)
 dev_rw_vhost(qvirtmgr_t)
 dontaudit qvirtmgr_t self:capability dac_override;
 
+allow qvirtmgr_t device_t:sock_file write;
+allow qvirtmgr_t leprop_t:unix_stream_socket connectto;
+allow qvirtmgr_t leprop_sock_t:sock_file write;
+
 allow qvirtmgr_t vm_systemrw_t:dir search_dir_perms;
 allow qvirtmgr_t vm_systemrw_t:file { read write lock getattr open };
 allow qvirtmgr_t vm_systemrw_t:filesystem getattr;
@@ -95,6 +103,11 @@ allow qvirtmgr_t removable_device_t:dir search_dir_perms;
 allow qvirtmgr_t removable_device_t:blk_file { read write lock getattr open };
 allow qvirtmgr_t removable_device_t:filesystem getattr;
 allow qvirtmgr_t proc_t:file { getattr read write open };
+
+files_tmp_file(qvirt_tmp_t);
+files_tmp_filetrans(qvirtmgr_t, qvirt_tmp_t, { file dir })
+allow qvirtmgr_t qvirt_tmp_t:dir { create search write add_name };
+allow qvirtmgr_t qvirt_tmp_t:file { create open write };
 
 type qvirt_data_t;
 user_data_files_type(qvirt_data_t)
