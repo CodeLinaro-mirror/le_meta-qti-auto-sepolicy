@@ -98,6 +98,10 @@ type telux_access_data_link_info_t;
 files_type(telux_access_data_link_info_t);
 type telux_access_data_link_config_t;
 files_type(telux_access_data_link_config_t);
+type telux_access_data_client_info_t;
+files_type(telux_access_data_client_info_t);
+type telux_access_data_client_config_t;
+files_type(telux_access_data_client_config_t);
 
 
 ##################################################################################################
