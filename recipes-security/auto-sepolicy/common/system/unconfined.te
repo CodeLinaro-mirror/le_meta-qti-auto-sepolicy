@@ -66,8 +66,6 @@ userdebug_or_eng(`
         type usb_dev_t;
         type recovery_exec_t;
         type cpu_scaling_freq_t;
-        type sysfs_cpu_present;
-        type kernel_t;
     ')
 
     can_exec(unconfined_t, ks_exec_t);
@@ -76,12 +74,6 @@ userdebug_or_eng(`
     files_type(recovery_exec_t)
     mls_file_read_all_levels(unconfined_t)
     allow unconfined_t cpu_scaling_freq_t:file { write getattr open read};
-    allow unconfined_t self:bpf map_create;
-    allow unconfined_t self:bpf { map_create map_read map_write prog_load prog_run };
-    allow unconfined_t self:cap_userns { sys_admin sys_ptrace };
-    allow unconfined_t self:cap_userns { net_admin net_raw sys_admin };
-    allow unconfined_t sysfs_cpu_present:file getattr;
-    allow unconfined_t kernel_t:process getpgid;
     type alsaucm_test_t;
     user_data_files_type(alsaucm_test_t)
     data_filetrans(unconfined_t, alsaucm_test_t, { fifo_file })
