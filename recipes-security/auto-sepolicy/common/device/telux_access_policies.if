@@ -366,6 +366,34 @@ interface(`telux_allow_data_link_config',`
     allow $1 telux_access_data_link_config_t:file {getattr};
 ')
 
+# Interface to get access for data client APIs.
+# @brief: This interface allows the user to get info about devices and clients connected to MDM via
+# different interconnects.
+#
+# Parameters:
+#    1) Domain context.
+
+interface(`telux_allow_data_client_info',`
+    gen_require(`
+        type telux_access_data_client_info_t;
+    ')
+    allow $1 telux_access_data_client_info_t:file {getattr};
+')
+
+# Interface to get access for data client APIs.
+# @brief: This interface allows the user to configure devices and clients connected to MDM via
+# different interconnects.
+#
+# Parameters:
+#    1) Domain context.
+
+interface(`telux_allow_data_client_config',`
+    gen_require(`
+        type telux_access_data_client_config_t;
+    ')
+    allow $1 telux_access_data_client_config_t:file {getattr};
+')
+
 ##################################################################################################
 # Interfaces to control access for Platform related APIs in SDK
 ##################################################################################################
