@@ -54,6 +54,8 @@ gen_require(`
     type qgptp_t;
     type unreserved_port_t;
     type user_tmp_t;
+    type mount_copybind_t;
+    type mount_t;
 ')
 
 userdebug_or_eng(`
@@ -174,5 +176,6 @@ manage_files_pattern(loc_t, loc_tmp_t, loc_tmp_t);
 allow loc_t self:tcp_socket { accept listen };
 allow loc_t unreserved_port_t:tcp_socket name_bind;
 allow loc_t unreserved_port_t:udp_socket name_bind;
-
+allow mount_copybind_t loc_etc_t:file getattr;
+allow mount_t loc_etc_t:file { getattr mounton };
 
