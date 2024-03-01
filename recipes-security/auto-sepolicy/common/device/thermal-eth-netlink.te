@@ -1,0 +1,19 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(thermal-eth-netlink, 1.0);
+type thermal-eth-netlink_t;
+type thermal-eth-netlink_exec_t;
+
+gen_require(`
+	type sysfs_t;
+	type shell_exec_t;
+')
+
+init_vendor_domain(thermal-eth-netlink_t, thermal-eth-netlink_exec_t)
+
+allow thermal-eth-netlink_t self:netlink_generic_socket { create setopt bind getattr write read };
+allow thermal-eth-netlink_t sysfs_t:dir read;
+allow thermal-eth-netlink_t sysfs_t:lnk_file read;
+allow thermal-eth-netlink_t sysfs_t:file { read open getattr write };
+allow thermal-eth-netlink_t shell_exec_t:file { execute read open execute_no_trans };
