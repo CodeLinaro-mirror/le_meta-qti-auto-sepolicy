@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -38,8 +38,14 @@ gen_require(`
     type openavb_harness_t;
     type vnw_hyp_host_server_t;
     type snd_card_state_t;
+    type device_t;
 ')
 
+type dma_heap_audio_t;
+dev_node(dma_heap_audio_t)
+rw_chr_files_pattern(agm_server_t, device_t, dma_heap_audio_t)
+
+audio_data_files_access(agm_server_t)
 allow agm_server_t telux_audio_server_t:dbus send_msg;
 allow agm_server_t snd_card_state_t:file rw_file_perms;
 allow agm_server_t telux_audio_server_t:dbus send_msg;
