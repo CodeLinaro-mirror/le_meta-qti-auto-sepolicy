@@ -1,0 +1,21 @@
+#Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+#SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(audio_loopback_app, 1.0)
+type audio_loopback_app_t;
+type audio_loopback_app_exec_t;
+
+#domain transition if started from init
+init_vendor_domain(audio_loopback_app_t, audio_loopback_app_exec_t)
+
+#domain transition if started from adb shell
+transition_to_confined_domain(audio_loopback_app_t, audio_loopback_app_exec_t)
+
+#Audio services
+telux_allow_audio(audio_loopback_app_t)
+
+#For logging
+allow audio_loopback_app_t self:capability setgid;
+
+#API access control
+telux_allow_audio_factory_test(audio_loopback_app_t)
