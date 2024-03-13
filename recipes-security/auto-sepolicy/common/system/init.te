@@ -36,7 +36,15 @@ gen_require(`
     type initrc_tmp_t;
     type init_t;
     type wifi_system_data_t;
+    type stream_update_engine_data_t;
 ')
 
 dontaudit systemd_tmpfiles_t initrc_tmp_t:dir setattr;
 allow init_t wifi_system_data_t:dir search;
+
+
+#============= init_t ==============
+allow init_t stream_update_engine_data_t:dir search;
+allow init_t stream_update_engine_data_t:file getattr;
+
+
