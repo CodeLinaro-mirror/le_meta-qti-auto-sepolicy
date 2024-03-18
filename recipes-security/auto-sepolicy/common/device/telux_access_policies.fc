@@ -74,7 +74,8 @@
 /etc/telux/permissions/telux_data_service_mgmt    --  gen_context(system_u:object_r:telux_access_data_service_mgmt_t,s0)
 /etc/telux/permissions/telux_data_link_info       --  gen_context(system_u:object_r:telux_access_data_link_info_t,s0)
 /etc/telux/permissions/telux_data_link_config     --  gen_context(system_u:object_r:telux_access_data_link_config_t,s0)
-
+/etc/telux/permissions/telux_data_client_info     --  gen_context(system_u:object_r:telux_access_data_client_info_t,s0)
+/etc/telux/permissions/telux_data_client_config   --  gen_context(system_u:object_r:telux_access_data_client_config_t,s0)
 
 ##################################################################################################
 # Add context to the files used for controlling access to Platform related APIs in SDK.
