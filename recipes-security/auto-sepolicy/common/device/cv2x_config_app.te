@@ -51,6 +51,4 @@ manage_files_pattern(cv2x_config_app_t, cv2x_config_tmp_t, cv2x_config_tmp_t)
 telux_allow_data(cv2x_config_app_t);
 telux_allow_v2x(cv2x_config_app_t);
 
-dontaudit cv2x_config_app_t self:capability dac_override;
-
 telux_allow_cv2x_config(cv2x_config_app_t)

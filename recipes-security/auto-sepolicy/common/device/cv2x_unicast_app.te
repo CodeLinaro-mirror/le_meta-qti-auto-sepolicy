@@ -25,7 +25,7 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-# Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 
@@ -49,8 +49,6 @@ dev_read_sysfs(cv2x_unicast_app_t);
 kernel_read_network_state(cv2x_unicast_app_t);
 allow cv2x_unicast_app_t self:netlink_route_socket { read write bind create getattr nlmsg_read };
 allow cv2x_unicast_app_t self:udp_socket {  create bind read write connect setopt ioctl };
-
-dontaudit cv2x_unicast_app_t self:capability { sys_module net_raw dac_override};
 
 telux_allow_cv2x_config(cv2x_unicast_app_t)
 telux_allow_cv2x_flow_ops(cv2x_unicast_app_t)
