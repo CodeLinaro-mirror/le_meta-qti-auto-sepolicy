@@ -25,7 +25,7 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-# Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(acme, 1.0)
@@ -56,7 +56,7 @@ dev_write_kmsg(acme_t)
 corecmd_exec_shell(acme_t)
 kernel_read_system_state(acme_t)
 dontaudit acme_t default_t:dir search;
-allow acme_t self:process signal;
+allow acme_t self:process { signal setsched };
 
 read_files_pattern(acme_t, etc_t, etc_t)
 read_lnk_files_pattern(acme_t, etc_t, etc_t)
@@ -79,7 +79,7 @@ corenet_udp_bind_generic_node(acme_t)
 corenet_udp_bind_cslistener_port(acme_t)
 corenet_udp_bind_all_unreserved_ports(acme_t)
 dev_read_urand(acme_t)
-allow acme_t self:capability setgid;
+allow acme_t self:capability { setgid sys_nice };
 
 telux_allow_loc(acme_t)
 dontaudit acme_t home_root_t:dir search;

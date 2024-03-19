@@ -26,7 +26,7 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 # Changes from Qualcomm Innovation Center are provided under the following license:
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(qits, 1.0)
@@ -72,8 +72,8 @@ allow qits_t unreserved_port_t:udp_socket name_bind;
 allow qits_t unreserved_port_t:tcp_socket name_bind;
 allow qits_t cslistener_port_t:udp_socket name_bind;
 allow qits_t cslistener_port_t:tcp_socket { name_connect name_bind };
-allow qits_t self:capability {net_raw setgid setuid};
-allow qits_t self:process {signal setcap};
+allow qits_t self:capability {net_raw setgid setuid sys_nice};
+allow qits_t self:process {signal setcap setsched};
 allow qits_t self:packet_socket create_socket_perms;
 allow qits_t self:tcp_socket { create_socket_perms listen bind accept read write connect shutdown getopt setopt};
 allow qits_t node_t:tcp_socket node_bind;
