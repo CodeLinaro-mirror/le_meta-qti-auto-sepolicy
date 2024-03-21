@@ -25,9 +25,8 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#  Changes from Qualcomm Innovation Center are provided under the following license:
-#
-#  Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Changes from Qualcomm Innovation Center, Inc. are provided under the following license:
+#  Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -66,6 +65,7 @@ userdebug_or_eng(`
         type usb_dev_t;
         type recovery_exec_t;
         type cpu_scaling_freq_t;
+        type snd_card_state_t;
     ')
 
     can_exec(unconfined_t, ks_exec_t);
@@ -78,4 +78,6 @@ userdebug_or_eng(`
     user_data_files_type(alsaucm_test_t)
     data_filetrans(unconfined_t, alsaucm_test_t, { fifo_file })
     allow unconfined_t alsaucm_test_t:fifo_file { create open read write getattr unlink execute };
+    allow unconfined_t self:binder { call transfer };
+    allow unconfined_t snd_card_state_t:file { getattr open read };
 ')
