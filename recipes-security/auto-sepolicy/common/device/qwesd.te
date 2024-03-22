@@ -24,6 +24,41 @@
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+# Changes from Qualcomm Innovation Center are provided under the following license:
+#
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+#
+#Redistribution and use in source and binary forms, with or without
+#modification, are permitted (subject to the limitations in the
+#disclaimer below) provided that the following conditions are met:
+#
+#    * Redistributions of source code must retain the above copyright
+#      notice, this list of conditions and the following disclaimer.
+#
+#    * Redistributions in binary form must reproduce the above
+#      copyright notice, this list of conditions and the following
+#      disclaimer in the documentation and/or other materials provided
+#      with the distribution.
+#
+#    * Neither the name of Qualcomm Innovation Center, Inc. nor the names of its
+#      contributors may be used to endorse or promote products derived
+#     from this software without specific prior written permission.
+#
+#NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE
+#GRANTED BY THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT
+#HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+#WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+#MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+#IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+#ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+#DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+#GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+#INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+#IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+#OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+#IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 policy_module(qwesd, 1.0)
 
@@ -33,6 +68,8 @@ type qwes_data_t;
 type qwes_config_etc_t;
 type qwes_mink_socket_t;
 
+files_type(qwes_mink_socket_t)
+dev_node(qwes_mink_socket_t);
 files_type(qwes_config_etc_t)
 
 init_vendor_domain(qwesd_t, qwesd_exec_t)
@@ -93,6 +130,7 @@ user_data_files_type(qwes_data_t)
 data_filetrans(qwesd_t, qwes_data_t, { file dir })
 manage_user_data_files(qwesd_t, qwes_data_t)
 rw_files_pattern(qwesd_t, qwes_data_t, qwes_data_t)
+allow qwesd_t data_t:dir setattr;
 
 # allow qwesd to read/write to /var/run/qwes_ipc minksocket file.
 allow qwesd_t self:udp_socket create_socket_perms;
@@ -102,13 +140,17 @@ files_pid_filetrans({ qwesd_t }, qwes_mink_socket_t, { sock_file file dir })
 manage_sock_files_pattern({ qwesd_t }, qwes_mink_socket_t, qwes_mink_socket_t)
 manage_dirs_pattern({ qwesd_t }, qwes_mink_socket_t, qwes_mink_socket_t)
 allow qwesd_t self:socket { create rw_socket_perms };
+#============= qwes_mink_socket_t ==============
+allow qwes_mink_socket_t device_t:filesystem associate;
+allow qwesd_t qwes_mink_socket_t:dir { write add_name remove_name};
 
 # allow qwesd for self capability.
 allow qwesd_t self:capability { net_raw chown net_bind_service };
+allow qwesd_t self:process signal;
 allow qwesd_t self:fifo_file rw_fifo_file_perms;
 kernel_read_system_state(qwesd_t)
 allow qwesd_t self:capability2 { block_suspend wake_alarm };
-allow qwesd_t sysfs_t:file append;
+dev_rw_sysfs(qwesd_t)
 #################################################################
 # Rules ending for generic permissions for qwesd.
 ##################################################################
@@ -127,6 +169,7 @@ qnetmgr_use_unix_stream_sockets(qwesd_t)
 qnetmgr_write_data_sock_files(qwesd_t)
 sysnet_read_config(qwesd_t)
 allow qwesd_t http_port_t :tcp_socket { read write create connect getattr setopt name_connect getopt };
+allow qwesd_t self:unix_stream_socket { accept listen };
 
 # Need to execute command to set route.
 corecmd_exec_shell(qwesd_t)
@@ -140,6 +183,26 @@ dontaudit qwesd_t self:capability { dac_override dac_read_search };
 allow qwesd_t qnetmgrd_t:unix_stream_socket { connectto };
 allow qwesd_t self:netlink_route_socket { create_socket_perms nlmsg_read };
 allow qwesd_t cert_t:file { open read getattr };
+mls_file_read_all_levels(qwesd_t)
+mls_file_write_all_levels(qwesd_t)
+allow qwesd_t self:process signull;
+
+# setup qwes_ipc socket
+type qwes_ipc_setup_t;
+type qwes_ipc_setup_exec_t;
+
+init_script_domain(qwes_ipc_setup_t, qwes_ipc_setup_exec_t);
+
+gen_require(`
+    type proc_t;
+')
+
+#============= qwes_ipc_setup_t ==============
+dev_write_kmsg(qwes_ipc_setup_t)
+files_read_etc_files(qwes_ipc_setup_t)
+mls_file_write_all_levels(qwes_ipc_setup_t)
+device_manage_socket_file({ qwesd_t qwes_ipc_setup_t }, qwes_mink_socket_t)
+allow qwes_ipc_setup_t proc_t:file { read open getattr };
 #################################################################################
 # Rules ending for configuring network connection for sync.
 #################################################################################
@@ -162,10 +225,9 @@ gen_require(`
 logging_send_syslog_msg(qwes_license_store_setup_t)
 
 # Allow read/write to /persist/data/ path.
-allow qwes_license_store_setup_t qseecomd_persist_t:file { write create open getattr };
+allow qwes_license_store_setup_t qseecomd_persist_t:file { write create open getattr setattr read unlink };
 filetrans_pattern(qwes_license_store_setup_t, persist_t, qseecomd_persist_t, { file dir })
 allow qwes_license_store_setup_t qseecomd_persist_t:dir manage_dir_perms;
-allow qwes_license_store_setup_t qseecomd_persist_t:file setattr;
 
 # Allow read access to /etc/passwd file for chown command.
 files_read_etc_files(qwes_license_store_setup_t)
@@ -185,6 +247,8 @@ kernel_read_system_state(qwes_license_store_setup_t)
 
 #Allow write echo messages of script to /dev/kmsg.
 dev_write_kmsg(qwes_license_store_setup_t)
+mls_file_read_all_levels(qwes_license_store_setup_t)
+mls_file_write_all_levels(qwes_license_store_setup_t)
 
 allow qwes_license_store_setup_t self:capability { fowner chown };
 #################################################################################
