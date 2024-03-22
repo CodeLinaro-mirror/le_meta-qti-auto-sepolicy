@@ -46,6 +46,8 @@ gen_require(`
        type socket_device_t;
        type syslogd_t;
        type shell_exec_t;
+       type init_runtime_t;
+       type syslogd_runtime_t;
 ')
 
 allow eth_pwr_power_app_t proc_t:file { getattr read open };
@@ -61,3 +63,5 @@ allow eth_pwr_power_app_t syslogd_t:unix_dgram_socket sendto;
 allow eth_pwr_power_app_t eth_pwr_power_app_exec_t:file { execute execute_no_trans map open read };
 allow eth_pwr_power_app_t shell_exec_t:file { execute execute_no_trans open read };
 allow eth_pwr_power_app_t sysfs_t:lnk_file read;
+allow eth_pwr_power_app_t init_runtime_t:dir search;
+allow eth_pwr_power_app_t syslogd_runtime_t:dir search;
