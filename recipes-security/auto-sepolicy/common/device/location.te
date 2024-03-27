@@ -48,6 +48,7 @@ gen_require(`
     type rilmuxd_t;
     type telsdk_etc_t;
     type telsdk_data_t;
+    type unreserved_port_t;
 ')
 
 userdebug_or_eng(`
@@ -84,6 +85,9 @@ allow xtwifi_client_t {xtwifi_agent_t loc_hald_t}:unix_dgram_socket sendto;
 #### xtwifi_agent_t ####
 allow xtwifi_agent_t {loc_hald_t xtwifi_client_t}:unix_dgram_socket sendto;
 allow { xtwifi_client_t xtwifi_agent_t } loc_t:unix_dgram_socket { read write sendto };
+
+#### edgnss-daemon ####
+allow edgnss_daemon_t unreserved_port_t:tcp_socket name_connect;
 
 #### engine service #####
 corenet_tcp_connect_soundd_port(engine_service_t);
