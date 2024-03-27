@@ -29,3 +29,8 @@
 /etc/sensors.conf                --     gen_context(system_u:object_r:sensor_hal_daemon_conf_t,s0)
 /dev/socket/sensor_client(/.*)?         gen_context(system_u:object_r:sensor_hal_daemon_socket_t,s0)
 /etc/sensorhal(/.*)?                    gen_context(system_u:object_r:sensor_util_t,s0)
+/tmp/vsomeip-1277                -- gen_context(system_u:object_r:sensor_hal_daemon_tmp_t,s0)
+/usr/etc/vsomeip/SensorInterface/commonapi4someip.ini        -- gen_context(system_u:object_r:sensor_hal_daemon_etc_t,s0)
+/usr/etc/vsomeip/SensorInterface/vsomeip-sensor_client.json  -- gen_context(system_u:object_r:sensor_hal_daemon_etc_t,s0)
+/usr/etc/vsomeip/SensorInterface/vsomeip-sensor_local.json   -- gen_context(system_u:object_r:sensor_hal_daemon_etc_t,s0)
+/usr/etc/vsomeip/SensorInterface/vsomeip-sensor_service.json -- gen_context(system_u:object_r:sensor_hal_daemon_etc_t,s0)
