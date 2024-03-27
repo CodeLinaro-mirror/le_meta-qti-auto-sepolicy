@@ -96,6 +96,9 @@ allow xtwifi_client_t {xtwifi_agent_t loc_hald_t}:unix_dgram_socket sendto;
 allow xtwifi_agent_t {loc_hald_t xtwifi_client_t}:unix_dgram_socket sendto;
 allow { xtwifi_client_t xtwifi_agent_t } loc_t:unix_dgram_socket { read write sendto };
 
+#### edgnss-daemon ####
+allow edgnss_daemon_t unreserved_port_t:tcp_socket name_connect;
+
 #### engine service #####
 corenet_tcp_connect_soundd_port(engine_service_t);
 corenet_tcp_connect_xen_port(engine_service_t);
@@ -113,7 +116,7 @@ allow slim_daemon_t self:udp_socket create_socket_perms;
 allow slim_daemon_t unreserved_port_t:udp_socket name_bind;
 allow slim_daemon_t node_t:udp_socket node_bind;
 allow slim_daemon_t systemd_resolved_var_run_t:dir search;
-allow slim_daemon_t tmpfs_t:filesystem getattr;
+allow slim_daemon_t tmpfs_t:filesystem getattr;
 allow slim_daemon_t tmpfs_t:dir search;
 allow slim_daemon_t self:can_socket create;
 allow slim_daemon_t self:can_socket { bind ioctl read setopt };
