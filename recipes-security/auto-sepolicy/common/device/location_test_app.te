@@ -26,7 +26,7 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 # Changes from Qualcomm Innovation Center are provided under the following license:
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 
@@ -47,6 +47,7 @@ gen_require(`
         type etc_t;
         type user_home_dir_t;
         type commplex_main_port_t;
+        type mxi_port_t;
 ')
 #Allow setting secondary groups
 allow location_test_app_t self:capability setgid;
@@ -58,3 +59,4 @@ allow location_test_app_t self:tcp_socket { create_socket_perms listen bind acce
 allow location_test_app_t commplex_main_port_t:tcp_socket name_connect;
 allow location_test_app_t self:socket {create_socket_perms read write setopt getattr};
 dontaudit location_test_app_t sysctl_t:dir search;
+allow location_test_app_t mxi_port_t:tcp_socket name_connect;
