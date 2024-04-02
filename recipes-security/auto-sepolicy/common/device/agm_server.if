@@ -1,4 +1,4 @@
-# Copyright (c) 2021, The Linux Foundation. All rights reserved.
+# Copyright (c) 2019, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -24,13 +24,19 @@
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+# Changes from Qualcomm Innovation Center, Inc. are provided under the following license:
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
 
-/usr/bin/sensor_hal_daemon       --     gen_context(system_u:object_r:sensor_hal_daemon_exec_t,s0)
-/etc/sensors.conf                --     gen_context(system_u:object_r:sensor_hal_daemon_conf_t,s0)
-/dev/socket/sensor_client(/.*)?         gen_context(system_u:object_r:sensor_hal_daemon_socket_t,s0)
-/etc/sensorhal(/.*)?                    gen_context(system_u:object_r:sensor_util_t,s0)
-/tmp/vsomeip-1277                -- gen_context(system_u:object_r:sensor_hal_daemon_tmp_t,s0)
-/usr/etc/vsomeip/SensorInterface/commonapi4someip.ini        -- gen_context(system_u:object_r:sensor_hal_daemon_etc_t,s0)
-/usr/etc/vsomeip/SensorInterface/vsomeip-sensor_client.json  -- gen_context(system_u:object_r:sensor_hal_daemon_etc_t,s0)
-/usr/etc/vsomeip/SensorInterface/vsomeip-sensor_local.json   -- gen_context(system_u:object_r:sensor_hal_daemon_etc_t,s0)
-/usr/etc/vsomeip/SensorInterface/vsomeip-sensor_service.json -- gen_context(system_u:object_r:sensor_hal_daemon_etc_t,s0)
+## <summary>IPC sw binder access to agm server</summary>
+
+interface(`agm_server_sw_binders_access',`
+  gen_require(`
+       type binder_device_t;
+       type servicemanager_t;
+  ')
+
+  allow $1 binder_device_t:chr_file { rw_chr_file_perms map };
+  allow $1 servicemanager_t:binder { call transfer };
+
+')

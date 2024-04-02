@@ -54,6 +54,10 @@ gen_require(`
     type qgptp_t;
     type unreserved_port_t;
     type user_tmp_t;
+    type mount_copybind_t;
+    type mount_t;
+    type power_socket_t;
+    type power_manager_daemon_t;
 ')
 
 userdebug_or_eng(`
@@ -165,8 +169,11 @@ allow loc_t gptp_socket_t:sock_file write;
 allow loc_t gptp_tmpfs_t:file { map open read write };
 allow loc_t qgptp_device_t:chr_file { open read write };
 allow loc_t qgptp_t:unix_stream_socket connectto;
-
 allow loc_t user_tmp_t:sock_file write;
+allow loc_t power_socket_t:dir search;
+allow loc_t power_manager_daemon_t:unix_stream_socket connectto;
+allow loc_t power_socket_t:sock_file write;
+
 #address someip realted denials from /tmp
 files_tmp_filetrans(loc_t, loc_tmp_t, {sock_file file });
 manage_sock_files_pattern(loc_t, loc_tmp_t, loc_tmp_t);
@@ -174,5 +181,6 @@ manage_files_pattern(loc_t, loc_tmp_t, loc_tmp_t);
 allow loc_t self:tcp_socket { accept listen };
 allow loc_t unreserved_port_t:tcp_socket name_bind;
 allow loc_t unreserved_port_t:udp_socket name_bind;
-
+allow mount_copybind_t loc_etc_t:file getattr;
+allow mount_t loc_etc_t:file { getattr mounton };
 

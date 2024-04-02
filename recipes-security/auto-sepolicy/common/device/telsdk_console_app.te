@@ -27,7 +27,7 @@
 
 #  Changes from Qualcomm Innovation Center are provided under the following license:
 #
-#  Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+#  Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -128,6 +128,10 @@ telux_allow_data_profile_ops(telsdk_console_app_t)
 telux_allow_data_filter_ops(telsdk_console_app_t)
 telux_allow_data_network_config(telsdk_console_app_t)
 telux_allow_data_service_mgmt(telsdk_console_app_t)
+telux_allow_data_link_info(telsdk_console_app_t)
+telux_allow_data_link_config(telsdk_console_app_t)
+telux_allow_data_client_info(telsdk_console_app_t)
+telux_allow_data_client_config(telsdk_console_app_t)
 
 # Allow telsdk data clients
 telux_allow_data(telsdk_console_app_t)

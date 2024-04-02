@@ -1,4 +1,4 @@
-#  Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+#  Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -33,7 +33,10 @@
 /etc/init.qti.debug.sh    --  gen_context(system_u:object_r:init_qti_etc_t,s0)
 /dev/dma_heap/qcom,qseecom-ta -c gen_context(system_u:object_r:vendor_dmabuf_qseecomta_heap_device_t,s0)
 
+/dev/mtdblock[0-9]+     -b   gen_context(system_u:object_r:mtd_block_t,s0)
+
 # add context for  dm mapper nodes
 /dev/mapper/rootfs      -b   gen_context(system_u:object_r:dm_device_t,s0)
 /dev/mapper/telaf      -b   gen_context(system_u:object_r:dm_device_t,s0)
 /dev/mapper/vm-bootsys      -b   gen_context(system_u:object_r:dm_device_t,s0)
+/dev/mapper/lxcrootfs      -b   gen_context(system_u:object_r:dm_device_t,s0)

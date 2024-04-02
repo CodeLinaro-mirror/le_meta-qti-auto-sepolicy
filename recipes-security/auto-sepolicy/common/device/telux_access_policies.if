@@ -1,4 +1,4 @@
-#  Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+#  Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -336,6 +336,62 @@ interface(`telux_allow_data_service_mgmt',`
         type telux_access_data_service_mgmt_t;
     ')
     allow $1 telux_access_data_service_mgmt_t:file {getattr};
+')
+
+# Interface to get access for data link manager APIs, for link information.
+# @brief: This interface allows the client to listen and update Eth mode.
+# The operations supported are listen Eth mode change status and get Eth capability.
+#
+# Parameters:
+#    1) Domain context.
+
+interface(`telux_allow_data_link_info',`
+    gen_require(`
+        type telux_access_data_link_info_t;
+    ')
+    allow $1 telux_access_data_link_info_t:file {getattr};
+')
+
+# Interface to get access for data link manager APIs, for link configuration.
+# @brief: This interface allows the client to update Eth mode.
+# The operations supported are listen to Eth mode change request and update Eth mode.
+#
+# Parameters:
+#    1) Domain context.
+
+interface(`telux_allow_data_link_config',`
+    gen_require(`
+        type telux_access_data_link_config_t;
+    ')
+    allow $1 telux_access_data_link_config_t:file {getattr};
+')
+
+# Interface to get access for data client APIs.
+# @brief: This interface allows the user to get info about devices and clients connected to MDM via
+# different interconnects.
+#
+# Parameters:
+#    1) Domain context.
+
+interface(`telux_allow_data_client_info',`
+    gen_require(`
+        type telux_access_data_client_info_t;
+    ')
+    allow $1 telux_access_data_client_info_t:file {getattr};
+')
+
+# Interface to get access for data client APIs.
+# @brief: This interface allows the user to configure devices and clients connected to MDM via
+# different interconnects.
+#
+# Parameters:
+#    1) Domain context.
+
+interface(`telux_allow_data_client_config',`
+    gen_require(`
+        type telux_access_data_client_config_t;
+    ')
+    allow $1 telux_access_data_client_config_t:file {getattr};
 ')
 
 ##################################################################################################
