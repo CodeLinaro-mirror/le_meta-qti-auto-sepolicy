@@ -135,4 +135,3 @@ allow telux_audio_server_t var_run_t:lnk_file read_lnk_file_perms;
 # Gives permissions for swbinders
 agm_server_sw_binders_access(telux_audio_server_t)
 unconfined_allow_binder_access(telux_audio_server_t)
-allow telux_audio_server_t agm_server_t:binder { call transfer };

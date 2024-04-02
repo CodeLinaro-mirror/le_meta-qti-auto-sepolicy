@@ -72,4 +72,3 @@ allow audio_listener_avb_t agm_server_t:dbus send_msg;
 # Gives permissions for swbinders
 agm_server_sw_binders_access(audio_listener_avb_t)
 unconfined_allow_binder_access(audio_listener_avb_t)
-allow audio_listener_avb_t agm_server_t:binder { call transfer };
