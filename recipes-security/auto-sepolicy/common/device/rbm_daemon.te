@@ -17,6 +17,8 @@ gen_require(`
          type telsdk_etc_t;
          type sysdevice_sysfs_t;
          type telux_access_platform_ota_mgmt_t;
+         type init_runtime_t;
+         type syslogd_runtime_t;
  ')
 
 init_vendor_domain(rbm_daemon_t, rbm_daemon_exec_t)
@@ -34,5 +36,7 @@ allow rbm_daemon_t telsdk_data_t:file { getattr open append };
 allow rbm_daemon_t telsdk_etc_t:file { read open };
 allow rbm_daemon_t sysdevice_sysfs_t:file { read open };
 allow rbm_daemon_t telux_access_platform_ota_mgmt_t:file getattr;
+allow rbm_daemon_t init_runtime_t:dir search;
+allow rbm_daemon_t syslogd_runtime_t:dir search;
 
 mls_file_read_all_levels(rbm_daemon_t)
