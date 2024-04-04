@@ -41,7 +41,6 @@ gen_require(`
     type event_device_t;
 ')
 
-allow agm_server_t telux_audio_server_t:dbus send_msg;
 allow agm_server_t snd_card_state_t:file rw_file_perms;
 allow agm_server_t telux_audio_server_t:dbus send_msg;
 allow agm_server_t audio_listener_avb_t:dbus send_msg;
