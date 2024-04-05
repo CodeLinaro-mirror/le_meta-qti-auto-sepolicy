@@ -1,0 +1,38 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>
+##     Smart Traffic Management Framework
+## </summary>
+
+########################################
+## <summary>
+##      Use STMF TIPC sockets
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`stmf_client_use_tipc_sockets',`
+    gen_require(`
+        type stmfd_t;
+    ')
+
+    allow $1 stmfd_t:tipc_socket { create bind setopt connect read write };
+')
+
+########################################
+## <summary>
+##      Allow STMF client log file creation
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`stmf_client_manage_logfile',`
+    qcmap_manage_var_run_data_files($1)
+')
