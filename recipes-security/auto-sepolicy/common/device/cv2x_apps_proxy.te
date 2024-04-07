@@ -1,0 +1,50 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(cv2x_apps_proxy, 1.0)
+type cv2x_apps_proxy_t;
+type cv2x_apps_proxy_exec_t;
+
+#domain transition if started from init
+init_vendor_domain(cv2x_apps_proxy_t, cv2x_apps_proxy_exec_t)
+
+transition_to_confined_domain(cv2x_apps_proxy_t, cv2x_apps_proxy_exec_t)
+
+# V2x client Permissions
+telux_allow_v2x(cv2x_apps_proxy_t)
+
+# Data Client Permissions
+telux_allow_data(cv2x_apps_proxy_t)
+
+gen_require(`
+    type etc_t;
+    type home_root_t;
+')
+
+dev_write_kmsg(cv2x_apps_proxy_t)
+corecmd_exec_shell(cv2x_apps_proxy_t)
+kernel_read_system_state(cv2x_apps_proxy_t)
+
+read_files_pattern(cv2x_apps_proxy_t, etc_t, etc_t)
+read_lnk_files_pattern(cv2x_apps_proxy_t, etc_t, etc_t)
+
+# Networking related policies.
+kernel_read_network_state(cv2x_apps_proxy_t)
+sysnet_read_config(cv2x_apps_proxy_t)
+allow cv2x_apps_proxy_t self:udp_socket create_socket_perms;
+corenet_udp_bind_zebra_port(cv2x_apps_proxy_t)
+corenet_udp_bind_generic_node(cv2x_apps_proxy_t)
+# Required for tcp/udp port 9000, used for listening to events.
+corenet_udp_bind_cslistener_port(cv2x_apps_proxy_t)
+corenet_udp_bind_all_unreserved_ports(cv2x_apps_proxy_t)
+
+allow cv2x_apps_proxy_t self:capability { setuid setgid };
+allow cv2x_apps_proxy_t self:process setcap;
+
+dontaudit cv2x_apps_proxy_t home_root_t:dir search;
+
+telux_allow_cv2x_config(cv2x_apps_proxy_t)
+telux_allow_cv2x_flow_ops(cv2x_apps_proxy_t)
+telux_allow_cv2x_info(cv2x_apps_proxy_t)
+
+
