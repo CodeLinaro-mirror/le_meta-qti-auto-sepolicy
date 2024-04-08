@@ -59,6 +59,10 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+#  Changes from Qualcomm Innovation Center are provided under the following license:
+#  Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+#  SPDX-License-Identifier: BSD-3-Clause-Clear
+
 ## <summary> telux_policies </summary>
 
 # Domain transition from unconfined to confined
@@ -133,6 +137,8 @@ interface(`access_telux_files',`
         type telsdk_data_t;
         type telsdk_sem_tmpfs_t;
         type socket_device_t;
+        type tmp_t;
+        type dlt_t;
     ')
     allow $1 telsdk_etc_t:file read_file_perms;
 
@@ -159,6 +165,10 @@ interface(`access_telux_files',`
         type sysdevice_sysfs_t;
     ')
     allow $1 sysdevice_sysfs_t:file { read open };
+
+    # To allow libraries to log to DLT
+    allow $1 tmp_t:dir search;
+    allow $1 dlt_t:unix_stream_socket connectto;
 ')
 
 # Qmi client interfaces
