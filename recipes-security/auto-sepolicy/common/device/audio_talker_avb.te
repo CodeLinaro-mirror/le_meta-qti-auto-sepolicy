@@ -26,6 +26,7 @@ gen_require(`
         type agm_server_t;
         type systemd_logind_var_run_t;
         type devlog_t;
+        type debugfs_t;
         type syslogd_t;
         type system_dbusd_t;
         type system_dbusd_var_run_t;
@@ -54,11 +55,14 @@ allow audio_talker_avb_t system_dbusd_t:unix_stream_socket connectto;
 allow audio_talker_avb_t self:tcp_socket { create ioctl };
 allow audio_talker_avb_t proc_net_t:file { read_file_perms };
 allow audio_talker_avb_t sysfs_t:lnk_file read;
+allow audio_talker_avb_t sysfs_t:file { read open };
 allow audio_talker_avb_t self:fifo_file rw_fifo_file_perms;
 allow audio_talker_avb_t self:udp_socket { create ioctl };
+allow audio_talker_avb_t self:netlink_generic_socket { create ioctl };
 allow audio_talker_avb_t self:qipcrtr_socket { create getattr read setopt write };
 allow audio_talker_avb_t tmpfs_t:dir search;
 allow audio_talker_avb_t gptp_tmpfs_t:file { rw_file_perms map };
+allow audio_talker_avb_t debugfs_t:dir search;
 
 # Dbus communication permissions
 #Manage Dbus sockets
