@@ -29,6 +29,8 @@ gen_require(`
         type systemd_logind_var_run_t;
         type devlog_t;
         type syslogd_t;
+        type syslogd_runtime_t;
+        type init_runtime_t;
         type system_dbusd_t;
         type qgptp_exec_t;
         type openavb_harness_exec_t;
@@ -81,6 +83,7 @@ allow vnw_hyp_host_server_t self:qipcrtr_socket { create getattr read setopt wri
 allow vnw_hyp_host_server_t self:unix_stream_socket { listen accept connectto };
 allow vnw_hyp_host_server_t self:process { setsched signal sigkill };
 allow vnw_hyp_host_server_t self:tcp_socket { create ioctl };
+allow vnw_hyp_host_server_t self:netlink_generic_socket { create ioctl };
 allow vnw_hyp_host_server_t self:netlink_route_socket { create bind read };
 
 allow vnw_hyp_host_server_t self:packet_socket { create map bind setopt getopt read write ioctl };
@@ -99,9 +102,12 @@ allow vnw_hyp_host_server_t system_dbusd_var_run_t:sock_file write;
 allow vnw_hyp_host_server_t system_dbusd_t:unix_stream_socket connectto;
 allow vnw_hyp_host_server_t proc_net_t:file { read_file_perms };
 allow vnw_hyp_host_server_t sysfs_t:lnk_file read;
+allow vnw_hyp_host_server_t sysfs_t:file { read open };
 allow vnw_hyp_host_server_t self:fifo_file rw_fifo_file_perms;
 allow vnw_hyp_host_server_t self:udp_socket { create ioctl };
 allow vnw_hyp_host_server_t tmpfs_t:dir search;
+allow vnw_hyp_host_server_t syslogd_runtime_t:dir search;
+allow vnw_hyp_host_server_t init_runtime_t:dir search;
 files_tmp_file(gptp_tmpfs_t);
 fs_tmpfs_filetrans(vnw_hyp_host_server_t, gptp_tmpfs_t, file)
 allow vnw_hyp_host_server_t gptp_tmpfs_t:file manage_file_perms;
