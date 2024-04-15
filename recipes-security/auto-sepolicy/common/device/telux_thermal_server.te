@@ -44,9 +44,6 @@ gen_require(`
 
 init_vendor_domain(telux_thermal_server_t, telux_thermal_server_exec_t)
 
-# Allow systemctl commands
-unconfined_allow_systemctl_cmds(telux_thermal_server_exec_t)
-
 # Permissions required for telsdk config file access
 access_telux_files(telux_thermal_server_t)
 
