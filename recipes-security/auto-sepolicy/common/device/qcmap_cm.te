@@ -69,7 +69,12 @@ userdebug_or_eng(`
 gen_require(`
   type modem_monitor_t;
   type socket_device_t;
+  type power_manager_daemon_t;
+  type power_socket_t;
 ')
 
 allow qcmap_cm_t modem_monitor_t:unix_stream_socket connectto;
 allow qcmap_cm_t socket_device_t:sock_file write;
+allow qcmap_cm_t power_manager_daemon_t:unix_stream_socket connectto;
+allow qcmap_cm_t power_socket_t:dir search;
+allow qcmap_cm_t power_socket_t:sock_file write;
