@@ -40,3 +40,7 @@
 /dev/mapper/telaf      -b   gen_context(system_u:object_r:dm_device_t,s0)
 /dev/mapper/vm-bootsys      -b   gen_context(system_u:object_r:dm_device_t,s0)
 /dev/mapper/lxcrootfs      -b   gen_context(system_u:object_r:dm_device_t,s0)
+
+# add context for qmi_fw.conf file and vendor folder ###
+/vendor(/.*)?                  gen_context(system_u:object_r:vendor_t,s0)
+/vendor/etc/qmi_fw.conf   --   gen_context(system_u:object_r:qmi_fw_conf_t,s0)
