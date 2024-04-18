@@ -40,11 +40,17 @@ gen_require(`
     type tracefs_t;
     type etc_t;
     type configfs_t;
+    type mount_copybind_t;
+    type fs_t;
+    type mount_t;
+    type unconfined_t;
 ')
 
 userdebug_or_eng(`
     dev_write_kmsg(post_boot_script_t)
     mls_file_write_all_levels(post_boot_script_t)
+    allow unconfined_t vendor_t:dir { getattr open read search };
+    allow unconfined_t qmi_fw_conf_t:file { getattr open read write };
 ')
 
 dontaudit post_boot_script_t sysfs_t:dir { write add_name };
@@ -75,3 +81,13 @@ type ubiblock_device_t;
 dev_node(ubiblock_device_t);
 
 allow tftp_server_t rfs_persist_t:file unlink;
+
+type vendor_t;
+allow domain vendor_t:dir search;
+
+type qmi_fw_conf_t;
+allow domain qmi_fw_conf_t:file { read getattr open };
+
+allow mount_copybind_t qmi_fw_conf_t:file { create getattr open setattr write };
+allow mount_t qmi_fw_conf_t:file mounton;
+allow qmi_fw_conf_t fs_t:filesystem associate;
