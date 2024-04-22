@@ -35,7 +35,7 @@ do_install:append() {
     fi
 }
 
-create_data_ubi_mounted_contexts_append() {
+create_data_ubi_mounted_contexts:append() {
     # Create seperate file_contexts file for /systemrw
     sed -n '/^\/systemrw/p' \
         ${D}/etc/selinux/mls/contexts/files/file_contexts | \
