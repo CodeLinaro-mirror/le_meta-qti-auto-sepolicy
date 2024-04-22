@@ -93,3 +93,4 @@ device_manage_socket_file(sensor_hal_daemon_t, sensor_hal_daemon_socket_t)
 allow sensor_hal_daemon_t sensor_hal_daemon_socket_t:dir { search write add_name remove_name };
 allow sensor_hal_daemon_t sensor_hal_daemon_socket_t:sock_file { create unlink };
 
+allow sensor_hal_daemon_t system_data_t:dir { watch watch_reads };
