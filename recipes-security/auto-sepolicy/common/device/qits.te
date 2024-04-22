@@ -54,6 +54,8 @@ gen_require(`
     type system_data_t;
     type aerolink_data_t;
     type systemd_tmpfiles_t;
+    type canwrapper_data_log_t;
+    type system_dir_t;
 ')
 
 files_tmp_filetrans(qits_t, qits_stats_t, file);
@@ -104,3 +106,8 @@ ifdef(`qti-mvm',`
 # copybind /etc/ObeConfig.conf to /systemrw/ObeConfig.conf
 allow mount_copybind_t qits_etc_t:file { getattr relabelto setattr read open create write };
 allow mount_t qits_etc_t:file { getattr mounton };
+
+data_filetrans(qits_t, canwrapper_data_log_t, { file dir })
+manage_user_data_files(qits_t, canwrapper_data_log_t)
+
+allow qits_t system_dir_t:dir search_dir_perms;
