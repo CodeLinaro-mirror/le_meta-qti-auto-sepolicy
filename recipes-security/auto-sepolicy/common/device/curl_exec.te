@@ -11,13 +11,15 @@ policy_module(curl_exec, 1.0)
 
 type curl_exec_t;
 
-unconfined_allow_systemctl_cmds(curl_exec_t)
+gen_require(`
+	attribute domain;
+')
+
+neverallow domain curl_exec_t:file { execute };
 
 userdebug_or_eng(`
     gen_require(`
         type unconfined_t;
-#        class service { start status stop };
     ')
-#    allow unconfined_t curl_exec_t:service { start status stop };
     allow unconfined_t curl_exec_t:file { getattr };
 ')
