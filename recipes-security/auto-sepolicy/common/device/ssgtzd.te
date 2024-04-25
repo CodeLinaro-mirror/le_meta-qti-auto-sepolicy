@@ -14,6 +14,7 @@ require {
         type smcinvoke_device_t;
         type unconfined_t;
         type socket_device_t;
+        type init_runtime_t;
         class service { start status };
 }
 #============= ssgtzd_t ==============
@@ -27,5 +28,6 @@ allow ssgtzd_t smcinvoke_device_t:chr_file { ioctl open read write };
 allow ssgtzd_t socket_device_t:dir { add_name remove_name search write };
 allow ssgtzd_t socket_device_t:sock_file { create unlink };
 allow ssgtzd_t syslogd_t:unix_dgram_socket sendto;
+allow ssgtzd_t init_runtime_t:dir search;
 #============= unconfined_t ==============
 allow unconfined_t ssgtzd_exec_t:service { start status };
