@@ -1,0 +1,42 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(qti_socksv5_se, 1.0);
+type qti_socksv5_se_t;
+type qti_socksv5_se_exec_t;
+init_vendor_domain(qti_socksv5_se_t,qti_socksv5_se_exec_t);
+
+files_rw_qcmap_etc_data_files(qti_socksv5_se_t);
+gen_require(`
+    type sysfs_t;
+    type shell_exec_t;
+    type node_t;
+    type socket_device_t;
+    type sysctl_net_t;
+    type sysctl_t;
+    type unreserved_port_t;
+    type proc_t;
+    type proc_net_t;
+')
+
+allow qti_socksv5_se_t qti_socksv5_se_exec_t:file { execute_no_trans map open read };
+allow qti_socksv5_se_t qti_socksv5_se_exec_t:file getattr;
+allow qti_socksv5_se_t qti_socksv5_se_exec_t:file execute;
+allow qti_socksv5_se_t node_t:tcp_socket node_bind;
+allow qti_socksv5_se_t qcmap_etc_data_t:dir search;
+allow qti_socksv5_se_t qcmap_etc_data_t:file { getattr open read };
+allow qti_socksv5_se_t self:fifo_file { getattr read write };
+allow qti_socksv5_se_t self:netlink_route_socket { bind create };
+allow qti_socksv5_se_t self:netlink_socket { bind create write };
+allow qti_socksv5_se_t self:tcp_socket { bind create listen setopt };
+allow qti_socksv5_se_t socket_device_t:dir search;
+allow qti_socksv5_se_t sysctl_net_t:dir search;
+allow qti_socksv5_se_t sysctl_net_t:file { getattr open read };
+allow qti_socksv5_se_t sysctl_t:dir search;
+allow qti_socksv5_se_t unreserved_port_t:tcp_socket name_bind;
+allow qti_socksv5_se_t self:netlink_route_socket read;
+allow qti_socksv5_se_t shell_exec_t:file { execute execute_no_trans open read };
+allow qti_socksv5_se_t proc_t:file { read open getattr };
+allow qti_socksv5_se_t proc_net_t:file read;
+allow qti_socksv5_se_t self:udp_socket create;
+allow qti_socksv5_se_t self:process signal;
