@@ -1,0 +1,50 @@
+#  Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+#  SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(qms, 1.0)
+
+gen_require(`
+    type diag_device_t;
+    type device_t;
+    type tmpfs_t;
+    type sysctl_t;
+    type cert_t;
+    type qcmap_var_run_t;
+')
+
+type qms_t;
+type qms_exec_t;
+
+init_vendor_domain(qms_t, qms_exec_t)
+
+logging_send_syslog_msg(qms_t)
+
+allow qms_t self:{ socket udp_socket } create_socket_perms;
+allow qms_t self:netlink_route_socket { create_socket_perms nlmsg_read nlmsg_write};
+allow qms_t self:fifo_file rw_fifo_file_perms;
+allow qms_t self:{ netlink_generic_socket} { create getattr write read setopt bind};
+allow qms_t self:{ netlink_socket qipcrtr_socket} { create getattr write read setopt bind};
+allow qms_t self:unix_stream_socket { create connectto sendto listen accept read write bind};
+allow qms_t self:capability { net_admin net_raw };
+
+#/dev/socket/qms/ access
+type qms_sock_t;
+
+files_type(qms_sock_t);
+dev_node(qms_sock_t);
+
+device_manage_socket_file(qms_t, qms_sock_t)
+manage_dirs_pattern(qms_t, qms_sock_t, qms_sock_t);
+allow qms_t socket_device_t:dir { search };
+
+allow qms_t cert_t:dir { search };
+allow qms_t cert_t:file { getattr open read };
+
+allow qms_t qcmap_var_run_t:dir { search write add_name };
+allow qms_t qcmap_var_run_t:file { create write open getattr };
+
+allow qms_t self:tipc_socket { create read bind write getattr setopt };
+
+userdebug_or_eng(`
+rw_chr_files_pattern(qms_t, device_t, diag_device_t)
+')
