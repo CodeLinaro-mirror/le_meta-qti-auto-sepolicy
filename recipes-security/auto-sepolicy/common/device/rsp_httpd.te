@@ -26,7 +26,7 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 # Changes from Qualcomm Innovation Center are provided under the following license:
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023-2024, Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(rsp_httpd, 1.0)
@@ -101,5 +101,9 @@ allow rsp_httpd_t cert_t:file { read open getattr };
 allow rsp_httpd_t cert_t:dir { search };
 # Allow connection to specific port number for TCP socket.
 allow rsp_httpd_t http_port_t:tcp_socket { name_connect };
+
+# Allow access to icmp socket using ping command
+allow rsp_httpd_t self:icmp_socket { create getopt read setopt write };
+
 corecmd_exec_shell(rsp_httpd_t);
 netutils_exec_ping(rsp_httpd_t);
