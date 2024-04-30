@@ -139,6 +139,7 @@ interface(`access_telux_files',`
         type socket_device_t;
         type tmp_t;
         type dlt_t;
+        type dlt_tmp_t;
     ')
     allow $1 telsdk_etc_t:file read_file_perms;
 
@@ -169,6 +170,7 @@ interface(`access_telux_files',`
     # To allow libraries to log to DLT
     allow $1 tmp_t:dir search;
     allow $1 dlt_t:unix_stream_socket connectto;
+    allow $1 dlt_tmp_t:sock_file write;
 ')
 
 # Qmi client interfaces
