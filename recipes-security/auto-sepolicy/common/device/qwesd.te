@@ -69,7 +69,6 @@ type qwes_config_etc_t;
 type qwes_mink_socket_t;
 
 files_type(qwes_mink_socket_t)
-dev_node(qwes_mink_socket_t);
 files_type(qwes_config_etc_t)
 
 init_vendor_domain(qwesd_t, qwesd_exec_t)
@@ -201,8 +200,11 @@ gen_require(`
 dev_write_kmsg(qwes_ipc_setup_t)
 files_read_etc_files(qwes_ipc_setup_t)
 mls_file_write_all_levels(qwes_ipc_setup_t)
+allow qwes_ipc_setup_t qwes_mink_socket_t:dir { create getattr setattr };
 device_manage_socket_file({ qwesd_t qwes_ipc_setup_t }, qwes_mink_socket_t)
+type_transition { qwesd_t qwes_ipc_setup_t } socket_device_t:{ sock_file dir } qwes_mink_socket_t;
 allow qwes_ipc_setup_t proc_t:file { read open getattr };
+
 #################################################################################
 # Rules ending for configuring network connection for sync.
 #################################################################################
