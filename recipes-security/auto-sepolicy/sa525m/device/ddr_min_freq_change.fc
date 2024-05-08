@@ -1,0 +1,7 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+#
+
+### ddr_min_freq_change_service
+
+/etc/initscripts/ddr_min_freq_change.sh  --      gen_context(system_u:object_r:ddr_min_freq_change_exec_t,s0)
