@@ -73,6 +73,7 @@ gen_require(`
     type systemd_tmpfiles_t;
     type user_home_dir_t;
     type home_root_t;
+    type init_var_run_t;
 ')
 
 userdebug_or_eng(`
@@ -87,11 +88,11 @@ corenet_tcp_bind_all_unreserved_ports(kinematics_server_t)
 corenet_tcp_bind_generic_node(kinematics_server_t)
 corecmd_exec_shell(kinematics_server_t)
 
-systemd_tmpfilesd_managed(kinematics_var_run_t, file)
+systemd_tmpfilesd_managed(kinematics_var_run_t)
 allow systemd_tmpfiles_t kinematics_var_run_t:file { getattr open write };
 
-files_pid_file(kinematics_var_run_t)
-files_pid_filetrans(kinematics_server_t, kinematics_var_run_t, { file dir })
+files_runtime_file(kinematics_var_run_t)
+files_runtime_filetrans(kinematics_server_t, kinematics_var_run_t, { file dir })
 manage_files_pattern(kinematics_server_t, var_run_t, kinematics_var_run_t);
 
 write_sock_files_pattern(kinematics_server_t, init_var_run_t,init_var_run_t);

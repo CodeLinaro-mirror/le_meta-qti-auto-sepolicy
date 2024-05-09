@@ -3,13 +3,14 @@
 
 policy_module(macsec, 1.0);
 
+type mka_supplicant_conf_t;
+type mka_supplicant_exec_t;
+type mka_supplicant_t;
+type mka_authenticator_conf_t;
+type mka_authenticator_exec_t;
+type mka_authenticator_t;
+
 gen_require(`
-	type mka_supplicant_conf_t;
-	type mka_supplicant_exec_t;
-	type mka_supplicant_t;
-	type mka_authenticator_conf_t;
-	type mka_authenticator_exec_t;
-	type mka_authenticator_t;
 	type unconfined_t;
 	type mount_copybind_t;
 	type mount_t;

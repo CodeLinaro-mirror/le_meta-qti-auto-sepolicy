@@ -73,6 +73,7 @@ gen_require(`
   type system_data_t;
   type power_manager_daemon_t;
   type power_socket_t;
+  type dhcpc_var_run_t;
 ')
 
 allow qcmap_cm_t modem_monitor_t:unix_stream_socket connectto;
@@ -85,9 +86,9 @@ allow qcmap_cm_t power_socket_t:sock_file write;
 dontaudit qcmap_cm_t self:capability { dac_override } ;
 
 #DHCPCD Rules
-files_pid_file(dhcpc_var_run_t)
+files_runtime_file(dhcpc_var_run_t)
 manage_sock_files_pattern(dhcpc_t, dhcpc_var_run_t, dhcpc_var_run_t)
-files_pid_filetrans(dhcpc_t, dhcpc_var_run_t, sock_file)
+files_runtime_filetrans(dhcpc_t, dhcpc_var_run_t, sock_file)
 allow dhcpc_t self:capability { kill };
 write_sock_files_pattern(dhcpc_t, systemd_logind_var_run_t, systemd_logind_var_run_t)
 
