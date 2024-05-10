@@ -38,12 +38,5 @@
 /usr/bin/keyPairGenerator     --  gen_context(system_u:object_r:aerolink_exec_t,s0)
 /usr/bin/hsmSecureKeyImporter --  gen_context(system_u:object_r:aerolink_exec_t,s0)
 
-/usr/bin/signMessageDemo      --  gen_context(system_u:object_r:aerolink_exec_t,s0)
-/usr/bin/encryptDataDemo      --  gen_context(system_u:object_r:aerolink_exec_t,s0)
-/usr/bin/encryptSpduDemo      --  gen_context(system_u:object_r:aerolink_exec_t,s0)
-/usr/bin/signMessageDemoAsync --  gen_context(system_u:object_r:aerolink_exec_t,s0)
-/usr/bin/symmetricKeyEncryptDataDemo -- gen_context(system_u:object_r:aerolink_exec_t,s0)
-/usr/bin/symmetricKeyEncryptSpduDemo -- gen_context(system_u:object_r:aerolink_exec_t,s0)
-
 /data/aerolink(/.*)?              gen_context(system_u:object_r:aerolink_data_t,s0)
 
