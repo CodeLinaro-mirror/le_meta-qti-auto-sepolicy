@@ -333,8 +333,10 @@ interface(`telux_allow_data_link_info',`
 interface(`telux_allow_data_link_config',`
     gen_require(`
         type telux_access_data_link_config_t;
+        type sysfs_t;
     ')
     allow $1 telux_access_data_link_config_t:file {getattr};
+    allow $1 sysfs_t:file {write};
 ')
 
 # Interface to get access for data client APIs.
