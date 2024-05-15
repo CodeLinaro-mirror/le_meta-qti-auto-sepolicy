@@ -70,6 +70,7 @@ userdebug_or_eng(`
         type kernel_t;
         type webserver_t;
         type stream_update_engine_t;
+        type sysfs_devcd_data_t;
     ')
 
     can_exec(unconfined_t, ks_exec_t);
@@ -93,4 +94,5 @@ userdebug_or_eng(`
     allow unconfined_t webserver_t:dir getattr;
     allow unconfined_t stream_update_engine_t:binder call;
     allow unconfined_t stream_update_engine_t:binder transfer;
+    allow unconfined_t sysfs_devcd_data_t:dir search;
 ')
