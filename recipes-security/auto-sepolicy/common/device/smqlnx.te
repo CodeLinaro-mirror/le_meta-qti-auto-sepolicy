@@ -151,6 +151,7 @@ leprop_read_props(smqlnx_t)
 #============= smqlnx_t with qwes for license check ==============
 allow smqlnx_t qwes_mink_socket_t:sock_file write;
 allow smqlnx_t qwesd_t:unix_stream_socket connectto;
+allow smqlnx_t qwes_mink_socket_t:dir search;
 
 #============= smqlnx_t to set supplementary groups ==============
 allow smqlnx_t self:capability { setgid kill };
