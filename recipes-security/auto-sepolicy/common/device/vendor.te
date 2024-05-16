@@ -71,4 +71,7 @@ dev_node(dm_device_t);
 type mtd_block_t;
 dev_node(mtd_block_t);
 
+type ubiblock_device_t;
+dev_node(ubiblock_device_t);
+
 allow tftp_server_t rfs_persist_t:file unlink;

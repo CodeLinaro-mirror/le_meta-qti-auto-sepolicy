@@ -35,6 +35,8 @@
 
 /dev/mtdblock[0-9]+     -b   gen_context(system_u:object_r:mtd_block_t,s0)
 
+/dev/ubiblock.*        -b    gen_context(system_u:object_r:ubiblock_device_t,mls_systemhigh)
+
 # add context for  dm mapper nodes
 /dev/mapper/rootfs      -b   gen_context(system_u:object_r:dm_device_t,s0)
 /dev/mapper/telaf      -b   gen_context(system_u:object_r:dm_device_t,s0)
