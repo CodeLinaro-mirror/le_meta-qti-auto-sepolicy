@@ -34,6 +34,7 @@
 /usr/bin/certadm              --  gen_context(system_u:object_r:aerolink_exec_t,s0)
 /usr/bin/certGenerator        --  gen_context(system_u:object_r:aerolink_exec_t,s0)
 /usr/bin/crladm               --  gen_context(system_u:object_r:aerolink_exec_t,s0)
+/usr/bin/aerolinkConfigUpgrade  --  gen_context(system_u:object_r:aerolink_exec_t,s0)
 /usr/bin/importSymmetricEncryptionKey --  gen_context(system_u:object_r:aerolink_exec_t,s0)
 /usr/bin/keyPairGenerator     --  gen_context(system_u:object_r:aerolink_exec_t,s0)
 /usr/bin/hsmSecureKeyImporter --  gen_context(system_u:object_r:aerolink_exec_t,s0)
