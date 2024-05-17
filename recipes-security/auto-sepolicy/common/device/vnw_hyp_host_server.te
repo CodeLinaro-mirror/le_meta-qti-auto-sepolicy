@@ -32,7 +32,6 @@ gen_require(`
         type syslogd_t;
         type system_dbusd_t;
         type qgptp_exec_t;
-        type openavb_harness_exec_t;
         type qavb_app_exec_t;
         type multiqavb_app_exec_t;
         type audio_talker_avb_exec_t;
@@ -55,13 +54,10 @@ files_tmp_filetrans(vnw_hyp_host_server_t, vnw_hyp_host_server_tmp_t, sock_file)
 # qgptp
 allow vnw_hyp_host_server_t qgptp_exec_t:file { read open execute execute_no_trans map };
 
-# openavb_harness
-allow vnw_hyp_host_server_t openavb_harness_exec_t:file { read open execute execute_no_trans map };
-
 # qavb_app
 allow vnw_hyp_host_server_t qavb_app_exec_t:file { read open execute execute_no_trans map };
 
-# qavb_app
+# multiqavb_app
 allow vnw_hyp_host_server_t multiqavb_app_exec_t:file { read open execute execute_no_trans map };
 
 # audio_talker_avb

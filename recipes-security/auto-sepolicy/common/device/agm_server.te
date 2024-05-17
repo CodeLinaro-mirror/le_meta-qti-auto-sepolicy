@@ -35,7 +35,6 @@ gen_require(`
     type telux_audio_server_t;
     type audio_listener_avb_t;
     type audio_talker_avb_t;
-    type openavb_harness_t;
     type vnw_hyp_host_server_t;
     type snd_card_state_t;
     type event_device_t;
@@ -45,7 +44,6 @@ allow agm_server_t snd_card_state_t:file rw_file_perms;
 allow agm_server_t telux_audio_server_t:dbus send_msg;
 allow agm_server_t audio_listener_avb_t:dbus send_msg;
 allow agm_server_t audio_talker_avb_t:dbus send_msg;
-allow agm_server_t openavb_harness_t:dbus send_msg;
 allow agm_server_t vnw_hyp_host_server_t:dbus send_msg;
 
 allow agm_server_t event_device_t:chr_file { open read write };
@@ -53,5 +51,4 @@ agm_server_sw_binders_access(agm_server_t)
 allow agm_server_t telux_audio_server_t:binder { call transfer };
 allow agm_server_t audio_listener_avb_t:binder { call transfer };
 allow agm_server_t audio_talker_avb_t:binder { call transfer };
-allow agm_server_t openavb_harness_t:binder { call transfer };
 allow agm_server_t vnw_hyp_host_server_t:binder { call transfer };
