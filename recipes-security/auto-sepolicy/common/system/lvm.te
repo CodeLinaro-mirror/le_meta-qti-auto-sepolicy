@@ -3,7 +3,8 @@
 
 gen_require(`
     type lvm_t;
-    type initrc_t;
+    type verified_boot_t;
 ')
 
-allow lvm_t initrc_t:sem { unix_read unix_write read write associate };
+allow lvm_t verified_boot_t:sem { unix_read unix_write read write associate };
+
