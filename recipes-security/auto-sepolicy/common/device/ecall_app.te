@@ -91,8 +91,6 @@ gen_require(`
 allow ecall_app_t self:capability setgid;
 allow ecall_app_t etc_t:file read_file_perms;
 
-allow ecall_app_t self:process signal;
-
 # Provide access for necessary SDK APIs
 telux_allow_tel_multisim_mgmt(ecall_app_t)
 telux_allow_tel_call_info_read(ecall_app_t)
