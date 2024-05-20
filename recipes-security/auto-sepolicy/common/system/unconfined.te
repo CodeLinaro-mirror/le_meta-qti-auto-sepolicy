@@ -98,4 +98,5 @@ userdebug_or_eng(`
     allow unconfined_t sysfs_devcd_data_t:dir search;
     allow unconfined_t sensor_hal_daemon_tmp_t:file getattr;
     allow unconfined_t sensor_hal_daemon_tmp_t:sock_file getattr;
+    allow unconfined_t sysfs_devcd_data_t:file { open read write };
 ')
