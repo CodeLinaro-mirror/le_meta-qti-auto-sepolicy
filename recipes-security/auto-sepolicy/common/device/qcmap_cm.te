@@ -73,6 +73,7 @@ gen_require(`
   type system_data_t;
   type power_manager_daemon_t;
   type power_socket_t;
+  type awk_exec_t;
 ')
 
 allow qcmap_cm_t modem_monitor_t:unix_stream_socket connectto;
@@ -82,6 +83,7 @@ allow qcmap_cm_t system_data_t:file { create open read write unlink };
 allow qcmap_cm_t power_manager_daemon_t:unix_stream_socket connectto;
 allow qcmap_cm_t power_socket_t:dir search;
 allow qcmap_cm_t power_socket_t:sock_file write;
+allow qcmap_cm_t awk_exec_t:file { execute execute_no_trans getattr open read };
 dontaudit qcmap_cm_t self:capability { dac_override } ;
 
 #DHCPCD Rules
