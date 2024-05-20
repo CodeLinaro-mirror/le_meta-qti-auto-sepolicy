@@ -50,6 +50,8 @@ gen_require(`
   type telsdk_etc_t;
   type qms_sock_t;
   type qms_t;
+  type power_manager_daemon_t;
+  type power_socket_t;
 ')
 
 allow qcmap_cm_t modem_monitor_t:unix_stream_socket connectto;
@@ -87,3 +89,6 @@ mls_file_write_all_levels(qcmap_cm_t)
 dontaudit dhcpc_t self:capability { sys_admin };
 dlt_allow_user_logging(qcmap_cm_t);
 
+allow qcmap_cm_t power_manager_daemon_t:unix_stream_socket connectto;
+allow qcmap_cm_t power_socket_t:dir search;
+allow qcmap_cm_t power_socket_t:sock_file write;
