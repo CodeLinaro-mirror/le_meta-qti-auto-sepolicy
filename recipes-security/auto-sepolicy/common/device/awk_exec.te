@@ -26,7 +26,7 @@ userdebug_or_eng(`
     gen_require(`
         type unconfined_t;
     ')
-    allow unconfined_t awk_exec_t:file { getattr };
+    allow unconfined_t awk_exec_t:file { execute execute_no_trans getattr open read };
 ')
 
 allow udev_t awk_exec_t:file { execute execute_no_trans getattr open read };
