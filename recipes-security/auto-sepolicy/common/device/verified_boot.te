@@ -1,0 +1,44 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(verified_boot, 1.0)
+
+type verified_boot_t;
+type verified_boot_exec_t;
+
+gen_require(`
+    type sysfs_t;
+    type proc_t;
+    type lvm_control_t;
+    type shell_exec_t;
+    type urandom_device_t;
+    type random_device_t;
+    type udev_runtime_t;
+    type kernel_t;
+    type ubiblock_device_t;
+    type debugfs_t;
+')
+
+init_vendor_domain(verified_boot_t, verified_boot_exec_t);
+
+mls_file_read_all_levels(verified_boot_t);
+mls_file_write_all_levels(verified_boot_t);
+
+dev_rw_kmsg(verified_boot_t);
+
+allow verified_boot_t ubiblock_device_t:blk_file { read write getattr open ioctl };
+allow verified_boot_t shell_exec_t:file { read execute open execute_no_trans };
+
+# rules required for veritysetup
+allow verified_boot_t debugfs_t:dir search;
+allow verified_boot_t device_t:filesystem getattr;
+allow verified_boot_t kernel_t:system ipc_info;
+allow verified_boot_t lvm_control_t:chr_file { read write getattr open ioctl };
+allow verified_boot_t proc_t:file { read getattr open };
+allow verified_boot_t random_device_t:chr_file { read open };
+allow verified_boot_t urandom_device_t:chr_file { read open };
+allow verified_boot_t self:capability sys_admin;
+allow verified_boot_t self:sem { read write unix_read unix_write associate create destroy };
+allow verified_boot_t sysfs_t:file { read open };
+allow verified_boot_t sysfs_t:lnk_file read;
+allow verified_boot_t udev_runtime_t:dir search;
