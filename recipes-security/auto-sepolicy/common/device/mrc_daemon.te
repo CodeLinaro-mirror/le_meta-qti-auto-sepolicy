@@ -126,3 +126,5 @@ allow mrc_daemon_t self:qipcrtr_socket { getattr read setopt write };
 allow mrc_daemon_t removable_device_t:blk_file { read open write };
 allow mrc_daemon_t removable_device_t:blk_file { getattr write };
 
+allow syslogd_t self:sem { create read unix_write write };
+allow syslogd_t self:shm { create read unix_read unix_write write };
