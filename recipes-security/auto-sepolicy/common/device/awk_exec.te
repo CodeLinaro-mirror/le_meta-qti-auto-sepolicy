@@ -1,0 +1,34 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(awk_exec, 1.0)
+
+########################################
+##
+## Declarations
+##
+#
+type awk_exec_t;
+gen_require(`
+        attribute domain;
+        type bin_t;
+	type udev_t;
+        type unconfined_t;
+')
+
+ifdef(`qti-nad-telaf',`
+     gen_require(`
+	type telaf_tafLxcInitApp_t;
+    ')
+	allow telaf_tafLxcInitApp_t awk_exec_t:file { execute execute_no_trans getattr open read getattr };
+')
+
+userdebug_or_eng(`
+    gen_require(`
+        type unconfined_t;
+    ')
+    allow unconfined_t awk_exec_t:file { getattr };
+')
+
+allow udev_t awk_exec_t:file { execute execute_no_trans getattr open read };
+allow unconfined_t awk_exec_t:file { execute execute_no_trans open read };
