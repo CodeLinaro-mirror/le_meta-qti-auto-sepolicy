@@ -1,0 +1,15 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(cv2x_inject_speed, 1.0)
+
+type cv2x_inject_speed_t;
+type cv2x_inject_speed_exec_t;
+
+init_vendor_domain(cv2x_inject_speed_t, cv2x_inject_speed_exec_t)
+
+transition_to_confined_domain(cv2x_inject_speed_t, cv2x_inject_speed_exec_t)
+
+telux_allow_v2x(cv2x_inject_speed_t);
+telux_allow_data(cv2x_inject_speed_t);
+telux_allow_cv2x_config(cv2x_inject_speed_t);
