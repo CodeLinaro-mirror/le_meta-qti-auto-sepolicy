@@ -41,6 +41,7 @@ gen_require(`
 ')
 allow mount_copybind_t audio_hal_etc_t:file { setattr getattr read open relabelto create write };
 allow mount_t audio_hal_etc_t:file { getattr mounton };
+dontaudit mount_copybind_t audio_hal_etc_t:file { ioctl };
 
 type audio_delta_acdb_data_t;
 user_data_files_type(audio_delta_acdb_data_t)
