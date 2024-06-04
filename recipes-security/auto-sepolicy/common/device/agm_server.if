@@ -38,5 +38,6 @@ interface(`agm_server_sw_binders_access',`
 
   allow $1 binder_device_t:chr_file { rw_chr_file_perms map };
   allow $1 servicemanager_t:binder { call transfer };
+  allow $1 agm_server_t:binder { call transfer };
 
 ')
