@@ -36,4 +36,4 @@
 /dev/socket/gptp(/.*)?           gen_context(system_u:object_r:gptp_socket_t,s0)
 /dev/shm/ptp             --      gen_context(system_u:object_r:gptp_tmpfs_t,s0)
 /dev/shm/sct_ptp         --      gen_context(system_u:object_r:gptp_tmpfs_t,s0)
-/etc/qgptp_params        --      gen_context(system_u:object_r:gptp_etc_t,s0)
+/etc/gptp_cfg.ini     --      gen_context(system_u:object_r:gptp_etc_t,s0)
