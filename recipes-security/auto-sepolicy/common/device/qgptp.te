@@ -42,6 +42,7 @@ transition_to_confined_domain(qgptp_t, qgptp_exec_t)
 gen_require(`
 	type tmpfs_t;
 	type socket_device_t;
+	type sysfs_t;
 	type etc_t;
 	type event_device_t;
         type mount_copybind_t;
@@ -83,6 +84,8 @@ allow qgptp_t self:unix_stream_socket { listen accept };
 allow qgptp_t tmpfs_t:filesystem getattr;
 allow qgptp_t gptp_tmpfs_t:file manage_file_perms;
 allow qgptp_t gptp_tmpfs_t:file { getattr rw_file_perms map };
+allow qgptp_t sysfs_t:file { getattr read open };
+allow qgptp_t sysfs_t:lnk_file read;
 allow qgptp_t qgptp_device_t:chr_file { rw_chr_file_perms setattr };
 allow qgptp_t gptp_device_t:chr_file { ioctl open read write };
 allow qgptp_t event_device_t:chr_file { ioctl open read write };
