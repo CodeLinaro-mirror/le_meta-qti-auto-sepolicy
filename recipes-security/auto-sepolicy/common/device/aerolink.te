@@ -33,16 +33,26 @@ policy_module(aerolink, 1.0)
 
 type aerolink_t;
 type aerolink_exec_t;
-
 type aerolink_data_t;
+type aerolink_tmp_t;
+files_tmp_file(aerolink_tmp_t);
 files_type(aerolink_data_t);
+
+gen_require(`
+    type system_data_t;
+')
 
 init_vendor_domain(aerolink_t, aerolink_exec_t)
 transition_to_confined_domain(aerolink_t, aerolink_exec_t)
-allow aerolink_t self: capability {setgid};
+allow aerolink_t self:capability {setgid};
+search_dirs_pattern(aerolink_t, system_data_t, system_data_t)
 aerolink_allow_use(aerolink_t)
 aerolink_allow_sign(aerolink_t)
 aerolink_allow_ipc_channel(aerolink_t)
 aerolink_allow_verify(aerolink_t)
+manage_files_pattern(aerolink_t, aerolink_tmp_t, aerolink_tmp_t)
+files_tmp_filetrans(aerolink_t, aerolink_tmp_t, file)
+search_dirs_pattern(aerolink_t, aerolink_tmp_t, aerolink_tmp_t)
+allow aerolink_t self:udp_socket create_socket_perms;
 
 access_telux_files(aerolink_t)
