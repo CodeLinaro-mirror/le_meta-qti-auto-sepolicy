@@ -155,15 +155,19 @@ read_files_pattern(loc_t, cert_t, cert_t)
 # read build.prop
 leprop_read_props(loc_t)
 
-stream_connect_pattern(xtra_daemon_t,qmux_radio_sock_t,qmux_radio_sock_t,rilmuxd_t);
+stream_connect_pattern(xtra_daemon_t,edgnss_daemon_t,qmux_radio_sock_t,qmux_radio_sock_t,rilmuxd_t);
 stream_connect_pattern(loc_t,qmux_radio_sock_t,qmux_radio_sock_t,rilmuxd_t);
 allow loc_t cert_t:lnk_file read_lnk_file_perms;
 telux_allow_data(loc_t)
 telux_allow_data(xtra_daemon_t)
+telux_allow_data(edgnss_daemon_t)
 telux_allow_tel(loc_t)
 telux_allow_tel(xtra_daemon_t)
+telux_allow_tel(edgnss_daemon_t)
 telux_allow_data_call_ops(xtra_daemon_t)
+telux_allow_data_call_ops(edgnss_daemon_t)
 telux_allow_tel_private_info_read(xtra_daemon_t)
+telux_allow_tel_private_info_read(edgnss_daemon_t)
 allow loc_hald_t gptp_tmpfs_t:file map;
 allow loc_t gptp_socket_t:dir search;
 allow loc_t gptp_socket_t:sock_file write;
