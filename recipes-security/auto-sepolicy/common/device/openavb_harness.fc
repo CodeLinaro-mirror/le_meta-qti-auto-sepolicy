@@ -1,4 +1,0 @@
-# Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
-# SPDX-License-Identifier: BSD-3-Clause-Clear.
-
-/usr/bin/openavb_harness        --      gen_context(system_u:object_r:openavb_harness_exec_t,s0)
