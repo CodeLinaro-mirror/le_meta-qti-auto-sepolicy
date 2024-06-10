@@ -31,7 +31,6 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 gen_require(`
-    class dbus send_msg;
     type telux_audio_server_t;
     type audio_listener_avb_t;
     type audio_talker_avb_t;
@@ -47,10 +46,6 @@ rw_chr_files_pattern(agm_server_t, device_t, dma_heap_audio_t)
 
 audio_data_files_access(agm_server_t)
 allow agm_server_t snd_card_state_t:file rw_file_perms;
-allow agm_server_t telux_audio_server_t:dbus send_msg;
-allow agm_server_t audio_listener_avb_t:dbus send_msg;
-allow agm_server_t audio_talker_avb_t:dbus send_msg;
-allow agm_server_t vnw_hyp_host_server_t:dbus send_msg;
 
 allow agm_server_t event_device_t:chr_file { open read write };
 agm_server_sw_binders_access(agm_server_t)
