@@ -73,8 +73,9 @@ userdebug_or_eng(`
 ')
 
 allow mount_copybind_t gptp_etc_t:file { getattr setattr read open create write };
-allow mount_t gptp_etc_t:file { mounton getattr };
+allow mount_t gptp_etc_t:file { mounton getattr read };
 
+allow qgptp_t gptp_etc_t:file { read open getattr };
 allow qgptp_t etc_t:file read_file_perms;
 allow qgptp_t self:capability { net_raw net_admin chown };
 allow qgptp_t self:netlink_route_socket { read bind create };
