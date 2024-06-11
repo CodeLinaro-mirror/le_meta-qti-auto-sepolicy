@@ -74,6 +74,7 @@ gen_require(`
   type power_manager_daemon_t;
   type power_socket_t;
   type awk_exec_t;
+  type qti_socksv5_se_exec_t;
 ')
 
 allow qcmap_cm_t modem_monitor_t:unix_stream_socket connectto;
@@ -84,6 +85,8 @@ allow qcmap_cm_t power_manager_daemon_t:unix_stream_socket connectto;
 allow qcmap_cm_t power_socket_t:dir search;
 allow qcmap_cm_t power_socket_t:sock_file write;
 allow qcmap_cm_t awk_exec_t:file { execute execute_no_trans getattr open read };
+allow qcmap_cm_t qti_socksv5_se_exec_t:file getattr;
+allow qcmap_cm_t qti_socksv5_se_exec_t:service { start status stop };
 dontaudit qcmap_cm_t self:capability { dac_override } ;
 
 #DHCPCD Rules
