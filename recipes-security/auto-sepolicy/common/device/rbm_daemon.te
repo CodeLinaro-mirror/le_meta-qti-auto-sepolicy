@@ -19,6 +19,7 @@ gen_require(`
          type telux_access_platform_ota_mgmt_t;
          type init_runtime_t;
          type syslogd_runtime_t;
+         type removable_device_t;
  ')
 
 init_vendor_domain(rbm_daemon_t, rbm_daemon_exec_t)
@@ -38,5 +39,6 @@ allow rbm_daemon_t sysdevice_sysfs_t:file { read open };
 allow rbm_daemon_t telux_access_platform_ota_mgmt_t:file getattr;
 allow rbm_daemon_t init_runtime_t:dir search;
 allow rbm_daemon_t syslogd_runtime_t:dir search;
+allow rbm_daemon_t removable_device_t:blk_file { read write open };
 
 mls_file_read_all_levels(rbm_daemon_t)
