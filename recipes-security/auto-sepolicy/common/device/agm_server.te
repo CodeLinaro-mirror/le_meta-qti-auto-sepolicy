@@ -39,6 +39,7 @@ gen_require(`
     type vnw_hyp_host_server_t;
     type snd_card_state_t;
     type device_t;
+    type binderfs_t;
 ')
 
 type dma_heap_audio_t;
@@ -52,3 +53,4 @@ allow agm_server_t audio_listener_avb_t:dbus send_msg;
 allow agm_server_t audio_talker_avb_t:dbus send_msg;
 allow agm_server_t openavb_harness_t:dbus send_msg;
 allow agm_server_t vnw_hyp_host_server_t:dbus send_msg;
+allow agm_server_t binderfs_t:dir search;
