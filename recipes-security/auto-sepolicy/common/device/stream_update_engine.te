@@ -55,6 +55,7 @@ gen_require(`
     type sysctl_t;
     type ubi_device_t;
     type unconfined_t;
+    type binderfs_t;
 ')
 
 init_vendor_domain(stream_update_engine_t, stream_update_engine_exec_t)
@@ -96,6 +97,7 @@ allow stream_update_engine_t sysctl_kernel_t:file { read open };
 allow stream_update_engine_t binder_device_t:chr_file map;
 
 allow stream_update_engine_t ubi_device_t:chr_file { getattr read write ioctl open };
+allow stream_update_engine_t binderfs_t:dir search;
 
 mls_file_read_all_levels(stream_update_engine_t)
 mls_file_write_all_levels(stream_update_engine_t)
