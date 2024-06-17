@@ -5,6 +5,8 @@ policy_module(qavb_app, 1.0)
 
 type qavb_app_t;
 type qavb_app_exec_t;
+type avtp_data_t;
+files_type(avtp_data_t)
 
 init_vendor_domain(qavb_app_t, qavb_app_exec_t)
 
@@ -27,6 +29,7 @@ logging_send_syslog_msg(qavb_app_t)
 # To store and play recordings in data partition
 manage_user_data_files(qavb_app_t, data_t)
 
+allow qavb_app_t avtp_data_t:file { read open getattr };
 allow qavb_app_t devlog_t:sock_file write;
 allow qavb_app_t gptp_tmpfs_t:file { rw_file_perms map };
 allow qavb_app_t proc_net_t:file { open read getattr };
