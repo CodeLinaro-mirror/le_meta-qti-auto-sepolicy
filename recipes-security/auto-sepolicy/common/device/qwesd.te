@@ -27,7 +27,7 @@
 #
 # Changes from Qualcomm Innovation Center are provided under the following license:
 #
-# Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 #
 #Redistribution and use in source and binary forms, with or without
@@ -244,10 +244,9 @@ gen_require(`
 logging_send_syslog_msg(qwes_license_store_setup_t)
 
 # Allow read/write to /persist/data/ path.
-allow qwes_license_store_setup_t qseecomd_persist_t:file { write create open getattr };
+allow qwes_license_store_setup_t qseecomd_persist_t:file { write create open getattr ioctl setattr };
 filetrans_pattern(qwes_license_store_setup_t, persist_t, qseecomd_persist_t, { file dir })
 allow qwes_license_store_setup_t qseecomd_persist_t:dir manage_dir_perms;
-allow qwes_license_store_setup_t qseecomd_persist_t:file setattr;
 
 # Allow read access to /etc/passwd file for chown command.
 files_read_etc_files(qwes_license_store_setup_t)
