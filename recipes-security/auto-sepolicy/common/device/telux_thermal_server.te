@@ -1,4 +1,4 @@
-#  Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+#  Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 #  Redistribution and use in source and binary forms, with or without
 #  modification, are permitted (subject to the limitations in the
@@ -39,6 +39,9 @@ gen_require(`
     type default_t;
     type sysctl_t;
     type sysctl_vm_t;
+    type thermal-engine_t;
+    type thermal_etc_t;
+    type thermal_sock_t;
     type sysctl_vm_overcommit_t;
 ')
 
@@ -63,6 +66,13 @@ allow telux_thermal_server_t self:qipcrtr_socket { write read create getattr set
 # Allow thermal service to search sys and vm directory to read and open vm overcommit memory
 allow telux_thermal_server_t sysctl_t:dir search;
 allow telux_thermal_server_t sysctl_vm_t:dir search;
+
+# Allow thermal service to communicate thermal-engine client socket
+allow telux_thermal_server_t thermal-engine_t:unix_stream_socket connectto;
+allow telux_thermal_server_t thermal_sock_t:sock_file write;
+
+# Allow thermal service to read /etc/thermal-engine.conf file
+allow telux_thermal_server_t thermal_etc_t:file { read open };
 
 # Allow thermal service to open and read vm overcommit memory
 allow telux_thermal_server_t sysctl_vm_overcommit_t:file { read open };
