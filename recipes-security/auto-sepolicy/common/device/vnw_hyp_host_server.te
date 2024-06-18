@@ -24,20 +24,17 @@ gen_require(`
         type proc_t;
         type sound_device_t;
         type gptp_tmpfs_t;
-        class dbus send_msg;
         type agm_server_t;
         type systemd_logind_var_run_t;
         type devlog_t;
         type debugfs_t;
         type syslogd_t;
-        type system_dbusd_t;
         type qgptp_exec_t;
         type qavb_app_exec_t;
         type multiqavb_app_exec_t;
         type audio_talker_avb_exec_t;
         type audio_listener_avb_exec_t;
         type shell_exec_t;
-        type system_dbusd_var_run_t;
 ')
 
 #logging_send_syslog_msg(vnw_hyp_host_server_t)
@@ -92,9 +89,6 @@ allow vnw_hyp_host_server_t socket_device_t:dir search;
 allow vnw_hyp_host_server_t audio_hal_etc_t:file read_file_perms;
 allow vnw_hyp_host_server_t sound_device_t:chr_file rw_chr_file_perms;
 allow vnw_hyp_host_server_t proc_t:file read_file_perms;
-allow vnw_hyp_host_server_t system_dbusd_var_run_t:dir search_dir_perms;
-allow vnw_hyp_host_server_t system_dbusd_var_run_t:sock_file write;
-allow vnw_hyp_host_server_t system_dbusd_t:unix_stream_socket connectto;
 allow vnw_hyp_host_server_t proc_net_t:file { read_file_perms };
 allow vnw_hyp_host_server_t sysfs_t:lnk_file read;
 allow vnw_hyp_host_server_t sysfs_t:file { read open };
@@ -107,16 +101,6 @@ fs_tmpfs_filetrans(vnw_hyp_host_server_t, gptp_tmpfs_t, file)
 allow vnw_hyp_host_server_t gptp_tmpfs_t:file manage_file_perms;
 allow vnw_hyp_host_server_t gptp_tmpfs_t:file { rw_file_perms map };
 files_read_etc_files(vnw_hyp_host_server_t) #/etc/nsswitch.conf
-
-# Dbus communication permissions
-#Manage Dbus sockets
-ifdef(`init_systemd',`
-    dbus_system_bus_client(vnw_hyp_host_server_t)
-    init_dbus_chat(vnw_hyp_host_server_t)
-    allow vnw_hyp_host_server_t self:dbus send_msg;
-    rw_sock_files_pattern(vnw_hyp_host_server_t, systemd_logind_var_run_t, systemd_logind_var_run_t)
-')
-allow vnw_hyp_host_server_t agm_server_t:dbus send_msg;
 
 ifdef(`qti-nad-telaf',`
     gen_require(`
