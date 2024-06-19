@@ -1,0 +1,8 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary> cv2x_apps_proxy </summary>
+
+# A C-V2X test tool be used as a UDP -> PC5 proxy or vice-versa.
+# Configure different forwarding functions according to parameters
+# such as forwarding data from air-network to ethernet-network
