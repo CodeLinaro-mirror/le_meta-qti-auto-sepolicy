@@ -22,14 +22,11 @@ gen_require(`
         type proc_t;
         type sound_device_t;
         type gptp_tmpfs_t;
-        class dbus send_msg;
         type agm_server_t;
         type systemd_logind_var_run_t;
         type devlog_t;
         type debugfs_t;
         type syslogd_t;
-        type system_dbusd_t;
-        type system_dbusd_var_run_t;
 ')
 
 logging_send_syslog_msg(audio_talker_avb_t)
@@ -49,9 +46,6 @@ allow audio_talker_avb_t socket_device_t:dir search;
 allow audio_talker_avb_t audio_hal_etc_t:file read_file_perms;
 allow audio_talker_avb_t sound_device_t:chr_file rw_chr_file_perms;
 allow audio_talker_avb_t proc_t:file read_file_perms;
-allow audio_talker_avb_t system_dbusd_var_run_t:dir search_dir_perms;
-allow audio_talker_avb_t system_dbusd_var_run_t:sock_file write;
-allow audio_talker_avb_t system_dbusd_t:unix_stream_socket connectto;
 allow audio_talker_avb_t self:tcp_socket { create ioctl };
 allow audio_talker_avb_t proc_net_t:file { read_file_perms };
 allow audio_talker_avb_t sysfs_t:lnk_file read;
@@ -63,16 +57,6 @@ allow audio_talker_avb_t self:qipcrtr_socket { create getattr read setopt write 
 allow audio_talker_avb_t tmpfs_t:dir search;
 allow audio_talker_avb_t gptp_tmpfs_t:file { rw_file_perms map };
 allow audio_talker_avb_t debugfs_t:dir search;
-
-# Dbus communication permissions
-#Manage Dbus sockets
-ifdef(`init_systemd',`
-    dbus_system_bus_client(audio_talker_avb_t)
-    init_dbus_chat(audio_talker_avb_t)
-    allow audio_talker_avb_t self:dbus send_msg;
-    rw_sock_files_pattern(audio_talker_avb_t, systemd_logind_var_run_t, systemd_logind_var_run_t)
-')
-allow audio_talker_avb_t agm_server_t:dbus send_msg;
 
 # Gives permissions for swbinders
 agm_server_sw_binders_access(audio_talker_avb_t)
