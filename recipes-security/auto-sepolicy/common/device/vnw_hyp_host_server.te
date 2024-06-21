@@ -35,6 +35,7 @@ gen_require(`
         type audio_talker_avb_exec_t;
         type audio_listener_avb_exec_t;
         type shell_exec_t;
+        type binderfs_t;
 ')
 
 #logging_send_syslog_msg(vnw_hyp_host_server_t)
@@ -96,6 +97,7 @@ allow vnw_hyp_host_server_t self:fifo_file rw_fifo_file_perms;
 allow vnw_hyp_host_server_t self:udp_socket { create ioctl };
 allow vnw_hyp_host_server_t tmpfs_t:dir search;
 allow vnw_hyp_host_server_t debugfs_t:dir search;
+allow vnw_hyp_host_server_t binderfs_t:dir search;
 files_tmp_file(gptp_tmpfs_t);
 fs_tmpfs_filetrans(vnw_hyp_host_server_t, gptp_tmpfs_t, file)
 allow vnw_hyp_host_server_t gptp_tmpfs_t:file manage_file_perms;
