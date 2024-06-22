@@ -81,5 +81,4 @@ logging_send_syslog_msg(chrony_sock_t)
 allow chrony_sock_t chronyd_t:unix_dgram_socket sendto;
 write_telux_log_file(chrony_sock_t);
 
-dontaudit chrony_sock_t self:capability dac_override;
 telux_allow_platform_time(chrony_sock_t);
