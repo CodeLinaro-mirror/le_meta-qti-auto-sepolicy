@@ -27,7 +27,7 @@
 
 # Changes from Qualcomm Innovation Center are provided under the following license:
 #
-# Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2022,2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -66,6 +66,12 @@ gen_require(`
 	type var_spool_t;
 	type etc_t;
 	type kernel_t;
+	type cv2xd_etc_t;
+	type ipa_vlan_cfg_t;
+	type power_manager_conf_t;
+	type qits_etc_t;
+	type sensor_util_t;
+	type telsdk_etc_t;
 ')
 
 dontaudit mount_copybind_t self:capability sys_admin;
@@ -79,3 +85,10 @@ allow mount_t var_t:dir { manage_dir_perms mounton };
 dontaudit mount_t etc_t:file map;
 dontaudit mount_t kernel_t:process setsched;
 dontaudit unconfined_mount_t kernel_t:process setsched;
+
+dontaudit mount_copybind_t cv2xd_etc_t:file ioctl;
+dontaudit mount_copybind_t ipa_vlan_cfg_t:file ioctl;
+dontaudit mount_copybind_t power_manager_conf_t:file ioctl;
+dontaudit mount_copybind_t qits_etc_t:file ioctl;
+dontaudit mount_copybind_t sensor_util_t:file ioctl;
+dontaudit mount_copybind_t telsdk_etc_t:file ioctl;
