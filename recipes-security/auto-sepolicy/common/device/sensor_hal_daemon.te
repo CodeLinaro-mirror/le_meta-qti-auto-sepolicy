@@ -66,6 +66,8 @@ gen_require(`
   type sysctl_t;
   type unreserved_port_t;
   type system_data_t;
+  type loc_t;
+  type loc_tmp_t;
 ')
 
 userdebug_or_eng(`
@@ -160,3 +162,5 @@ allow sensor_hal_daemon_tmp_t tmpfs_t:filesystem associate;
 files_tmp_filetrans(sensor_hal_daemon_t, sensor_hal_daemon_tmp_t, {sock_file file });
 manage_sock_files_pattern(sensor_hal_daemon_t, sensor_hal_daemon_tmp_t, sensor_hal_daemon_tmp_t);
 manage_files_pattern(sensor_hal_daemon_t, sensor_hal_daemon_tmp_t, sensor_hal_daemon_tmp_t);
+allow sensor_hal_daemon_t loc_tmp_t:sock_file { write };
+allow sensor_hal_daemon_t loc_t:unix_stream_socket { connectto };
