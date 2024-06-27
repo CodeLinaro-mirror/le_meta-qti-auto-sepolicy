@@ -1,4 +1,4 @@
-#Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+#Copyright (c) 2022,2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #SPDX-License-Identifier: BSD-3-Clause-Clear
 
 gen_require(`
@@ -10,6 +10,9 @@ gen_require(`
     type tuicoreservice_dev_t;
     type sdcard_t;
     type sysdevice_sysfs_t;
+    type binderfs_t;
+    type hwbinder_device_t;
+    type vndbinder_device_t;
 ')
 
 # /lib/systemd/systemd-udevd is invoking
@@ -26,4 +29,9 @@ allow udev_t qcmap_tmp_t:dir { write search add_name };
 allow udev_t qcmap_tmp_t:lnk_file create;
 allow udev_t tuicoreservice_dev_t:chr_file setattr;
 allow udev_t sdcard_t:dir getattr;
+allow udev_t binderfs_t:dir { getattr open read search setattr };
+allow udev_t binderfs_t:file { getattr setattr };
+allow udev_t hwbinder_device_t:chr_file { getattr setattr };
+allow udev_t vndbinder_device_t:chr_file { getattr setattr };
+
 dontaudit udev_t init_runtime_t:file { open read };
