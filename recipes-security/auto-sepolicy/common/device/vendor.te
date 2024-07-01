@@ -62,6 +62,7 @@ allow post_boot_script_t tracefs_t:dir { search getattr };
 allow post_boot_script_t tracefs_t:file { open write };
 allow post_boot_script_t device_t:chr_file { getattr setattr };
 allow post_boot_script_t self:capability fowner;
+allow post_boot_script_t self:capability chown;
 allow post_boot_script_t sysfs_t:file setattr;
 allow post_boot_script_t self:lockdown confidentiality;
 
