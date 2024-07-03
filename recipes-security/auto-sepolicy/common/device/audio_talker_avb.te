@@ -27,6 +27,7 @@ gen_require(`
         type devlog_t;
         type debugfs_t;
         type syslogd_t;
+        type binderfs_t;
 ')
 
 logging_send_syslog_msg(audio_talker_avb_t)
@@ -57,6 +58,7 @@ allow audio_talker_avb_t self:qipcrtr_socket { create getattr read setopt write 
 allow audio_talker_avb_t tmpfs_t:dir search;
 allow audio_talker_avb_t gptp_tmpfs_t:file { rw_file_perms map };
 allow audio_talker_avb_t debugfs_t:dir search;
+allow audio_talker_avb_t binderfs_t:dir search;
 
 # Gives permissions for swbinders
 agm_server_sw_binders_access(audio_talker_avb_t)
