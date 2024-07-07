@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -42,5 +42,6 @@ transition_to_confined_domain(telux_wifi_consec_t, telux_wifi_consec_exec_t)
 telux_allow_wifi_con_sec(telux_wifi_consec_t)
 telux_allow_sec_wcs_report(telux_wifi_consec_t)
 telux_allow_sec_wcs_config(telux_wifi_consec_t)
+telux_allow_sec_wcs_info(telux_wifi_consec_t)
 
 allow telux_wifi_consec_t self:capability setgid;
