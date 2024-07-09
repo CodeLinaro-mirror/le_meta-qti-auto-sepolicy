@@ -27,7 +27,7 @@
 
 #  Changes from Qualcomm Innovation Center are provided under the following license:
 #
-#  Copyright (c) 2022- 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+#  Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 #  Redistribution and use in source and binary forms, with or without
 #  modification, are permitted (subject to the limitations in the
@@ -62,6 +62,8 @@
 policy_module(location_test_app, 1.0)
 type location_test_app_t;
 type location_test_app_exec_t;
+type osnma_merkle_tree_xml_t;
+files_type(osnma_merkle_tree_xml_t)
 
 #domain transition if started from init
 init_vendor_domain(location_test_app_t, location_test_app_exec_t)
