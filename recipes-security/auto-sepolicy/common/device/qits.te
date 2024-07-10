@@ -55,6 +55,7 @@ gen_require(`
     type boot_kpi_values_t;
     type system_data_t;
     type aerolink_data_t;
+    type random_device_t;
     type systemd_tmpfiles_t;
     type canwrapper_data_log_t;
     type system_dir_t;
@@ -84,6 +85,7 @@ allow qits_t node_t:tcp_socket node_bind;
 allow qits_t self:can_socket { create bind ioctl read setopt };
 allow qits_t aerolink_data_t:dir {read open getattr write add_name create remove_name unlink rename};
 allow qits_t aerolink_data_t:file {read write create getattr unlink rename open};
+allow qits_t random_device_t:chr_file read_chr_file_perms;
 allow systemd_tmpfiles_t qits_stats_t:file { getattr open write };
 
 dontaudit qits_t self:capability sys_module;
