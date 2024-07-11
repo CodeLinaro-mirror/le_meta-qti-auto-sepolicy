@@ -16,9 +16,6 @@ init_vendor_domain(telux_config_server_t, telux_config_server_exec_t)
 # domain transition if started from adb shell
 transition_to_confined_domain(telux_config_server_t, telux_config_server_exec_t)
 
-# Allow systemctl commands
-unconfined_allow_systemctl_cmds(telux_config_server_exec_t)
-
 # Permissions required for telsdk config file access
 access_telux_files(telux_config_server_t)
 
