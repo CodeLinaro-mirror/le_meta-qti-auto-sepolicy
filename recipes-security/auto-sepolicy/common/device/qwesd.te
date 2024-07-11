@@ -88,6 +88,9 @@ gen_require(`
        type cert_t;
        type vendor_dmabuf_qseecom_heap_device_t;
        type vendor_dmabuf_qseecomta_heap_device_t;
+       type telsdk_data_t;
+       type telsdk_etc_t;
+       type sysdevice_sysfs_t;
 ')
 allow qwesd_t net_conf_t:file write_file_perms;
 #allow qwesd to read qnetmgrd confi file.
@@ -98,6 +101,7 @@ files_read_etc_files(qwesd_t)
 allow qwesd_t etc_t:dir list_dir_perms;
 read_files_pattern(qwesd_t, etc_t, qwes_config_etc_t)
 read_lnk_files_pattern(qwesd_t, etc_t, qwes_config_etc_t)
+allow qwesd_t sysdevice_sysfs_t:file { open read };
 
 ##################################################################
 # Rules starting for loading TA using QSEECOM
@@ -131,6 +135,10 @@ user_data_files_type(qwes_data_t)
 data_filetrans(qwesd_t, qwes_data_t, { file dir })
 manage_user_data_files(qwesd_t, qwes_data_t)
 rw_files_pattern(qwesd_t, qwes_data_t, qwes_data_t)
+
+#allow qwesd to connect to network using TeleSDK
+allow qwesd_t telsdk_data_t:file { append create getattr open};
+allow qwesd_t telsdk_etc_t:file { open read};
 
 # allow qwesd to read/write to /var/run/qwes_ipc minksocket file.
 allow qwesd_t self:udp_socket create_socket_perms;
@@ -248,6 +256,9 @@ allow qwes_license_store_setup_t qseecomd_persist_t:file { write create open get
 filetrans_pattern(qwes_license_store_setup_t, persist_t, qseecomd_persist_t, { file dir })
 allow qwes_license_store_setup_t qseecomd_persist_t:dir manage_dir_perms;
 
+# Allow qwesd to stat/read/write into license store path
+allow qwesd_t qseecomd_persist_t:file { getattr write open read };
+
 # Allow read access to /etc/passwd file for chown command.
 files_read_etc_files(qwes_license_store_setup_t)
 
@@ -273,4 +284,3 @@ allow qwes_license_store_setup_t self:capability { fowner chown };
 #################################################################################
 # Rules ending for setting up qwes_license_store.
 #################################################################################
-
