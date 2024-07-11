@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear.
 
 policy_module(vnw_hyp_client_app, 1.0)
@@ -14,8 +14,12 @@ transition_to_confined_domain(vnw_hyp_client_app_t, vnw_hyp_client_app_exec_t)
 gen_require(`
         type devlog_t;
         type syslogd_t;
+        type syslogd_runtime_t;
+        type init_runtime_t;
 ')
 
 allow vnw_hyp_client_app_t self:qipcrtr_socket { create getattr read setopt write };
 allow vnw_hyp_client_app_t devlog_t:sock_file { write };
 allow vnw_hyp_client_app_t syslogd_t:unix_dgram_socket { sendto };
+allow vnw_hyp_client_app_t syslogd_runtime_t:dir search;
+allow vnw_hyp_client_app_t init_runtime_t:dir search;
