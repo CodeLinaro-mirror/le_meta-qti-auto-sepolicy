@@ -394,6 +394,24 @@ interface(`telux_allow_data_client_config',`
     allow $1 telux_access_data_client_config_t:file {getattr};
 ')
 
+# Interface to get access for dual data APIs.
+# @brief: This interface allows the client to get dppd capability & recommendation.
+#
+# Parameters:
+#    1) Domain context.
+
+interface(`telux_allow_dual_data_info',`
+    gen_require(`
+        type telux_access_dual_data_info_t;
+        type qms_sock_t;
+        type qms_t;
+    ')
+    allow $1 telux_access_dual_data_info_t:file {getattr};
+    allow $1 qms_t:unix_stream_socket connectto;
+    allow $1 qms_sock_t:sock_file write;
+    allow $1 self:{ netlink_kobject_uevent_socket} create_socket_perms;
+')
+
 ##################################################################################################
 # Interfaces to control access for Platform related APIs in SDK
 ##################################################################################################
