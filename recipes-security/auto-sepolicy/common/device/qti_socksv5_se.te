@@ -17,6 +17,7 @@ gen_require(`
     type unreserved_port_t;
     type proc_t;
     type proc_net_t;
+    type soundd_port_t;
 ')
 
 allow qti_socksv5_se_t qti_socksv5_se_exec_t:file { execute_no_trans map open read };
@@ -27,13 +28,13 @@ allow qti_socksv5_se_t qcmap_etc_data_t:dir search;
 allow qti_socksv5_se_t qcmap_etc_data_t:file { getattr open read watch };
 allow qti_socksv5_se_t self:fifo_file { getattr read write };
 allow qti_socksv5_se_t self:netlink_route_socket { bind create };
-allow qti_socksv5_se_t self:netlink_socket { bind create write };
-allow qti_socksv5_se_t self:tcp_socket { bind create listen setopt accept };
+allow qti_socksv5_se_t self:netlink_socket { bind create write read };
+allow qti_socksv5_se_t self:tcp_socket { bind create listen setopt accept connect getopt read write };
 allow qti_socksv5_se_t socket_device_t:dir search;
 allow qti_socksv5_se_t sysctl_net_t:dir search;
 allow qti_socksv5_se_t sysctl_net_t:file { getattr open read };
 allow qti_socksv5_se_t sysctl_t:dir search;
-allow qti_socksv5_se_t unreserved_port_t:tcp_socket name_bind;
+allow qti_socksv5_se_t unreserved_port_t:tcp_socket { name_bind name_connect };
 allow qti_socksv5_se_t self:netlink_route_socket read;
 allow qti_socksv5_se_t shell_exec_t:file { execute execute_no_trans open read };
 allow qti_socksv5_se_t proc_t:file { read open getattr };
@@ -42,3 +43,5 @@ allow qti_socksv5_se_t self:udp_socket create;
 allow qti_socksv5_se_t self:process signal;
 allow qti_socksv5_se_t self:capability net_admin;
 dontaudit qti_socksv5_se_t self:capability { dac_override } ;
+dontaudit qti_socksv5_se_t self:capability sys_module;
+allow qti_socksv5_se_t soundd_port_t:tcp_socket name_connect;
