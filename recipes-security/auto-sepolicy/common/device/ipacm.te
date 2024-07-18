@@ -55,6 +55,9 @@ allow ipa_fw_initrc_t ipa_vlan_cfg_t: file { open read write getattr };
 ## mount_t
 allow mount_t ipa_vlan_cfg_t: file { create mounton open read write getattr };
 
+## inotify on /data/ipa dir
+allow ipacm_t system_data_t: dir { watch };
+
 ## ipacm script chown permissions
 allow ipacm_t sysfs_t: dir { read };
 allow ipacm_t sysfs_t: file { getattr };
