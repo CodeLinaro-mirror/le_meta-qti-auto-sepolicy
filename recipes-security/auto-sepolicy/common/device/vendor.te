@@ -91,5 +91,6 @@ type qmi_fw_conf_t;
 allow domain qmi_fw_conf_t:file { read getattr open };
 
 allow mount_copybind_t qmi_fw_conf_t:file { create getattr open setattr write };
+dontaudit mount_copybind_t qmi_fw_conf_t:file { ioctl };
 allow mount_t qmi_fw_conf_t:file mounton;
 allow qmi_fw_conf_t fs_t:filesystem associate;

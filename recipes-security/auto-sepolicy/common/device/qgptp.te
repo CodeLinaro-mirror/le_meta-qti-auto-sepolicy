@@ -93,3 +93,4 @@ allow qgptp_t event_device_t:chr_file { ioctl open read write };
 allow qgptp_t socket_device_t:dir search;
 allow qgptp_t gptp_socket_t:dir rw_dir_perms;
 allow qgptp_t gptp_socket_t:sock_file { create unlink };
+dontaudit mount_copybind_t gptp_etc_t:file { ioctl };

@@ -115,3 +115,4 @@ data_filetrans(qits_t, canwrapper_data_log_t, { file dir })
 manage_user_data_files(qits_t, canwrapper_data_log_t)
 
 allow qits_t system_dir_t:dir search_dir_perms;
+dontaudit mount_copybind_t qits_etc_t: file { ioctl };

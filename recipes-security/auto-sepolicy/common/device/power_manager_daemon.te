@@ -152,3 +152,4 @@ dontaudit power_manager_daemon_t init_t:lnk_file read;
 dontaudit power_manager_daemon_t sysctl_kernel_t:dir search;
 dontaudit power_manager_daemon_t sysctl_kernel_t:file { open read ioctl getattr };
 dontaudit power_manager_daemon_t sysctl_t:dir search;
+dontaudit mount_copybind_t power_manager_conf_t: file { ioctl };
