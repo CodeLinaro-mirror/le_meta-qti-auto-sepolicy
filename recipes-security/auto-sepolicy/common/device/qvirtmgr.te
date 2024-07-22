@@ -133,7 +133,7 @@ allow mount_t vm_systemrw_t:filesystem relabelfrom;
 rw_chr_files_pattern(qvirtmgr_t, device_t, gunyah_device_t)
 #============ mount_copybind_t ==============
 allow  mount_copybind_t qvirtmgr_etc_t:file { create getattr open read write relabelfrom relabelto setattr };
-
+dontaudit mount_copybind_t qvirtmgr_etc_t:file { ioctl };
 allow  mount_t qvirtmgr_etc_t:file { getattr mounton };
 
 allow  setfiles_t qvirtmgr_etc_t:file { getattr };
