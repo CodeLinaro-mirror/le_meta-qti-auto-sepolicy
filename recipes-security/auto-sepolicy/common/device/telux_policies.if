@@ -193,7 +193,6 @@ interface(`telux_allow_qmi_client',`
 
 interface(`telux_allow_tel',`
     gen_require(`
-      type rilmuxd_t;
       type qmux_radio_sock_t;
       type devlog_t;
     ')
@@ -201,7 +200,6 @@ interface(`telux_allow_tel',`
     device_search_sockets($1)
     allow $1 self:fifo_file rw_fifo_file_perms;
     allow $1 self:socket create_socket_perms;
-    allow $1 rilmuxd_t:unix_stream_socket connectto;
     logging_send_syslog_msg($1)
     allow $1 self:unix_dgram_socket { write create connect };
     access_telux_files($1)

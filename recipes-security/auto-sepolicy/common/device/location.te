@@ -45,7 +45,6 @@ gen_require(`
     type sensor_hal_daemon_conf_t;
     type sensor_util_t;
     type qmux_radio_sock_t;
-    type rilmuxd_t;
     type telsdk_etc_t;
     type telsdk_data_t;
     type gptp_socket_t;
@@ -154,8 +153,6 @@ read_files_pattern(loc_t, cert_t, cert_t)
 # read build.prop
 leprop_read_props(loc_t)
 
-stream_connect_pattern(xtra_daemon_t,edgnss_daemon_t,qmux_radio_sock_t,qmux_radio_sock_t,rilmuxd_t);
-stream_connect_pattern(loc_t,qmux_radio_sock_t,qmux_radio_sock_t,rilmuxd_t);
 allow loc_t cert_t:lnk_file read_lnk_file_perms;
 telux_allow_data(loc_t)
 telux_allow_data(xtra_daemon_t)
