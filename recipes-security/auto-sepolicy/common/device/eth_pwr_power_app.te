@@ -26,7 +26,7 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #Changes from Qualcomm Innovation Center are provided under the following license:
-#Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+#Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(eth_pwr_power_app, 1.0)
@@ -65,3 +65,4 @@ allow eth_pwr_power_app_t shell_exec_t:file { execute execute_no_trans open read
 allow eth_pwr_power_app_t sysfs_t:lnk_file read;
 allow eth_pwr_power_app_t init_runtime_t:dir search;
 allow eth_pwr_power_app_t syslogd_runtime_t:dir search;
+allow eth_pwr_power_app_t self:qipcrtr_socket { read write create getattr setopt };
