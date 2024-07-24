@@ -35,8 +35,10 @@ type qits_t;
 type qits_exec_t;
 type qits_etc_t;
 type qits_stats_t;
+type proc_load_t;
 files_type(qits_etc_t);
 files_tmp_file(qits_stats_t);
+files_type(proc_load_t);
 init_vendor_domain(qits_t, qits_exec_t)
 transition_to_confined_domain(qits_t, qits_exec_t)
 
@@ -53,6 +55,7 @@ gen_require(`
     type boot_kpi_values_t;
     type system_data_t;
     type aerolink_data_t;
+    type random_device_t;
     type systemd_tmpfiles_t;
     type canwrapper_data_log_t;
     type system_dir_t;
@@ -60,12 +63,12 @@ gen_require(`
 
 files_tmp_filetrans(qits_t, qits_stats_t, file);
 manage_files_pattern(qits_t, tmp_t, qits_stats_t);
-
-allow qits_t boot_kpi_values_t:file write;
+append_files_pattern(qits_t, sysfs_t, boot_kpi_values_t)
 allow qits_t cert_t:file { read open getattr };
 allow qits_t cert_t:dir search;
 allow qits_t qits_etc_t:file read_file_perms;
 allow qits_t qits_stats_t:file manage_file_perms;
+allow qits_t proc_load_t:file read_file_perms;
 allow qits_t self:udp_socket create_socket_perms;
 allow qits_t proc_net_t:file read_file_perms;
 allow qits_t self:netlink_route_socket create_netlink_socket_perms;
@@ -82,6 +85,7 @@ allow qits_t node_t:tcp_socket node_bind;
 allow qits_t self:can_socket { create bind ioctl read setopt };
 allow qits_t aerolink_data_t:dir {read open getattr write add_name create remove_name unlink rename};
 allow qits_t aerolink_data_t:file {read write create getattr unlink rename open};
+allow qits_t random_device_t:chr_file read_chr_file_perms;
 allow systemd_tmpfiles_t qits_stats_t:file { getattr open write };
 
 dontaudit qits_t self:capability sys_module;

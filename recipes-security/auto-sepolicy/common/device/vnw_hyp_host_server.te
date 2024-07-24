@@ -29,6 +29,8 @@ gen_require(`
         type devlog_t;
         type debugfs_t;
         type syslogd_t;
+        type syslogd_runtime_t;
+        type init_runtime_t;
         type qgptp_exec_t;
         type qavb_app_exec_t;
         type multiqavb_app_exec_t;
@@ -96,6 +98,8 @@ allow vnw_hyp_host_server_t sysfs_t:file { read open };
 allow vnw_hyp_host_server_t self:fifo_file rw_fifo_file_perms;
 allow vnw_hyp_host_server_t self:udp_socket { create ioctl };
 allow vnw_hyp_host_server_t tmpfs_t:dir search;
+allow vnw_hyp_host_server_t syslogd_runtime_t:dir search;
+allow vnw_hyp_host_server_t init_runtime_t:dir search;
 allow vnw_hyp_host_server_t debugfs_t:dir search;
 allow vnw_hyp_host_server_t binderfs_t:dir search;
 files_tmp_file(gptp_tmpfs_t);

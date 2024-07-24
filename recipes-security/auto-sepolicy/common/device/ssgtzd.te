@@ -1,4 +1,4 @@
-#Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+#Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(ssgtzd, 1.0)
@@ -26,7 +26,7 @@ allow ssgtzd_t self:qipcrtr_socket { create getattr setopt shutdown write read }
 allow ssgtzd_t self:unix_stream_socket { accept listen };
 allow ssgtzd_t smcinvoke_device_t:chr_file { ioctl open read write };
 allow ssgtzd_t socket_device_t:dir { add_name remove_name search write };
-allow ssgtzd_t socket_device_t:sock_file { create unlink };
+allow ssgtzd_t socket_device_t:sock_file { create unlink setattr};
 allow ssgtzd_t syslogd_t:unix_dgram_socket sendto;
 allow ssgtzd_t ssgtzd_etc_ta_config_t:dir { open getattr search read };
 allow ssgtzd_t ssgtzd_etc_ta_config_t:file { read getattr open };
