@@ -63,5 +63,4 @@ allow dlt_t proc_net_t:file read_file_perms;
 allow dlt_t { unreserved_port_t node_t }:udp_socket { name_bind node_bind };
 allow dlt_t { unreserved_port_t node_t }:tcp_socket { name_bind node_bind name_connect };
 
-# Dontaudit
-dontaudit dlt_t self:capability { dac_read_search dac_override };
+alog_manage_log(dlt_t)

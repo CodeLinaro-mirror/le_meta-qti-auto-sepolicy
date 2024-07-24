@@ -70,6 +70,8 @@ userdebug_or_eng(`
         type kernel_t;
         type webserver_t;
         type stream_update_engine_t;
+        type sensor_hal_daemon_tmp_t;
+        type sysfs_devcoredump_t;
     ')
 
     can_exec(unconfined_t, ks_exec_t);
@@ -95,4 +97,8 @@ userdebug_or_eng(`
     allow unconfined_t stream_update_engine_t:binder transfer;
     allow unconfined_t cpu_sysfs_t:file { create write };
     allow unconfined_t self:lockdown confidentiality;
+    allow unconfined_t sensor_hal_daemon_tmp_t:file getattr;
+    allow unconfined_t sensor_hal_daemon_tmp_t:sock_file getattr;
+    allow unconfined_t sysfs_devcoredump_t:dir search;
+    allow unconfined_t sysfs_devcoredump_t:file { open read write };
 ')
