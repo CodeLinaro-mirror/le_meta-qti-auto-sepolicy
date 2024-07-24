@@ -44,3 +44,4 @@ allow mount_t audio_hal_etc_t:file { getattr mounton };
 
 type audio_delta_acdb_data_t;
 user_data_files_type(audio_delta_acdb_data_t)
+dontaudit mount_copybind_t audio_hal_etc_t: file { ioctl };

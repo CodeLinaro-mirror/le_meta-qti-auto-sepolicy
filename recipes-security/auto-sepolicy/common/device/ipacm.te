@@ -48,6 +48,8 @@ allow udev_t system_data_t: dir { search };
 
 ## mount copybind
 allow mount_copybind_t ipa_vlan_cfg_t: file { create open read write getattr setattr relabelfrom relabelto };
+allow ipacm_t system_data_t:dir  { watch };
+dontaudit mount_copybind_t ipa_vlan_cfg_t: file { ioctl };
 
 ## ipa_fw_initrc_t access to vlan cfg
 allow ipa_fw_initrc_t ipa_vlan_cfg_t: file { open read write getattr };

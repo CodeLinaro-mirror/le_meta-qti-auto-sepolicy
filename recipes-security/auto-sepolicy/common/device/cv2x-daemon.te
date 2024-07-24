@@ -90,3 +90,4 @@ allow cv2xd_t self:udp_socket { ioctl create shutdown };
 
 allow mount_copybind_t cv2xd_etc_t:file { getattr relabelto setattr read open create write };
 allow mount_t cv2xd_etc_t:file { getattr mounton };
+dontaudit mount_copybind_t cv2xd_etc_t: file { ioctl };

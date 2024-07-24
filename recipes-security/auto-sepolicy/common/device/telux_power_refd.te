@@ -55,6 +55,7 @@ gen_require(`
     type system_dbusd_t;
     type power_unit_t;
     type system_dir_t;
+    type mount_copybind_t;
 ')
 
 #config
@@ -109,3 +110,5 @@ dontaudit telux_power_refd_t system_dir_t:dir { search };
 
 #Allow SMS trigger
 telux_allow_tel_sms_listen(telux_power_refd_t)
+
+dontaudit mount_copybind_t telux_power_refd_conf_t:file { ioctl }; 

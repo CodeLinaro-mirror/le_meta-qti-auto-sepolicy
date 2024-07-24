@@ -129,8 +129,7 @@ allow mount_copybind_t softsku_data_conf_t:file { setattr read create write rela
 
 allow mount_copybind_t softsku_rc_t:dir { open read search mounton getattr };
 allow mount_copybind_t softsku_rc_t:file { setattr read create write relabelfrom getattr relabelto open };
-
-
+dontaudit mount_copybind_t softsku_rc_t:file { ioctl };
 
 #============= unconfined_mount_t ==============
 allow mount_t softsku_data_conf_t:file { getattr mounton };

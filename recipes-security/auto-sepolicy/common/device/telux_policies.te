@@ -74,3 +74,4 @@ gen_require(`
 ')
 allow mount_copybind_t telsdk_etc_t:file { setattr getattr read open relabelto create write };
 allow mount_t telsdk_etc_t:file { getattr mounton };
+dontaudit mount_copybind_t telsdk_etc_t:file { ioctl }; 
