@@ -94,3 +94,10 @@ telux_allow_platform_time(chrony_sock_t);
 
 allow mount_copybind_t chronyd_conf_t:file { setattr getattr read open relabelto create write };
 allow mount_t chronyd_conf_t:file { getattr mounton };
+<<<<<<< HEAD   (50b50f merge 53a4e1b4e5d7f36e21937550dc35bb56663db1c2 on remote)
+=======
+dontaudit mount_copybind_t chronyd_conf_t: file { ioctl };
+allow mount_copybind_t telux_chrony_sock_conf_t:file { setattr getattr read open relabelto create write };
+allow mount_t telux_chrony_sock_conf_t:file { getattr mounton };
+dontaudit mount_copybind_t telux_chrony_sock_conf_t:file { ioctl };
+>>>>>>> CHANGE (b6979b meta-qti-auto-sepolicy: Added SE-Policy rules for mount-copy)
