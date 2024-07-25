@@ -27,7 +27,7 @@
 
 #  Changes from Qualcomm Innovation Center are provided under the following license:
 #
-#  Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+#  Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -227,6 +227,7 @@ interface(`telux_allow_data',`
     read_files_pattern($1, etc_t, etc_t);
     #qnetmgr_read_config_file($1);
     telux_allow_group($1)
+    telux_allow_qmi_client($1)
 ')
 
 # Audio client interfaces
@@ -462,6 +463,7 @@ interface(`telux_allow_wlan',`
     device_rw_socket_files($1, netmgrd_socket_device_t);
     read_files_pattern($1, etc_t, etc_t);
     telux_allow_group($1)
+    telux_allow_qmi_client($1)
 ')
 
 # Cv2x client interface
