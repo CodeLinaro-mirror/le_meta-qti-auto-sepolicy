@@ -1,4 +1,4 @@
-#  Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+#  Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 #  Redistribution and use in source and binary forms, with or without
 #  modification, are permitted (subject to the limitations in the
@@ -55,10 +55,18 @@ gen_require(`
     type system_dbusd_t;
     type power_unit_t;
     type system_dir_t;
+<<<<<<< HEAD   (50b50f merge 53a4e1b4e5d7f36e21937550dc35bb56663db1c2 on remote)
+=======
+    type mount_copybind_t;
+    type mount_t;
+>>>>>>> CHANGE (b6979b meta-qti-auto-sepolicy: Added SE-Policy rules for mount-copy)
 ')
 
 #config
 allow telux_power_refd_t telux_power_refd_conf_t:file { read getattr open };
+allow mount_copybind_t telux_power_refd_conf_t:file { setattr getattr read open relabelto create write };
+allow mount_t telux_power_refd_conf_t:file { getattr mounton };
+dontaudit mount_copybind_t telux_power_refd_conf_t: file { ioctl };
 
 #For power management
 corecmd_exec_shell(telux_power_refd_t)

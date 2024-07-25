@@ -88,10 +88,15 @@ allow ecall_app_t self:process signal;
 
 gen_require(`
         type etc_t;
+        type mount_copybind_t;
+        type mount_t;
 ')
 #Allow setting secondary groups
 allow ecall_app_t self:capability setgid;
 allow ecall_app_t etc_t:file read_file_perms;
+allow mount_copybind_t ecall_conf_t:file { setattr getattr read open relabelto create write };
+allow mount_t ecall_conf_t:file { getattr mounton };
+dontaudit mount_copybind_t ecall_conf_t: file { ioctl };
 
 # Provide access for necessary SDK APIs
 telux_allow_tel_multisim_mgmt(ecall_app_t)

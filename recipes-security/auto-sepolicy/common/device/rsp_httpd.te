@@ -26,7 +26,7 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 # Changes from Qualcomm Innovation Center are provided under the following license:
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(rsp_httpd, 1.0)
@@ -52,9 +52,14 @@ gen_require(`
         type proc_t;
         type cert_t;
         type http_port_t;
+        type mount_copybind_t;
+        type mount_t;
 ')
 
 allow rsp_httpd_t self:capability { fsetid net_raw };
+allow mount_copybind_t rsp_httpd_conf_t:file { setattr getattr read open relabelto create write };
+allow mount_t rsp_httpd_conf_t:file { getattr mounton };
+dontaudit mount_copybind_t rsp_httpd_conf_t: file { ioctl };
 
 # For std::cin
 allow rsp_httpd_t user_devpts_t:chr_file read;
