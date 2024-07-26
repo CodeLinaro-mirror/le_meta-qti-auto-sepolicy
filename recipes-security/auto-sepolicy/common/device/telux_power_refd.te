@@ -55,11 +55,8 @@ gen_require(`
     type system_dbusd_t;
     type power_unit_t;
     type system_dir_t;
-<<<<<<< HEAD   (50b50f merge 53a4e1b4e5d7f36e21937550dc35bb56663db1c2 on remote)
-=======
     type mount_copybind_t;
     type mount_t;
->>>>>>> CHANGE (b6979b meta-qti-auto-sepolicy: Added SE-Policy rules for mount-copy)
 ')
 
 #config
