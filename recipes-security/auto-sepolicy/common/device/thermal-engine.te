@@ -5,4 +5,5 @@ gen_require(`
     type cpu_sysfs_t;
 ')
 
-allow thermal-engine_t cpu_sysfs_t:dir search;
+allow thermal-engine_t cpu_sysfs_t:dir {read search};
+allow thermal-engine_t cpu_sysfs_t:file read_file_perms;
