@@ -44,6 +44,7 @@ gen_require(`
   type power_manager_daemon_t;
   type power_socket_t;
   type dhcpc_var_run_t;
+  type wpa_cli_exec_t;
   type qms_sock_t;
   type qms_t;
 ')
@@ -55,6 +56,7 @@ allow qcmap_cm_t system_data_t:file { create open read write unlink };
 allow qcmap_cm_t power_manager_daemon_t:unix_stream_socket connectto;
 allow qcmap_cm_t power_socket_t:dir search;
 allow qcmap_cm_t power_socket_t:sock_file write;
+allow qcmap_cm_t wpa_cli_exec_t:file { map };
 allow qcmap_cm_t qms_t:unix_stream_socket connectto;
 allow qcmap_cm_t qms_sock_t:sock_file write;
 dontaudit qcmap_cm_t self:capability { dac_override } ;
