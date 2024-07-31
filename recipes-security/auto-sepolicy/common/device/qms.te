@@ -10,6 +10,8 @@ gen_require(`
     type sysctl_t;
     type cert_t;
     type qcmap_var_run_t;
+    type leprop_sock_t;
+    type leprop_t;
 ')
 
 type qms_t;
@@ -42,6 +44,9 @@ allow qms_t cert_t:file { getattr open read };
 
 allow qms_t qcmap_var_run_t:dir { search write add_name };
 allow qms_t qcmap_var_run_t:file { create write open getattr };
+
+allow qms_t leprop_sock_t:sock_file {write};
+allow qms_t leprop_t:unix_stream_socket { connectto };
 
 allow qms_t self:tipc_socket { create read bind write getattr setopt };
 
