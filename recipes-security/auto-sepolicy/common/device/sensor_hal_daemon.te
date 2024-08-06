@@ -108,7 +108,6 @@ allow setfiles_t sensor_util_rw_t:file relabelto;
 allow unconfined_t sensor_util_t:file { read write getattr open };
 
 init_vendor_domain(sensor_hal_daemon_t, sensor_hal_daemon_exec_t)
-unconfined_allow_systemctl_cmds(sensor_hal_daemon_exec_t)
 # Using sensor socket and configuration access from sensor_hal_daemon.if
 sensor_dev_socket(sensor_hal_daemon_t)
 sensor_configuration_access(sensor_hal_daemon_t)
