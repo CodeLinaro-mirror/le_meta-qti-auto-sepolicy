@@ -75,6 +75,7 @@ gen_require(`
   type power_socket_t;
   type dhcpc_var_run_t;
   type qti_socksv5_se_exec_t;
+  type event_device_t;
 ')
 
 allow qcmap_cm_t modem_monitor_t:unix_stream_socket connectto;
@@ -100,3 +101,8 @@ allow dhcpc_t default_t:dir { search read open getattr };
 allow dhcpc_t default_t:file { read open execute execute_no_trans getattr };
 
 allow qcmap_cm_t qcmap_var_run_t: dir { watch };
+
+rw_chr_files_pattern(qcmap_cm_t, device_t, event_device_t)
+mls_file_read_all_levels(qcmap_cm_t)
+mls_file_write_all_levels(qcmap_cm_t)
+
