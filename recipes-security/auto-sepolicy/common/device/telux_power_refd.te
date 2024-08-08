@@ -58,10 +58,14 @@ gen_require(`
     type mount_copybind_t;
     type unreserved_port_t;
     type data_t;
+    type mount_t;
 ')
 
 #config
 allow telux_power_refd_t telux_power_refd_conf_t:file { read getattr open };
+allow mount_copybind_t telux_power_refd_conf_t:file { setattr getattr read open relabelto create write };
+allow mount_t telux_power_refd_conf_t:file { getattr mounton };
+dontaudit mount_copybind_t telux_power_refd_conf_t: file { ioctl };
 
 #For power management
 corecmd_exec_shell(telux_power_refd_t)
