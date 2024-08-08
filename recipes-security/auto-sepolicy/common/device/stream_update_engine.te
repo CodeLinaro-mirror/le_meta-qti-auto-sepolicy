@@ -86,7 +86,7 @@ allow stream_update_engine_t mtd_block_t:blk_file { read write ioctl open getatt
 allow stream_update_engine_t debugfs_t:dir search;
 dev_read_urand(stream_update_engine_t)
 
-allow stream_update_engine_t mtd_device_t:chr_file { read write ioctl open };
+allow stream_update_engine_t mtd_device_t:chr_file { getattr read write ioctl open };
 
 allow stream_update_engine_t sysctl_t:dir search;
 allow stream_update_engine_t sysctl_kernel_t:dir search;
