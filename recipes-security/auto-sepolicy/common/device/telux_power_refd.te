@@ -1,4 +1,4 @@
-#  Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+#  Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 #  Redistribution and use in source and binary forms, with or without
 #  modification, are permitted (subject to the limitations in the
@@ -55,6 +55,7 @@ gen_require(`
     type system_dbusd_t;
     type power_unit_t;
     type system_dir_t;
+    type unreserved_port_t;
 ')
 
 #config
@@ -70,10 +71,13 @@ dontaudit telux_power_refd_t default_t:dir search;
 dontaudit telux_power_refd_t self:capability sys_module;
 dontaudit telux_power_refd_t sysctl_t:dir search;
 
-#TCP socket for NAOIP trigger
+#TCP/UDP socket for NAOIP trigger
 allow telux_power_refd_t self:tcp_socket { create setopt bind listen accept node_bind name_bind read shutdown };
 allow telux_power_refd_t http_cache_port_t:tcp_socket { name_bind };
+allow telux_power_refd_t unreserved_port_t:tcp_socket { name_bind };
 allow telux_power_refd_t node_t:tcp_socket { node_bind };
+allow telux_power_refd_t unreserved_port_t:udp_socket { name_bind };
+allow telux_power_refd_t node_t:udp_socket { node_bind };
 
 #Allow shutdown
 ifdef(`init_systemd', `
