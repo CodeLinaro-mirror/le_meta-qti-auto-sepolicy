@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -47,3 +47,4 @@ fs_tmpfs_filetrans(adbd_t, adb_tmp_t, file, ".adb.root")
 
 dontaudit systemd_tmpfiles_t adb_tmp_t:file getattr;
 dontaudit usb_t tmpfs_t:dir search;
+allow adbd_t qmi_fw_conf_t:file { setattr write };
