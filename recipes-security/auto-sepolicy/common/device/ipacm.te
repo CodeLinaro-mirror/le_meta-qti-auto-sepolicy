@@ -31,6 +31,7 @@ gen_require(`
        type mount_t;
        type ifconfig_exec_t;
        type kmod_t;
+       type event_device_t;
 ')
 
 allow ipacm_t qcmap_var_run_t:dir rw_dir_perms;
@@ -73,3 +74,8 @@ allow ipacm_t proc_net_t: file { getattr };
 
 ## donotaudit any access to ipa dev nodes from lsmod
 dontaudit kmod_t ipa_fw_device_t:chr_file  { read write };
+
+rw_chr_files_pattern(ipacm_t, device_t, event_device_t)
+mls_file_write_all_levels(ipacm_t)
+mls_file_read_all_levels(ipacm_t)
+
