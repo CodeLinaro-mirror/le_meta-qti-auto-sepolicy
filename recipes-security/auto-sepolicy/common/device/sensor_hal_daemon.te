@@ -27,7 +27,7 @@
 #
 # Changes from Qualcomm Innovation Center are provided under the following license:
 #
-# Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(sensor_hal_daemon, 1.0)
@@ -170,3 +170,6 @@ manage_sock_files_pattern(sensor_hal_daemon_t, sensor_hal_daemon_tmp_t, sensor_h
 manage_files_pattern(sensor_hal_daemon_t, sensor_hal_daemon_tmp_t, sensor_hal_daemon_tmp_t);
 allow sensor_hal_daemon_t loc_tmp_t:sock_file { write };
 allow sensor_hal_daemon_t loc_t:unix_stream_socket { connectto };
+
+allow systemd_tmpfiles_t sensor_hal_daemon_tmp_t:file getattr;
+allow systemd_tmpfiles_t sensor_hal_daemon_tmp_t:sock_file getattr;
