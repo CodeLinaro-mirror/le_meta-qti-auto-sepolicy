@@ -41,6 +41,7 @@ files_tmp_file(adb_tmp_t)
 gen_require(`
     type systemd_tmpfiles_t;
     type tmpfs_t;
+    type qmi_fw_conf_t;
 ')
 files_tmp_filetrans(adbd_t, adb_tmp_t, file, ".adb.root")
 fs_tmpfs_filetrans(adbd_t, adb_tmp_t, file, ".adb.root")
