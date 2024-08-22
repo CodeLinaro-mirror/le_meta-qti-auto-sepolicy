@@ -13,6 +13,7 @@ gen_require(`
     type binderfs_t;
     type hwbinder_device_t;
     type vndbinder_device_t;
+    type compensator_etc_t;
 ')
 
 # /lib/systemd/systemd-udevd is invoking
@@ -35,3 +36,4 @@ allow udev_t hwbinder_device_t:chr_file { getattr setattr };
 allow udev_t vndbinder_device_t:chr_file { getattr setattr };
 
 dontaudit udev_t init_runtime_t:file { open read };
+allow udev_t compensator_etc_t:file { open read getattr };
