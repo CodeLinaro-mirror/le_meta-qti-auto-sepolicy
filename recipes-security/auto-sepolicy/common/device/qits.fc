@@ -25,9 +25,15 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+# Changes from Qualcomm Innovation Center are provided under the following license:
+#
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
 /usr/bin/qits           --  gen_context(system_u:object_r:qits_exec_t,s0)
 
 /etc/ObeConfig.conf     --  gen_context(system_u:object_r:qits_etc_t,s0)
+/etc/qits_env_file      --  gen_context(system_u:object_r:qits_etc_t,s0)
 
 /tmp/verif_stats.log    --  gen_context(system_u:object_r:qits_stats_t,s0)
 /tmp/sign_stats.log     --  gen_context(system_u:object_r:qits_stats_t,s0)
