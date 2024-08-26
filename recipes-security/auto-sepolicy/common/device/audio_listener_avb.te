@@ -24,9 +24,7 @@ gen_require(`
         type gptp_tmpfs_t;
         type agm_server_t;
         type systemd_logind_var_run_t;
-        type devlog_t;
         type debugfs_t;
-        type syslogd_t;
         type binderfs_t;
 ')
 
@@ -36,9 +34,8 @@ manage_user_data_files(audio_listener_avb_t, data_t)
 
 # Gives permissions to access to hal devices such as sound devices.
 auto_audio_hal_access(audio_listener_avb_t)
+logging_send_syslog_msg(audio_listener_avb_t);
 
-allow audio_listener_avb_t devlog_t:sock_file { write };
-allow audio_listener_avb_t syslogd_t:unix_dgram_socket { sendto };
 allow audio_listener_avb_t qgptp_device_t:chr_file { write read open };
 allow audio_listener_avb_t self:packet_socket { create map bind setopt getopt read write ioctl };
 allow audio_listener_avb_t self:capability { sys_nice net_raw net_admin setgid setuid };

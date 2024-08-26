@@ -26,9 +26,7 @@ gen_require(`
         type gptp_tmpfs_t;
         type agm_server_t;
         type systemd_logind_var_run_t;
-        type devlog_t;
         type debugfs_t;
-        type syslogd_t;
         type syslogd_runtime_t;
         type init_runtime_t;
         type qgptp_exec_t;
@@ -75,6 +73,8 @@ dontaudit vnw_hyp_host_server_t user_home_dir_t:dir { search getattr };
 
 # self
 rw_qipcrtr_socket(vnw_hyp_host_server_t);
+logging_send_syslog_msg(vnw_hyp_host_server_t);
+
 allow vnw_hyp_host_server_t self:unix_stream_socket { listen accept connectto };
 allow vnw_hyp_host_server_t self:process { setsched signal sigkill };
 allow vnw_hyp_host_server_t self:tcp_socket { create ioctl };
@@ -84,8 +84,6 @@ allow vnw_hyp_host_server_t self:netlink_route_socket { create bind read };
 allow vnw_hyp_host_server_t self:packet_socket { create map bind setopt getopt read write ioctl };
 allow vnw_hyp_host_server_t self:capability { sys_nice net_raw net_admin chown setgid setuid };
 
-allow vnw_hyp_host_server_t devlog_t:sock_file { write };
-allow vnw_hyp_host_server_t syslogd_t:unix_dgram_socket { sendto };
 allow vnw_hyp_host_server_t vnw_hyp_host_server_tmp_t:sock_file { read create unlink getattr write };
 allow vnw_hyp_host_server_t qgptp_device_t:chr_file { read write open ioctl };
 allow vnw_hyp_host_server_t socket_device_t:dir search;
