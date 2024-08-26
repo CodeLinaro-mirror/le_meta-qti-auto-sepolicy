@@ -21,7 +21,7 @@ gen_require(`
 allow ssgtzd_t devlog_t:sock_file write;
 allow ssgtzd_t self:fifo_file write;
 allow ssgtzd_t self:process signal;
-allow ssgtzd_t self:qipcrtr_socket { create getattr setopt shutdown write read };
+rw_shutdown_qipcrtr_socket(ssgtzd_t);
 #!!!! This avc can be allowed using the boolean 'nscd_use_shm'
 allow ssgtzd_t self:unix_stream_socket { accept listen };
 allow ssgtzd_t smcinvoke_device_t:chr_file { ioctl open read write };

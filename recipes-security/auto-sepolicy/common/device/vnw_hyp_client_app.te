@@ -18,7 +18,7 @@ gen_require(`
         type init_runtime_t;
 ')
 
-allow vnw_hyp_client_app_t self:qipcrtr_socket { create getattr read setopt write };
+rw_qipcrtr_socket(vnw_hyp_client_app_t);
 allow vnw_hyp_client_app_t devlog_t:sock_file { write };
 allow vnw_hyp_client_app_t syslogd_t:unix_dgram_socket { sendto };
 allow vnw_hyp_client_app_t syslogd_runtime_t:dir search;

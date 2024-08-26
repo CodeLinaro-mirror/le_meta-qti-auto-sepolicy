@@ -27,7 +27,7 @@ init_vendor_domain(rbm_daemon_t, rbm_daemon_exec_t)
 user_data_files_type(rbm_data_t)
 manage_user_data_files(rbm_daemon_t, rbm_data_t)
 allow rbm_daemon_t self:fifo_file { getattr read write};
-allow rbm_daemon_t self:qipcrtr_socket { create write read getattr setopt };
+rw_qipcrtr_socket(rbm_daemon_t);
 allow rbm_daemon_t devlog_t:sock_file write;
 allow rbm_daemon_t proc_t:file { getattr open read };
 allow rbm_daemon_t mtd_device_t:chr_file { ioctl open read write };
