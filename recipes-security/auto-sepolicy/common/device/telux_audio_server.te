@@ -137,3 +137,6 @@ allow telux_audio_server_t binderfs_t:dir search;
 # Gives permissions for swbinders
 agm_server_sw_binders_access(telux_audio_server_t)
 unconfined_allow_binder_access(telux_audio_server_t)
+
+# Permission required to access qipcrtr socket
+rw_shutdown_qipcrtr_socket(telux_audio_server_t)

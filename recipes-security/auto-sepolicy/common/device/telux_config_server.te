@@ -30,4 +30,4 @@ allow telux_config_server_t self:process signal;
 allow telux_config_server_t self:fifo_file rw_fifo_file_perms;
 
 # Allow config service to write/read/create/getattr on qipcrtr socket
-allow telux_config_server_t self:qipcrtr_socket { write read create getattr };
+rw_qipcrtr_socket(telux_config_server_t)

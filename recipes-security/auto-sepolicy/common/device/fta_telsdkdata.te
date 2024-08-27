@@ -77,7 +77,6 @@ allow fta_telsdkdata_t user_devpts_t:chr_file read;
 #Allow setting secondary groups
 allow fta_telsdkdata_t self:capability setgid;
 allow fta_telsdkdata_t etc_t:file read_file_perms;
-telux_allow_group(fta_telsdkdata_t)
 
 # Allow telsdk telephony clients
 telux_allow_tel(fta_telsdkdata_t)
