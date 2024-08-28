@@ -1,0 +1,15 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(telux_subsys_mon, 1.0)
+
+type telux_subsys_mon_t;
+type telux_subsys_mon_exec_t;
+
+init_vendor_domain(telux_subsys_mon_t, telux_subsys_mon_exec_t)
+
+transition_to_confined_domain(telux_subsys_mon_t, telux_subsys_mon_exec_t)
+
+telux_allow_subsystem_mon(telux_subsys_mon_t)
+
+allow telux_subsys_mon_t self:capability setgid;

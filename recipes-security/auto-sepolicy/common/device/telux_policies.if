@@ -582,3 +582,16 @@ interface(`telux_allow_platform_time',`
     # only need location permissions for now
     telux_allow_loc($1)
 ')
+
+# Subsystem monitor client interface
+# @brief: The subsystem monitor client interface allows the domain
+# to contain a telux subsystem monitor client by providing necessary
+# permissions for its operation.
+#
+# Parameters:
+#   1) Domain context
+
+interface(`telux_allow_subsystem_mon',`
+    access_telux_files($1)
+    telux_allow_group($1)
+')
