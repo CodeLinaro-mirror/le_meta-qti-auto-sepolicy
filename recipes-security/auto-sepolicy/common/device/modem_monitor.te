@@ -92,10 +92,10 @@ kernel_read_system_state(modem_monitor_t)
 allow modem_monitor_t ksb_device_t:chr_file { getattr read open write ioctl };
 read_rmt_sys_evt_rw_dev_node(modem_monitor_t)
 allow modem_monitor_t data_t:dir { search write add_name remove_name create getattr read };
-allow modem_monitor_t sdcard_t:dir { write search read create open getattr add_name remove_name rmdir };
+sdcard_dir_manage(modem_monitor_t)
+sdcard_rm_dir(modem_monitor_t)
 allow modem_monitor_t mnt_t:dir search;
-allow modem_monitor_t sdcard_t:file { write create open read getattr unlink};
-allow modem_monitor_t sdcard_t:filesystem getattr;
+sdcard_filesys_attr(modem_monitor_t)
 filetrans_pattern( modem_monitor_t, data_t, mm_data_t, { file dir })
 fs_associate(mm_data_t)
 manage_files_pattern(modem_monitor_t, mm_data_t, mm_data_t)

@@ -122,12 +122,12 @@ allow smqlnx_t self:process signal;
 
 #============= smqlnx_t to search sdcard and mnt ==============
 manage_files_pattern(smqlnx_t, sdcard_t, sdcard_t);
-allow smqlnx_t sdcard_t:filesystem getattr;
+sdcard_filesys_attr(smqlnx_t)
 allow smqlnx_t sdcard_t:dir create;
 allow smqlnx_t mnt_t:dir search;
 user_data_files_type(smqlnx_sdcard_data_t);
 allow smqlnx_t smqlnx_data_t:lnk_file read;
-allow smqlnx_t sdcard_t:lnk_file read;
+sdcard_sym_link(smqlnx_t)
 
 #============= smqlnx_t to search open and read firmware files ===
 firmware_read_files(smqlnx_t);
