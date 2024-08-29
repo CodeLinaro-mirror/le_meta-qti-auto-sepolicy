@@ -47,7 +47,6 @@ gen_require(`
   type unconfined_t;
   type default_t;
   type mount_t;
-  type mount_copybind_t;
   type proc_t;
   type gptp_socket_t;
   type qgptp_t;
@@ -80,20 +79,15 @@ userdebug_or_eng(`
 
 allow sensor_hal_daemon_t proc_t:file { read getattr open };
 allow sensor_hal_daemon_t self:process signal;
-allow mount_copybind_t sensor_util_rw_t:file { getattr relabelto setattr read open };
-allow mount_t sensor_util_rw_t:file { getattr mounton };
+mount_copybind_file(sensor_util_rw_t)
 allow sensor_util_rw_t fs_t:filesystem associate;
 
-# Non Functional denials
-dontaudit mount_copybind_t sensor_hal_daemon_conf_t:file { ioctl };
-dontaudit mount_copybind_t sensor_util_t:file { ioctl };
-dontaudit mount_copybind_t sensor_hal_daemon_etc_t:file { ioctl };
-
+mount_copybind_file(sensor_util_t)
 # Adding unique context to /etc/sensorhal
 allow mount_t sensor_util_t:dir search;
 allow setfiles_t sensor_util_t:dir search;
 allow unconfined_t sensor_util_t:dir { read getattr open search };
-allow mount_copybind_t sensor_util_t:dir list_dir_perms;
+mount_copybind_dir(sensor_util_t)
 allow sensor_hal_daemon_t system_data_t:dir { watch watch_reads };
 dontaudit init_t sensor_util_t:dir search;
 
@@ -101,7 +95,6 @@ typeattribute sensor_util_t sensor_util_rw_t;
 
 dontaudit init_t sensor_util_t:file write;
 rw_qipcrtr_socket(sensor_hal_daemon_t);
-allow mount_copybind_t sensor_util_t:file { write create};
 allow sensor_hal_daemon_t self:socket { write read getattr create setopt };
 allow sensor_hal_daemon_t sensor_hal_daemon_socket_t:file { write create unlink open getattr };
 allow sensor_hal_daemon_t default_t:dir search;
@@ -160,12 +153,10 @@ allow sensor_hal_daemon_t sensor_hal_daemon_etc_t:file { open getattr read };
 allow sensor_hal_daemon_t urandom_device_t:chr_file { open read };
 allow sensor_hal_daemon_t sensor_util_t:file write;
 allow sensor_hal_daemon_t boot_kpi_values_t:file getattr;
-allow mount_copybind_t sensor_hal_daemon_etc_t:file { getattr read open create write setattr };
+mount_copybind_file(sensor_hal_daemon_etc_t)
 allow sensor_hal_daemon_etc_t fs_t:filesystem { associate };
 allow setfiles_t sensor_hal_daemon_etc_t:file { getattr };
-allow mount_copybind_t sensor_hal_daemon_conf_t:file { create open read getattr setattr write };
-allow mount_t sensor_hal_daemon_etc_t:file { getattr mounton };
-allow mount_t sensor_hal_daemon_conf_t:file { getattr mounton };
+mount_copybind_file(sensor_hal_daemon_conf_t)
 allow sensor_hal_daemon_tmp_t tmpfs_t:filesystem associate;
 files_tmp_filetrans(sensor_hal_daemon_t, sensor_hal_daemon_tmp_t, {sock_file file });
 manage_sock_files_pattern(sensor_hal_daemon_t, sensor_hal_daemon_tmp_t, sensor_hal_daemon_tmp_t);

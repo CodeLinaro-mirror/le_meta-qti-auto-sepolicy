@@ -17,8 +17,6 @@ fs_associate(mka_authenticator_conf_t);
 
 gen_require(`
 	type unconfined_t;
-	type mount_copybind_t;
-	type mount_t;
 	type setfiles_t;
 	type wifi_data_t;
 	type qcmap_cm_t;
@@ -39,19 +37,17 @@ ifdef(`init_systemd',`
 	allow qcmap_cm_t mka_authenticator_exec_t:service { start stop status reload };
 ')
 
-allow mount_copybind_t mka_supplicant_conf_t:file { read_file_perms create write setattr };
+mount_copybind_file(mka_supplicant_conf_t)
 userdebug_or_eng(`
 	allow unconfined_t mka_supplicant_conf_t:file getattr_file_perms;
 	allow unconfined_t mka_supplicant_t:file getattr_file_perms;
 ')
-allow mount_t mka_supplicant_conf_t:file { mounton getattr_file_perms};
 
-allow mount_copybind_t mka_authenticator_conf_t:file { read_file_perms create write setattr };
+mount_copybind_file(mka_authenticator_conf_t)
 userdebug_or_eng(`
 	allow unconfined_t mka_authenticator_conf_t:file getattr_file_perms;
         allow unconfined_t mka_authenticator_t:file getattr_file_perms;
 ')
-allow mount_t mka_authenticator_conf_t:file { mounton getattr_file_perms};
 
 allow mka_supplicant_t mka_supplicant_conf_t:file read_file_perms;
 allow mka_supplicant_t urandom_device_t:chr_file read_chr_file_perms;

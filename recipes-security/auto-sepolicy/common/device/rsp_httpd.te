@@ -52,14 +52,10 @@ gen_require(`
         type proc_t;
         type cert_t;
         type http_port_t;
-        type mount_copybind_t;
-        type mount_t;
 ')
 
 allow rsp_httpd_t self:capability { fsetid net_raw };
-allow mount_copybind_t rsp_httpd_conf_t:file { setattr getattr read open relabelto create write };
-allow mount_t rsp_httpd_conf_t:file { getattr mounton };
-dontaudit mount_copybind_t rsp_httpd_conf_t: file { ioctl };
+mount_copybind_file(rsp_httpd_conf_t)
 
 # For std::cin
 allow rsp_httpd_t user_devpts_t:chr_file read;

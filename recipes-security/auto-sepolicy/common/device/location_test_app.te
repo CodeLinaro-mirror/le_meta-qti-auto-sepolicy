@@ -52,8 +52,6 @@ gen_require(`
         type user_home_dir_t;
         type sysctl_t;
         type commplex_main_port_t;
-        type mount_copybind_t;
-        type mount_t;
         type mxi_port_t;
         type ptmx_t;
 ')
@@ -71,12 +69,8 @@ allow location_test_app_t user_home_dir_t:file { read open };
 dontaudit location_test_app_t sysctl_t:dir search;
 allow location_test_app_t self:tcp_socket { create_socket_perms listen bind accept read write connect shutdown getopt setopt};
 allow location_test_app_t commplex_main_port_t:tcp_socket name_connect;
-allow mount_copybind_t osnma_merkle_tree_xml_t:file { setattr getattr read open relabelto create write };
-allow mount_t osnma_merkle_tree_xml_t:file { getattr mounton };
-dontaudit mount_copybind_t osnma_merkle_tree_xml_t: file { ioctl };
-allow mount_copybind_t rtcm_conf_t:file { setattr getattr read open relabelto create write };
-allow mount_t rtcm_conf_t:file { getattr mounton };
-dontaudit mount_copybind_t rtcm_conf_t: file { ioctl };
+mount_copybind_file(osnma_merkle_tree_xml_t)
+mount_copybind_file(rtcm_conf_t)
 
 #Allow Location permissions.
 telux_allow_loc_data(location_test_app_t)

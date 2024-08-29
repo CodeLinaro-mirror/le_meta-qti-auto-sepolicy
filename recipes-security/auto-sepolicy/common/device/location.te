@@ -53,8 +53,6 @@ gen_require(`
     type qgptp_t;
     type unreserved_port_t;
     type user_tmp_t;
-    type mount_copybind_t;
-    type mount_t;
     type power_socket_t;
     type power_manager_daemon_t;
     type sensor_hal_daemon_tmp_t;
@@ -194,11 +192,9 @@ manage_files_pattern(loc_t, loc_tmp_t, loc_tmp_t);
 allow loc_t self:tcp_socket { accept listen };
 allow loc_t unreserved_port_t:tcp_socket name_bind;
 allow loc_t unreserved_port_t:udp_socket name_bind;
-allow mount_copybind_t loc_etc_t:file { create open read setattr write getattr relabelto };
-allow mount_t loc_etc_t:file { getattr mounton };
 allow loc_t sensor_hal_daemon_tmp_t:sock_file { setattr write};
 allow loc_t sensor_hal_daemon_t:unix_stream_socket { connectto };
-dontaudit mount_copybind_t loc_etc_t: file { ioctl };
+mount_copybind_file(loc_etc_t)
 #Use tafSomeipGWSvc as routing manager
 
 ifdef(`qti-nad-telaf',`
