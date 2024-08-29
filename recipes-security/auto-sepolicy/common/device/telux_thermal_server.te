@@ -80,4 +80,7 @@ allow telux_thermal_server_t sysctl_vm_overcommit_t:file { read open };
 # Allow thermal service to communicate with netlink socket
 allow telux_thermal_server_t self:netlink_generic_socket { write getattr setopt read bind create };
 
+#Allow signals to this process
+allow telux_thermal_server_t self:process signal;
+
 dontaudit telux_thermal_server_t default_t:dir search;
