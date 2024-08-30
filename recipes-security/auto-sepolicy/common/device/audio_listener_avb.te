@@ -15,12 +15,10 @@ gen_require(`
         type data_t;
         type tmpfs_t;
         type socket_device_t;
-        type qgptp_device_t;
         type sysfs_t;
         type audio_hal_etc_t;
         type proc_net_t;
         type proc_t;
-        type gptp_tmpfs_t;
         type agm_server_t;
         type systemd_logind_var_run_t;
         type debugfs_t;
@@ -35,7 +33,7 @@ manage_user_data_files(audio_listener_avb_t, data_t)
 auto_audio_hal_access(audio_listener_avb_t)
 logging_send_syslog_msg(audio_listener_avb_t);
 
-allow audio_listener_avb_t qgptp_device_t:chr_file { write read open };
+gptp_rw_qgptp_device(audio_listener_avb_t)
 allow audio_listener_avb_t self:packet_socket { create map bind setopt getopt read write ioctl };
 allow audio_listener_avb_t self:capability { sys_nice net_raw net_admin setgid setuid };
 allow audio_listener_avb_t self:process { setsched signal };
@@ -51,7 +49,7 @@ allow audio_listener_avb_t sysfs_t:file { read open };
 allow audio_listener_avb_t self:fifo_file rw_fifo_file_perms;
 allow audio_listener_avb_t self:udp_socket { create ioctl };
 allow audio_listener_avb_t tmpfs_t:dir search;
-allow audio_listener_avb_t gptp_tmpfs_t:file { rw_file_perms map };
+gptp_rw_tmpfs_files(audio_listener_avb_t)
 allow audio_listener_avb_t debugfs_t:dir search;
 allow audio_listener_avb_t binderfs_t:dir search;
 
