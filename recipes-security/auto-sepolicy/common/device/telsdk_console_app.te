@@ -25,7 +25,7 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Changes from Qualcomm Innovation Center are provided under the following license:
+# Changes from Qualcomm Innovation Center, Inc. are provided under the following license:
 #
 # Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
@@ -99,6 +99,7 @@ telux_allow_tel_phone_mgmt(telsdk_console_app_t)
 telux_allow_tel_phone_config(telsdk_console_app_t)
 telux_allow_tel_ecall_config(telsdk_console_app_t)
 telux_allow_tel_supp_services(telsdk_console_app_t)
+telux_allow_tel_sns_config(telsdk_console_app_t)
 telux_allow_data_setting(telsdk_console_app_t)
 telux_allow_data_call_ops(telsdk_console_app_t)
 telux_allow_data_call_props(telsdk_console_app_t)
@@ -112,6 +113,7 @@ telux_allow_data_client_info(telsdk_console_app_t)
 telux_allow_data_client_config(telsdk_console_app_t)
 telux_allow_dual_data_info(telsdk_console_app_t)
 telux_allow_dual_data_config(telsdk_console_app_t)
+telux_allow_data_sns_config(telsdk_console_app_t)
 
 # Allow telsdk data clients
 telux_allow_data(telsdk_console_app_t)

@@ -106,6 +106,8 @@ type telux_access_dual_data_info_t;
 files_type(telux_access_dual_data_info_t);
 type telux_access_dual_data_config_t;
 files_type(telux_access_dual_data_config_t);
+type telux_access_data_sns_config_t;
+files_type(telux_access_data_sns_config_t);
 
 
 ##################################################################################################
@@ -210,6 +212,8 @@ type telux_access_tel_ecall_config_t;
 files_type(telux_access_tel_ecall_config_t);
 type telux_access_tel_supp_services_t;
 files_type(telux_access_tel_supp_services_t);
+type telux_access_tel_sns_config_t;
+files_type(telux_access_tel_sns_config_t);
 
 
 ##################################################################################################

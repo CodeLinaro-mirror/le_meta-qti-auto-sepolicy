@@ -78,6 +78,7 @@
 /etc/telux/permissions/telux_data_client_config   --  gen_context(system_u:object_r:telux_access_data_client_config_t,s0)
 /etc/telux/permissions/telux_dual_data_info       --  gen_context(system_u:object_r:telux_access_dual_data_info_t,s0)
 /etc/telux/permissions/telux_dual_data_config     --  gen_context(system_u:object_r:telux_access_dual_data_config_t,s0)
+/etc/telux/permissions/telux_data_sns_config      --  gen_context(system_u:object_r:telux_access_data_sns_config_t,s0)
 
 ##################################################################################################
 # Add context to the files used for controlling access to Platform related APIs in SDK.
@@ -139,6 +140,7 @@
 /etc/telux/permissions/telux_tel_phone_config              --  gen_context(system_u:object_r:telux_access_tel_phone_config_t,s0)
 /etc/telux/permissions/telux_tel_ecall_config              --  gen_context(system_u:object_r:telux_access_tel_ecall_config_t,s0)
 /etc/telux/permissions/telux_tel_supp_services              --  gen_context(system_u:object_r:telux_access_tel_supp_services_t,s0)
+/etc/telux/permissions/telux_tel_sns_config                --  gen_context(system_u:object_r:telux_access_tel_sns_config_t,s0)
 
 
 ##################################################################################################
