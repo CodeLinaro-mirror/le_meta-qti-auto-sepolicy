@@ -56,9 +56,7 @@ gen_require(`
         type ptmx_t;
 ')
 #Allow setting secondary groups
-allow location_test_app_t self:capability setgid;
-allow location_test_app_t self:process signal;
-allow location_test_app_t etc_t:file read_file_perms;
+telux_allow_console_apps(location_test_app_t)
 
 # allow read access to location config files
 allow location_test_app_t osnma_merkle_tree_xml_t:file read_file_perms;

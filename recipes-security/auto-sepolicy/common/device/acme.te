@@ -24,7 +24,8 @@
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#
+
+# Changes from Qualcomm Innovation Center, Inc. are provided under the following license:
 # Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
@@ -68,7 +69,6 @@ allow acme_t init_var_run_t:dir search_dir_perms;
 read_files_pattern(acme_t, systemd_resolved_var_run_t, systemd_resolved_var_run_t)
 userdom_manage_user_home_dirs(acme_t)
 dontaudit acme_t self:capability sys_module;
-allow acme_t self:netlink_route_socket create_netlink_socket_perms;
 dontaudit acme_t sysctl_t:dir search;
 
 # Networking related policies.

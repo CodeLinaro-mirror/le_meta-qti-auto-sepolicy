@@ -20,8 +20,7 @@ gen_require(`
 userdom_read_user_ptys(param_configurator_t)
 
 # Allow setting secondary groups
-allow param_configurator_t self:capability setgid;
-allow param_configurator_t etc_t:file read_file_perms;
+telux_allow_console_apps(param_configurator_t)
 
 # Obtain required permissions for config manager client.
 telux_allow_config(param_configurator_t)

@@ -19,13 +19,6 @@ init_vendor_domain(telux_thermal_server_t, telux_thermal_server_exec_t)
 # Permissions required for telsdk config file access
 access_telux_files(telux_thermal_server_t)
 
-# Permission required for a QCSI application.
-allow telux_thermal_server_t self:socket create_socket_perms;
-device_search_sockets(telux_thermal_server_t);
-
-# Allow logging to syslog
-logging_send_syslog_msg(telux_thermal_server_t);
-
 # Allow thermal service to write on pipe
 allow telux_thermal_server_t self:fifo_file rw_fifo_file_perms;
 

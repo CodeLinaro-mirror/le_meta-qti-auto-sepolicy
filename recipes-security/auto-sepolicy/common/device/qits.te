@@ -71,7 +71,6 @@ allow qits_t qits_stats_t:file manage_file_perms;
 allow qits_t proc_load_t:file read_file_perms;
 allow qits_t self:udp_socket create_socket_perms;
 allow qits_t proc_net_t:file read_file_perms;
-allow qits_t self:netlink_route_socket create_netlink_socket_perms;
 allow qits_t node_t:udp_socket node_bind;
 allow qits_t unreserved_port_t:udp_socket name_bind;
 allow qits_t unreserved_port_t:tcp_socket name_bind;

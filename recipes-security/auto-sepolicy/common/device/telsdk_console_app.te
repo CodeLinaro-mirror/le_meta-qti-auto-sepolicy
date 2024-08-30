@@ -43,7 +43,6 @@ init_vendor_domain(telsdk_console_app_t, telsdk_console_app_exec_t)
 transition_to_confined_domain(telsdk_console_app_t, telsdk_console_app_exec_t)
 
 gen_require(`
-        type etc_t;
         type sysctl_t;
         type user_home_dir_t;
 ')
@@ -55,9 +54,8 @@ userdom_read_user_ptys(telsdk_console_app_t)
 # allow config file read operations
 allow telsdk_console_app_t telsdk_console_app_conf_t:file read_file_perms;
 
-#Allow setting secondary groups
-allow telsdk_console_app_t self:capability setgid;
-allow telsdk_console_app_t etc_t:file read_file_perms;
+# Generic allow rule for console apps
+telux_allow_console_apps(telsdk_console_app_t)
 
 # Allow telsdk telephony clients
 telux_allow_tel(telsdk_console_app_t)
@@ -120,5 +118,4 @@ telux_allow_data(telsdk_console_app_t)
 # Allow telsdk audio clients
 telux_allow_audio_voice(telsdk_console_app_t)
 
-allow telsdk_console_app_t self:process signal;
 mount_copybind_file(telsdk_console_app_conf_t)

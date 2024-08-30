@@ -50,6 +50,7 @@ gen_require(`
 ')
 
 dontaudit throttleman_t default_t:dir search;
+read_files_pattern(throttleman_t, etc_t, etc_t);
 telux_allow_thermalmanager(throttleman_t)
 allow throttleman_t throttleman_etc_t:file { open read getattr };
 allow throttleman_t self:capability {setgid};

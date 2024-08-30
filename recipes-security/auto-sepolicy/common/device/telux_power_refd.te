@@ -63,8 +63,6 @@ ifdef(`init_systemd', `
     init_dbus_chat(telux_power_refd_t)
     systemd_dbus_chat_logind(telux_power_refd_t)
     dbus_system_bus_client(telux_power_refd_t)
-    allow telux_power_refd_t system_dbusd_var_run_t:dir search;
-    allow telux_power_refd_t systemd_logind_var_run_t:sock_file write;
     allow telux_power_refd_t telux_power_refd_exec_t:service { start status reload stop };
 ')
 allow telux_power_refd_t power_unit_t:service start;
