@@ -71,8 +71,6 @@ gen_require(`
   type default_t;
   type ipa_vlan_cfg_t;
   type system_data_t;
-  type power_manager_daemon_t;
-  type power_socket_t;
   type dhcpc_var_run_t;
   type qti_socksv5_se_exec_t;
   type qcmap_var_run_t;
@@ -87,9 +85,7 @@ allow qcmap_cm_t modem_monitor_t:unix_stream_socket connectto;
 allow qcmap_cm_t socket_device_t:sock_file write;
 allow qcmap_cm_t ipa_vlan_cfg_t:file { open read write getattr lock append };
 allow qcmap_cm_t system_data_t:file { create open read write unlink };
-allow qcmap_cm_t power_manager_daemon_t:unix_stream_socket connectto;
-allow qcmap_cm_t power_socket_t:dir search;
-allow qcmap_cm_t power_socket_t:sock_file write;
+access_power_mgr_socket(qcmap_cm_t)
 allow qcmap_cm_t qti_socksv5_se_exec_t:service { start status stop };
 allow qcmap_cm_t qti_socksv5_se_exec_t:file { getattr execute execute_no_trans map open read };
 allow qcmap_cm_t qcmap_var_run_t:dir rw_dir_perms;

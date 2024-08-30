@@ -40,8 +40,6 @@ gen_require(`
        type sysdevice_sysfs_t;
        type proc_t;
        type sysfs_t;
-       type power_manager_daemon_t;
-       type power_socket_t;
        type socket_device_t;
        type shell_exec_t;
        type init_runtime_t;
@@ -54,9 +52,7 @@ allow eth_pwr_power_app_t proc_t:file { getattr read open };
 allow eth_pwr_power_app_t sysfs_t:file { getattr read open write };
 allow eth_pwr_power_app_t eth_pwr_power_app_t:fifo_file { open read write getattr };
 allow eth_pwr_power_app_t sysdevice_sysfs_t:file { getattr read open };
-allow eth_pwr_power_app_t power_manager_daemon_t:unix_stream_socket connectto;
-allow eth_pwr_power_app_t power_socket_t:dir search;
-allow eth_pwr_power_app_t power_socket_t:sock_file write;
+access_power_mgr_socket(eth_pwr_power_app_t)
 allow eth_pwr_power_app_t socket_device_t:dir search;
 allow eth_pwr_power_app_t eth_pwr_power_app_exec_t:file { execute execute_no_trans map open read };
 allow eth_pwr_power_app_t shell_exec_t:file { execute execute_no_trans open read };
