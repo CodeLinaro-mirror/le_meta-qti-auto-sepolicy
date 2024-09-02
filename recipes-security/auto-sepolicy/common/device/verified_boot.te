@@ -17,7 +17,7 @@ gen_require(`
     type kernel_t;
     type ubiblock_device_t;
     type debugfs_t;
-    type removable_device_t;
+    type mmcblock_device_t;
 ')
 
 init_vendor_domain(verified_boot_t, verified_boot_exec_t);
@@ -28,7 +28,7 @@ mls_file_write_all_levels(verified_boot_t);
 dev_rw_kmsg(verified_boot_t);
 
 allow verified_boot_t ubiblock_device_t:blk_file { read write getattr open ioctl };
-allow verified_boot_t removable_device_t:blk_file { read write getattr open ioctl };
+allow verified_boot_t mmcblock_device_t:blk_file { read write getattr open ioctl };
 allow verified_boot_t shell_exec_t:file { read execute open execute_no_trans };
 
 # rules required for veritysetup
