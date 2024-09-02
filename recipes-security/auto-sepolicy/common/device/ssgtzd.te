@@ -15,7 +15,6 @@ device_manage_socket_file(ssgtzd_t, ssgtzd_sock_t)
 init_vendor_domain(ssgtzd_t, ssgtzd_exec_t)
 
 gen_require(`
-        type smcinvoke_device_t;
         type unconfined_t;
         class service { start status };
 ')
@@ -26,7 +25,6 @@ rw_shutdown_qipcrtr_socket(ssgtzd_t);
 logging_send_syslog_msg(ssgtzd_t);
 #!!!! This avc can be allowed using the boolean 'nscd_use_shm'
 allow ssgtzd_t self:unix_stream_socket { accept listen };
-allow ssgtzd_t smcinvoke_device_t:chr_file { ioctl open read write };
 allow ssgtzd_t ssgtzd_sock_t:sock_file { create unlink setattr};
 allow ssgtzd_t ssgtzd_etc_ta_config_t:dir { open getattr search read };
 allow ssgtzd_t ssgtzd_etc_ta_config_t:file { read getattr open };
@@ -34,3 +32,4 @@ allow ssgtzd_t ssgtzd_etc_ta_config_t:file { read getattr open };
 allow unconfined_t ssgtzd_exec_t:service { start status };
 allow unconfined_t ssgtzd_etc_ta_config_t:dir { open getattr search read };
 allow unconfined_t ssgtzd_etc_ta_config_t:file { read getattr open };
+rw_smcinvoke_dev_node(ssgtzd_t)
