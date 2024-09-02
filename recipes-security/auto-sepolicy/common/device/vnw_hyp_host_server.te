@@ -74,7 +74,7 @@ dontaudit vnw_hyp_host_server_t home_root_t:dir { search };
 dontaudit vnw_hyp_host_server_t user_home_dir_t:dir { search getattr };
 
 # self
-allow vnw_hyp_host_server_t self:qipcrtr_socket { create getattr read setopt write };
+rw_qipcrtr_socket(vnw_hyp_host_server_t);
 allow vnw_hyp_host_server_t self:unix_stream_socket { listen accept connectto };
 allow vnw_hyp_host_server_t self:process { setsched signal sigkill };
 allow vnw_hyp_host_server_t self:tcp_socket { create ioctl };

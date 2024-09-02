@@ -25,7 +25,7 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-# Changes from Qualcomm Innovation Center are provided under the following license:
+# Changes from Qualcomm Innovation Center, Inc. are provided under the following license:
 #
 # Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
@@ -98,7 +98,7 @@ dontaudit init_t sensor_util_t:dir search;
 typeattribute sensor_util_t sensor_util_rw_t;
 
 dontaudit init_t sensor_util_t:file write;
-allow sensor_hal_daemon_t self:qipcrtr_socket { create write read getattr setopt };
+rw_qipcrtr_socket(sensor_hal_daemon_t);
 allow mount_copybind_t sensor_util_t:file { write create};
 allow sensor_hal_daemon_t self:socket { write read getattr create setopt };
 allow sensor_hal_daemon_t sensor_hal_daemon_socket_t:file { write create unlink open getattr };

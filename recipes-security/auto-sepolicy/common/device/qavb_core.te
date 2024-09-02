@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear.
 
 policy_module(qavb_core, 1.0)
@@ -17,7 +17,7 @@ gen_require(`
 
 logging_send_syslog_msg(qavb_core_t)
 
-allow qavb_core_t self:qipcrtr_socket { create getattr read setopt write };
+rw_qipcrtr_socket(qavb_core_t);
 allow qavb_core_t devlog_t:sock_file write;
 allow qavb_core_t self:tcp_socket { create };
 allow qavb_core_t syslogd_t:unix_dgram_socket sendto;
