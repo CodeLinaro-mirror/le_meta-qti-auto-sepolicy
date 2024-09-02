@@ -42,8 +42,6 @@ files_type(softsku_rc_t)
 init_vendor_domain(softsku_t, softsku_exec_t)
 
 gen_require(`
-    type qwes_mink_socket_t;
-    type qwesd_t;
     type net_conf_t;
     type systemd_resolved_var_run_t;
     type urandom_device_t;
@@ -61,8 +59,7 @@ read_c2c_conf_file(softsku_t);
 read_c2c_cert_file(softsku_t);
 
 # For using QWES framework
-allow softsku_t qwes_mink_socket_t:sock_file write;
-allow softsku_t qwesd_t:unix_stream_socket connectto;
+write_qwes_mink_sock(softsku_t)
 
 # For connection to remote server on cloud
 allow softsku_t net_conf_t:file { getattr read open unlink };
@@ -94,8 +91,6 @@ mount_copybind_file(softsku_data_conf_t)
 
 mount_copybind_dir(softsku_rc_t)
 mount_copybind_file(softsku_rc_t)
-
-allow softsku_t qwes_mink_socket_t:dir search;
 
 filetrans_pattern(softsku_t, persist_t, qseecomd_persist_t, { file dir });
 manage_user_data_files(softsku_t, qseecomd_persist_t);

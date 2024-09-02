@@ -38,7 +38,6 @@
 #   1) Domain context
 interface(`aerolink_allow_use',`
     gen_require(`
-        type qwesd_t;
         type qwes_mink_socket_t;
         type qseecom_device_t;
         type ion_device_t;
@@ -49,9 +48,8 @@ interface(`aerolink_allow_use',`
     manage_user_data_files($1, aerolink_data_t)
 
     # qwes permissions
-    allow $1 qwesd_t:unix_stream_socket connectto;
-    allow $1 qwes_mink_socket_t:sock_file write;
-    allow $1 qwes_mink_socket_t:dir { getattr setattr search };
+    write_qwes_mink_sock($1)
+    allow $1 qwes_mink_socket_t:dir { getattr setattr };
     rw_smcinvoke_dev_node($1)
 
     # syslog

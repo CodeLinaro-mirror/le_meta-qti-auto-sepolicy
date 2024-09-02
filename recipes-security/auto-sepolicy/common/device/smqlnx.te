@@ -51,8 +51,6 @@ gen_require(`
     type systemd_resolved_var_run_t;
     type sysctl_vm_overcommit_t;
     type sysctl_vm_t;
-    type qwes_mink_socket_t;
-    type qwesd_t;
     type fs_t;
     type mnt_t;
     type sdcard_t;
@@ -111,8 +109,7 @@ userdebug_or_eng(`rw_diag_dev(smqlnx_t)')
 leprop_read_props(smqlnx_t)
 
 #============= smqlnx_t with qwes for license check ==============
-allow smqlnx_t qwes_mink_socket_t:sock_file write;
-allow smqlnx_t qwesd_t:unix_stream_socket connectto;
+write_qwes_mink_sock(smqlnx_t)
 
 #============= smqlnx_t to set supplementary groups ==============
 allow smqlnx_t self:capability { setgid kill };
