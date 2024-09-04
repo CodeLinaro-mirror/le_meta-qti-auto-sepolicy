@@ -59,6 +59,8 @@ gen_require(`
     type power_manager_daemon_t;
     type sensor_hal_daemon_tmp_t;
     type sensor_hal_daemon_t;
+    type telaf_tafSomeipGWSvc_t;
+    type telaf_someiptmp_t;
 ')
 
 userdebug_or_eng(`
@@ -188,3 +190,17 @@ allow mount_t loc_etc_t:file { getattr mounton };
 allow loc_t sensor_hal_daemon_tmp_t:sock_file { setattr write};
 allow loc_t sensor_hal_daemon_t:unix_stream_socket { connectto };
 dontaudit mount_copybind_t loc_etc_t: file { ioctl };
+#Use tafSomeipGWSvc as routing manager
+telaf_tafSomeipGWSvc_connect(loc_t);
+telaf_tafSomeipGWSvc_write(loc_t);
+telaf_tafSomeipGWSvc_write(loc_tmp_t);
+#Allow LocIdlAPIService to export json file from /legato/ path
+telaf_read_lib_files(loc_t);
+#Rules for LocIdlAPIClient test app with APP ID 302
+files_tmp_filetrans(unconfined_t, loc_tmp_t, sock_file, "tafSomeipGWSvc-302")
+userdebug_or_eng(`
+    gen_require(`
+        type unconfined_t;
+    ')
+    allow telaf_tafSomeipGWSvc_t unconfined_t:unix_stream_socket connectto;
+')
