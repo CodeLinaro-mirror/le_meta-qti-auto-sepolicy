@@ -57,7 +57,6 @@ gen_require(`
        type vendor_dmabuf_qseecom_heap_device_t;
        type vendor_dmabuf_qseecomta_heap_device_t;
        type telsdk_data_t;
-       type telsdk_etc_t;
        type sysdevice_sysfs_t;
 ')
 allow qwesd_t net_conf_t:file write_file_perms;
@@ -106,7 +105,7 @@ rw_files_pattern(qwesd_t, qwes_data_t, qwes_data_t)
 
 #allow qwesd to connect to network using TeleSDK
 allow qwesd_t telsdk_data_t:file { append create getattr open};
-allow qwesd_t telsdk_etc_t:file { open read};
+ro_tel_conf_file(qwesd_t)
 
 # allow qwesd to read/write to /var/run/qwes_ipc minksocket file.
 allow qwesd_t self:udp_socket create_socket_perms;

@@ -582,3 +582,20 @@ interface(`telux_allow_subsystem_mon',`
     access_telux_files($1)
     telux_allow_group($1)
 ')
+
+########################################
+## <summary>
+##      Read /etc/tel.conf file.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`ro_tel_conf_file',`
+    gen_require(`
+        type telsdk_etc_t;
+    ')
+    allow $1 telsdk_etc_t:file { open read };
+')

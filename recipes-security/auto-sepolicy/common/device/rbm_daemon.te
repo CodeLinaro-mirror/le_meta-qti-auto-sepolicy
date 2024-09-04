@@ -12,7 +12,6 @@ gen_require(`
          type mtd_device_t;
          type socket_device_t;
          type telsdk_data_t;
-         type telsdk_etc_t;
          type sysdevice_sysfs_t;
          type telux_access_platform_ota_mgmt_t;
          type init_runtime_t;
@@ -33,7 +32,7 @@ allow rbm_daemon_t proc_t:file { getattr open read };
 allow rbm_daemon_t mtd_device_t:chr_file { ioctl open read write };
 allow rbm_daemon_t socket_device_t:dir search;
 allow rbm_daemon_t telsdk_data_t:file { getattr open append };
-allow rbm_daemon_t telsdk_etc_t:file { read open };
+ro_tel_conf_file(rbm_daemon_t)
 allow rbm_daemon_t sysdevice_sysfs_t:file { read open };
 allow rbm_daemon_t telux_access_platform_ota_mgmt_t:file getattr;
 allow rbm_daemon_t init_runtime_t:dir search;
