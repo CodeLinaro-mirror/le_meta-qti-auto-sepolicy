@@ -46,7 +46,6 @@ transition_to_confined_domain(rsp_httpd_t, rsp_httpd_exec_t)
 allow rsp_httpd_t rsp_httpd_conf_t:file read_file_perms;
 
 gen_require(`
-        type user_devpts_t;
         type etc_t;
         type systemd_resolved_var_run_t;
         type proc_t;
@@ -58,7 +57,7 @@ allow rsp_httpd_t self:capability { fsetid net_raw };
 mount_copybind_file(rsp_httpd_conf_t)
 
 # For std::cin
-allow rsp_httpd_t user_devpts_t:chr_file read;
+userdom_read_user_ptys(rsp_httpd_t)
 
 # Allow rsp_httpd to recive signals for generating coredumps
 allow rsp_httpd_t self:process { getcap setcap signal };

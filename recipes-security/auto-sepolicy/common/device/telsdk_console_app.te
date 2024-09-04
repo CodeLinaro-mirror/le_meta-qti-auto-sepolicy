@@ -43,7 +43,6 @@ init_vendor_domain(telsdk_console_app_t, telsdk_console_app_exec_t)
 transition_to_confined_domain(telsdk_console_app_t, telsdk_console_app_exec_t)
 
 gen_require(`
-        type user_devpts_t;
         type etc_t;
         type sysctl_t;
         type user_home_dir_t;
@@ -51,7 +50,7 @@ gen_require(`
 
 dontaudit telsdk_console_app_t sysctl_t:dir search;
 dontaudit telsdk_console_app_t user_home_dir_t:dir search;
-allow telsdk_console_app_t user_devpts_t:chr_file read;
+userdom_read_user_ptys(telsdk_console_app_t)
 
 # allow config file read operations
 allow telsdk_console_app_t telsdk_console_app_conf_t:file read_file_perms;

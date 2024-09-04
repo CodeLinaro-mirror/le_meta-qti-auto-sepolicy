@@ -55,7 +55,6 @@ gen_require(`
   type boot_kpi_values_t;
   type loc_etc_t;
   type loc_data_t;
-  type user_tmp_t;
   type node_t;
   type proc_net_t;
   type sysctl_t;
@@ -140,7 +139,7 @@ allow sensor_hal_daemon_t node_t:tcp_socket node_bind;
 allow sensor_hal_daemon_t node_t:udp_socket node_bind;
 allow sensor_hal_daemon_t unreserved_port_t:tcp_socket name_bind;
 allow sensor_hal_daemon_t unreserved_port_t:udp_socket name_bind;
-allow sensor_hal_daemon_t user_tmp_t:sock_file write;
+userdom_wo_user_tmp_sockets(sensor_hal_daemon_t)
 allow sensor_hal_daemon_t proc_net_t:file read;
 allow sensor_hal_daemon_t sysctl_t:dir search;
 allow sensor_hal_daemon_t sensor_hal_daemon_etc_t:file { open getattr read };
