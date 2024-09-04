@@ -1,0 +1,20 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+########################################
+## <summary>
+##      perform search operation on qcmap_etc_data_t
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+
+interface(`qcmap_search_qcmap_etc_data_dirs',`
+    gen_require(`
+        type qcmap_etc_data_t;
+    ')
+    search_dirs_pattern($1, qcmap_etc_data_t, qcmap_etc_data_t)
+')

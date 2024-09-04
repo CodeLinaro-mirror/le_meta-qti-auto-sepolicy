@@ -20,7 +20,6 @@ gen_require(`
 	type setfiles_t;
 	type wifi_data_t;
 	type qcmap_cm_t;
-	type qcmap_etc_data_t;
 	type urandom_device_t;
 	type random_device_t;
 	type var_run_t;
@@ -53,7 +52,7 @@ allow mka_supplicant_t mka_supplicant_conf_t:file read_file_perms;
 allow mka_supplicant_t urandom_device_t:chr_file read_chr_file_perms;
 allow mka_supplicant_t random_device_t:chr_file read_chr_file_perms;
 allow mka_supplicant_t var_run_t:dir { write add_name remove_name };
-allow mka_supplicant_t qcmap_etc_data_t:dir { search };
+qcmap_search_qcmap_etc_data_dirs(mka_supplicant_t)
 allow mka_supplicant_t proc_net_t:file read_file_perms;
 allow mka_supplicant_t var_run_t:sock_file { create setattr unlink};
 
@@ -61,7 +60,7 @@ allow mka_authenticator_t mka_authenticator_conf_t:file read_file_perms;
 allow mka_authenticator_t urandom_device_t:chr_file read_chr_file_perms;
 allow mka_authenticator_t random_device_t:chr_file read_chr_file_perms;
 allow mka_authenticator_t var_run_t:dir { write add_name remove_name };
-allow mka_authenticator_t qcmap_etc_data_t:dir { search };
+qcmap_search_qcmap_etc_data_dirs(mka_authenticator_t)
 allow mka_authenticator_t proc_net_t:file read_file_perms;
 allow mka_authenticator_t var_run_t:sock_file { create setattr unlink};
 
