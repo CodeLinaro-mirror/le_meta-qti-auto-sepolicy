@@ -20,7 +20,6 @@ gen_require(`
         type audio_hal_etc_t;
         type proc_net_t;
         type proc_t;
-        type sound_device_t;
         type gptp_tmpfs_t;
         type agm_server_t;
         type systemd_logind_var_run_t;
@@ -42,7 +41,7 @@ allow audio_talker_avb_t self:capability { sys_nice net_raw net_admin setgid set
 allow audio_talker_avb_t self:process { setsched signal };
 allow audio_talker_avb_t socket_device_t:dir search;
 allow audio_talker_avb_t audio_hal_etc_t:file read_file_perms;
-allow audio_talker_avb_t sound_device_t:chr_file rw_chr_file_perms;
+rw_sound_dev_node(audio_talker_avb_t)
 allow audio_talker_avb_t proc_t:file read_file_perms;
 allow audio_talker_avb_t self:tcp_socket { create ioctl };
 allow audio_talker_avb_t proc_net_t:file { read_file_perms };
