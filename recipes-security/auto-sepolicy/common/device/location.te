@@ -49,6 +49,8 @@ gen_require(`
     type telsdk_etc_t;
     type telsdk_data_t;
     type unreserved_port_t;
+    type mount_copybind_t;
+    type mount_t;
 ')
 
 userdebug_or_eng(`
@@ -157,3 +159,5 @@ telux_allow_data_call_ops(xtra_daemon_t)
 telux_allow_data_call_ops(edgnss_daemon_t)
 telux_allow_tel_private_info_read(xtra_daemon_t)
 telux_allow_tel_private_info_read(edgnss_daemon_t)
+allow mount_copybind_t loc_etc_t:file { create open read setattr write getattr relabelto };
+allow mount_t loc_etc_t:file { getattr mounton };
