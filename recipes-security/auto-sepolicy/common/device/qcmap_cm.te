@@ -77,6 +77,7 @@ gen_require(`
   type qti_socksv5_se_exec_t;
   type qcmap_var_run_t;
   type event_device_t;
+  type dhcpc_runtime_t;
 ')
 
 allow qcmap_cm_t modem_monitor_t:unix_stream_socket connectto;
@@ -89,6 +90,7 @@ allow qcmap_cm_t power_socket_t:sock_file write;
 allow qcmap_cm_t qti_socksv5_se_exec_t:service { start status stop };
 allow qcmap_cm_t qti_socksv5_se_exec_t:file { getattr execute execute_no_trans map open read };
 allow qcmap_cm_t qcmap_var_run_t:dir rw_dir_perms;
+allow qcmap_cm_t dhcpc_runtime_t:dir rw_dir_perms;
 dontaudit qcmap_cm_t self:capability { dac_override } ;
 
 #DHCPCD Rules
