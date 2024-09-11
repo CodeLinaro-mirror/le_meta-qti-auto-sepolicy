@@ -49,7 +49,6 @@ gen_require(`
   type mount_t;
   type proc_t;
   type loc_socket_t;
-  type loc_hald_t;
   type urandom_device_t;
   type tmpfs_t;
   type boot_kpi_values_t;
@@ -60,7 +59,6 @@ gen_require(`
   type sysctl_t;
   type unreserved_port_t;
   type system_data_t;
-  type loc_t;
   type loc_tmp_t;
   type leprop_sock_t;
   type leprop_t;
@@ -133,8 +131,8 @@ allow sensor_hal_daemon_t loc_etc_t:file { create write read open getattr };
 allow sensor_hal_daemon_t loc_data_t:dir search;
 allow sensor_hal_daemon_t loc_socket_t:dir { write search getattr add_name };
 allow sensor_hal_daemon_t loc_socket_t:sock_file { create setattr write };
-allow sensor_hal_daemon_t loc_hald_t:unix_dgram_socket { sendto };
-allow loc_hald_t sensor_hal_daemon_t:unix_dgram_socket { sendto };
+connect_to_unix_loc_hald_sock(sensor_hal_daemon_t)
+connect_loc_hald_to_unix_sock(sensor_hal_daemon_t)
 allow sensor_hal_daemon_t node_t:tcp_socket node_bind;
 allow sensor_hal_daemon_t node_t:udp_socket node_bind;
 allow sensor_hal_daemon_t unreserved_port_t:tcp_socket name_bind;
@@ -154,8 +152,9 @@ allow sensor_hal_daemon_tmp_t tmpfs_t:filesystem associate;
 files_tmp_filetrans(sensor_hal_daemon_t, sensor_hal_daemon_tmp_t, {sock_file file });
 manage_sock_files_pattern(sensor_hal_daemon_t, sensor_hal_daemon_tmp_t, sensor_hal_daemon_tmp_t);
 manage_files_pattern(sensor_hal_daemon_t, sensor_hal_daemon_tmp_t, sensor_hal_daemon_tmp_t);
+connect_to_unix_loc_sock(sensor_hal_daemon_t)
+connect_loc_to_unix_sock(sensor_hal_daemon_t)
 allow sensor_hal_daemon_t loc_tmp_t:sock_file { write };
-allow sensor_hal_daemon_t loc_t:unix_stream_socket { connectto };
 allow sensor_hal_daemon_t leprop_sock_t:sock_file write;
 allow sensor_hal_daemon_t leprop_t:unix_stream_socket { connectto };
 

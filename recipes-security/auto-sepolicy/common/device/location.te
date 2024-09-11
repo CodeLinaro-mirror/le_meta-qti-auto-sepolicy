@@ -58,8 +58,8 @@ userdebug_or_eng(`
     gen_require(`
         type unconfined_t;
     ')
-    allow loc_hald_t unconfined_t:unix_dgram_socket sendto;
-    allow loc_t unconfined_t:unix_stream_socket connectto;
+    connect_loc_hald_to_unix_sock(unconfined_t)
+    connect_loc_to_unix_sock(unconfined_t)
 ')
 
 # power manager access
@@ -76,18 +76,20 @@ gptp_rw_gptp_sock_file(loc_hald_t);
 gptp_rw_qgptp_device(loc_hald_t);
 gptp_rw_tmpfs_files(loc_hald_t);
 read_files_pattern(loc_hald_t, systemd_resolved_var_run_t, systemd_resolved_var_run_t)
-
-allow loc_hald_t slim_daemon_t :unix_dgram_socket sendto;
+connect_loc_hald_to_unix_sock(slim_daemon_t)
+connect_to_unix_loc_hald_sock(slim_daemon_t)
 write_qwes_mink_sock(loc_hald_t)
-allow loc_hald_t xtwifi_client_t:unix_dgram_socket sendto;
+connect_loc_hald_to_unix_sock(xtwifi_client_t)
+connect_to_unix_loc_hald_sock(xtwifi_client_t)
 allow loc_hald_t ssgtzd_t:unix_stream_socket connectto;
 allow loc_hald_t ssgtzd_sock_t:sock_file write;
 
 #### xtwifi_client_t ####
-allow xtwifi_client_t {xtwifi_agent_t loc_hald_t}:unix_dgram_socket sendto;
+allow xtwifi_client_t xtwifi_agent_t:unix_dgram_socket sendto;
 
 #### xtwifi_agent_t ####
-allow xtwifi_agent_t {loc_hald_t xtwifi_client_t}:unix_dgram_socket sendto;
+connect_to_unix_loc_hald_sock(xtwifi_agent_t)
+allow xtwifi_agent_t xtwifi_client_t:unix_dgram_socket sendto;
 allow { xtwifi_client_t xtwifi_agent_t } loc_t:unix_dgram_socket { read write sendto };
 
 #### engine service #####
@@ -115,7 +117,7 @@ allow slim_daemon_t system_data_t:dir search;
 dontaudit slim_daemon_t self:capability net_admin;
 sensor_dev_socket(slim_daemon_t)
 sensor_configuration_access(slim_daemon_t)
-allow slim_daemon_t { loc_hald_t lowi_server_t }:unix_dgram_socket sendto;
+allow slim_daemon_t lowi_server_t:unix_dgram_socket sendto;
 allow slim_daemon_t device_t:dir search;
 leprop_rw_props(slim_daemon_t);
 
@@ -174,7 +176,6 @@ allow loc_t self:tcp_socket { accept listen };
 allow loc_t unreserved_port_t:tcp_socket name_bind;
 allow loc_t unreserved_port_t:udp_socket name_bind;
 allow loc_t sensor_hal_daemon_tmp_t:sock_file { setattr write};
-allow loc_t sensor_hal_daemon_t:unix_stream_socket { connectto };
 mount_copybind_file(loc_etc_t)
 #Use tafSomeipGWSvc as routing manager
 
