@@ -22,6 +22,10 @@
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+# Changes from Qualcomm Innovation Center, Inc. are provided under the following license:
+#
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
 gen_require(`
 #    type qnetmgrd_config_t;
     type ifconfig_t;
@@ -29,6 +33,7 @@ gen_require(`
 ')
 dontaudit qnetmgrd_t ifconfig_t:process { sigkill };
 dontaudit qnetmgrd_t self:process sigkill;
+dontaudit qnetmgrd_t self:capability { dac_override };
 dontaudit ifconfig_t qnetmgrd_t:tcp_socket { read write };
 dontaudit ifconfig_t qnetmgrd_t:udp_socket { read write };
 dontaudit qnetmgrd_t sysfs_t:file { write };
