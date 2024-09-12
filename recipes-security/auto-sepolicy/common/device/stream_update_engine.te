@@ -56,7 +56,7 @@ gen_require(`
     type ubi_device_t;
     type unconfined_t;
     type binderfs_t;
-    type removable_device_t;
+    type mmcblock_device_t;
 ')
 
 init_vendor_domain(stream_update_engine_t, stream_update_engine_exec_t)
@@ -88,7 +88,7 @@ allow stream_update_engine_t debugfs_t:dir search;
 dev_read_urand(stream_update_engine_t)
 
 allow stream_update_engine_t mtd_device_t:chr_file { getattr read write ioctl open };
-allow stream_update_engine_t removable_device_t:blk_file { getattr ioctl open read write };
+allow stream_update_engine_t mmcblock_device_t:blk_file { getattr ioctl open read write };
 
 allow stream_update_engine_t sysctl_t:dir search;
 allow stream_update_engine_t sysctl_kernel_t:dir search;
