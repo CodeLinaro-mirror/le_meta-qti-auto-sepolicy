@@ -59,3 +59,4 @@
 
 /etc/tel.conf                     --  gen_context(system_u:object_r:telsdk_etc_t,s0)
 /data/vendor/telsdk(/.*)?	      gen_context(system_u:object_r:telsdk_data_t,s0)
+/etc/Datafilter.conf              --  gen_context(system_u:object_r:telsdk_etc_t,s0)
