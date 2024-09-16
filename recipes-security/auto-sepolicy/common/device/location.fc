@@ -7,3 +7,4 @@
 /etc/commonapi4someip.ini       -- gen_context(system_u:object_r:loc_etc_t,s0)
 /etc/vsomeip-local.json         -- gen_context(system_u:object_r:loc_etc_t,s0)
 /etc/vsomeip-service.json       -- gen_context(system_u:object_r:loc_etc_t,s0)
+/tmp/tafSomeipGWSvc-302         -- gen_context(system_u:object_r:loc_tmp_t,s0)
