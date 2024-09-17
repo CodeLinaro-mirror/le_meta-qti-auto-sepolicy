@@ -56,6 +56,8 @@ gen_require(`
     type power_unit_t;
     type system_dir_t;
     type mount_copybind_t;
+    type unreserved_port_t;
+    type data_t;
     type mount_t;
 ')
 
@@ -75,10 +77,14 @@ dontaudit telux_power_refd_t default_t:dir search;
 dontaudit telux_power_refd_t self:capability sys_module;
 dontaudit telux_power_refd_t sysctl_t:dir search;
 
-#TCP socket for NAOIP trigger
+#TCP/UDP socket for NAOIP trigger
 allow telux_power_refd_t self:tcp_socket { create setopt bind listen accept node_bind name_bind read shutdown };
 allow telux_power_refd_t http_cache_port_t:tcp_socket { name_bind };
+allow telux_power_refd_t unreserved_port_t:tcp_socket { name_bind };
 allow telux_power_refd_t node_t:tcp_socket { node_bind };
+allow telux_power_refd_t unreserved_port_t:udp_socket { name_bind };
+allow telux_power_refd_t node_t:udp_socket { node_bind };
+read_user_data_files(telux_power_refd_t, data_t)
 
 #Allow shutdown
 ifdef(`init_systemd', `
@@ -114,3 +120,5 @@ dontaudit telux_power_refd_t system_dir_t:dir { search };
 
 #Allow SMS trigger
 telux_allow_tel_sms_listen(telux_power_refd_t)
+
+dontaudit mount_copybind_t telux_power_refd_conf_t:file { ioctl }; 

@@ -1,4 +1,15 @@
-# Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2022,2024 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## <summary>qrtr_filter daemon</summary>
+# @brief: This interface provides permission to access qipcrtr socket
+#
+#
+interface(`rw_qipcrtr_socket',`
+    allow $1 self:qipcrtr_socket { write read create getattr setopt };
+')
+
+interface(`rw_shutdown_qipcrtr_socket',`
+    rw_qipcrtr_socket($1);
+    allow $1 self:qipcrtr_socket { shutdown };
+')

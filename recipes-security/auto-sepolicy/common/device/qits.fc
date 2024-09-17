@@ -37,5 +37,6 @@
 
 /tmp/verif_stats.log    --  gen_context(system_u:object_r:qits_stats_t,s0)
 /tmp/sign_stats.log     --  gen_context(system_u:object_r:qits_stats_t,s0)
+/tmp/misbehavior_stats.log  --  gen_context(system_u:object_r:qits_stats_t,s0)
 
 /proc/loadavg           -- gen_context(system_u:object_r:proc_load_t,s0)

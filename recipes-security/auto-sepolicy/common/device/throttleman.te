@@ -67,6 +67,7 @@ allow throttleman_t throttleman_t:unix_stream_socket{ listen accept };
 # copybind /etc/tm.conf to /systemrw/tm.conf
 allow mount_copybind_t throttleman_etc_t:file { setattr getattr read open relabelto create write };
 allow mount_t throttleman_etc_t:file { getattr mounton };
+dontaudit mount_copybind_t throttleman_etc_t:file { ioctl };
 # Obtain required permission in terms of API access control
 telux_allow_therm_data_read(throttleman_t)
 

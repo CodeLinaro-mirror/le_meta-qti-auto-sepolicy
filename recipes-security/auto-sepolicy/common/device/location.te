@@ -25,7 +25,7 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-# Changes from Qualcomm Innovation Center are provided under the following license:
+# Changes from Qualcomm Innovation Center, Inc. are provided under the following license:
 # Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
@@ -45,7 +45,6 @@ gen_require(`
     type sensor_hal_daemon_conf_t;
     type sensor_util_t;
     type qmux_radio_sock_t;
-    type rilmuxd_t;
     type telsdk_etc_t;
     type telsdk_data_t;
     type gptp_socket_t;
@@ -105,7 +104,7 @@ corenet_tcp_connect_http_port(engine_service_t);
 miscfiles_read_generic_certs(engine_service_t);
 allow engine_service_t qwesd_t:unix_stream_socket connectto;
 allow engine_service_t qwes_mink_socket_t:sock_file write;
-allow engine_service_t self:qipcrtr_socket { create getattr read setopt write };
+rw_qipcrtr_socket(engine_service_t);
 allow engine_service_t loc_t:unix_dgram_socket { read write sendto };
 allow engine_service_t qwes_mink_socket_t:dir search;
 allow engine_service_t self:process signal;
@@ -154,8 +153,6 @@ read_files_pattern(loc_t, cert_t, cert_t)
 # read build.prop
 leprop_read_props(loc_t)
 
-stream_connect_pattern(xtra_daemon_t,edgnss_daemon_t,qmux_radio_sock_t,qmux_radio_sock_t,rilmuxd_t);
-stream_connect_pattern(loc_t,qmux_radio_sock_t,qmux_radio_sock_t,rilmuxd_t);
 allow loc_t cert_t:lnk_file read_lnk_file_perms;
 telux_allow_data(loc_t)
 telux_allow_data(xtra_daemon_t)
@@ -190,3 +187,4 @@ allow mount_copybind_t loc_etc_t:file { create open read setattr write getattr r
 allow mount_t loc_etc_t:file { getattr mounton };
 allow loc_t sensor_hal_daemon_tmp_t:sock_file { setattr write};
 allow loc_t sensor_hal_daemon_t:unix_stream_socket { connectto };
+dontaudit mount_copybind_t loc_etc_t: file { ioctl };

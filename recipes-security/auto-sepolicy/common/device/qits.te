@@ -59,6 +59,8 @@ gen_require(`
     type systemd_tmpfiles_t;
     type canwrapper_data_log_t;
     type system_dir_t;
+    type gpiochip_device_t;
+    type ptmx_t;
 ')
 
 files_tmp_filetrans(qits_t, qits_stats_t, file);
@@ -87,6 +89,8 @@ allow qits_t aerolink_data_t:dir {read open getattr write add_name create remove
 allow qits_t aerolink_data_t:file {read write create getattr unlink rename open};
 allow qits_t random_device_t:chr_file read_chr_file_perms;
 allow systemd_tmpfiles_t qits_stats_t:file { getattr open write };
+rw_chr_files_pattern(qits_t, device_t, gpiochip_device_t);
+rw_chr_files_pattern(qits_t, device_t, ptmx_t);
 
 dontaudit qits_t self:capability sys_module;
 dontaudit qits_t sysctl_t:dir search;
@@ -115,3 +119,4 @@ data_filetrans(qits_t, canwrapper_data_log_t, { file dir })
 manage_user_data_files(qits_t, canwrapper_data_log_t)
 
 allow qits_t system_dir_t:dir search_dir_perms;
+dontaudit mount_copybind_t qits_etc_t: file { ioctl };

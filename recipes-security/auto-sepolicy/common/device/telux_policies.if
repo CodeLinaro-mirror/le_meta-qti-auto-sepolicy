@@ -25,7 +25,7 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#  Changes from Qualcomm Innovation Center are provided under the following license:
+#  Changes from Qualcomm Innovation Center, Inc. are provided under the following license:
 #
 #  Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
@@ -184,6 +184,23 @@ interface(`telux_allow_qmi_client',`
     allow $1 self:fifo_file rw_fifo_file_perms;
 ')
 
+# Qms client interfaces
+# @brief: The QMS client interfaces allow the domain to contain a qms
+# client by providing necessary permissions for the QMS service.
+#
+# Parameters:
+#   1) Domain context
+
+interface(`telux_allow_qms_client',`
+    gen_require(`
+      type qms_sock_t;
+      type qms_t;
+    ')
+    # Below permissions are required for QMS client
+    allow $1 qms_t:unix_stream_socket connectto;
+    allow $1 qms_sock_t:sock_file write;
+')
+
 # Telephony client interfaces
 # @brief: The telephony client interface allow the domain to contain a telephony
 # client by providing necessary permissions for its operation.
@@ -193,7 +210,6 @@ interface(`telux_allow_qmi_client',`
 
 interface(`telux_allow_tel',`
     gen_require(`
-      type rilmuxd_t;
       type qmux_radio_sock_t;
       type devlog_t;
     ')
@@ -201,9 +217,10 @@ interface(`telux_allow_tel',`
     device_search_sockets($1)
     allow $1 self:fifo_file rw_fifo_file_perms;
     allow $1 self:socket create_socket_perms;
-    allow $1 rilmuxd_t:unix_stream_socket connectto;
     logging_send_syslog_msg($1)
     allow $1 self:unix_dgram_socket { write create connect };
+
+    telux_allow_qms_client($1)
     access_telux_files($1)
     telux_allow_group($1)
 ')
@@ -240,14 +257,16 @@ interface(`telux_allow_data',`
     allow $1 self:netlink_route_socket create_socket_perms;
     allow $1 self:netlink_route_socket { nlmsg_read };
     allow $1 self:udp_socket create_socket_perms;
+
+    telux_allow_qms_client($1)
     access_telux_files($1)
     device_rw_socket_files($1, netmgrd_socket_device_t);
     read_files_pattern($1, etc_t, etc_t);
     #qnetmgr_read_config_file($1);
     telux_allow_group($1)
-
     #ioctl call to kernel (Data link Eth Thermal API)
     allow $1 self:tcp_socket { create ioctl };
+    telux_allow_qmi_client($1)
 ')
 
 # Audio client interfaces
@@ -528,6 +547,7 @@ interface(`telux_allow_wlan',`
     device_rw_socket_files($1, netmgrd_socket_device_t);
     read_files_pattern($1, etc_t, etc_t);
     telux_allow_group($1)
+    telux_allow_qmi_client($1)
 ')
 
 # Cv2x client interface
@@ -582,4 +602,17 @@ interface(`telux_allow_config',`
 interface(`telux_allow_platform_time',`
     # only need location permissions for now
     telux_allow_loc($1)
+')
+
+# Subsystem monitor client interface
+# @brief: The subsystem monitor client interface allows the domain
+# to contain a telux subsystem monitor client by providing necessary
+# permissions for its operation.
+#
+# Parameters:
+#   1) Domain context
+
+interface(`telux_allow_subsystem_mon',`
+    access_telux_files($1)
+    telux_allow_group($1)
 ')

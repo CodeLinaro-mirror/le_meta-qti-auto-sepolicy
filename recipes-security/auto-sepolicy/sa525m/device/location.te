@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -57,3 +57,6 @@ dontaudit {mlid_t} default_t:dir search;
 
 # Telsdk location access
 dgram_send_pattern(loc_hald_t, loc_socket_t, loc_socket_t, location_test_app_t, mlid_t);
+
+data_filetrans(mlid_t, loc_data_t, { file dir })
+manage_user_data_files(mlid_t, loc_data_t)

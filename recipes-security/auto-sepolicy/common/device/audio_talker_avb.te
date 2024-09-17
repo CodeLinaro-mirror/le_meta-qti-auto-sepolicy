@@ -54,7 +54,7 @@ allow audio_talker_avb_t sysfs_t:file { read open };
 allow audio_talker_avb_t self:fifo_file rw_fifo_file_perms;
 allow audio_talker_avb_t self:udp_socket { create ioctl };
 allow audio_talker_avb_t self:netlink_generic_socket { create ioctl };
-allow audio_talker_avb_t self:qipcrtr_socket { create getattr read setopt write };
+rw_qipcrtr_socket(audio_talker_avb_t);
 allow audio_talker_avb_t tmpfs_t:dir search;
 allow audio_talker_avb_t gptp_tmpfs_t:file { rw_file_perms map };
 allow audio_talker_avb_t debugfs_t:dir search;

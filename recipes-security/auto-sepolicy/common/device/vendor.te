@@ -62,6 +62,7 @@ allow post_boot_script_t tracefs_t:dir { search getattr };
 allow post_boot_script_t tracefs_t:file { open write };
 allow post_boot_script_t device_t:chr_file { getattr setattr };
 allow post_boot_script_t self:capability fowner;
+allow post_boot_script_t self:capability chown;
 allow post_boot_script_t sysfs_t:file setattr;
 allow post_boot_script_t self:lockdown confidentiality;
 
@@ -81,6 +82,9 @@ dev_node(mtd_block_t);
 type ubiblock_device_t;
 dev_node(ubiblock_device_t);
 
+type mmcblock_device_t;
+dev_node(mmcblock_device_t);
+
 allow tftp_server_t rfs_persist_t:file unlink;
 
 type vendor_t;
@@ -90,5 +94,6 @@ type qmi_fw_conf_t;
 allow domain qmi_fw_conf_t:file { read getattr open };
 
 allow mount_copybind_t qmi_fw_conf_t:file { create getattr open setattr write };
+dontaudit mount_copybind_t qmi_fw_conf_t:file { ioctl };
 allow mount_t qmi_fw_conf_t:file mounton;
 allow qmi_fw_conf_t fs_t:filesystem associate;

@@ -39,5 +39,6 @@
 #ks app
 /usr/bin/ks          --    gen_context(system_u:object_r:ks_exec_t,s0)
 /dev/ks_usb_bridge.0               -c  gen_context(system_u:object_r:ksb_device_t,s0)
+/dev/mhi_030a_00.01.00_pipe_2      -c  gen_context(system_u:object_r:mhi_device_t,s0)
 
-/dev/rmt_sys_evt    -c    gen_context(system_u:object_r:rmt_sys_evt_device_t,s0)
+/dev/rmt_err_sys_evt    -c    gen_context(system_u:object_r:rmt_sys_evt_device_t,s0)

@@ -31,6 +31,7 @@ gen_require(`
        type mount_t;
        type ifconfig_exec_t;
        type kmod_t;
+       type event_device_t;
 ')
 
 allow ipacm_t qcmap_var_run_t:dir rw_dir_perms;
@@ -48,12 +49,17 @@ allow udev_t system_data_t: dir { search };
 
 ## mount copybind
 allow mount_copybind_t ipa_vlan_cfg_t: file { create open read write getattr setattr relabelfrom relabelto };
+allow ipacm_t system_data_t:dir  { watch };
+dontaudit mount_copybind_t ipa_vlan_cfg_t: file { ioctl };
 
 ## ipa_fw_initrc_t access to vlan cfg
 allow ipa_fw_initrc_t ipa_vlan_cfg_t: file { open read write getattr };
 
 ## mount_t
 allow mount_t ipa_vlan_cfg_t: file { create mounton open read write getattr };
+
+## inotify on /data/ipa dir
+allow ipacm_t system_data_t: dir { watch };
 
 ## ipacm script chown permissions
 allow ipacm_t sysfs_t: dir { read };
@@ -68,3 +74,8 @@ allow ipacm_t proc_net_t: file { getattr };
 
 ## donotaudit any access to ipa dev nodes from lsmod
 dontaudit kmod_t ipa_fw_device_t:chr_file  { read write };
+
+rw_chr_files_pattern(ipacm_t, device_t, event_device_t)
+mls_file_write_all_levels(ipacm_t)
+mls_file_read_all_levels(ipacm_t)
+

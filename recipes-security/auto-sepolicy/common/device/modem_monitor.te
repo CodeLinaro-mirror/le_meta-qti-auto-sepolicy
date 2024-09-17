@@ -39,6 +39,7 @@ type ks_t;
 type ksb_device_t;
 type rmt_sys_evt_device_t;
 type mm_data_t;
+type mhi_device_t;
 
 init_vendor_domain(modem_monitor_t, modem_monitor_exec_t)
 init_script_domain(modem_monitor_compression_t, modem_monitor_compression_exec_t)
@@ -123,3 +124,6 @@ dev_rw_sysfs(modem_monitor_init_t) # /sys/class/gpio/export
 dontaudit modem_monitor_init_t sysfs_t:dir { add_name write };
 dontaudit modem_monitor_init_t sysfs_t:file create;
 dontaudit modem_monitor_t event_device_t:chr_file { getattr read open write ioctl };
+msdc_self_socket_perms(modem_monitor_t)
+mhi_rw_device(modem_monitor_t)
+dev_node(mhi_device_t)

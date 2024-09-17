@@ -34,10 +34,12 @@ interface(`agm_server_sw_binders_access',`
   gen_require(`
        type binder_device_t;
        type servicemanager_t;
+       type socket_device_t;
   ')
 
   allow $1 binder_device_t:chr_file { rw_chr_file_perms map };
   allow $1 servicemanager_t:binder { call transfer };
   allow $1 agm_server_t:binder { call transfer };
+  allow $1 socket_device_t:dir search;
 
 ')
