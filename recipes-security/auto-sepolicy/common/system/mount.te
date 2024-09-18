@@ -43,6 +43,9 @@ gen_require(`
 	type sensor_util_t;
 	type telsdk_etc_t;
 	type fixed_disk_device_t;
+        type audio_hal_etc_t;
+        type loc_etc_t;
+        type throttleman_etc_t;
 ')
 
 dontaudit mount_copybind_t self:capability sys_admin;
@@ -64,3 +67,6 @@ dontaudit mount_copybind_t qits_etc_t:file ioctl;
 dontaudit mount_copybind_t sensor_util_t:file ioctl;
 dontaudit mount_copybind_t telsdk_etc_t:file ioctl;
 dontaudit unconfined_mount_t fixed_disk_device_t:blk_file getattr;
+dontaudit mount_copybind_t audio_hal_etc_t:file ioctl;
+dontaudit mount_copybind_t loc_etc_t:file ioctl;
+dontaudit mount_copybind_t throttleman_etc_t:file ioctl;
