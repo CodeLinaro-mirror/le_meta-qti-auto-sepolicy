@@ -25,6 +25,10 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+# Changes from Qualcomm Innovation Center, Inc. are provided under the following license:
+# Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
 policy_module(modem_monitor, 1.0)
 type modem_monitor_t;
 type modem_monitor_exec_t;
@@ -71,7 +75,7 @@ files_type(mm_etc_t)
 
 files_read_mm_etc_files(modem_monitor_t, etc_t)
 
-allow modem_monitor_t ks_exec_t:file { getattr execute read open execute_no_trans };
+allow modem_monitor_t ks_exec_t:file { getattr execute read open execute_no_trans map };
 allow modem_monitor_t modem_monitor_compression_exec_t:file { getattr execute read open execute_no_trans };
 allow modem_monitor_t modem_monitor_ramdump_exec_t:file { getattr execute read open execute_no_trans };
 allow modem_monitor_t modem_monitor_init_exec_t:file { getattr execute read open execute_no_trans };
@@ -125,5 +129,6 @@ dontaudit modem_monitor_init_t sysfs_t:dir { add_name write };
 dontaudit modem_monitor_init_t sysfs_t:file create;
 dontaudit modem_monitor_t event_device_t:chr_file { getattr read open write ioctl };
 msdc_self_socket_perms(modem_monitor_t)
-mhi_rw_device(modem_monitor_t)
 dev_node(mhi_device_t)
+mhi_rw_device(ks_t)
+mhi_rw_device(modem_monitor_t)

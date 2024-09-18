@@ -25,6 +25,10 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+# Changes from Qualcomm Innovation Center, Inc. are provided under the following license:
+# Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
 /usr/bin/modem-monitor       --  gen_context(system_u:object_r:modem_monitor_exec_t,s0)
 /usr/bin/SSR_CLI       --  gen_context(system_u:object_r:modem_monitor_exec_t,s0)
 /usr/bin/modem-monitor-compression\.sh               --  gen_context(system_u:object_r:modem_monitor_compression_exec_t,s0)
@@ -39,6 +43,6 @@
 #ks app
 /usr/bin/ks          --    gen_context(system_u:object_r:ks_exec_t,s0)
 /dev/ks_usb_bridge.0               -c  gen_context(system_u:object_r:ksb_device_t,s0)
-/dev/mhi_030a_00.01.00_pipe_2      -c  gen_context(system_u:object_r:mhi_device_t,s0)
+/dev/mhi(.*)_pipe_2      -c  gen_context(system_u:object_r:mhi_device_t,s0)
 
 /dev/rmt_err_sys_evt    -c    gen_context(system_u:object_r:rmt_sys_evt_device_t,s0)
