@@ -70,6 +70,8 @@ gen_require(`
   type loc_tmp_t;
   type leprop_sock_t;
   type leprop_t;
+  type telaf_tafSomeipGWSvc_t;
+  type telaf_someiptmp_t;
 ')
 
 userdebug_or_eng(`
@@ -177,3 +179,19 @@ allow sensor_hal_daemon_t leprop_t:unix_stream_socket { connectto };
 
 allow systemd_tmpfiles_t sensor_hal_daemon_tmp_t:file getattr;
 allow systemd_tmpfiles_t sensor_hal_daemon_tmp_t:sock_file getattr;
+#Use tafSomeipGWSvc as routing manager
+telaf_tafSomeipGWSvc_connect(sensor_hal_daemon_t);
+telaf_tafSomeipGWSvc_write(sensor_hal_daemon_t);
+telaf_tafSomeipGWSvc_write(sensor_hal_daemon_tmp_t);
+allow sensor_hal_daemon_t telaf_someiptmp_t:sock_file { create write };
+allow unconfined_t sensor_hal_daemon_tmp_t:sock_file { create write };
+#Allow SHD to export json file from /legato/ path
+telaf_read_lib_files(sensor_hal_daemon_t);
+##Rules for Sensor Client test app with APP ID 30b
+files_tmp_filetrans(unconfined_t, sensor_hal_daemon_tmp_t, sock_file, "tafSomeipGWSvc-30b")
+userdebug_or_eng(`
+    gen_require(`
+            type unconfined_t;
+    ')
+    allow telaf_tafSomeipGWSvc_t unconfined_t:unix_stream_socket connectto;
+')
