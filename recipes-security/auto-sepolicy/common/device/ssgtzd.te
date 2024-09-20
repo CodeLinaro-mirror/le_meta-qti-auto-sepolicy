@@ -6,6 +6,11 @@ policy_module(ssgtzd, 1.0)
 type ssgtzd_t;
 type ssgtzd_exec_t;
 type ssgtzd_etc_ta_config_t;
+type ssgtzd_sock_t;
+
+files_type(ssgtzd_sock_t)
+dev_node(ssgtzd_sock_t)
+device_manage_socket_file(ssgtzd_t, ssgtzd_sock_t)
 
 init_vendor_domain(ssgtzd_t, ssgtzd_exec_t)
 
@@ -14,7 +19,6 @@ gen_require(`
         type syslogd_t;
         type smcinvoke_device_t;
         type unconfined_t;
-        type socket_device_t;
         class service { start status };
 ')
 #============= ssgtzd_t ==============
@@ -25,8 +29,7 @@ rw_shutdown_qipcrtr_socket(ssgtzd_t);
 #!!!! This avc can be allowed using the boolean 'nscd_use_shm'
 allow ssgtzd_t self:unix_stream_socket { accept listen };
 allow ssgtzd_t smcinvoke_device_t:chr_file { ioctl open read write };
-allow ssgtzd_t socket_device_t:dir { add_name remove_name search write };
-allow ssgtzd_t socket_device_t:sock_file { create unlink setattr};
+allow ssgtzd_t ssgtzd_sock_t:sock_file { create unlink setattr};
 allow ssgtzd_t syslogd_t:unix_dgram_socket sendto;
 allow ssgtzd_t ssgtzd_etc_ta_config_t:dir { open getattr search read };
 allow ssgtzd_t ssgtzd_etc_ta_config_t:file { read getattr open };
