@@ -1,0 +1,26 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>time_daemon</summary>
+
+
+########################################
+## <summary>
+##              File operations for delta time domain.
+## </summary>
+## <param name="source_domain">
+##              <summary>
+##              Type to be used as a source domain
+##              </summary>
+## </param>
+#
+interface(`time_delta_read_write',`
+        gen_require(`
+                type time_delta_t;
+        ')
+
+        allow $1 time_delta_t:dir { search };
+        allow $1 time_delta_t:file { read open write create };
+
+')
+
