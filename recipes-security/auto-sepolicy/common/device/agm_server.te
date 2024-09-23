@@ -39,6 +39,8 @@ gen_require(`
     type event_device_t;
     type device_t;
     type binderfs_t;
+    type leprop_sock_t;
+    type leprop_t;
 ')
 
 type dma_heap_audio_t;
@@ -55,3 +57,5 @@ allow agm_server_t audio_listener_avb_t:binder { call transfer };
 allow agm_server_t audio_talker_avb_t:binder { call transfer };
 allow agm_server_t vnw_hyp_host_server_t:binder { call transfer };
 allow agm_server_t binderfs_t:dir search;
+allow agm_server_t leprop_sock_t:sock_file write;
+allow agm_server_t leprop_t:unix_stream_socket { connectto };
