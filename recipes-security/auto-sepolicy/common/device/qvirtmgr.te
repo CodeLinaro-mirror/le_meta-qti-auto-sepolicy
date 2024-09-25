@@ -121,7 +121,7 @@ data_filetrans(qvirtmgr_t, qvirt_data_t, { file dir })
 manage_user_data_files(qvirtmgr_t, qvirt_data_t)
 
 allow qvirtmgr_t shell_exec_t:file { read open execute execute_no_trans };
-allow qvirtmgr_t self:process { sigkill };
+allow qvirtmgr_t self:process { sigkill signal };
 
 allow qvirtmgr_t self:lockdown confidentiality;
 #============= vm-bootsys_t ==============
