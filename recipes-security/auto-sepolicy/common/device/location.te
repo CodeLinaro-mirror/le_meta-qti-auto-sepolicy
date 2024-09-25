@@ -59,6 +59,8 @@ gen_require(`
     type power_manager_daemon_t;
     type sensor_hal_daemon_tmp_t;
     type sensor_hal_daemon_t;
+    type ssgtzd_t;
+    type ssgtzd_sock_t;
 ')
 
 userdebug_or_eng(`
@@ -89,6 +91,8 @@ allow loc_hald_t qwes_mink_socket_t:dir search;
 allow loc_hald_t qwes_mink_socket_t:sock_file write;
 allow loc_hald_t qwesd_t:unix_stream_socket connectto;
 allow loc_hald_t xtwifi_client_t:unix_dgram_socket sendto;
+allow loc_hald_t ssgtzd_t:unix_stream_socket connectto;
+allow loc_hald_t ssgtzd_sock_t:sock_file write;
 
 #### xtwifi_client_t ####
 allow xtwifi_client_t {xtwifi_agent_t loc_hald_t}:unix_dgram_socket sendto;
@@ -127,6 +131,13 @@ sensor_configuration_access(slim_daemon_t)
 allow slim_daemon_t { loc_hald_t lowi_server_t }:unix_dgram_socket sendto;
 allow slim_daemon_t device_t:dir search;
 leprop_rw_props(slim_daemon_t);
+
+#### edgnss_daemon ####
+allow edgnss_daemon_t ssgtzd_t:unix_stream_socket connectto;
+allow edgnss_daemon_t ssgtzd_sock_t:sock_file write;
+allow edgnss_daemon_t qwes_mink_socket_t:dir search;
+allow edgnss_daemon_t qwes_mink_socket_t:sock_file write;
+allow edgnss_daemon_t qwesd_t:unix_stream_socket connectto;
 
 # IPC router
 allow slim_daemon_t self:qipcrtr_socket create_socket_perms;
