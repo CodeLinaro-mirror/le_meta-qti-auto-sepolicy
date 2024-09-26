@@ -1,4 +1,4 @@
-#Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+#Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(lxc, 1.0)
@@ -6,7 +6,45 @@ policy_module(lxc, 1.0)
 type lxcrootfs_t;
 files_mountpoint(lxcrootfs_t)
 
+type lxc_script_app_exec_t;
+type lxc_script_app_t;
+type lxc_tmp_t;
+type lxc_data_t;
+type lxc_conf_etc_t;
+type lxc_var_run_t;
+
 gen_require(`
    type mount_t;
+   type boot_kpi_values_t;
 ')
+
 allow mount_t lxcrootfs_t:filesystem relabelfrom;
+init_script_domain(lxc_script_app_t, lxc_script_app_exec_t)
+user_data_files_type(lxc_data_t)
+manage_user_data_files(lxc_script_app_t, lxc_data_t)
+allow lxc_script_app_t lxc_data_t:dir { read remove_name add_name create getattr search setattr write };
+allow lxc_script_app_t lxcrootfs_t:dir { getattr open read search };
+allow lxc_script_app_t lxcrootfs_t:file { execute execute_no_trans getattr map open read entrypoint };
+allow lxc_script_app_t lxcrootfs_t:lnk_file { getattr read };
+files_tmp_file(lxc_tmp_t);
+files_tmp_filetrans(lxc_script_app_t, lxc_tmp_t, { file dir })
+files_type(lxc_conf_etc_t)
+allow lxc_script_app_t lxc_tmp_t:dir { add_name create open read remove_name search write };
+allow lxc_script_app_t lxc_tmp_t:file { append create getattr lock open read unlink write };
+allow lxc_script_app_t lxc_conf_etc_t:dir search;
+allow lxc_script_app_t lxc_conf_etc_t:file { getattr open read };
+files_runtime_file(lxc_var_run_t)
+files_runtime_filetrans(lxc_script_app_t, lxc_var_run_t, { file dir })
+allow lxc_script_app_t lxc_var_run_t:dir { add_name create search write };
+allow lxc_script_app_t lxc_var_run_t:file { create lock open read write };
+mls_file_write_all_levels(lxc_script_app_t)
+mls_file_read_all_levels(lxc_script_app_t)
+dev_write_kmsg(lxc_script_app_t)
+unconfined_domain(lxc_script_app_t);
+allow lxc_script_app_t boot_kpi_values_t:file { getattr append open };
+
+#this is required to work lxc-attach and this should be removed
+#once container application is fully function and if user wants to connect to container
+#use lxc-console command once lxc-attach is disbaled
+allow unconfined_t lxc_script_app_t:process transition;
+
