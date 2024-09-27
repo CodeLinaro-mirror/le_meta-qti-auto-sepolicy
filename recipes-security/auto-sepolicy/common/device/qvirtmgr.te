@@ -145,3 +145,4 @@ allow  unconfined_t qvirtmgr_etc_t:file { getattr open read write };
 allow qvirtmgr_t mnt_t:dir { search };
 allow qvirtmgr_t sdcard_t:dir { create search write add_name };
 allow qvirtmgr_t sdcard_t:file { create write open };
+logging_send_syslog_msg(qvirtmgr_t)
