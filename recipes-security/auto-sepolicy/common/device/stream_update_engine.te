@@ -57,6 +57,8 @@ gen_require(`
     type unconfined_t;
     type binderfs_t;
     type mmcblock_device_t;
+    type cert_t;
+    type http_port_t;
 ')
 
 init_vendor_domain(stream_update_engine_t, stream_update_engine_exec_t)
@@ -89,6 +91,12 @@ dev_read_urand(stream_update_engine_t)
 
 allow stream_update_engine_t mtd_device_t:chr_file { getattr read write ioctl open };
 allow stream_update_engine_t mmcblock_device_t:blk_file { getattr ioctl open read write };
+
+allow stream_update_engine_t cert_t:dir search;
+allow stream_update_engine_t cert_t:file { getattr open read };
+allow stream_update_engine_t self:udp_socket create;
+allow stream_update_engine_t self:tcp_socket { create connect getattr read write setopt getopt };
+allow stream_update_engine_t http_port_t:tcp_socket name_connect;
 
 allow stream_update_engine_t sysctl_t:dir search;
 allow stream_update_engine_t sysctl_kernel_t:dir search;
