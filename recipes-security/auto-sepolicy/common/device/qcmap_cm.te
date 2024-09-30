@@ -27,7 +27,7 @@
 
 # Changes from Qualcomm Innovation Center are provided under the following license:
 #
-# Copyright (c) 2021 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2021, 2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -71,6 +71,8 @@ gen_require(`
   type socket_device_t;
   type power_manager_daemon_t;
   type power_socket_t;
+  type default_t;
+  type nsfs_t;
 ')
 
 allow qcmap_cm_t modem_monitor_t:unix_stream_socket connectto;
@@ -78,3 +80,11 @@ allow qcmap_cm_t socket_device_t:sock_file write;
 allow qcmap_cm_t power_manager_daemon_t:unix_stream_socket connectto;
 allow qcmap_cm_t power_socket_t:dir search;
 allow qcmap_cm_t power_socket_t:sock_file write;
+
+#DHCPCD Rules
+allow dhcpc_t self:capability { kill };
+allow dhcpc_t default_t:dir { search read open getattr };
+allow dhcpc_t default_t:file { read open execute execute_no_trans getattr };
+allow dhcpc_t nsfs_t:file getattr;
+allow dhcpc_t self:netlink_generic_socket { create read write bind };
+allow dhcpc_t self:rawip_socket { create read };
