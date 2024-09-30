@@ -2,6 +2,8 @@
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 gen_require(`
 	type mnt_t;
+	type shell_exec_t;
 ')
 allow qseecomd_t qseecomd_rpmb_t:chr_file {rw_chr_file_perms};
 dontaudit qseecomd_t mnt_t:dir read;
+dontaudit qseecomd_t shell_exec_t:file execute;
