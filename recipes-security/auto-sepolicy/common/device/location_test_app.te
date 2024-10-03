@@ -35,6 +35,8 @@ type location_test_app_t;
 type location_test_app_exec_t;
 type osnma_merkle_tree_xml_t;
 files_type(osnma_merkle_tree_xml_t)
+type rtcm_conf_t;
+files_type(rtcm_conf_t)
 
 #domain transition if started from init
 init_vendor_domain(location_test_app_t, location_test_app_exec_t)
@@ -58,8 +60,9 @@ allow location_test_app_t self:capability setgid;
 allow location_test_app_t self:process signal;
 allow location_test_app_t etc_t:file read_file_perms;
 
-# allow read access to /etc/OSNMA_MerkleTree.xml
+# allow read access to location config files
 allow location_test_app_t osnma_merkle_tree_xml_t:file read_file_perms;
+allow location_test_app_t rtcm_conf_t:file read_file_perms;
 
 allow location_test_app_t user_home_dir_t:dir search;
 allow location_test_app_t user_home_dir_t:file { read open };
@@ -69,6 +72,9 @@ allow location_test_app_t commplex_main_port_t:tcp_socket name_connect;
 allow mount_copybind_t osnma_merkle_tree_xml_t:file { setattr getattr read open relabelto create write };
 allow mount_t osnma_merkle_tree_xml_t:file { getattr mounton };
 dontaudit mount_copybind_t osnma_merkle_tree_xml_t: file { ioctl };
+allow mount_copybind_t rtcm_conf_t:file { setattr getattr read open relabelto create write };
+allow mount_t rtcm_conf_t:file { getattr mounton };
+dontaudit mount_copybind_t rtcm_conf_t: file { ioctl };
 
 #Allow Location permissions.
 telux_allow_loc_data(location_test_app_t)
