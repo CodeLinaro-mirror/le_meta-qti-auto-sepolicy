@@ -1,5 +1,12 @@
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 #macsec
+/usr/sbin/mka_supplicant    --    gen_context(system_u:object_r:mka_supplicant_exec_t,s0)
+/usr/sbin/mka_authenticator --    gen_context(system_u:object_r:mka_authenticator_exec_t,s0)
+
+/etc/data/mka_supplicant-eth0.conf   --   gen_context(system_u:object_r:mka_supplicant_conf_t,s0)
+/etc/data/mka_supplicant-eth1.conf   --   gen_context(system_u:object_r:mka_supplicant_conf_t,s0)
+/etc/data/mka_authenticator-eth0.conf  --  gen_context(system_u:object_r:mka_authenticator_conf_t,s0)
+/etc/data/mka_authenticator-eth1.conf  --  gen_context(system_u:object_r:mka_authenticator_conf_t,s0)
 
