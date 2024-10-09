@@ -1,0 +1,7 @@
+#Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+#SPDX-License-Identifier: BSD-3-Clause-Clear
+
+/usr/bin/phservice     --  gen_context(system_u:object_r:phservice_exec_t,s0)
+/etc/c2c/token_cert       --  gen_context(system_u:object_r:token_cert_t,s0)
+/etc/c2c/nonce            --  gen_context(system_u:object_r:nonce_t,s0)
+/etc/c2c/phone_home.json            --  gen_context(system_u:object_r:phone_home_t,s0)
