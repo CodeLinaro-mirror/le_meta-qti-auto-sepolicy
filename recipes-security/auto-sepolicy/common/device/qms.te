@@ -16,6 +16,7 @@ gen_require(`
 
 type qms_t;
 type qms_exec_t;
+type qms_data_t;
 
 init_vendor_domain(qms_t, qms_exec_t)
 
@@ -53,3 +54,11 @@ allow qms_t self:tipc_socket { create read bind write getattr setopt };
 userdebug_or_eng(`
 rw_chr_files_pattern(qms_t, device_t, diag_device_t)
 ')
+
+fs_associate(qms_data_t);
+allow qms_t qms_data_t:dir create;
+allow qms_t qms_data_t:file { write getattr read create open append rename unlink lock };
+
+user_data_files_type(qms_data_t);
+manage_user_data_files(qms_t, qms_data_t);
+allow qms_t qms_data_t:lnk_file read;
