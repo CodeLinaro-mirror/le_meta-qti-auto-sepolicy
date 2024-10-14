@@ -56,6 +56,10 @@ dontaudit telsdk_console_app_t user_home_dir_t:dir search;
 allow telsdk_console_app_t user_devpts_t:chr_file read;
 allow mount_copybind_t telsdk_console_app_conf_t:file { setattr getattr read open relabelto create write };
 allow mount_t telsdk_console_app_conf_t:file { getattr mounton };
+
+# allow config file read operations
+allow telsdk_console_app_t telsdk_console_app_conf_t:file read_file_perms;
+
 dontaudit mount_copybind_t telsdk_console_app_conf_t: file { ioctl };
 
 #Allow setting secondary groups

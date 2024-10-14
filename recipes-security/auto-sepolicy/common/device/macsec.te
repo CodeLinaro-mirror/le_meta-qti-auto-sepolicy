@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(macsec, 1.0);
@@ -9,6 +9,11 @@ type mka_supplicant_t;
 type mka_authenticator_conf_t;
 type mka_authenticator_exec_t;
 type mka_authenticator_t;
+
+files_type(mka_supplicant_conf_t);
+fs_associate(mka_supplicant_conf_t);
+files_type(mka_authenticator_conf_t);
+fs_associate(mka_authenticator_conf_t);
 
 gen_require(`
 	type unconfined_t;

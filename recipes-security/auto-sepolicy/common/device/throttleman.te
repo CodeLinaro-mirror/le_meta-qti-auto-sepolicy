@@ -26,7 +26,7 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 # Changes from Qualcomm Innovation Center are provided under the following license:
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(throttleman, 1.0)
@@ -58,6 +58,7 @@ telux_allow_qmi_client(throttleman_t);
 telux_allow_group(throttleman_t);
 
 allow throttleman_t throttleman_etc_t:file { open read getattr };
+allow throttleman_t self:capability {setgid};
 logging_send_syslog_msg(throttleman_t);
 
 allow throttleman_t throttleman_socket_t:dir { add_entry_dir_perms remove_name };

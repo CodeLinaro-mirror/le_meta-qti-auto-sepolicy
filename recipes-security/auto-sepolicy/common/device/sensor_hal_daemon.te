@@ -175,7 +175,7 @@ allow sensor_hal_daemon_t loc_t:unix_stream_socket { connectto };
 allow sensor_hal_daemon_t leprop_sock_t:sock_file write;
 allow sensor_hal_daemon_t leprop_t:unix_stream_socket { connectto };
 
-allow systemd_tmpfiles_t sensor_hal_daemon_tmp_t:file getattr;
+allow systemd_tmpfiles_t sensor_hal_daemon_tmp_t:file { getattr unlink };
 allow systemd_tmpfiles_t sensor_hal_daemon_tmp_t:sock_file getattr;
 #Use tafSomeipGWSvc as routing manager
 ifdef(`qti-nad-telaf',`
