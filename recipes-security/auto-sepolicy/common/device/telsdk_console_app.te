@@ -118,6 +118,7 @@ telux_allow_data_client_config(telsdk_console_app_t)
 telux_allow_dual_data_info(telsdk_console_app_t)
 telux_allow_dual_data_config(telsdk_console_app_t)
 telux_allow_data_sns_config(telsdk_console_app_t)
+telux_allow_data_qos_ops(telsdk_console_app_t)
 
 # Allow telsdk data clients
 telux_allow_data(telsdk_console_app_t)
