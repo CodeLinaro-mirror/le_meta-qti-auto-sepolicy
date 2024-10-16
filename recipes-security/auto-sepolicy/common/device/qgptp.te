@@ -77,7 +77,7 @@ allow mount_t gptp_etc_t:file { mounton getattr read };
 
 allow qgptp_t gptp_etc_t:file { read open getattr };
 allow qgptp_t etc_t:file read_file_perms;
-allow qgptp_t self:capability { net_raw net_admin chown };
+allow qgptp_t self:capability { net_raw net_admin chown sys_time};
 allow qgptp_t self:netlink_route_socket { read bind create };
 allow qgptp_t self:packet_socket create_socket_perms;
 allow qgptp_t self:tcp_socket { create ioctl };
