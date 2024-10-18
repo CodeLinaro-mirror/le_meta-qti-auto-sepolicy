@@ -12,14 +12,12 @@ init_vendor_domain(vnw_hyp_client_app_t, vnw_hyp_client_app_exec_t)
 transition_to_confined_domain(vnw_hyp_client_app_t, vnw_hyp_client_app_exec_t)
 
 gen_require(`
-        type devlog_t;
-        type syslogd_t;
         type syslogd_runtime_t;
         type init_runtime_t;
 ')
 
 rw_qipcrtr_socket(vnw_hyp_client_app_t);
-allow vnw_hyp_client_app_t devlog_t:sock_file { write };
-allow vnw_hyp_client_app_t syslogd_t:unix_dgram_socket { sendto };
+logging_send_syslog_msg(vnw_hyp_client_app_t);
+
 allow vnw_hyp_client_app_t syslogd_runtime_t:dir search;
 allow vnw_hyp_client_app_t init_runtime_t:dir search;
