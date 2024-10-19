@@ -143,12 +143,17 @@ interface(`access_telux_files',`
 interface(`telux_allow_qmi_client',`
     gen_require(`
       type devlog_t;
+      type etc_t;
     ')
     # Below permissions are required for QMI client IPC
     allow $1 devlog_t:sock_file write;
     device_search_sockets($1)
     allow $1 self:socket create_socket_perms;
     allow $1 self:fifo_file rw_fifo_file_perms;
+    # Permission required to access qipcrtr socket
+    rw_shutdown_qipcrtr_socket($1)
+    # For socket communication: /etc/nsswitch.conf, /etc/group for getgrnam
+    read_files_pattern($1, etc_t, etc_t);
 ')
 
 # Qms client interfaces
@@ -190,6 +195,7 @@ interface(`telux_allow_tel',`
     telux_allow_qms_client($1)
     access_telux_files($1)
     telux_allow_group($1)
+    telux_allow_qmi_client($1)
 ')
 
 # Data client interfaces
@@ -278,6 +284,7 @@ interface(`telux_allow_loc',`
     telux_allow_group($1)
     telux_allow_loc_data($1)
     telux_allow_loc_config($1)
+    telux_allow_power($1)
 ')
 
 # Thermal client interfaces
@@ -358,13 +365,10 @@ interface(`telux_allow_sensor',`
     access_telux_files($1)
     telux_allow_group($1)
 
-    # For socket communication: /etc/nsswitch.conf, /etc/group for getgrnam
-    read_files_pattern($1, etc_t, etc_t);
-
     # For sensor client lib, from sensor_hal_daemon.if
     sensor_dev_socket($1)
     sensor_configuration_access($1)
-
+    telux_allow_power($1)
 ')
 
 # @brief: This interface provides permissions to read the firmware files
@@ -399,7 +403,6 @@ interface(`telux_allow_group',`
     dontaudit $1 etc_t:file map;
     # do not require permission for semaphore map
     dontaudit $1 tmpfs_t:file map;
-    allow $1 self:qipcrtr_socket { write read create getattr setopt shutdown };
 ')
 
 # platform client interface
@@ -417,13 +420,9 @@ interface(`telux_allow_platform',`
     # Allow logging into syslog - used by telsdk logging in case of error
     logging_send_syslog_msg($1)
 
-    # For socket communication: /etc/nsswitch.conf, /etc/group for getgrnam
-    read_files_pattern($1, etc_t, etc_t);
-
     # Allow QMI access for FS-HMI service
     telux_allow_qmi_client($1)
     telux_allow_group($1)
-
 ')
 
 # Crypto client interface
@@ -444,6 +443,8 @@ interface(`telux_allow_crypto',`
     read_files_pattern($1, etc_t, etc_t);
     allow $1 random_device_t:chr_file { read open };
     allow $1 smcinvoke_device_t:chr_file { read write open ioctl};
+    # Permission required to access qipcrtr socket
+    rw_shutdown_qipcrtr_socket($1)
 ')
 
 # Crypto acclerator client interface
@@ -460,6 +461,8 @@ interface(`telux_allow_crypto_accel',`
     ifdef(`qti-mvm',`
         allow_mvm_lib($1)
     ')
+    # Permission required to access qipcrtr socket
+    rw_shutdown_qipcrtr_socket($1)
 ')
 
 # Cellular connection security client interface
@@ -474,6 +477,7 @@ interface(`telux_allow_cellular_con_sec',`
     access_telux_files($1)
     telux_allow_group($1)
     read_files_pattern($1, etc_t, etc_t);
+    telux_allow_qmi_client($1)
 ')
 
 # Wifi connection security client interface
@@ -489,6 +493,7 @@ interface(`telux_allow_wifi_con_sec',`
     access_telux_files($1)
     telux_allow_group($1)
     read_files_pattern($1, etc_t, etc_t);
+    telux_allow_qmi_client($1)
 ')
 
 # WLAN client interfaces
@@ -554,9 +559,7 @@ interface(`telux_allow_config',`
     telux_allow_group($1)
 
     access_telux_files($1)
-
-    # For socket communication: /etc/nsswitch.conf, /etc/group for getgrnam
-    read_files_pattern($1, etc_t, etc_t);
+    telux_allow_qmi_client($1)
 ')
 
 # Platform time client interface
