@@ -4,3 +4,8 @@
 /usr/bin/qms       --      gen_context(system_u:object_r:qms_exec_t,s0)
 /usr/bin/qms-1.0.0       --      gen_context(system_u:object_r:qms_exec_t,s0)
 /dev/socket/qms(/.*)?        gen_context(system_u:object_r:qms_sock_t,s0)
+/data/vendor/qms(/.*)?         gen_context(system_u:object_r:qms_data_t,s0)
+/data/vendor/qms_logs(/.*)?         gen_context(system_u:object_r:qms_data_t,s0)
+/data/vendor/qms_logs/main(/.*)?         gen_context(system_u:object_r:qms_data_t,s0)
+/data/vendor/qms_logs/other(/.*)?         gen_context(system_u:object_r:qms_data_t,s0)
+/data/vendor/qms_logs/config(/.*)?         gen_context(system_u:object_r:qms_data_t,s0)

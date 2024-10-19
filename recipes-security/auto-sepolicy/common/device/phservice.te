@@ -1,0 +1,58 @@
+#Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+#SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(phservice, 1.0)
+
+type token_cert_t;
+type nonce_t;
+type phone_home_t;
+
+files_type(token_cert_t)
+files_type(nonce_t)
+files_type(phone_home_t)
+
+type phservice_exec_t;
+type phservice_t;
+
+init_vendor_domain(phservice_t, phservice_exec_t)
+
+gen_require(`
+    type socket_device_t;
+    type mnt_t;
+    type shell_exec_t;
+    type smcinvoke_device_t;
+    type proc_t;
+    type vendor_dmabuf_qseecomta_heap_device_t;
+    type vendor_dmabuf_qseecom_heap_device_t;
+    type etc_t;
+    type net_conf_t;
+    type unreserved_port_t;
+    type urandom_device_t;
+    type edgehub_etc_conf_t;
+')
+
+allow phservice_t token_cert_t:file {getattr open read};
+allow phservice_t nonce_t:file {getattr open read};
+allow phservice_t phone_home_t:file {getattr open read write};
+allow phservice_t edgehub_etc_conf_t:file {read open getattr};
+firmware_read_files(phservice_t);
+allow phservice_t socket_device_t:dir {search};
+allow phservice_t mnt_t:dir {search};
+allow phservice_t shell_exec_t:file {execute read open execute_no_trans};
+allow phservice_t self:fifo_file {getattr read};
+dev_read_sysfs(phservice_t);
+logging_send_syslog_msg(phservice_t);
+allow phservice_t self:process {signal};
+allow phservice_t self:udp_socket {getattr create connect};
+allow phservice_t self:tcp_socket {name_connect getopt write read create connect};
+allow phservice_t self:netlink_route_socket {create bind getattr write nlmsg_read read};
+allow phservice_t smcinvoke_device_t:chr_file {read write open ioctl};
+allow phservice_t proc_t:file {read open getattr};
+allow phservice_t vendor_dmabuf_qseecomta_heap_device_t:chr_file {read open ioctl};
+allow phservice_t vendor_dmabuf_qseecom_heap_device_t:chr_file {read open ioctl};
+allow phservice_t etc_t:file {getattr read open};
+allow phservice_t etc_t:lnk_file { read };
+allow phservice_t net_conf_t:file { read getattr open };
+allow phservice_t unreserved_port_t:tcp_socket { name_connect };
+allow phservice_t urandom_device_t:chr_file { getattr read open };
+
