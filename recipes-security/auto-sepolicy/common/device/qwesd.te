@@ -49,7 +49,6 @@ gen_require(`
        type ion_device_t;
        type qcmap_etc_data_t;
        type etc_t;
-       type netmgrd_socket_device_t;
        type qnetmgrd_t;
        type net_conf_t;
        type systemd_resolved_var_run_t;
@@ -142,7 +141,7 @@ userdebug_or_eng(`rw_diag_dev(qwesd_t)')
 # allow qwesd to access qcmap files for accessing network configurations.
 data_rw_system_data_files(qwesd_t, qcmap_etc_data_t)
 search_dirs_pattern(qwesd_t, qcmap_etc_data_t, qcmap_etc_data_t)
-device_rw_socket_files(qwesd_t, netmgrd_socket_device_t)
+rw_netmgrd_socket(qwesd_t)
 qnetmgr_use_unix_stream_sockets(qwesd_t)
 qnetmgr_write_data_sock_files(qwesd_t)
 sysnet_read_config(qwesd_t)
