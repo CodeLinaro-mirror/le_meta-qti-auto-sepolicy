@@ -87,10 +87,9 @@ allow audio_console_app_t etc_t:file read_file_perms;
 
 #Save recordings to and play files from sdcard's root directory
 files_search_mnt(audio_console_app_t)
-allow audio_console_app_t sdcard_t:dir { write search read create open getattr add_name };
-allow audio_console_app_t sdcard_t:file { write create open read getattr unlink };
-allow audio_console_app_t sdcard_t:filesystem getattr;
-allow audio_console_app_t sdcard_t:lnk_file read;
+sdcard_dir_manage(audio_console_app_t)
+sdcard_filesys_attr(audio_console_app_t)
+sdcard_sym_link(audio_console_app_t)
 
 #API access control permissions
 telux_allow_audio_voice(audio_console_app_t)
