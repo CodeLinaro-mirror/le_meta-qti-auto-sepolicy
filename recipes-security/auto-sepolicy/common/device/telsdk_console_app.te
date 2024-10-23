@@ -47,20 +47,14 @@ gen_require(`
         type etc_t;
         type sysctl_t;
         type user_home_dir_t;
-        type mount_copybind_t;
-        type mount_t;
 ')
 
 dontaudit telsdk_console_app_t sysctl_t:dir search;
 dontaudit telsdk_console_app_t user_home_dir_t:dir search;
 allow telsdk_console_app_t user_devpts_t:chr_file read;
-allow mount_copybind_t telsdk_console_app_conf_t:file { setattr getattr read open relabelto create write };
-allow mount_t telsdk_console_app_conf_t:file { getattr mounton };
 
 # allow config file read operations
 allow telsdk_console_app_t telsdk_console_app_conf_t:file read_file_perms;
-
-dontaudit mount_copybind_t telsdk_console_app_conf_t: file { ioctl };
 
 #Allow setting secondary groups
 allow telsdk_console_app_t self:capability setgid;
@@ -126,3 +120,4 @@ telux_allow_data(telsdk_console_app_t)
 telux_allow_audio_voice(telsdk_console_app_t)
 
 allow telsdk_console_app_t self:process signal;
+mount_copybind_file(telsdk_console_app_conf_t)

@@ -1,0 +1,40 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+
+########################################
+## <summary>
+##      Mount copybind a file.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`mount_copybind_file',`
+    gen_require(`
+        type mount_copybind_t;
+        type mount_t;
+    ')
+    dontaudit mount_copybind_t $1:file { ioctl };
+    allow mount_copybind_t $1:file { create getattr open setattr write read relabelto relabelfrom lock };
+    allow mount_t $1:file { getattr mounton };
+')
+
+########################################
+## <summary>
+##      Mount copybind a dir.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`mount_copybind_dir',`
+    gen_require(`
+       type mount_copybind_t;
+    ')
+    allow mount_copybind_t $1:dir { open read search mounton getattr lock };
+')

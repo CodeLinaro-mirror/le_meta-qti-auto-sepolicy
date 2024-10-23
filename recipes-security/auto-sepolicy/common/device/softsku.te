@@ -54,8 +54,6 @@ gen_require(`
     type proc_t;
     type smcinvoke_device_t;
     type var_run_t;
-    type mount_copybind_t;
-    type mount_t;
     type qseecomd_persist_t;
     type persist_t;
 ')
@@ -92,17 +90,11 @@ allow softsku_t var_run_t:dir { search read };
 allow softsku_t self: process { signull signal };
 
 #============= mount_copybind_t ==============
-allow mount_copybind_t softsku_data_conf_t:dir { open read search mounton getattr };
-allow mount_copybind_t softsku_data_conf_t:file { setattr read create write relabelfrom getattr relabelto open };
+mount_copybind_dir(softsku_data_conf_t)
+mount_copybind_file(softsku_data_conf_t)
 
-allow mount_copybind_t softsku_rc_t:dir { open read search mounton getattr };
-allow mount_copybind_t softsku_rc_t:file { setattr read create write relabelfrom getattr relabelto open };
-dontaudit mount_copybind_t softsku_rc_t:file { ioctl };
-
-#============= unconfined_mount_t ==============
-allow mount_t softsku_data_conf_t:file { getattr mounton };
-allow mount_t softsku_rc_t:file { getattr mounton };
-
+mount_copybind_dir(softsku_rc_t)
+mount_copybind_file(softsku_rc_t)
 
 allow softsku_t qwes_mink_socket_t:dir search;
 
