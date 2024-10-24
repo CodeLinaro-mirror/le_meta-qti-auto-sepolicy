@@ -22,7 +22,6 @@ gen_require(`
         type audio_hal_etc_t;
         type proc_net_t;
         type proc_t;
-        type sound_device_t;
         type gptp_tmpfs_t;
         type agm_server_t;
         type systemd_logind_var_run_t;
@@ -88,7 +87,7 @@ allow vnw_hyp_host_server_t vnw_hyp_host_server_tmp_t:sock_file { read create un
 allow vnw_hyp_host_server_t qgptp_device_t:chr_file { read write open ioctl };
 allow vnw_hyp_host_server_t socket_device_t:dir search;
 allow vnw_hyp_host_server_t audio_hal_etc_t:file read_file_perms;
-allow vnw_hyp_host_server_t sound_device_t:chr_file rw_chr_file_perms;
+rw_sound_dev_node(vnw_hyp_host_server_t)
 allow vnw_hyp_host_server_t proc_t:file read_file_perms;
 allow vnw_hyp_host_server_t proc_net_t:file { read_file_perms };
 allow vnw_hyp_host_server_t sysfs_t:lnk_file read;
