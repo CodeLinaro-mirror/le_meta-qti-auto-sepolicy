@@ -47,10 +47,6 @@ gen_require(`
     type qmux_radio_sock_t;
     type telsdk_etc_t;
     type telsdk_data_t;
-    type gptp_socket_t;
-    type gptp_tmpfs_t;
-    type qgptp_device_t;
-    type qgptp_t;
     type unreserved_port_t;
     type user_tmp_t;
     type power_socket_t;
@@ -173,13 +169,9 @@ telux_allow_data_call_ops(xtra_daemon_t)
 telux_allow_data_call_ops(edgnss_daemon_t)
 telux_allow_tel_private_info_read(xtra_daemon_t)
 telux_allow_tel_private_info_read(edgnss_daemon_t)
-allow loc_t gptp_socket_t:dir search;
-allow loc_hald_t gptp_tmpfs_t:file map;
-allow loc_t gptp_socket_t:dir search;
-allow loc_t gptp_socket_t:sock_file write;
-allow loc_t gptp_tmpfs_t:file { map open read write };
-allow loc_t qgptp_device_t:chr_file { open read write };
-allow loc_t qgptp_t:unix_stream_socket connectto;
+gptp_rw_gptp_sock_file(loc_t)
+gptp_rw_tmpfs_files(loc_t)
+gptp_rw_qgptp_device(loc_t)
 allow loc_t user_tmp_t:sock_file write;
 allow loc_t power_socket_t:dir search;
 allow loc_t power_manager_daemon_t:unix_stream_socket connectto;

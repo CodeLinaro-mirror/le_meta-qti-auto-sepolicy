@@ -14,11 +14,9 @@ transition_to_confined_domain(multiqavb_app_t, multiqavb_app_exec_t)
 gen_require(`
         type data_t;
         type tmpfs_t;
-        type qgptp_device_t;
         type sysfs_t;
         type proc_net_t;
         type proc_t;
-        type gptp_tmpfs_t;
 ')
 
 logging_send_syslog_msg(multiqavb_app_t)
@@ -26,7 +24,7 @@ logging_send_syslog_msg(multiqavb_app_t)
 manage_user_data_files(multiqavb_app_t, data_t)
 logging_send_syslog_msg(multiqavb_app_t);
 
-allow multiqavb_app_t gptp_tmpfs_t:file { rw_file_perms map };
+gptp_rw_tmpfs_files(multiqavb_app_t)
 allow multiqavb_app_t proc_net_t:file { open read getattr };
 allow multiqavb_app_t self:process { setsched signal };
 allow multiqavb_app_t self:tcp_socket { create ioctl };
@@ -35,7 +33,7 @@ allow multiqavb_app_t self:packet_socket { create map bind setopt getopt read wr
 allow multiqavb_app_t self:udp_socket { create ioctl };
 allow multiqavb_app_t self:netlink_generic_socket { create ioctl };
 rw_qipcrtr_socket(multiqavb_app_t);
-allow multiqavb_app_t qgptp_device_t:chr_file { write read open };
+gptp_rw_qgptp_device(multiqavb_app_t)
 allow multiqavb_app_t sysfs_t:lnk_file read;
 allow multiqavb_app_t sysfs_t:file { read open };
 allow multiqavb_app_t tmpfs_t:dir search;
