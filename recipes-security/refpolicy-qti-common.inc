@@ -10,7 +10,7 @@ SRC_URI += "${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm-tele', 'file://auto
 SRC_URI += "${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm-fota', 'file://auto-sepolicy/fotavm/', '', d)}"
 
 #these modules are not applicable for telematics targets
-REMOVE_MODULES ?= "adk_message_monitor adk_message_send adkcfg alljoyn allplay mediaplayer_cli mediaplayer_test qcameradaemon splitxr_service gpu iotd iotsys btdaemon button_manager demuratnservice irsc_util msdc"
+REMOVE_MODULES ?= "adk_message_monitor adk_message_send adkcfg alljoyn allplay mediaplayer_cli mediaplayer_test qcameradaemon splitxr_service gpu iotd iotsys btdaemon button_manager demuratnservice irsc_util msdc cloudinit"
 
 do_patch:append() {
     install_device_policy(d, os.path.join("auto-sepolicy", "common"))
