@@ -48,7 +48,6 @@ gen_require(`
     type telsdk_etc_t;
     type telsdk_data_t;
     type unreserved_port_t;
-    type user_tmp_t;
     type power_socket_t;
     type power_manager_daemon_t;
     type sensor_hal_daemon_tmp_t;
@@ -172,11 +171,7 @@ telux_allow_tel_private_info_read(edgnss_daemon_t)
 gptp_rw_gptp_sock_file(loc_t)
 gptp_rw_tmpfs_files(loc_t)
 gptp_rw_qgptp_device(loc_t)
-allow loc_t user_tmp_t:sock_file write;
-allow loc_t power_socket_t:dir search;
-allow loc_t power_manager_daemon_t:unix_stream_socket connectto;
-allow loc_t power_socket_t:sock_file write;
-
+userdom_wo_user_tmp_sockets(loc_t)
 #address someip realted denials from /tmp
 files_tmp_filetrans(loc_t, loc_tmp_t, {sock_file file });
 manage_sock_files_pattern(loc_t, loc_tmp_t, loc_tmp_t);
