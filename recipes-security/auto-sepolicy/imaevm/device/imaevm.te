@@ -111,6 +111,7 @@ gen_require(`
 	type engine_service_t;
 	type telux_config_server_t;
 	type ifconfig_t;
+	type ntn_test_app_t;
 	attribute domain;
 ')
 
@@ -179,3 +180,4 @@ mls_key_write_all_levels(agm_server_t)
 mls_key_write_all_levels(engine_service_t)
 mls_key_write_all_levels(telux_config_server_t)
 mls_key_write_all_levels(ifconfig_t)
+mls_key_write_all_levels(ntn_test_app_t)

@@ -1278,3 +1278,35 @@ interface(`telux_allow_wlan_ap_devices',`
     ')
     allow $1 telux_access_wlan_ap_devices_t:file {getattr};
 ')
+
+# Interface to execute operations for configuring NTN.
+# @brief: This interface allows the client to configure the NTN network.
+# The operations supported are enable/disable NTN, update SFL list.
+#
+# Parameters:
+#    1) Domain context.
+
+interface(`telux_allow_ntn_config',`
+    gen_require(`
+        type telux_access_ntn_config_t;
+        type qms_sock_t;
+        type qms_t;
+    ')
+    allow $1 telux_access_ntn_config_t:file {getattr};
+')
+
+# Interface to send/receive data over NTN.
+# @brief: This interface allows the client to send/receive data over NTN network.
+# The operations supported send data, receive data, abort send request.
+#
+# Parameters:
+#    1) Domain context.
+
+interface(`telux_allow_ntn_data',`
+    gen_require(`
+        type telux_access_ntn_data_t;
+        type qms_sock_t;
+        type qms_t;
+    ')
+    allow $1 telux_access_ntn_data_t:file {getattr};
+')

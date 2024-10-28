@@ -280,3 +280,11 @@ type telux_access_wlan_sta_config_t;
 files_type(telux_access_wlan_sta_config_t);
 type telux_access_wlan_ap_devices_t;
 files_type(telux_access_wlan_ap_devices_t);
+
+##################################################################################################
+# Type identifiers for the files used to control access for NTN related APIs in SDK
+##################################################################################################
+type telux_access_ntn_config_t;
+files_type(telux_access_ntn_config_t);
+type telux_access_ntn_data_t;
+files_type(telux_access_ntn_data_t);
