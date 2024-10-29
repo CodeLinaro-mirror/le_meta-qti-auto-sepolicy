@@ -36,8 +36,6 @@
 gen_require(`
     type power_manager_daemon_t;
     type power_socket_t;
-    type qwesd_t;
-    type qwes_mink_socket_t;
     type location_test_app_t;
     type loc_socket_t;
     type node_t;
@@ -80,9 +78,7 @@ gptp_rw_tmpfs_files(loc_hald_t);
 read_files_pattern(loc_hald_t, systemd_resolved_var_run_t, systemd_resolved_var_run_t)
 
 allow loc_hald_t slim_daemon_t :unix_dgram_socket sendto;
-allow loc_hald_t qwes_mink_socket_t:dir search;
-allow loc_hald_t qwes_mink_socket_t:sock_file write;
-allow loc_hald_t qwesd_t:unix_stream_socket connectto;
+write_qwes_mink_sock(loc_hald_t)
 allow loc_hald_t xtwifi_client_t:unix_dgram_socket sendto;
 allow loc_hald_t ssgtzd_t:unix_stream_socket connectto;
 allow loc_hald_t ssgtzd_sock_t:sock_file write;
@@ -99,11 +95,9 @@ corenet_tcp_connect_soundd_port(engine_service_t);
 corenet_tcp_connect_xen_port(engine_service_t);
 corenet_tcp_connect_http_port(engine_service_t);
 miscfiles_read_generic_certs(engine_service_t);
-allow engine_service_t qwesd_t:unix_stream_socket connectto;
-allow engine_service_t qwes_mink_socket_t:sock_file write;
+write_qwes_mink_sock(engine_service_t)
 rw_qipcrtr_socket(engine_service_t);
 allow engine_service_t loc_t:unix_dgram_socket { read write sendto };
-allow engine_service_t qwes_mink_socket_t:dir search;
 allow engine_service_t self:process signal;
 
 #### slim_daemon ####
