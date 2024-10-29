@@ -43,7 +43,6 @@ interface(`aerolink_allow_use',`
         type qseecom_device_t;
         type ion_device_t;
         type aerolink_data_t;
-        type smcinvoke_device_t;
         type cert_t;
     ')
     # manage /data/aerolink dirs
@@ -53,7 +52,7 @@ interface(`aerolink_allow_use',`
     allow $1 qwesd_t:unix_stream_socket connectto;
     allow $1 qwes_mink_socket_t:sock_file write;
     allow $1 qwes_mink_socket_t:dir { getattr setattr search };
-    allow $1 smcinvoke_device_t:chr_file { read write open ioctl};
+    rw_smcinvoke_dev_node($1)
 
     # syslog
     logging_send_syslog_msg($1)

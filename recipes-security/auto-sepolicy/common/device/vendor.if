@@ -13,3 +13,14 @@ interface(`rw_adbd_tty_perm',`
     allow $1 adbd_t:unix_stream_socket { read write };
     allow $1 tty_device_t:chr_file { read write getattr ioctl };
 ')
+
+#
+# rw_smcinvoke_dev_node
+#
+# Interface used to access smcinvoke device node for read and write
+interface(`rw_smcinvoke_dev_node',`
+    gen_require(`
+        type smcinvoke_device_t;
+    ')
+    allow $1 smcinvoke_device_t:chr_file { write read open ioctl };
+')

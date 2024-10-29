@@ -52,7 +52,6 @@ gen_require(`
     type system_data_t;
     type unreserved_port_t;
     type proc_t;
-    type smcinvoke_device_t;
     type var_run_t;
     type qseecomd_persist_t;
     type persist_t;
@@ -84,7 +83,7 @@ allow softsku_t softsku_data_conf_t:dir { open search read getattr};
 allow softsku_t unreserved_port_t:tcp_socket { name_bind name_connect };
 allow softsku_t self:unix_stream_socket { read create connect write connectto getopt };
 allow softsku_t proc_t:file { read getattr open };
-allow softsku_t smcinvoke_device_t:chr_file { read write open ioctl};
+rw_smcinvoke_dev_node(softsku_t)
 allow softsku_t var_run_t:lnk_file {read};
 allow softsku_t var_run_t:dir { search read };
 allow softsku_t self: process { signull signal };
