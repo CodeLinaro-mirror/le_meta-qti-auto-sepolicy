@@ -24,9 +24,9 @@ type c2c_hub_exec_t;
 type c2c_hub_t;
 files_type(c2c_hub_exec_t)
 
-type softsku_manager_exec_t;
-type softsku_manager_t;
-files_type(softsku_manager_exec_t)
+type ph_manager_exec_t;
+type ph_manager_t;
+files_type(ph_manager_exec_t)
 
 type smq_manager_exec_t;
 type smq_manager_t;
@@ -91,26 +91,28 @@ corenet_tcp_connect_http_port(c2c_hub_t);
 allow c2c_hub_t edgehub_etc_conf_t:dir { open search read getattr};
 allow c2c_hub_t self:fifo_file {read getattr write};
 
-# softsku_manager policy
-init_vendor_domain(softsku_manager_t, softsku_manager_exec_t)
-allow softsku_manager_t edgehub_data_log_t:file { open read append write create getattr };
-allow softsku_manager_t edgehub_etc_conf_t:file { open read append write create getattr };
-allow softsku_manager_t etc_t:file { read write mounton getattr open };
-allow softsku_manager_t etc_t:lnk_file read;
-allow softsku_manager_t init_var_run_t:dir search;
-allow softsku_manager_t net_conf_t:file { read getattr open };
-allow softsku_manager_t proc_t:file { read getattr open };
-allow softsku_manager_t self:netlink_route_socket { read write bind create getattr nlmsg_read };
-allow softsku_manager_t self:tcp_socket { write connect shutdown read getopt create };
-allow softsku_manager_t self:udp_socket { read write create connect getattr setopt };
-allow softsku_manager_t socket_device_t:dir search;
-allow softsku_manager_t systemd_resolved_var_run_t:dir search;
-allow softsku_manager_t systemd_resolved_var_run_t:file { read getattr open };
-allow softsku_manager_t unreserved_port_t:tcp_socket name_connect;
-allow softsku_manager_t urandom_device_t:chr_file { read getattr open create};
-allow softsku_manager_t edgehub_etc_conf_t:dir { open search read getattr};
-allow softsku_manager_t self:fifo_file {read getattr write};
-logging_send_syslog_msg(softsku_manager_t)
+
+
+# ph_manager policy
+init_vendor_domain(ph_manager_t, ph_manager_exec_t)
+allow ph_manager_t edgehub_data_log_t:file { open read append write create getattr };
+allow ph_manager_t edgehub_etc_conf_t:file { open read append write create getattr };
+allow ph_manager_t etc_t:file { read write mounton getattr open };
+allow ph_manager_t etc_t:lnk_file read;
+allow ph_manager_t init_var_run_t:dir search;
+allow ph_manager_t net_conf_t:file { read getattr open };
+allow ph_manager_t proc_t:file { read getattr open };
+allow ph_manager_t self:netlink_route_socket { read write bind create getattr nlmsg_read };
+allow ph_manager_t self:tcp_socket { write connect shutdown read getopt create };
+allow ph_manager_t self:udp_socket { read write create connect getattr setopt };
+allow ph_manager_t socket_device_t:dir search;
+allow ph_manager_t systemd_resolved_var_run_t:dir search;
+allow ph_manager_t systemd_resolved_var_run_t:file { read getattr open };
+allow ph_manager_t unreserved_port_t:tcp_socket name_connect;
+allow ph_manager_t urandom_device_t:chr_file { read getattr open create};
+allow ph_manager_t edgehub_etc_conf_t:dir { open search read getattr};
+allow ph_manager_t self:fifo_file {read getattr write};
+logging_send_syslog_msg(ph_manager_t)
 
 # dm policy
 init_vendor_domain(dm_manager_t, dm_manager_exec_t)

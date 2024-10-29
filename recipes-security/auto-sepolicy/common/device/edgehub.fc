@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2022,2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -52,7 +52,7 @@
 /data/local(/.*)?                                   gen_context(system_u:object_r:edgehub_data_log_t,s0)
 /usr/bin/c2c_hub                             --     gen_context(system_u:object_r:c2c_hub_exec_t,s0)
 /usr/bin/dm                                  --     gen_context(system_u:object_r:dm_manager_exec_t,s0)
-/usr/bin/softsku_manager                     --     gen_context(system_u:object_r:softsku_manager_exec_t,s0)
+/usr/bin/ph_manager                          --     gen_context(system_u:object_r:ph_manager_exec_t,s0)
 /usr/bin/smq_manager                         --     gen_context(system_u:object_r:smq_manager_exec_t,s0)
 /etc/c2c/cacert.pem                          --     gen_context(system_u:object_r:cacert_t,s0)
 /etc/c2c/clientcert.pem.crt                  --     gen_context(system_u:object_r:clientcert_t,s0)
