@@ -3,7 +3,7 @@ FILESEXTRAPATHS:append := "${THISDIR}:"
 SRC_URI += "${@bb.utils.contains('MLPREFIX', 'lib32-', 'file://auto-sepolicy/patches/0001-Add-32bit-busybox-substitution-paths.patch', '', d)}"
 SRC_URI += "file://auto-sepolicy/common/ \
             file://auto-sepolicy/${BASEMACHINE}/ \
-            file://auto-sepolicy/${MACHINE}/ "
+            "
 
 SRC_URI += "${@bb.utils.contains('DISTRO_FEATURES', 'vbleima', 'file://auto-sepolicy/imaevm/', '', d)}"
 SRC_URI += "${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm-tele', 'file://auto-sepolicy/televm/', '', d)}"
