@@ -419,6 +419,19 @@ interface(`telux_allow_data_qos_ops',`
     allow $1 telux_access_data_qos_ops_t:file {getattr};
 ')
 
+# Interface to get access for keep alive operation APIs.
+# @brief: This interface allows the client to access operations like enabling and disabling the TCP
+# monitor, and starting and stopping the keep-alive offload.
+#
+# Parameters:
+#    1) Domain context.
+
+interface(`telux_allow_data_ka_offload_ops',`
+    gen_require(`
+        type telux_access_data_ka_offload_ops_t;
+    ')
+    allow $1 telux_access_data_ka_offload_ops_t:file {getattr};
+')
 ##################################################################################################
 # Interfaces to control access for Platform related APIs in SDK
 ##################################################################################################
