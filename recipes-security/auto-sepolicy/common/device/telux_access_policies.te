@@ -110,6 +110,8 @@ type telux_access_data_sns_config_t;
 files_type(telux_access_data_sns_config_t);
 type telux_access_data_qos_ops_t;
 files_type(telux_access_data_qos_ops_t);
+type telux_access_data_ka_offload_ops_t;
+files_type(telux_access_data_ka_offload_ops_t);
 
 
 ##################################################################################################

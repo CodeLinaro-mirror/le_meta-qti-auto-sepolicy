@@ -80,6 +80,8 @@
 /etc/telux/permissions/telux_dual_data_config     --  gen_context(system_u:object_r:telux_access_dual_data_config_t,s0)
 /etc/telux/permissions/telux_data_sns_config      --  gen_context(system_u:object_r:telux_access_data_sns_config_t,s0)
 /etc/telux/permissions/telux_data_qos_ops         --  gen_context(system_u:object_r:telux_access_data_qos_ops_t,s0)
+/etc/telux/permissions/telux_data_ka_offload_ops  --  gen_context(system_u:object_r:telux_access_data_ka_offload_ops_t,s0)
+
 
 ##################################################################################################
 # Add context to the files used for controlling access to Platform related APIs in SDK.
