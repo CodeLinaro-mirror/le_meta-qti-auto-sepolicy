@@ -59,9 +59,8 @@ allow softsku_daemon_t qwes_data_t:dir {search write add_name};
 allow softsku_daemon_t unreserved_port_t:tcp_socket { name_bind };
 allow softsku_daemon_t node_t:tcp_socket { node_bind };
 
-filetrans_pattern(softsku_daemon_t, persist_t, qseecomd_persist_t, { file dir });
+mgr_persist_data_path(softsku_daemon_t)
 manage_user_data_files(softsku_daemon_t, qseecomd_persist_t);
-allow softsku_daemon_t qseecomd_persist_t:dir manage_dir_perms;
 
 allow softsku_daemon_t softsku_rc_t:file { getattr read open };
 

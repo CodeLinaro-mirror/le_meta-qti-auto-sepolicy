@@ -92,7 +92,6 @@ mount_copybind_file(softsku_data_conf_t)
 mount_copybind_dir(softsku_rc_t)
 mount_copybind_file(softsku_rc_t)
 
-filetrans_pattern(softsku_t, persist_t, qseecomd_persist_t, { file dir });
+mgr_persist_data_path(softsku_t)
 manage_user_data_files(softsku_t, qseecomd_persist_t);
-allow softsku_t qseecomd_persist_t:dir manage_dir_perms;
 logging_send_syslog_msg(softsku_t);

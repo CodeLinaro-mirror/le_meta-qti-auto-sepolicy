@@ -219,9 +219,8 @@ gen_require(`
 logging_send_syslog_msg(qwes_license_store_setup_t)
 
 # Allow read/write to /persist/data/ path.
+mgr_persist_data_path(qwes_license_store_setup_t)
 allow qwes_license_store_setup_t qseecomd_persist_t:file { write create open getattr ioctl setattr };
-filetrans_pattern(qwes_license_store_setup_t, persist_t, qseecomd_persist_t, { file dir })
-allow qwes_license_store_setup_t qseecomd_persist_t:dir manage_dir_perms;
 
 # Allow qwesd to stat/read/write into license store path
 allow qwesd_t qseecomd_persist_t:file { getattr write open read };
