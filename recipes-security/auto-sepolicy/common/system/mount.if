@@ -18,7 +18,7 @@ interface(`mount_copybind_file',`
         type mount_t;
     ')
     dontaudit mount_copybind_t $1:file { ioctl };
-    allow mount_copybind_t $1:file { create getattr open setattr write read relabelto relabelfrom lock };
+    allow mount_copybind_t $1:file { create getattr open setattr write read relabelto relabelfrom lock rename };
     allow mount_t $1:file { getattr mounton };
 ')
 
