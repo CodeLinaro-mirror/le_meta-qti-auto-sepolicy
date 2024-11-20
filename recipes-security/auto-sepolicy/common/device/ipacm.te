@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2022-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -71,6 +71,7 @@ allow ipacm_t ipacm_var_run_t:file { open read write map };
 allow ipacm_t sysfs_t: lnk_file { getattr };
 allow ipacm_t proc_net_t: dir { getattr read open search };
 allow ipacm_t proc_net_t: file { getattr };
+allow ipacm_t tmpfs_t:filesystem { getattr };
 
 ## donotaudit any access to ipa dev nodes from lsmod
 dontaudit kmod_t ipa_fw_device_t:chr_file  { read write };
