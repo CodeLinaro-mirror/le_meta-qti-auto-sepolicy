@@ -132,3 +132,9 @@ msdc_self_socket_perms(modem_monitor_t)
 dev_node(mhi_device_t)
 mhi_rw_device(ks_t)
 mhi_rw_device(modem_monitor_t)
+
+# Manage socket files for modem-monitor
+type mm_socket_device_t;
+files_type(mm_socket_device_t)
+dev_node(mm_socket_device_t)
+device_manage_socket_file(modem_monitor_t, mm_socket_device_t)
