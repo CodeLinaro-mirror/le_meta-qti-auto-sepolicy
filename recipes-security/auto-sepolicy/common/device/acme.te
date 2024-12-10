@@ -52,6 +52,7 @@ gen_require(`
     type systemd_resolved_var_run_t;
     type home_root_t;
     type sysctl_t;
+    type ptmx_t;
 ')
 
 dev_write_kmsg(acme_t)
@@ -91,3 +92,5 @@ telux_allow_cv2x_flow_ops(acme_t)
 telux_allow_cv2x_info(acme_t)
 telux_allow_loc(acme_t)
 mls_file_write_all_levels(acme_t)
+
+rw_chr_files_pattern(acme_t, device_t, ptmx_t);
