@@ -55,7 +55,7 @@ gen_require(`
     type ptmx_t;
 ')
 
-dev_write_kmsg(acme_t)
+dev_rw_kmsg(acme_t)
 corecmd_exec_shell(acme_t)
 kernel_read_system_state(acme_t)
 dontaudit acme_t default_t:dir search;
@@ -92,5 +92,6 @@ telux_allow_cv2x_flow_ops(acme_t)
 telux_allow_cv2x_info(acme_t)
 telux_allow_loc(acme_t)
 mls_file_write_all_levels(acme_t)
+mls_file_read_all_levels(acme_t)
 
 rw_chr_files_pattern(acme_t, device_t, ptmx_t);
