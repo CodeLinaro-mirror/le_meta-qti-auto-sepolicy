@@ -1,0 +1,28 @@
+# Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(diag_odl_app, 1.0)
+
+type diag_odl_app_t;
+type diag_odl_app_exec_t;
+
+# Define new domain
+init_vendor_domain(diag_odl_app_t, diag_odl_app_exec_t)
+
+# Transition to the new domain
+transition_to_confined_domain(diag_odl_app_t, diag_odl_app_exec_t)
+
+# Permit internal resources access
+telux_allow_diag_odl(diag_odl_app_t)
+
+# API access control
+telux_allow_diag_ops(diag_odl_app_t)
+
+# Allow joining groups for logging
+allow diag_odl_app_t self:capability setgid;
+
+# Allow reading mask file from /data
+gen_require(`
+    type data_t;
+')
+read_user_data_files(diag_odl_app_t, data_t)

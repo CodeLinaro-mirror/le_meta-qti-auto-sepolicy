@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2024-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 #
@@ -44,4 +44,15 @@ interface(`sdcard_rm_dir',`
         type sdcard_t;
     ')
     allow $1 sdcard_t:dir { remove_name rmdir };
+')
+
+#
+# can_exec_diag
+#
+# Allows an application to execute diag_mdlog
+interface(`can_exec_diag',`
+    gen_require(`
+        type diag_exec_t;
+    ')
+    can_exec($1, diag_exec_t);
 ')
