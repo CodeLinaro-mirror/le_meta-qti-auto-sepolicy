@@ -44,10 +44,13 @@ dontaudit telux_power_refd_t default_t:dir search;
 dontaudit telux_power_refd_t self:capability sys_module;
 dontaudit telux_power_refd_t sysctl_t:dir search;
 
+# Allow data_keep_alive to bind to network service ports
+allow telux_power_refd_t self:capability net_bind_service;
+
 #TCP/UDP socket for NAOIP trigger
-allow telux_power_refd_t self:tcp_socket { create setopt bind listen accept node_bind name_bind read shutdown };
+allow telux_power_refd_t self:tcp_socket { create setopt bind listen accept node_bind name_bind read shutdown connect write shutdown };
 allow telux_power_refd_t http_cache_port_t:tcp_socket { name_bind };
-allow telux_power_refd_t unreserved_port_t:tcp_socket { name_bind };
+allow telux_power_refd_t unreserved_port_t:tcp_socket { name_bind name_connect };
 allow telux_power_refd_t node_t:tcp_socket { node_bind };
 allow telux_power_refd_t unreserved_port_t:udp_socket { name_bind };
 allow telux_power_refd_t node_t:udp_socket { node_bind };
