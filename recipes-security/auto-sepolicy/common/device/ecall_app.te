@@ -53,6 +53,7 @@ telux_allow_audio(ecall_app_t)
 #Location services
 telux_allow_loc(ecall_app_t)
 
+# Generic allow rule for console apps
 telux_allow_console_apps(ecall_app_t)
 
 # allow config file read operations

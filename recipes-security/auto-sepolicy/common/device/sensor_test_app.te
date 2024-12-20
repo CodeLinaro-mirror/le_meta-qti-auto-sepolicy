@@ -43,14 +43,8 @@ gen_require(`
         type etc_t;
 ')
 
-# For std::cin
-userdom_read_user_ptys(sensor_test_app_t)
-
-# Allow setting secondary groups
-allow sensor_test_app_t self:capability setgid;
-
-# Allow sensor_test_app to recive signals for generating coredumps
-allow sensor_test_app_t self:process signal;
+# Generic allow rule for console apps
+telux_allow_console_apps(sensor_test_app_t)
 
 # Obtain required permissions from telux_allow_sensor
 telux_allow_sensor(sensor_test_app_t)

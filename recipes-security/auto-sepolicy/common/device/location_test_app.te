@@ -53,7 +53,6 @@ gen_require(`
         type sysctl_t;
         type commplex_main_port_t;
         type mxi_port_t;
-        type ptmx_t;
 ')
 #Allow setting secondary groups
 telux_allow_console_apps(location_test_app_t)
@@ -76,5 +75,3 @@ telux_allow_loc_config(location_test_app_t)
 telux_allow_loc_consent(location_test_app_t)
 
 allow location_test_app_t mxi_port_t:tcp_socket name_connect;
-
-rw_chr_files_pattern(location_test_app_t, device_t, ptmx_t);

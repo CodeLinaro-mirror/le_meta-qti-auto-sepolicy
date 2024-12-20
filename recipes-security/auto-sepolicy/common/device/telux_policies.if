@@ -432,9 +432,12 @@ interface(`telux_allow_platform',`
 
 
 interface(`telux_allow_console_apps',`
+    gen_require(`
+       type ptmx_t;
+    ')
 
     #allow access to pseudo terminal / shell
-    allow $1 user_devpts_t:chr_file read;
+    userdom_read_user_ptys($1)
 
     #Allow setting secondary groups
     allow $1 self:capability setgid;
@@ -444,6 +447,9 @@ interface(`telux_allow_console_apps',`
 
     # For socket communication: /etc/nsswitch.conf, /etc/group for getgrnam
     allow $1 etc_t:file read_file_perms;
+
+    # Provide read-write access to /dev/ptmx
+    rw_chr_files_pattern($1, device_t, ptmx_t);
 
 ')
 
