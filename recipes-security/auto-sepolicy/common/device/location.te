@@ -54,12 +54,15 @@ gen_require(`
     type ssgtzd_sock_t;
 ')
 
+type loc_idl_service_exec_t;
+
 userdebug_or_eng(`
     gen_require(`
         type unconfined_t;
     ')
     connect_loc_hald_to_unix_sock(unconfined_t)
     connect_loc_to_unix_sock(unconfined_t)
+    allow unconfined_t loc_idl_service_exec_t:file { execute execute_no_trans getattr map open read };
 ')
 
 # power manager access
@@ -198,3 +201,6 @@ ifdef(`qti-nad-telaf',`
         allow telaf_tafSomeipGWSvc_t unconfined_t:unix_stream_socket connectto;
     ')
 ')
+
+allow loc_t loc_idl_service_exec_t:file { execute execute_no_trans map open read };
+access_power_mgr_socket(loc_t)
