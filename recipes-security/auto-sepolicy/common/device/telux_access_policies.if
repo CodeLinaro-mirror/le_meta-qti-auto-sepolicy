@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2022-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## <summary> telux_access_policies </summary>
@@ -1324,4 +1324,21 @@ interface(`telux_allow_ntn_data',`
         type qms_t;
     ')
     allow $1 telux_access_ntn_data_t:file {getattr};
+')
+
+##################################################################################################
+# Interfaces to control access for Diag odl related APIs in SDK
+##################################################################################################
+
+# Interface to configure/start/stop log collection.
+# @brief: This interface allows the client to configure/start/stop log collection.
+#
+# Parameters:
+#    1) Domain context.
+
+interface(`telux_allow_diag_ops',`
+    gen_require(`
+        type telux_access_diag_ops_t;
+    ')
+    allow $1 telux_access_diag_ops_t:file { getattr };
 ')

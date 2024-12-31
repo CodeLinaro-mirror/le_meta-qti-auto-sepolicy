@@ -26,7 +26,7 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 # Changes from Qualcomm Innovation Center, Inc. are provided under the following license:
-# Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2022-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## <summary> telux_policies </summary>
@@ -640,4 +640,29 @@ interface(`telux_allow_satcom',`
     telux_allow_qms_client($1)
     rw_qipcrtr_socket($1);
     rw_shutdown_qipcrtr_socket($1)
+')
+
+# Diag on device logging client interface
+# @brief: The diag on device logging client interface allows the domain
+# to contain a telux diag odl client by providing necessary permissions
+# for its operation.
+#
+# Parameters:
+#   1) Domain context
+
+interface(`telux_allow_diag_odl',`
+    gen_require(`
+        type shell_exec_t;
+        type proc_t;
+        type tmp_t;
+    ')
+    access_telux_files($1)
+    telux_allow_group($1)
+    read_files_pattern($1, etc_t, etc_t);
+    allow $1 shell_exec_t:file { execute read open getattr map execute_no_trans };
+    allow $1 proc_t:file { read_file_perms };
+    allow $1 self:capability { setuid setgid };
+    allow $1 tmp_t:dir { write search read create open getattr add_name remove_name };
+    allow $1 tmp_t:file { write create open read getattr unlink };
+    can_exec_diag($1);
 ')
