@@ -66,7 +66,7 @@
 # Add context to the files used for controlling access to Power related APIs in SDK
 ##################################################################################################
 /etc/telux/permissions/telux_power_control_state   --  gen_context(system_u:object_r:telux_access_power_control_state_t,s0)
-
+/etc/telux/permissions/telux_power_wakeup_info   --  gen_context(system_u:object_r:telux_access_power_wakeup_info_t,s0)
 
 ##################################################################################################
 # Add context to the files used for controlling access to Sensor related APIs in SDK.
