@@ -14,14 +14,8 @@ gen_require(`
         type etc_t;
 ')
 
-# For std::cin
-userdom_read_user_ptys(wlan_test_app_t)
-
-# Allow setting secondary groups
-allow wlan_test_app_t self:capability setgid;
-
-# Allow wlan_test_app to recive signals for generating coredumps
-allow wlan_test_app_t self:process signal;
+# Generic allow rule for console apps
+telux_allow_console_apps(wlan_test_app_t)
 
 # Obtain required permissions from telux_allow_wlan
 telux_allow_wlan(wlan_test_app_t)

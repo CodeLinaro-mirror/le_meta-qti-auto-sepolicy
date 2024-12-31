@@ -15,11 +15,8 @@ gen_require(`
         type etc_t;
 ')
 
-# For std::cin
-userdom_read_user_ptys(filesystem_test_app_t)
-
-#Allow setting secondary groups
-allow filesystem_test_app_t self:capability setgid;
+# Generic allow rule for console apps
+telux_allow_console_apps(filesystem_test_app_t)
 
 # Obtain required permissions from telux_allow_platform
 telux_allow_platform(filesystem_test_app_t)
