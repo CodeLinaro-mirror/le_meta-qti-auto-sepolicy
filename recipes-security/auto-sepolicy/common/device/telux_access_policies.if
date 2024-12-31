@@ -513,6 +513,19 @@ interface(`telux_allow_power_control_state',`
     allow $1 telux_access_power_control_state_t:file { getattr };
 ')
 
+# Interface to get QMI message details.
+# @brief: This interface allows the client to get QMI message details by providing necessary
+# permissions for its operation.
+#
+# Parameters:
+#   1) Domain context
+
+interface(`telux_allow_power_wakeup_info',`
+    gen_require(`
+        type telux_access_power_wakeup_info_t;
+    ')
+    allow $1 telux_access_power_wakeup_info_t:file { getattr };
+')
 
 ##################################################################################################
 # Interfaces to control access for Sensor related APIs in SDK
