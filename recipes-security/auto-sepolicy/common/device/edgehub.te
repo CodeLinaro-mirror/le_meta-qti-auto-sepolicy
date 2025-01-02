@@ -71,6 +71,11 @@ gen_require(`
     type system_data_t;
     type mount_copybind_t;
     type mount_t;
+    type firmware_t;
+    type shell_exec_t;
+    type smcinvoke_device_t;
+    type vendor_dmabuf_qseecomta_heap_device_t;
+    type vendor_dmabuf_qseecom_heap_device_t;
     class service { start status stop reload };
 ')
 
@@ -84,8 +89,16 @@ allow mount_t edgehub_etc_conf_t:file { getattr mounton };
 init_vendor_domain(c2c_hub_t, c2c_hub_exec_t)
 allow c2c_hub_t edgehub_data_log_t:file { open read append write create getattr };
 allow c2c_hub_t edgehub_etc_conf_t:file { open read append write create getattr };
-allow c2c_hub_t edgehub_data_certs_t:file { open read append write create getattr };
-allow c2c_hub_t edgehub_data_certs_t:dir { open search read append write create getattr };
+allow c2c_hub_t edgehub_data_certs_t:file { open read append write create getattr unlink};
+allow c2c_hub_t edgehub_data_certs_t:dir { open search read append write create getattr add_name remove_name unlink };
+firmware_read_files(c2c_hub_t);
+allow c2c_hub_t shell_exec_t:file {execute read open execute_no_trans};
+logging_send_syslog_msg(c2c_hub_t);
+dev_read_sysfs(c2c_hub_t);
+allow c2c_hub_t smcinvoke_device_t:chr_file {read write open ioctl};
+allow c2c_hub_t vendor_dmabuf_qseecomta_heap_device_t:chr_file {read open ioctl};
+allow c2c_hub_t vendor_dmabuf_qseecom_heap_device_t:chr_file {read open ioctl};
+allow c2c_hub_t self:process { signal };
 allow c2c_hub_t cert_t:dir search;
 allow c2c_hub_t cert_t:file { read getattr open };
 allow c2c_hub_t etc_t:file { read write getattr open mounton };
@@ -122,6 +135,8 @@ allow softsku_manager_t systemd_resolved_var_run_t:file { read getattr open };
 allow softsku_manager_t unreserved_port_t:tcp_socket name_connect;
 allow softsku_manager_t urandom_device_t:chr_file { read getattr open create};
 allow softsku_manager_t edgehub_etc_conf_t:dir { open search read getattr};
+allow softsku_manager_t self:fifo_file {read getattr write};
+logging_send_syslog_msg(softsku_manager_t)
 
 # dm policy
 init_vendor_domain(dm_manager_t, dm_manager_exec_t)
@@ -144,6 +159,13 @@ allow dm_manager_t systemd_resolved_var_run_t:file { read getattr open };
 allow dm_manager_t unreserved_port_t:tcp_socket name_connect;
 allow dm_manager_t urandom_device_t:chr_file { read getattr open create};
 allow dm_manager_t edgehub_etc_conf_t:dir { open search read getattr};
+allow dm_manager_t self:fifo_file {read getattr write};
+firmware_read_files(dm_manager_t)
+logging_send_syslog_msg(dm_manager_t)
+allow dm_manager_t vendor_dmabuf_qseecomta_heap_device_t:chr_file {read open ioctl};
+allow dm_manager_t vendor_dmabuf_qseecom_heap_device_t:chr_file {read open ioctl};
+allow dm_manager_t smcinvoke_device_t:chr_file {read write open ioctl};
+telux_allow_loc(dm_manager_t);
 
 #smq_manager policy
 init_vendor_domain(smq_manager_t, smq_manager_exec_t)
