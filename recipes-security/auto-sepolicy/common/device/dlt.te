@@ -1,0 +1,74 @@
+# Copyright (c) 2024 - 2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(dlt, 1.0)
+
+gen_require(`
+  type systemd_tmpfiles_t;
+  type etc_t;
+  type proc_t;
+  type proc_net_t;
+  type unreserved_port_t;
+  type init_var_run_t;
+  type socket_device_t;
+  type node_t;
+  type alogd_t;
+  type tmpfs_t;
+')
+
+# DLT new types
+type dlt_t;
+type dlt_exec_t;
+type dlt_tmp_t;
+type dlt_etc_t;
+type dlt_shm_t;
+files_tmp_file(dlt_shm_t);
+fs_tmpfs_filetrans(dlt_t, dlt_shm_t, { file sock_file })
+
+init_vendor_domain(dlt_t, dlt_exec_t)
+files_type(dlt_etc_t)
+files_tmp_file(dlt_tmp_t)
+files_tmp_filetrans(dlt_t, dlt_tmp_t, { dir file sock_file })
+
+# Allow self rules
+allow dlt_t self:unix_dgram_socket { sendto create_socket_perms };
+allow dlt_t self:unix_stream_socket { connectto create_stream_socket_perms };
+allow dlt_t self:udp_socket create_socket_perms;
+allow dlt_t self:tcp_socket create_stream_socket_perms;
+allow dlt_t self:netlink_audit_socket create_netlink_socket_perms;
+allow dlt_t self:netlink_route_socket rw_netlink_socket_perms;
+allow dlt_t self:process { signal setsched setcap };
+allow dlt_t self:capability { audit_control net_admin };
+allow dlt_t self:sock_file  { read write create };
+
+# Allow systemd to get attribute of dlt tmp files
+allow systemd_tmpfiles_t dlt_tmp_t:sock_file { getattr };
+allow systemd_tmpfiles_t dlt_tmp_t:file { getattr };
+
+# Allow dlt-daemon to connect logd
+allow dlt_t alogd_t:unix_stream_socket { connectto };
+
+# Allow dlt-daemon to read its proc files
+allow dlt_t proc_t:file { read_file_perms };
+
+# Allow dlt-daemon to read its etc files
+allow dlt_t dlt_etc_t:file { read_file_perms };
+
+# Allow dlt-daemon to search system dirs
+allow dlt_t socket_device_t:dir { search };
+allow dlt_t init_var_run_t:dir { search };
+
+# Allow dlt-daemon to manage its tmp files
+allow dlt_t dlt_tmp_t:file manage_file_perms;
+allow dlt_t dlt_tmp_t:sock_file manage_sock_file_perms;
+
+# Misc rules for network socket
+allow dlt_t proc_net_t:file read_file_perms;
+allow dlt_t { unreserved_port_t node_t }:udp_socket { name_bind node_bind };
+allow dlt_t { unreserved_port_t node_t }:tcp_socket { name_bind node_bind name_connect };
+
+alog_manage_log(dlt_t)
+
+allow dlt_t dlt_shm_t:file manage_file_perms;
+allow dlt_t dlt_shm_t:sock_file  { read write create unlink };
+allow dlt_t tmpfs_t:dir { search };
