@@ -14,6 +14,7 @@ gen_require(`
   type node_t;
   type alogd_t;
   type tmpfs_t;
+  type systemd_tmpfiles_t;
 ')
 
 # DLT new types
@@ -72,3 +73,4 @@ alog_manage_log(dlt_t)
 allow dlt_t dlt_shm_t:file manage_file_perms;
 allow dlt_t dlt_shm_t:sock_file  { read write create unlink };
 allow dlt_t tmpfs_t:dir { search };
+allow systemd_tmpfiles_t dlt_shm_t:sock_file getattr;
