@@ -30,6 +30,8 @@ gen_require(`
     type urandom_device_t;
     type edgehub_etc_conf_t;
     type sysctl_t;
+    type sysctl_vm_t;
+    type sysctl_vm_overcommit_t;
 ')
 
 allow phservice_t token_cert_t:file {getattr open read};
@@ -57,4 +59,6 @@ allow phservice_t net_conf_t:file { read getattr open };
 allow phservice_t unreserved_port_t:tcp_socket { name_connect };
 allow phservice_t urandom_device_t:chr_file { getattr read open };
 dontaudit phservice_t sysctl_t:dir search;
+dontaudit phservice_t sysctl_vm_t:dir search;
+dontaudit phservice_t sysctl_vm_overcommit_t:file {read open};
 
