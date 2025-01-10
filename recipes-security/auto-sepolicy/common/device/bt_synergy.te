@@ -1,4 +1,4 @@
-#  Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+#  Copyright (c) 2024-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 #  Redistribution and use in source and binary forms, with or without
 #  modification, are permitted (subject to the limitations in the
@@ -60,6 +60,7 @@ gen_require(`
       type tty_device_t;
       type unreserved_port_t;
       type node_t;
+      type sysctl_t;
       type telsdk_data_t;
       type telsdk_etc_t;
       type telux_access_audio_play_t;
@@ -140,6 +141,23 @@ allow bt_synergy_t proc_t:file { open read getattr };
 
 # Ignore
 dontaudit bt_synergy_t home_root_t:dir search;
+
+# Ignore
+# BT app is a console UI application. It will clear the display by calling
+# system(clear). So the clear binary in $PATH will be checked. The /legato/systems/current/bin
+# is added from one time. So the dir permission for telaf_fw_t domain is needed.
+# Because the /usr/bin/clear is expected for this case, so can ignore this aduit error.
+ifdef(`qti-nad-telaf',`
+     gen_require(`
+         type telaf_fw_t;
+     ')
+     dontaudit bt_synergy_t telaf_fw_t:dir search;
+')
+
+# Ignore
+# This error reported when BT app exits, but don't find the reason from code of BT app perspective
+# from strace log. And don't find anything function affected. So added below rule.
+dontaudit bt_synergy_t sysctl_t:dir search;
 
 # Allow BT application access play/capture device provided by telsdk for BT HFP audio and A2DP SINK audio
 allow bt_synergy_t telux_access_audio_play_t:file { getattr };
