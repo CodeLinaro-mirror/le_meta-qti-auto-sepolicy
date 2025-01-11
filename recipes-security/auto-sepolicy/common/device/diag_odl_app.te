@@ -26,3 +26,8 @@ gen_require(`
     type data_t;
 ')
 read_user_data_files(diag_odl_app_t, data_t)
+
+# Allow reading mask file and save logs on sdcard
+sdcard_dir_manage(diag_odl_app_t)
+sdcard_filesys_attr(diag_odl_app_t)
+sdcard_sym_link(diag_odl_app_t)
