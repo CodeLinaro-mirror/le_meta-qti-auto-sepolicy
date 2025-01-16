@@ -27,7 +27,7 @@
 #
 # Changes from Qualcomm Innovation Center are provided under the following license:
 #
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## <summary>gptp daemon</summary>
@@ -42,11 +42,12 @@
 ## </param>
 #
 interface(`gptp_rw_tmpfs_files',`
-        gen_require(`
-                type gptp_tmpfs_t;
-        ')
+    gen_require(`
+            type gptp_tmpfs_t;
+    ')
 
-        rw_files_pattern($1, gptp_tmpfs_t, gptp_tmpfs_t)
+    rw_files_pattern($1, gptp_tmpfs_t, gptp_tmpfs_t)
+    allow $1 gptp_tmpfs_t:file { map };
 ')
 
 ########################################
@@ -85,4 +86,5 @@ interface(`gptp_rw_gptp_sock_file',`
                 type gptp_socket_t;
         ')
     stream_connect_pattern($1, gptp_socket_t, gptp_socket_t, qgptp_t);
+    allow $1 gptp_socket_t:sock_file { create read };
 ')

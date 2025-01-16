@@ -24,9 +24,9 @@ type c2c_hub_exec_t;
 type c2c_hub_t;
 files_type(c2c_hub_exec_t)
 
-type softsku_manager_exec_t;
-type softsku_manager_t;
-files_type(softsku_manager_exec_t)
+type attestation_manager_exec_t;
+type attestation_manager_t;
+files_type(attestation_manager_exec_t)
 
 type smq_manager_exec_t;
 type smq_manager_t;
@@ -47,21 +47,17 @@ gen_require(`
     type unreserved_port_t;
     type urandom_device_t;
     type system_data_t;
-    type mount_copybind_t;
-    type mount_t;
     type firmware_t;
     type shell_exec_t;
     type smcinvoke_device_t;
     type vendor_dmabuf_qseecomta_heap_device_t;
     type vendor_dmabuf_qseecom_heap_device_t;
+    type phone_home_t;
     class service { start status stop reload };
 ')
 
 #============= mount_copybind_t ==============
-allow mount_copybind_t edgehub_etc_conf_t:dir { open read search mounton getattr };
-allow mount_copybind_t edgehub_etc_conf_t:file { setattr read create write relabelfrom getattr relabelto open };
-
-allow mount_t edgehub_etc_conf_t:file { getattr mounton };
+mount_copybind_file(edgehub_etc_conf_t)
 
 # c2c_hub policy
 init_vendor_domain(c2c_hub_t, c2c_hub_exec_t)
@@ -95,27 +91,31 @@ allow c2c_hub_t urandom_device_t:chr_file { read getattr open create};
 corenet_tcp_connect_http_port(c2c_hub_t);
 allow c2c_hub_t edgehub_etc_conf_t:dir { open search read getattr};
 allow c2c_hub_t self:fifo_file {read getattr write};
+allow c2c_hub_t phone_home_t:file {getattr open read };
 
-# softsku_manager policy
-init_vendor_domain(softsku_manager_t, softsku_manager_exec_t)
-allow softsku_manager_t edgehub_data_log_t:file { open read append write create getattr };
-allow softsku_manager_t edgehub_etc_conf_t:file { open read append write create getattr };
-allow softsku_manager_t etc_t:file { read write mounton getattr open };
-allow softsku_manager_t etc_t:lnk_file read;
-allow softsku_manager_t init_var_run_t:dir search;
-allow softsku_manager_t net_conf_t:file { read getattr open };
-allow softsku_manager_t proc_t:file { read getattr open };
-allow softsku_manager_t self:netlink_route_socket { read write bind create getattr nlmsg_read };
-allow softsku_manager_t self:tcp_socket { write connect shutdown read getopt create };
-allow softsku_manager_t self:udp_socket { read write create connect getattr setopt };
-allow softsku_manager_t socket_device_t:dir search;
-allow softsku_manager_t systemd_resolved_var_run_t:dir search;
-allow softsku_manager_t systemd_resolved_var_run_t:file { read getattr open };
-allow softsku_manager_t unreserved_port_t:tcp_socket name_connect;
-allow softsku_manager_t urandom_device_t:chr_file { read getattr open create};
-allow softsku_manager_t edgehub_etc_conf_t:dir { open search read getattr};
-allow softsku_manager_t self:fifo_file {read getattr write};
-logging_send_syslog_msg(softsku_manager_t)
+
+
+# attestation_manager policy
+init_vendor_domain(attestation_manager_t, attestation_manager_exec_t)
+allow attestation_manager_t edgehub_data_log_t:file { open read append write create getattr };
+allow attestation_manager_t edgehub_etc_conf_t:file { open read append write create getattr };
+allow attestation_manager_t etc_t:file { read write mounton getattr open };
+allow attestation_manager_t etc_t:lnk_file read;
+allow attestation_manager_t init_var_run_t:dir search;
+allow attestation_manager_t net_conf_t:file { read getattr open };
+allow attestation_manager_t proc_t:file { read getattr open };
+allow attestation_manager_t self:netlink_route_socket { read write bind create getattr nlmsg_read };
+allow attestation_manager_t self:tcp_socket { write connect shutdown read getopt create };
+allow attestation_manager_t self:udp_socket { read write create connect getattr setopt };
+allow attestation_manager_t socket_device_t:dir search;
+allow attestation_manager_t systemd_resolved_var_run_t:dir search;
+allow attestation_manager_t systemd_resolved_var_run_t:file { read getattr open };
+allow attestation_manager_t unreserved_port_t:tcp_socket name_connect;
+allow attestation_manager_t urandom_device_t:chr_file { read getattr open create};
+allow attestation_manager_t edgehub_etc_conf_t:dir { open search read getattr};
+allow attestation_manager_t self:fifo_file {read getattr write};
+allow attestation_manager_t phone_home_t:file {getattr open read };
+logging_send_syslog_msg(attestation_manager_t)
 
 # dm policy
 init_vendor_domain(dm_manager_t, dm_manager_exec_t)
@@ -146,6 +146,7 @@ allow dm_manager_t vendor_dmabuf_qseecomta_heap_device_t:chr_file {read open ioc
 allow dm_manager_t vendor_dmabuf_qseecom_heap_device_t:chr_file {read open ioctl};
 allow dm_manager_t smcinvoke_device_t:chr_file {read write open ioctl};
 telux_allow_loc(dm_manager_t);
+allow dm_manager_t phone_home_t:file {getattr open read };
 
 #smq_manager policy
 init_vendor_domain(smq_manager_t, smq_manager_exec_t)
@@ -168,15 +169,12 @@ allow smq_manager_t edgehub_etc_conf_t:dir { open search read getattr};
 
 
 #certs file policy
-allow mount_t cacert_t:file { getattr mounton };
-allow mount_t clientcert_t:file { getattr mounton };
-allow mount_t private_t:file { getattr mounton };
-allow mount_copybind_t cacert_t:dir { open read search mounton getattr };
-allow mount_copybind_t cacert_t:file { setattr read create write relabelfrom getattr relabelto open };
-allow mount_copybind_t clientcert_t:dir { open read search mounton getattr };
-allow mount_copybind_t clientcert_t:file { setattr read create write relabelfrom getattr relabelto open };
-allow mount_copybind_t private_t:dir { open read search mounton getattr };
-allow mount_copybind_t private_t:file { setattr read create write relabelfrom getattr relabelto open };
+mount_copybind_dir(cacert_t)
+mount_copybind_file(cacert_t)
+mount_copybind_dir(clientcert_t)
+mount_copybind_file(clientcert_t)
+mount_copybind_file(private_t)
+mount_copybind_dir(private_t)
 allow c2c_hub_t cacert_t:file { getattr read open };
 allow c2c_hub_t cacert_t:dir { open search read getattr};
 allow c2c_hub_t clientcert_t:file { getattr read open };

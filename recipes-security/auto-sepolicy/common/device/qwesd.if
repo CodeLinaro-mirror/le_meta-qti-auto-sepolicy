@@ -25,10 +25,31 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+# Changes from Qualcomm Innovation Center, Inc. are provided under the following license:
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
 ## <summary>qwesd daemon</summary>
 
-#######################################
+########################################
 ## <summary>
-##       qwesd interface
+##      Access a qwes socket.
+##      It can search qwes mink socket dir and have write permission for
+##      qwes socket file. Interface also allow unix stream socket
+##      connection.
 ## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
 #
+interface(`write_qwes_mink_sock',`
+    gen_require(`
+        type qwesd_t;
+        type qwes_mink_socket_t;
+    ')
+    allow $1 qwesd_t:unix_stream_socket connectto;
+    allow $1 qwes_mink_socket_t:dir search;
+    allow $1 qwes_mink_socket_t:sock_file write;
+')

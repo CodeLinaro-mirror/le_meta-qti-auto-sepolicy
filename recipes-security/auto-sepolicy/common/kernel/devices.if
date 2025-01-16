@@ -1,0 +1,19 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+########################################
+## <summary>
+##      Read and write a sound device node.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+
+interface(`rw_sound_dev_node',`
+    gen_require(`
+        type sound_device_t;
+    ')
+    allow $1 sound_device_t:chr_file rw_chr_file_perms;
+')

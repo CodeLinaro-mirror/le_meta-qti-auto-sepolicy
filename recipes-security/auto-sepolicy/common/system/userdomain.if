@@ -1,0 +1,36 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+########################################
+## <summary>
+##      Read a user domain pty.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`userdom_read_user_ptys',`
+    gen_require(`
+        type user_devpts_t;
+    ')
+    allow $1 user_devpts_t:chr_file read;
+')
+
+########################################
+## <summary>
+##      Write to user temporary named sockets.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`userdom_wo_user_tmp_sockets',`
+    gen_require(`
+        type user_tmp_t;
+    ')
+    allow $1 user_tmp_t:sock_file write;
+')

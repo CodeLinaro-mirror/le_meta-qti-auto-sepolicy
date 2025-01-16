@@ -25,39 +25,9 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#  Changes from Qualcomm Innovation Center are provided under the following license:
-#
-#  Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
-#
-#  Redistribution and use in source and binary forms, with or without
-#  modification, are permitted (subject to the limitations in the
-#  disclaimer below) provided that the following conditions are met:
-#
-#      * Redistributions of source code must retain the above copyright
-#        notice, this list of conditions and the following disclaimer.
-#
-#      * Redistributions in binary form must reproduce the above
-#        copyright notice, this list of conditions and the following
-#        disclaimer in the documentation and/or other materials provided
-#        with the distribution.
-#
-#      * Neither the name of Qualcomm Innovation Center, Inc. nor the names of its
-#        contributors may be used to endorse or promote products derived
-#        from this software without specific prior written permission.
-#
-#  NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE
-#  GRANTED BY THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT
-#  HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
-#  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-#  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-#  IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-#  ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-#  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
-#  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-#  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
-#  IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
-#  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
-#  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+# Changes from Qualcomm Innovation Center, Inc. are provided under the following license:
+# Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(audio_console_app, 1.0)
 type audio_console_app_t;
@@ -81,16 +51,13 @@ manage_user_data_files(audio_console_app_t, data_t)
 #Audio services
 telux_allow_audio(audio_console_app_t)
 
-#Allow setting secondary groups
-allow audio_console_app_t self:capability setgid;
-allow audio_console_app_t etc_t:file read_file_perms;
+telux_allow_console_apps(audio_console_app_t)
 
 #Save recordings to and play files from sdcard's root directory
 files_search_mnt(audio_console_app_t)
-allow audio_console_app_t sdcard_t:dir { write search read create open getattr add_name };
-allow audio_console_app_t sdcard_t:file { write create open read getattr unlink };
-allow audio_console_app_t sdcard_t:filesystem getattr;
-allow audio_console_app_t sdcard_t:lnk_file read;
+sdcard_dir_manage(audio_console_app_t)
+sdcard_filesys_attr(audio_console_app_t)
+sdcard_sym_link(audio_console_app_t)
 
 #API access control permissions
 telux_allow_audio_voice(audio_console_app_t)
@@ -99,6 +66,3 @@ telux_allow_audio_capture(audio_console_app_t)
 telux_allow_audio_transcode(audio_console_app_t)
 telux_allow_audio_factory_test(audio_console_app_t)
 telux_allow_audio_voice_data(audio_console_app_t)
-
-#Allow Signalling
-allow audio_console_app_t self:process signal;

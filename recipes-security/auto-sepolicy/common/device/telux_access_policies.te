@@ -1,34 +1,5 @@
-#  Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
-#
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted (subject to the limitations in the
-# disclaimer below) provided that the following conditions are met:
-#
-#     * Redistributions of source code must retain the above copyright
-#       notice, this list of conditions and the following disclaimer.
-#
-#     * Redistributions in binary form must reproduce the above
-#       copyright notice, this list of conditions and the following
-#       disclaimer in the documentation and/or other materials provided
-#       with the distribution.
-#
-#     * Neither the name of Qualcomm Innovation Center, Inc. nor the names of its
-#       contributors may be used to endorse or promote products derived
-#       from this software without specific prior written permission.
-#
-# NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE
-# GRANTED BY THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT
-# HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
-# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-# MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-# IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-# ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
-# GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
-# IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
-# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
-# IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+# Copyright (c) 2022-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(telux_access_policies, 1.0)
 
@@ -108,6 +79,10 @@ type telux_access_dual_data_config_t;
 files_type(telux_access_dual_data_config_t);
 type telux_access_data_sns_config_t;
 files_type(telux_access_data_sns_config_t);
+type telux_access_data_qos_ops_t;
+files_type(telux_access_data_qos_ops_t);
+type telux_access_data_ka_offload_ops_t;
+files_type(telux_access_data_ka_offload_ops_t);
 
 
 ##################################################################################################
@@ -128,7 +103,8 @@ files_type(telux_access_platform_antenna_mgmt_t);
 ##################################################################################################
 type telux_access_power_control_state_t;
 files_type(telux_access_power_control_state_t);
-
+type telux_access_power_wakeup_info_t;
+files_type(telux_access_power_wakeup_info_t);
 
 ##################################################################################################
 # Type identifiers for the files used to control access for Sensor related APIs in SDK
@@ -150,6 +126,10 @@ type telux_access_tel_card_ops_t;
 files_type(telux_access_tel_card_ops_t);
 type telux_access_tel_card_privileged_ops_t;
 files_type(telux_access_tel_card_privileged_ops_t);
+type telux_access_tel_card_refresh_t;
+files_type(telux_access_tel_card_refresh_t);
+type telux_access_tel_card_refresh_voting_t;
+files_type(telux_access_tel_card_refresh_voting_t);
 type telux_access_tel_sap_t;
 files_type(telux_access_tel_sap_t);
 type telux_access_tel_cell_broadcast_config_t;
@@ -274,3 +254,17 @@ type telux_access_wlan_sta_config_t;
 files_type(telux_access_wlan_sta_config_t);
 type telux_access_wlan_ap_devices_t;
 files_type(telux_access_wlan_ap_devices_t);
+
+##################################################################################################
+# Type identifiers for the files used to control access for NTN related APIs in SDK
+##################################################################################################
+type telux_access_ntn_config_t;
+files_type(telux_access_ntn_config_t);
+type telux_access_ntn_data_t;
+files_type(telux_access_ntn_data_t);
+
+##################################################################################################
+# Type identifiers for the files used to control access for Diag odl related APIs in SDK
+##################################################################################################
+type telux_access_diag_ops_t;
+files_type(telux_access_diag_ops_t);

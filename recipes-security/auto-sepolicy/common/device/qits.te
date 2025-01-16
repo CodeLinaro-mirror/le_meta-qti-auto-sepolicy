@@ -48,8 +48,6 @@ gen_require(`
     type node_t;
     type unreserved_port_t;
     type cslistener_port_t;
-    type mount_copybind_t;
-    type mount_t;
     type sysctl_t;
     type cert_t;
     type boot_kpi_values_t;
@@ -73,7 +71,6 @@ allow qits_t qits_stats_t:file manage_file_perms;
 allow qits_t proc_load_t:file read_file_perms;
 allow qits_t self:udp_socket create_socket_perms;
 allow qits_t proc_net_t:file read_file_perms;
-allow qits_t self:netlink_route_socket create_netlink_socket_perms;
 allow qits_t node_t:udp_socket node_bind;
 allow qits_t unreserved_port_t:udp_socket name_bind;
 allow qits_t unreserved_port_t:tcp_socket name_bind;
@@ -112,11 +109,9 @@ ifdef(`qti-mvm',`
 ')
 
 # copybind /etc/ObeConfig.conf to /systemrw/ObeConfig.conf
-allow mount_copybind_t qits_etc_t:file { getattr relabelto setattr read open create write };
-allow mount_t qits_etc_t:file { getattr mounton };
+mount_copybind_file(qits_etc_t)
 
 data_filetrans(qits_t, canwrapper_data_log_t, { file dir })
 manage_user_data_files(qits_t, canwrapper_data_log_t)
 
 allow qits_t system_dir_t:dir search_dir_perms;
-dontaudit mount_copybind_t qits_etc_t: file { ioctl };

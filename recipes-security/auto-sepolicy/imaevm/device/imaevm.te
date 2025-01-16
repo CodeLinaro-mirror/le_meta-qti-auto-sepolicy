@@ -27,7 +27,7 @@
 
 # Changes from Qualcomm Innovation Center are provided under the following license:
 #
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(imaevm, 1.0)
@@ -71,7 +71,7 @@ gen_require(`
 	type port_bridge_t;
 	type dm_manager_t;
 	type smq_manager_t;
-	type softsku_manager_t;
+	type attestation_manager_t;
 	type loc_t;
 	type telux_audio_server_t;
 	type loc_hald_t;
@@ -111,6 +111,7 @@ gen_require(`
 	type engine_service_t;
 	type telux_config_server_t;
 	type ifconfig_t;
+	type ntn_test_app_t;
 	attribute domain;
 ')
 
@@ -140,7 +141,7 @@ mls_key_write_all_levels(qseecomd_t)
 mls_key_write_all_levels(port_bridge_t)
 mls_key_write_all_levels(dm_manager_t)
 mls_key_write_all_levels(smq_manager_t)
-mls_key_write_all_levels(softsku_manager_t)
+mls_key_write_all_levels(attestation_manager_t)
 mls_key_write_all_levels(loc_t)
 mls_key_write_all_levels(telux_audio_server_t)
 mls_key_write_all_levels(loc_hald_t)
@@ -179,3 +180,4 @@ mls_key_write_all_levels(agm_server_t)
 mls_key_write_all_levels(engine_service_t)
 mls_key_write_all_levels(telux_config_server_t)
 mls_key_write_all_levels(ifconfig_t)
+mls_key_write_all_levels(ntn_test_app_t)

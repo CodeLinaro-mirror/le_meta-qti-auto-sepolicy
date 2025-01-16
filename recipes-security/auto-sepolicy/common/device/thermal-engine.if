@@ -1,0 +1,24 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+#
+# wo_therma_sock_conf
+#
+# Interface used to access thermal socket for write only
+interface(`wo_thermal_sock_conf',`
+    gen_require(`
+        type thermal_sock_t;
+    ')
+    allow $1 thermal_sock_t:sock_file write;
+')
+
+#
+# ro_thermal_etc_conf
+#
+# Allow thermal service to read /etc/thermal-engine.conf file
+interface(`ro_thermal_etc_conf',`
+    gen_require(`
+        type thermal_etc_t;
+    ')
+    allow $1 thermal_etc_t:file { read open };
+')

@@ -129,3 +129,40 @@ interface(`mhi_rw_device',`
 
     rw_chr_files_pattern($1, device_t, mhi_device_t)
 ')
+
+########################################
+## <summary>
+##  Connect to modem monitor with a unix socket.
+##  Without any additional permissions.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`mm_connectto_unix_stream_socket',`
+    gen_require(`
+        type modem_monitor_t;
+    ')
+
+    allow $1 modem_monitor_t:unix_stream_socket connectto;
+')
+
+########################################
+## <summary>
+##  Read and Write socket files.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`mm_rw_socket_file',`
+    gen_require(`
+        type mm_socket_device_t;
+    ')
+
+    device_rw_socket_files($1, mm_socket_device_t)
+')

@@ -39,8 +39,8 @@ init_vendor_domain(telux_crypto_console_app_t, telux_crypto_console_app_exec_t)
 
 transition_to_confined_domain(telux_crypto_console_app_t, telux_crypto_console_app_exec_t)
 
-#Allow setting secondary groups
-allow telux_crypto_console_app_t self:capability setgid;
+# Generic allow rule for console apps
+telux_allow_console_apps(telux_crypto_console_app_t)
 
 telux_allow_crypto(telux_crypto_console_app_t)
 telux_allow_sec_key_ops(telux_crypto_console_app_t)

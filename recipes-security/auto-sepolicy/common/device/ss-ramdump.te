@@ -27,7 +27,7 @@
 
 #  Changes from Qualcomm Innovation Center are provided under the following license:
 #
-#  Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+#  Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -64,9 +64,8 @@ gen_require(`
     type sdcard_t;
 ')
 
-allow ss-ramdump_t sdcard_t:dir { write search create add_name getattr };
-allow ss-ramdump_t sdcard_t:file { write create open };
-allow ss-ramdump_t sdcard_t:lnk_file read;
+sdcard_dir_manage(ss-ramdump_t)
+sdcard_sym_link(ss-ramdump_t)
 allow ss-ramdump_t sysfs_t:file { write read open };
 
 mls_file_read_all_levels(ss-ramdump_t);

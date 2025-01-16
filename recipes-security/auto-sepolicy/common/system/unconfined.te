@@ -74,6 +74,7 @@ userdebug_or_eng(`
         type sysfs_devcoredump_t;
         type binderfs_t;
         type qcrosvm_exec_t;
+        type wlan_hsp_sysfs_t;
     ')
 
     can_exec(unconfined_t, ks_exec_t);
@@ -105,4 +106,5 @@ userdebug_or_eng(`
     allow unconfined_t sysfs_devcoredump_t:file { open read write };
     allow unconfined_t binderfs_t:filesystem getattr;
     allow unconfined_t qcrosvm_exec_t:file { getattr };
+    dontaudit unconfined_t wlan_hsp_sysfs_t:file create;
 ')

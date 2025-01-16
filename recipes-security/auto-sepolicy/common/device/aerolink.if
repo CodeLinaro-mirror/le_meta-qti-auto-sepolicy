@@ -25,8 +25,8 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Changes from Qualcomm Innovation Center are provided under the following license:
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Changes from Qualcomm Innovation Center, Inc. are provided under the following license:
+# Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## <summary>aerolink</summary>
@@ -38,28 +38,22 @@
 #   1) Domain context
 interface(`aerolink_allow_use',`
     gen_require(`
-        type qwesd_t;
         type qwes_mink_socket_t;
         type qseecom_device_t;
-        type devlog_t;
-        type syslogd_t;
         type ion_device_t;
         type aerolink_data_t;
-        type smcinvoke_device_t;
         type cert_t;
     ')
     # manage /data/aerolink dirs
     manage_user_data_files($1, aerolink_data_t)
 
     # qwes permissions
-    allow $1 qwesd_t:unix_stream_socket connectto;
-    allow $1 qwes_mink_socket_t:sock_file write;
-    allow $1 qwes_mink_socket_t:dir { getattr setattr search };
-    allow $1 smcinvoke_device_t:chr_file { read write open ioctl};
+    write_qwes_mink_sock($1)
+    allow $1 qwes_mink_socket_t:dir { getattr setattr };
+    rw_smcinvoke_dev_node($1)
 
     # syslog
-    allow $1 devlog_t:sock_file write;
-    allow $1 syslogd_t:unix_dgram_socket sendto;
+    logging_send_syslog_msg($1)
 
     rw_chr_files_pattern($1, device_t, qseecom_device_t)
 

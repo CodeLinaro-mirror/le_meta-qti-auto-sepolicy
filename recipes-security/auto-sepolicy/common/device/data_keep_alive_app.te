@@ -1,0 +1,21 @@
+#
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(data_keep_alive_app, 1.0)
+type data_keep_alive_app_t;
+type data_keep_alive_app_exec_t;
+
+#domain transition if started from init
+init_vendor_domain(data_keep_alive_app_t, data_keep_alive_app_exec_t)
+
+#domain transition if started from adb shell
+transition_to_confined_domain(data_keep_alive_app_t, data_keep_alive_app_exec_t)
+
+#Telsdk Logging
+access_telux_files(data_keep_alive_app_t)
+
+telux_allow_console_apps(data_keep_alive_app_t)
+
+#Allow setting TCU activity state
+telux_allow_data_ka_offload_ops(data_keep_alive_app_t)
