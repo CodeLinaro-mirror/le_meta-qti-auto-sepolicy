@@ -1,0 +1,8 @@
+#Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
+#SPDX-License-Identifier: BSD-3-Clause-Clear
+
+gen_require(`
+        type syslogd_t;
+')
+allow syslogd_t self:sem { create read destroy unix_read unix_write write };
+allow syslogd_t self:shm { create read destroy unix_read unix_write write };
