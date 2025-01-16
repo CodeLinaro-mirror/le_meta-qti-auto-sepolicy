@@ -1,0 +1,14 @@
+# Copyright (c) 2024 - 2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+# Executable file context
+/usr/bin/dlt-system           --      gen_context(system_u:object_r:dlt_exec_t,s0)
+/usr/bin/dlt-logd-converter   --      gen_context(system_u:object_r:dlt_exec_t,s0)
+/usr/bin/dlt-daemon           --      gen_context(system_u:object_r:dlt_exec_t,s0)
+
+# Config file context
+/etc/dlt_gateway.conf         --      gen_context(system_u:object_r:dlt_etc_t,s0)
+/etc/dlt.conf                 --      gen_context(system_u:object_r:dlt_etc_t,s0)
+/etc/dlt-logd-converter.conf  --      gen_context(system_u:object_r:dlt_etc_t,s0)
+/etc/dlt-system.conf          --      gen_context(system_u:object_r:dlt_etc_t,s0)
+/dev/mqueue/dlt_message_queue.*  --      gen_context(system_u:object_r:dlt_shm_t,s0)

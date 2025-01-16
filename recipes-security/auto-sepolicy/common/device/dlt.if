@@ -1,0 +1,19 @@
+# Copyright (c) 2024 - 2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>dlt daemon</summary>
+
+# Allow application logging to DLT
+interface(`dlt_allow_user_logging',`
+    gen_require(`
+        type tmp_t;
+        type dlt_t;
+        type dlt_tmp_t;
+        type dlt_shm_t;
+    ')
+    allow $1 tmp_t:dir search;
+    allow $1 dlt_t:unix_stream_socket connectto;
+    allow $1 dlt_tmp_t:sock_file { open read write };
+    allow $1 dlt_shm_t:sock_file  { read write create };
+    allow $1 self:process signal;
+')
