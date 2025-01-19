@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2024 - 2025 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(dlt, 1.0)
@@ -13,6 +13,7 @@ gen_require(`
   type socket_device_t;
   type node_t;
   type alogd_t;
+  type tmpfs_t;
 ')
 
 # DLT new types
@@ -20,6 +21,9 @@ type dlt_t;
 type dlt_exec_t;
 type dlt_tmp_t;
 type dlt_etc_t;
+type dlt_shm_t;
+files_tmp_file(dlt_shm_t);
+fs_tmpfs_filetrans(dlt_t, dlt_shm_t, { file sock_file })
 
 init_vendor_domain(dlt_t, dlt_exec_t)
 files_type(dlt_etc_t)
@@ -35,7 +39,7 @@ allow dlt_t self:netlink_audit_socket create_netlink_socket_perms;
 allow dlt_t self:netlink_route_socket rw_netlink_socket_perms;
 allow dlt_t self:process { signal setsched setcap };
 allow dlt_t self:capability { audit_control net_admin };
-allow dlt_t self:sock_file  { read write };
+allow dlt_t self:sock_file  { read write create };
 
 # Allow systemd to get attribute of dlt tmp files
 allow systemd_tmpfiles_t dlt_tmp_t:sock_file { getattr };
@@ -64,3 +68,7 @@ allow dlt_t { unreserved_port_t node_t }:udp_socket { name_bind node_bind };
 allow dlt_t { unreserved_port_t node_t }:tcp_socket { name_bind node_bind name_connect };
 
 alog_manage_log(dlt_t)
+
+allow dlt_t dlt_shm_t:file manage_file_perms;
+allow dlt_t dlt_shm_t:sock_file  { read write create unlink };
+allow dlt_t tmpfs_t:dir { search };

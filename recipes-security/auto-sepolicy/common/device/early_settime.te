@@ -20,9 +20,7 @@ gen_require(`
 files_type(time_delta_t)
 
 # Bind mount the time data
-allow mount_copybind_t time_delta_t:file { getattr read open create write ioctl setattr };
-allow mount_copybind_t time_delta_t:filesystem associate;
-allow mount_t time_delta_t:file { mounton };
+mount_copybind_file(time_delta_t)
 
 allow early_settime_t time_delta_t:file { read getattr open };
 dontaudit setfiles_t time_delta_t:file { getattr};
