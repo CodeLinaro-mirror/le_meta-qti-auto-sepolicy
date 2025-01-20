@@ -1,4 +1,4 @@
-# Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(qvirtmgr, 1.0)
@@ -81,8 +81,9 @@ allow qvirtmgr_t proc_t:file { getattr read write open };
 
 files_tmp_file(qvirt_tmp_t);
 files_tmp_filetrans(qvirtmgr_t, qvirt_tmp_t, { file dir })
-allow qvirtmgr_t qvirt_tmp_t:dir { create search write add_name };
-allow qvirtmgr_t qvirt_tmp_t:file { create open write };
+allow qvirtmgr_t qvirt_tmp_t:dir { create search write add_name remove_name };
+allow qvirtmgr_t qvirt_tmp_t:file { create open write unlink };
+allow qvirtmgr_t qvirt_tmp_t:fifo_file { create open read write getattr unlink };
 
 type qvirt_data_t;
 user_data_files_type(qvirt_data_t)
