@@ -50,7 +50,6 @@ gen_require(`
    type root_t;
    type rsp_httpd_conf_t;
    type security_t;
-   type devpts_t;
    type ecall_conf_t;
    type firmware_t;
    type functionfs_t;
@@ -63,10 +62,8 @@ gen_require(`
    type configfs_t;
    type debugfs_t;
    type device_t;
-   type unlabeled_t;
    type cv2xd_etc_t;
    type audio_hal_etc_t;
-   type device_t;
    type devpts_t;
    type lib_t;
    type mka_supplicant_conf_t;
@@ -100,14 +97,14 @@ allow lxc_script_app_t lxc_data_t:dir { read remove_name add_name create getattr
 files_tmp_file(lxc_tmp_t);
 files_tmp_filetrans(lxc_script_app_t, lxc_tmp_t, { file dir })
 files_type(lxc_conf_etc_t)
-allow lxc_script_app_t lxc_tmp_t:dir { add_name create open read remove_name search write };
+allow lxc_script_app_t lxc_tmp_t:dir { add_name create open read remove_name search write getattr rmdir };
 allow lxc_script_app_t lxc_tmp_t:file { append create getattr lock open read unlink write };
 allow lxc_script_app_t lxc_conf_etc_t:dir search;
 allow lxc_script_app_t lxc_conf_etc_t:file { getattr open read };
 files_runtime_file(lxc_var_run_t)
 files_runtime_filetrans(lxc_script_app_t, lxc_var_run_t, { file dir })
 allow lxc_script_app_t lxc_var_run_t:dir { add_name create search write };
-allow lxc_script_app_t lxc_var_run_t:file { create lock open read write };
+allow lxc_script_app_t lxc_var_run_t:file { create lock open read write unlink };
 mls_file_write_all_levels(lxc_script_app_t)
 mls_file_read_all_levels(lxc_script_app_t)
 dev_write_kmsg(lxc_script_app_t)
@@ -118,13 +115,13 @@ allow lxc_script_app_t boot_kpi_values_t:file { getattr append open };
 allow unconfined_t lxc_script_app_t:process transition;
 allow lxc_script_app_t cgroup_t:dir { add_name create ioctl open read search write mounton getattr remove_name rmdir};
 allow lxc_script_app_t cgroup_t:file { getattr open read write };
-allow lxc_script_app_t cgroup_t:filesystem { getattr mount };
+allow lxc_script_app_t cgroup_t:filesystem { getattr mount unmount };
 allow lxc_script_app_t root_t:dir mounton;
 allow lxc_script_app_t proc_t:dir { mounton read };
 dontaudit lxc_script_app_t persist_t:dir mounton;
 dontaudit lxc_script_app_t security_t:dir mounton;
 allow lxc_script_app_t self:rawip_socket { create setopt write read };
-allow lxc_script_app_t proc_t:filesystem { getattr mount remount };
+allow lxc_script_app_t proc_t:filesystem { getattr mount remount unmount };
 allow lxc_script_app_t proc_t:file { getattr open read };
 allow lxc_script_app_t fs_t:filesystem { getattr mount remount unmount };
 
@@ -140,17 +137,17 @@ allow lxc_script_app_t lxcrootfs_t:lnk_file { getattr read };
 allow lxc_script_app_t lxcrootfs_t:chr_file { create getattr setattr unlink };
 allow lxc_script_app_t lxcrootfs_t:dir { getattr open read search add_name create mounton setattr write remove_name rename reparent rmdir };
 allow lxc_script_app_t lxcrootfs_t:file { execute execute_no_trans getattr setattr map open read entrypoint create lock mounton link unlink write rename };
-allow lxc_script_app_t lxcrootfs_t:filesystem getattr;
+allow lxc_script_app_t lxcrootfs_t:filesystem { getattr unmount remount };
 
 allow lxc_script_app_t nsfs_t:file { getattr open read };
 allow lxc_script_app_t proc_net_t:file read;
 
-allow lxc_script_app_t self:capability { chown dac_override dac_read_search mknod net_admin setgid setuid sys_admin sys_nice sys_resource sys_boot };
+allow lxc_script_app_t self:capability { chown dac_override dac_read_search mknod net_admin setgid setuid sys_admin sys_nice sys_resource sys_boot kill };
 allow lxc_script_app_t self:fifo_file { getattr ioctl read write };
-allow lxc_script_app_t self:netlink_route_socket { bind create nlmsg_read nlmsg_write getattr read setopt write };
+allow lxc_script_app_t self:netlink_route_socket { bind create nlmsg_read nlmsg_write getattr read setopt write shutdown };
 allow lxc_script_app_t self:process { setsched signull getcap setcap setrlimit };
-allow lxc_script_app_t self:sem { associate create read unix_write write };
-allow lxc_script_app_t self:shm { associate create read unix_read unix_write write };
+allow lxc_script_app_t self:sem { associate create read unix_write write destroy };
+allow lxc_script_app_t self:shm { associate create read unix_read unix_write write destroy };
 allow lxc_script_app_t self:udp_socket { create ioctl setopt getopt read write bind };
 allow lxc_script_app_t self:tcp_socket { create ioctl setopt getopt read write bind shutdown getattr connect };
 allow lxc_script_app_t self:unix_stream_socket connectto;
@@ -167,14 +164,14 @@ allow lxc_script_app_t sysctl_t:file { open read mounton };
 allow lxc_script_app_t sysfs_t:file { getattr open read };
 allow lxc_script_app_t sysfs_t:lnk_file read;
 allow lxc_script_app_t sysfs_t:dir { read mounton };
-allow lxc_script_app_t sysfs_t:filesystem mount;
+allow lxc_script_app_t sysfs_t:filesystem { mount unmount };
 
 allow lxc_script_app_t system_data_t:dir mounton;
 
 allow lxc_script_app_t tmpfs_t:chr_file { create getattr open read write ioctl };
 allow lxc_script_app_t tmpfs_t:dir { open read add_name create mounton write search };
 allow lxc_script_app_t tmpfs_t:file { create setattr getattr open map read write mounton };
-allow lxc_script_app_t tmpfs_t:filesystem { getattr mount remount };
+allow lxc_script_app_t tmpfs_t:filesystem { getattr mount remount unmount };
 allow lxc_script_app_t tmpfs_t:sock_file { create setattr write getattr };
 allow lxc_script_app_t tmpfs_t:lnk_file create;
 
@@ -190,13 +187,13 @@ dontaudit lxc_script_app_t kernel_t:system module_request;
 
 allow lxc_script_app_t devpts_t:chr_file { ioctl open read write getattr };
 allow lxc_script_app_t devpts_t:dir { ioctl search mounton };
-allow lxc_script_app_t devpts_t:filesystem mount;
+allow lxc_script_app_t devpts_t:filesystem { mount unmount remount };
 
 dontaudit lxc_script_app_t firmware_t:dir mounton;
 dontaudit lxc_script_app_t functionfs_t:dir mounton;
 dontaudit lxc_script_app_t init_runtime_t:file mounton;
 
-allow lxc_script_app_t device_t:filesystem getattr;
+allow lxc_script_app_t device_t:filesystem { getattr remount unmount };
 allow lxc_script_app_t lib_t:dir mounton;
 allow lxc_script_app_t mnt_t:dir search;
 dontaudit lxc_script_app_t selinux_config_t:dir mounton;
@@ -258,13 +255,13 @@ dontaudit lxc_script_app_t configfs_t:dir mounton;
 dontaudit lxc_script_app_t debugfs_t:dir { mounton search };
 dontaudit lxc_script_app_t device_t:dir mounton;
 
-
 allow lxc_script_app_t unconfined_t:fd use;
 allow lxc_script_app_t user_devpts_t:chr_file { read write getattr ioctl };
 allow lxc_script_app_t kernel_t:system syslog_read;
 allow lxc_script_app_t self:capability2 syslog;
-allow lxc_script_app_t self:process { setpgid signal };
+allow lxc_script_app_t self:process { setpgid signal sigkill};
 allow lxc_script_app_t tmpfs_t:dir getattr;
 allow lxc_script_app_t proc_net_t:file { getattr open };
 allow lxc_script_app_t self:capability net_raw;
 allow lxc_script_app_t self:rawip_socket { create setopt write read };
+
