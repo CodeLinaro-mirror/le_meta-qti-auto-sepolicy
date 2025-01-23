@@ -6,3 +6,4 @@ gen_require(`
 ')
 allow syslogd_t self:sem { create read destroy unix_read unix_write write };
 allow syslogd_t self:shm { create read destroy unix_read unix_write write };
+allow syslogd_t self:capability net_raw;
