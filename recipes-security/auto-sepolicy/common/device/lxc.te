@@ -1,4 +1,4 @@
-#Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+#Copyright (c) 2023-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 #SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(lxc, 1.0)
@@ -87,6 +87,8 @@ gen_require(`
    type ptmx_t;
    type unreserved_port_t;
    type node_t;
+   type edgehub_etc_conf_t;
+   type sdcard_t;
 ')
 
 allow mount_t lxcrootfs_t:filesystem relabelfrom;
@@ -254,6 +256,8 @@ dontaudit lxc_script_app_t self:capability2 { block_suspend wake_alarm };
 dontaudit lxc_script_app_t configfs_t:dir mounton;
 dontaudit lxc_script_app_t debugfs_t:dir { mounton search };
 dontaudit lxc_script_app_t device_t:dir mounton;
+dontaudit lxc_script_app_t edgehub_etc_conf_t:file mounton;
+dontaudit lxc_script_app_t sdcard_t:dir mounton;
 
 allow lxc_script_app_t unconfined_t:fd use;
 allow lxc_script_app_t user_devpts_t:chr_file { read write getattr ioctl };
@@ -264,4 +268,3 @@ allow lxc_script_app_t tmpfs_t:dir getattr;
 allow lxc_script_app_t proc_net_t:file { getattr open };
 allow lxc_script_app_t self:capability net_raw;
 allow lxc_script_app_t self:rawip_socket { create setopt write read };
-
