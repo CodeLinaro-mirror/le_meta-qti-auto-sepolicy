@@ -1,4 +1,4 @@
-# Copyright (c) 2022,2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2022,2024,2025 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(edgehub, 1.0)
@@ -54,8 +54,9 @@ gen_require(`
     type vendor_dmabuf_qseecom_heap_device_t;
     type phone_home_t;
     class service { start status stop reload };
-    type mount_t;
     type sysctl_t;
+    type sysctl_vm_t;
+    type sysctl_vm_overcommit_t;
 ')
 
 #============= mount_copybind_t ==============
@@ -95,6 +96,9 @@ allow c2c_hub_t edgehub_etc_conf_t:dir { open search read getattr};
 allow c2c_hub_t self:fifo_file {read getattr write};
 allow c2c_hub_t phone_home_t:file {getattr open read };
 dontaudit c2c_hub_t sysctl_t:dir search;
+dontaudit c2c_hub_t sysctl_vm_t:dir search;
+dontaudit c2c_hub_t sysctl_vm_overcommit_t:file {read open};
+
 
 
 # attestation_manager policy
@@ -149,7 +153,6 @@ allow dm_manager_t vendor_dmabuf_qseecom_heap_device_t:chr_file {read open ioctl
 allow dm_manager_t smcinvoke_device_t:chr_file {read write open ioctl};
 telux_allow_loc(dm_manager_t);
 allow dm_manager_t phone_home_t:file {getattr open read };
-allow mount_t edgehub_etc_conf_t:file { read open };
 
 #smq_manager policy
 init_vendor_domain(smq_manager_t, smq_manager_exec_t)
