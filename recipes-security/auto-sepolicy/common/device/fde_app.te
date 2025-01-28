@@ -1,0 +1,72 @@
+# Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(fde_app, 1.0)
+
+type fde_app_t;
+type fde_app_exec_t;
+
+gen_require(`
+    type lvm_exec_t;
+    type lvm_t;
+    type mtd_block_t;
+    type mtd_device_t;
+    type cert_t;
+    type cgroup_t;
+    type bpf_t;
+    type proc_t;
+    type smcinvoke_device_t;
+    type socket_device_t;
+    type shell_exec_t;
+    class chr_file { read write open ioctl };
+    class blk_file { read open getattr };
+    class dir search;
+    class file { execute read open getattr execute_no_trans };
+    class fifo_file { read write getattr ioctl };
+')
+
+init_vendor_domain(fde_app_t, fde_app_exec_t)
+transition_to_confined_domain(fde_app_t, fde_app_exec_t)
+
+mls_file_read_all_levels(fde_app_t);
+mls_file_write_all_levels(fde_app_t);
+
+# The domtrans_pattern macro defines a domain transition from fde_app_t to lvm_t when executing lvm_exec_t
+domtrans_pattern(fde_app_t, lvm_exec_t, lvm_t)
+
+# Allow fde_app_t domain to read, open, and get attributes of proc_t files
+allow fde_app_t proc_t:file { read open getattr };
+
+# Allow fde_app_t domain to read, write, open, and perform ioctl on mtd_device_t character files
+allow fde_app_t mtd_device_t:chr_file { read write open ioctl };
+
+# Allow fde_app_t domain to r/w from smcinvoke_device_t character files
+rw_smcinvoke_dev_node(fde_app_t)
+
+# Allow fde_app_t domain to write logs to syslogd
+logging_send_syslog_msg(fde_app_t)
+
+# Allow fde_app_t domain to search socket_device_t directories
+allow fde_app_t socket_device_t:dir search;
+
+# Allow fde_app_t domain to read, open, and get attributes of mtd_block_t block files
+allow fde_app_t mtd_block_t:blk_file { read open getattr };
+
+# Allow fde_app_t domain to read, open, execute, execute without transition and get attributes of shell_exec_t files
+allow fde_app_t shell_exec_t:file exec_file_perms;
+
+# Allow fde_app_t domain to write and get attributes of fifo_file
+allow fde_app_t self:fifo_file { write getattr };
+
+# Allow the lvm_t domain to open and write to mtd_block_t block files
+allow lvm_t mtd_block_t:blk_file rw_file_perms;
+
+# Allow the lvm_t domain to open, read, and get attributes of cert_t files
+allow lvm_t cert_t:file { open read getattr };
+
+# Allow the lvm_t domain to search directories labeled as cert_t
+allow lvm_t cert_t:dir search;
+
+# Allow lvm_t domain to search directories labeled as bpf_t and cgroup_t
+allow lvm_t bpf_t:dir search;
+allow lvm_t cgroup_t:dir search;
