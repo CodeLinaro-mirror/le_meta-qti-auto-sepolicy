@@ -18,6 +18,8 @@ gen_require(`
     type smcinvoke_device_t;
     type socket_device_t;
     type shell_exec_t;
+    type sysfs_t;
+    type mmcblock_device_t;
     class chr_file { read write open ioctl };
     class blk_file { read open getattr };
     class dir search;
@@ -58,6 +60,18 @@ allow fde_app_t shell_exec_t:file exec_file_perms;
 # Allow fde_app_t domain to write and get attributes of fifo_file
 allow fde_app_t self:fifo_file { write getattr };
 
+# Allow nad-fde-app to read mmcblk0 in sysfs
+allow fde_app_t sysfs_t:lnk_file { read };
+
+# Allow nad-fde-app to read directories in sysfs
+allow fde_app_t sysfs_t:dir { read };
+
+# Allow nad-fde-app to read the uevent file in sysfs
+allow fde_app_t sysfs_t:file { read open getattr };
+
+# Allow nad-fde-app to read mmcblk0p13 in devtmpfs
+allow fde_app_t mmcblock_device_t:blk_file { read open ioctl getattr };
+
 # Allow the lvm_t domain to open and write to mtd_block_t block files
 allow lvm_t mtd_block_t:blk_file rw_file_perms;
 
@@ -70,3 +84,6 @@ allow lvm_t cert_t:dir search;
 # Allow lvm_t domain to search directories labeled as bpf_t and cgroup_t
 allow lvm_t bpf_t:dir search;
 allow lvm_t cgroup_t:dir search;
+
+# Allow cryptsetup to open mmcblk0p60 in devtmpfs
+allow lvm_t mmcblock_device_t:blk_file rw_file_perms;
