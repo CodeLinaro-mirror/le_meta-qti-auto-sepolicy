@@ -1,4 +1,4 @@
-# Copyright (c) 2022,2024,2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2022,2024-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(edgehub, 1.0)
@@ -23,10 +23,6 @@ files_type(edgehub_data_log_t)
 type c2c_hub_exec_t;
 type c2c_hub_t;
 files_type(c2c_hub_exec_t)
-
-type attestation_manager_exec_t;
-type attestation_manager_t;
-files_type(attestation_manager_exec_t)
 
 type smq_manager_exec_t;
 type smq_manager_t;
@@ -98,30 +94,6 @@ allow c2c_hub_t phone_home_t:file {getattr open read };
 dontaudit c2c_hub_t sysctl_t:dir search;
 dontaudit c2c_hub_t sysctl_vm_t:dir search;
 dontaudit c2c_hub_t sysctl_vm_overcommit_t:file {read open};
-
-
-
-# attestation_manager policy
-init_vendor_domain(attestation_manager_t, attestation_manager_exec_t)
-allow attestation_manager_t edgehub_data_log_t:file { open read append write create getattr };
-allow attestation_manager_t edgehub_etc_conf_t:file { open read append write create getattr };
-allow attestation_manager_t etc_t:file { read write mounton getattr open };
-allow attestation_manager_t etc_t:lnk_file read;
-allow attestation_manager_t init_var_run_t:dir search;
-allow attestation_manager_t net_conf_t:file { read getattr open };
-allow attestation_manager_t proc_t:file { read getattr open };
-allow attestation_manager_t self:netlink_route_socket { read write bind create getattr nlmsg_read };
-allow attestation_manager_t self:tcp_socket { write connect shutdown read getopt create };
-allow attestation_manager_t self:udp_socket { read write create connect getattr setopt };
-allow attestation_manager_t socket_device_t:dir search;
-allow attestation_manager_t systemd_resolved_var_run_t:dir search;
-allow attestation_manager_t systemd_resolved_var_run_t:file { read getattr open };
-allow attestation_manager_t unreserved_port_t:tcp_socket name_connect;
-allow attestation_manager_t urandom_device_t:chr_file { read getattr open create};
-allow attestation_manager_t edgehub_etc_conf_t:dir { open search read getattr};
-allow attestation_manager_t self:fifo_file {read getattr write};
-allow attestation_manager_t phone_home_t:file {getattr open read };
-logging_send_syslog_msg(attestation_manager_t)
 
 # dm policy
 init_vendor_domain(dm_manager_t, dm_manager_exec_t)
