@@ -20,6 +20,7 @@ gen_require(`
     type shell_exec_t;
     type sysfs_t;
     type mmcblock_device_t;
+    type ubiblock_device_t;
     class chr_file { read write open ioctl };
     class blk_file { read open getattr };
     class dir search;
@@ -87,3 +88,7 @@ allow lvm_t cgroup_t:dir search;
 
 # Allow cryptsetup to open mmcblk0p60 in devtmpfs
 allow lvm_t mmcblock_device_t:blk_file rw_file_perms;
+
+# Allow the lvm_t domain to open and write to ubiblock_device_t block files
+allow lvm_t ubiblock_device_t:blk_file rw_file_perms;
+
