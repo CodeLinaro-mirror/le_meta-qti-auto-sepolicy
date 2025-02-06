@@ -27,7 +27,7 @@
 
 #  Changes from Qualcomm Innovation Center are provided under the following license:
 #
-#  Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+#  Copyright (c) 2022,2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -70,6 +70,7 @@ userdebug_or_eng(`
         type kernel_t;
         type webserver_t;
         type stream_update_engine_t;
+        type wlan_hsp_sysfs_t;
     ')
 
     can_exec(unconfined_t, ks_exec_t);
@@ -89,4 +90,5 @@ userdebug_or_eng(`
     allow unconfined_t stream_update_engine_t:binder transfer;
     allow unconfined_t cpu_sysfs_t:file { create write };
     allow unconfined_t self:lockdown confidentiality;
+    dontaudit unconfined_t wlan_hsp_sysfs_t:file create;
 ')
