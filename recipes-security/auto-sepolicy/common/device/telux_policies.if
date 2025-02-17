@@ -636,6 +636,7 @@ interface(`ro_tel_conf_file',`
 ')
 
 interface(`telux_allow_satcom',`
+    access_telux_files($1)
     telux_allow_group($1)
     telux_allow_qms_client($1)
     rw_qipcrtr_socket($1);
