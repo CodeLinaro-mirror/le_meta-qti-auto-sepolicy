@@ -21,7 +21,6 @@ gen_require(`
     type sysfs_t;
     type mmcblock_device_t;
     type ubiblock_device_t;
-    type recovery_t;
     class chr_file { read write open ioctl };
     class blk_file { read open getattr };
     class dir search;
@@ -34,9 +33,6 @@ transition_to_confined_domain(fde_app_t, fde_app_exec_t)
 
 mls_file_read_all_levels(fde_app_t);
 mls_file_write_all_levels(fde_app_t);
-
-# The domtrans_pattern macro defines a domain transition from recovery_t to fde_app_t when executing fde_app_exec_t
-domtrans_pattern(recovery_t, fde_app_exec_t, fde_app_t)
 
 # The domtrans_pattern macro defines a domain transition from fde_app_t to lvm_t when executing lvm_exec_t
 domtrans_pattern(fde_app_t, lvm_exec_t, lvm_t)
