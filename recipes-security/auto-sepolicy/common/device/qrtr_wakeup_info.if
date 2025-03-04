@@ -1,0 +1,21 @@
+# Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>qrtr_wakeup_info</summary>
+
+#########################################
+## <summary>
+##      Access to qrtr-wakeup-info node
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain type allowed access
+##      </summary>
+## </param>
+#
+interface(`qrtr_wakeup_info_rw',`
+    gen_require(`
+        type qrtr_wakeup_info_device_t;
+    ')
+    allow $1 qrtr_wakeup_info_device_t:chr_file { open read };
+')
