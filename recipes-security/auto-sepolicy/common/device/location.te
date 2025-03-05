@@ -205,3 +205,5 @@ ifdef(`qti-nad-telaf',`
 
 allow loc_t loc_idl_service_exec_t:file { execute execute_no_trans map open read };
 access_power_mgr_socket(loc_t)
+
+allow lowi_server_t self:netlink_socket create_socket_perms;
