@@ -27,7 +27,7 @@
 #
 # Changes from Qualcomm Innovation Center, Inc. are provided under the following license:
 #
-# Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2022-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(sensor_hal_daemon, 1.0)
@@ -88,6 +88,8 @@ allow sensor_util_rw_t fs_t:filesystem associate;
 dontaudit mount_copybind_t sensor_hal_daemon_conf_t:file { ioctl };
 dontaudit mount_copybind_t sensor_util_t:file { ioctl };
 dontaudit mount_copybind_t sensor_hal_daemon_etc_t:file { ioctl };
+dontaudit mount_copybind_t sensor_hal_daemon_conf_t:file { rename };
+dontaudit mount_copybind_t sensor_util_t:file { rename };
 
 # Adding unique context to /etc/sensorhal
 allow mount_t sensor_util_t:dir search;
