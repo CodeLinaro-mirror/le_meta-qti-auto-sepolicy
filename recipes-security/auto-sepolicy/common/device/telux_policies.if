@@ -275,7 +275,7 @@ interface(`telux_allow_loc',`
     ')
 
     # Miscellaneous permissions requried for location client
-    location_client_generic_rules($1)
+    location_client_generic_rules_auto($1)
 
     corecmd_exec_shell($1)
     access_telux_files($1)
