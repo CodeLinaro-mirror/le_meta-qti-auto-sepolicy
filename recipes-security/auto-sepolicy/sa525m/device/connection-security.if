@@ -60,5 +60,5 @@ interface(`access_wcs',`
     allow $1 loc_data_t:dir { create setattr };
     logging_send_syslog_msg($1)
     manage_user_data_files($1, data_t)
-    location_client_generic_rules($1)
+    location_client_generic_rules_auto($1)
 ')
