@@ -27,7 +27,7 @@
 #
 #Changes from Qualcomm Innovation Center are provided under the following license:
 #
-#Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+#Copyright (c) 2023-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 #Redistribution and use in source and binary forms, with or without
 #modification, are permitted (subject to the limitations in the
@@ -70,6 +70,7 @@ gen_require(`
   type socket_device_t;
   type power_manager_daemon_t;
   type power_socket_t;
+  type dhcpc_var_run_t;
 ')
 
 allow qcmap_cm_t modem_monitor_t:unix_stream_socket connectto;
@@ -84,3 +85,4 @@ manage_sock_files_pattern(dhcpc_t, dhcpc_var_run_t, dhcpc_var_run_t)
 files_pid_filetrans(dhcpc_t, dhcpc_var_run_t, sock_file)
 allow dhcpc_t self:capability { kill };
 write_sock_files_pattern(dhcpc_t, systemd_logind_var_run_t, systemd_logind_var_run_t)
+search_dirs_pattern(qcmap_cm_t, dhcpc_var_run_t, dhcpc_var_run_t)
