@@ -26,5 +26,4 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-/var/run/data/monitor(/.*)?           gen_context(system_u:object_r:ipacm_var_run_t,s0)
 /etc/data/ipa_config.txt              gen_context(system_u:object_r:ipa_vlan_cfg_t,s0)

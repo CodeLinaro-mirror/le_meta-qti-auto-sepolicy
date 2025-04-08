@@ -33,8 +33,6 @@ gen_require(`
        type kmod_t;
 ')
 
-allow ipacm_t qcmap_var_run_t:dir rw_dir_perms;
-allow ipacm_t qcmap_var_run_t:file manage_file_perms;
 dontaudit ipacm_t sysctl_vm_overcommit_t:file { read };
 
 ### ipa vlan config
