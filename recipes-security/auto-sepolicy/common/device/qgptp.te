@@ -27,7 +27,7 @@
 
 # Changes from Qualcomm Innovation Center are provided under the following license:
 #
-# Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(qgptp, 1.0)
@@ -72,7 +72,7 @@ userdebug_or_eng(`
     allow unconfined_t gptp_tmpfs_t:file { getattr rw_file_perms };
 ')
 
-allow mount_copybind_t gptp_etc_t:file { getattr setattr read open create write };
+allow mount_copybind_t gptp_etc_t:file { getattr setattr read open create write relabelto relabelfrom rename };
 allow mount_t gptp_etc_t:file { mounton getattr read };
 
 allow qgptp_t gptp_etc_t:file { read open getattr };
