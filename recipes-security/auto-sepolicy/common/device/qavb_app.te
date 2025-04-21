@@ -40,3 +40,5 @@ allow qavb_app_t sysfs_t:lnk_file read;
 allow qavb_app_t sysfs_t:file { read open };
 allow qavb_app_t tmpfs_t:dir search;
 allow qavb_app_t proc_t:file read_file_perms;
+#Rule to access dlt-deamon
+dlt_allow_user_logging(qavb_app_t)

@@ -64,6 +64,8 @@ fs_tmpfs_filetrans(qgptp_t, gptp_tmpfs_t, file)
 logging_send_syslog_msg(qgptp_t)
 mls_file_read_all_levels(qgptp_t)
 mls_file_write_all_levels(qgptp_t)
+#Rule to access dlt-deamon
+dlt_allow_user_logging(qgptp_t)
 
 allow qgptp_t ptmx_t:chr_file rw_chr_file_perms;
 

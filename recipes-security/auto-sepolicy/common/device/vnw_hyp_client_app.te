@@ -22,3 +22,5 @@ logging_send_syslog_msg(vnw_hyp_client_app_t);
 
 allow vnw_hyp_client_app_t syslogd_runtime_t:dir search;
 allow vnw_hyp_client_app_t init_runtime_t:dir search;
+#Rule to access dlt-deamon
+dlt_allow_user_logging(vnw_hyp_client_app_t)
