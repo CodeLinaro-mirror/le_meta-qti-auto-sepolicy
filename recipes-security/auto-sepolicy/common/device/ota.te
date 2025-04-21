@@ -46,6 +46,7 @@ gen_require(`
     type sensor_util_t;
     type initrc_t;
     type usb_dev_t;
+    type syslogd_t;
 ')
 
 mls_file_upgrade(recovery_t);
@@ -58,6 +59,7 @@ dontaudit recovery_t sysctl_vm_t:dir search;
 dontaudit recovery_t kernel_t:system syslog_read;
 dontaudit recovery_t self:capability2 syslog;
 dontaudit initrc_t usb_dev_t:dir getattr;
+dontaudit recovery_t syslogd_t:unix_dgram_socket sendto;
 allow recovery_t sdcard_t:file map;
 # allow rule for etc/libnl/ access
 allow recovery_t wifi_data_t:file { setattr unlink };

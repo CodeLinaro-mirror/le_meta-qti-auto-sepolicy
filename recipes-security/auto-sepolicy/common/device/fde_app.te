@@ -21,6 +21,10 @@ gen_require(`
     type sysfs_t;
     type mmcblock_device_t;
     type ubiblock_device_t;
+    type cache_t;
+    type data_t;
+    type ptmx_t;
+    type recovery_t;
     class chr_file { read write open ioctl };
     class blk_file { read open getattr };
     class dir search;
@@ -73,6 +77,9 @@ allow fde_app_t sysfs_t:file { read open getattr };
 # Allow nad-fde-app to read mmcblk0p13 in devtmpfs
 allow fde_app_t mmcblock_device_t:blk_file { read open ioctl getattr };
 
+# Allow fde_app_t domain to write on cache_t files
+allow fde_app_t cache_t:file write;
+
 # Allow the lvm_t domain to open and write to mtd_block_t block files
 allow lvm_t mtd_block_t:blk_file rw_file_perms;
 
@@ -92,3 +99,8 @@ allow lvm_t mmcblock_device_t:blk_file rw_file_perms;
 # Allow the lvm_t domain to open and write to ubiblock_device_t block files
 allow lvm_t ubiblock_device_t:blk_file rw_file_perms;
 
+dontaudit fde_app_t ptmx_t:chr_file { read write };
+dontaudit fde_app_t data_t:file write;
+dontaudit fde_app_t self:capability dac_override;
+dontaudit lvm_t ptmx_t:chr_file write;
+dontaudit lvm_t recovery_t:fd use;
