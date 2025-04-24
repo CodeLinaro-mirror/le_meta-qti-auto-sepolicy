@@ -1,13 +1,17 @@
-# Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear.
 
 policy_module(qavb_core, 1.0)
+
+gen_require(`
+        type ptmx_t;
+')
 
 type qavb_core_t;
 type qavb_core_exec_t;
 
 init_vendor_domain(qavb_core_t, qavb_core_exec_t)
-
+allow qavb_core_t ptmx_t:chr_file rw_chr_file_perms;
 #domain transition if started from adb shell
 transition_to_confined_domain(qavb_core_t, qavb_core_exec_t)
 
