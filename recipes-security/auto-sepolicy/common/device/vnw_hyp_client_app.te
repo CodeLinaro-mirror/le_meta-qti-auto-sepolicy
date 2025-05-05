@@ -1,4 +1,4 @@
-# Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear.
 
 policy_module(vnw_hyp_client_app, 1.0)
@@ -7,15 +7,16 @@ type vnw_hyp_client_app_t;
 type vnw_hyp_client_app_exec_t;
 
 init_vendor_domain(vnw_hyp_client_app_t, vnw_hyp_client_app_exec_t)
-
 #domain transition if started from adb shell
 transition_to_confined_domain(vnw_hyp_client_app_t, vnw_hyp_client_app_exec_t)
 
 gen_require(`
         type syslogd_runtime_t;
         type init_runtime_t;
+        type ptmx_t;
 ')
 
+allow vnw_hyp_client_app_t ptmx_t:chr_file rw_chr_file_perms;
 rw_qipcrtr_socket(vnw_hyp_client_app_t);
 logging_send_syslog_msg(vnw_hyp_client_app_t);
 

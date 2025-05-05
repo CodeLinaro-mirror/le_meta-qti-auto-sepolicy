@@ -1,4 +1,4 @@
-# Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear.
 
 policy_module(multiqavb_app, 1.0)
@@ -17,9 +17,11 @@ gen_require(`
         type sysfs_t;
         type proc_net_t;
         type proc_t;
+        type ptmx_t;
 ')
 
 logging_send_syslog_msg(multiqavb_app_t)
+allow multiqavb_app_t ptmx_t:chr_file rw_chr_file_perms;
 # To store and play recordings in data partition
 manage_user_data_files(multiqavb_app_t, data_t)
 logging_send_syslog_msg(multiqavb_app_t);
