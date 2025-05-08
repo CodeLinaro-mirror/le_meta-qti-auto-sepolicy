@@ -89,6 +89,7 @@ gen_require(`
    type node_t;
    type edgehub_etc_conf_t;
    type sdcard_t;
+   type phone_home_t;
 ')
 
 allow mount_t lxcrootfs_t:filesystem relabelfrom;
@@ -245,6 +246,7 @@ dontaudit lxc_script_app_t throttleman_etc_t:file mounton;
 dontaudit lxc_script_app_t ecall_conf_t:file mounton;
 dontaudit lxc_script_app_t gptp_etc_t:file mounton;
 dontaudit lxc_script_app_t ipa_vlan_cfg_t:file mounton;
+dontaudit lxc_script_app_t phone_home_t:file mounton;
 dontaudit lxc_script_app_t mka_supplicant_conf_t:file mounton;
 dontaudit lxc_script_app_t power_manager_conf_t:file mounton;
 dontaudit lxc_script_app_t wifi_system_data_t:dir search;
