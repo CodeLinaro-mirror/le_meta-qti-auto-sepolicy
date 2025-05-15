@@ -61,6 +61,9 @@ logging_send_syslog_msg(chrony_sock_t)
 dev_read_sysfs(chrony_sock_t)
 dev_read_urand(chrony_sock_t)
 
+# boot KPI
+access_bootkpi_node(chrony_sock_t);
+
 kernel_read_system_state(chrony_sock_t)
 
 allow chrony_sock_t chronyd_t:unix_dgram_socket sendto;
