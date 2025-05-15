@@ -25,9 +25,8 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Changes from Qualcomm Innovation Center, Inc. are provided under the following license:
-# Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
-# SPDX-License-Identifier: BSD-3-Clause-Clear
+#Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+#SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(audio_console_app, 1.0)
 type audio_console_app_t;
@@ -47,6 +46,9 @@ transition_to_confined_domain(audio_console_app_t, audio_console_app_exec_t)
 
 #Save recordings to and play files from /data partition
 manage_user_data_files(audio_console_app_t, data_t)
+
+#Allow access to /proc/sys/vm/overcommit_memory
+kernel_read_vm_overcommit_sysctl(audio_console_app_t)
 
 #Audio services
 telux_allow_audio(audio_console_app_t)
