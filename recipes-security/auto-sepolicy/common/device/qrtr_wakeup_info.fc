@@ -1,0 +1,4 @@
+# Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+/dev/qrtr-wakeup-info            -c      gen_context(system_u:object_r:qrtr_wakeup_info_device_t,s0)
