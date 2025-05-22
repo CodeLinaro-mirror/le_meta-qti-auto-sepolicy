@@ -21,7 +21,7 @@ gen_require(`
 # The script is reading /sys/devices/soc0/machine`
 # Adding dontaudit rule for suppress the denial
 dontaudit udev_t sysdevice_sysfs_t:file { open read };
-allow udev_t cpu_sysfs_t:file write;
+allow udev_t cpu_sysfs_t:file { write getattr setattr };
 allow udev_t sysfs_t:dir setattr;
 allow udev_t sysfs_t:file setattr;
 allow udev_t tmp_t:dir search;
