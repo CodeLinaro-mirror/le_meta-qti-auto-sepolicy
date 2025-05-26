@@ -73,3 +73,7 @@ gen_require(`
 
 allow qcmap_cm_t modem_monitor_t:unix_stream_socket connectto;
 allow qcmap_cm_t socket_device_t:sock_file write;
+
+# boot KPI
+access_bootkpi_node(qcmap_cm_t);
+access_bootkpi_node(dnsmasq_t);
