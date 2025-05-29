@@ -109,6 +109,7 @@ mount_copybind_file(qvirtmgr_etc_t)
 allow  setfiles_t qvirtmgr_etc_t:file { getattr };
 allow  qvirtmgr_etc_t fs_t:filesystem { associate };
 allow  unconfined_t qvirtmgr_etc_t:file { getattr open read write };
+dontaudit mount_copybind_t qvirtmgr_etc_t:file { ioctl };
 #============ sdcard =======================
 allow qvirtmgr_t mnt_t:dir { search };
 sdcard_dir_manage(qvirtmgr_t)
