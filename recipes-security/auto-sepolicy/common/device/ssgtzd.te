@@ -19,6 +19,7 @@ gen_require(`
         type syslogd_t;
         type smcinvoke_device_t;
         type unconfined_t;
+        type tmp_t;
         class service { start status };
 ')
 #============= ssgtzd_t ==============
@@ -33,6 +34,7 @@ allow ssgtzd_t ssgtzd_sock_t:sock_file { create unlink setattr};
 allow ssgtzd_t syslogd_t:unix_dgram_socket sendto;
 allow ssgtzd_t ssgtzd_etc_ta_config_t:dir { open getattr search read };
 allow ssgtzd_t ssgtzd_etc_ta_config_t:file { read getattr open };
+allow ssgtzd_t tmp_t:dir search;
 #============= unconfined_t ==============
 allow unconfined_t ssgtzd_exec_t:service { start status };
 allow unconfined_t ssgtzd_etc_ta_config_t:dir { open getattr search read };
