@@ -21,3 +21,7 @@ telux_allow_console_apps(ntn_test_app_t)
 telux_allow_ntn_config(ntn_test_app_t)
 telux_allow_ntn_data(ntn_test_app_t)
 telux_allow_satcom(ntn_test_app_t)
+
+#Allow location services and permissions
+telux_allow_loc(ntn_test_app_t)
+telux_allow_loc_data(ntn_test_app_t)
