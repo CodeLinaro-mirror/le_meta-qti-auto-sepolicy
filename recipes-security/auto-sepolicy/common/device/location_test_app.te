@@ -35,6 +35,8 @@ type location_test_app_t;
 type location_test_app_exec_t;
 type osnma_merkle_tree_xml_t;
 files_type(osnma_merkle_tree_xml_t)
+type rtcm_conf_t;
+files_type(rtcm_conf_t)
 
 #domain transition if started from init
 init_vendor_domain(location_test_app_t, location_test_app_exec_t)
@@ -50,27 +52,26 @@ gen_require(`
         type user_home_dir_t;
         type sysctl_t;
         type commplex_main_port_t;
-        type mount_copybind_t;
-        type mount_t;
+        type mxi_port_t;
 ')
 #Allow setting secondary groups
-allow location_test_app_t self:capability setgid;
-allow location_test_app_t self:process signal;
-allow location_test_app_t etc_t:file read_file_perms;
+telux_allow_console_apps(location_test_app_t)
 
-# allow read access to /etc/OSNMA_MerkleTree.xml
+# allow read access to location config files
 allow location_test_app_t osnma_merkle_tree_xml_t:file read_file_perms;
+allow location_test_app_t rtcm_conf_t:file read_file_perms;
 
 allow location_test_app_t user_home_dir_t:dir search;
 allow location_test_app_t user_home_dir_t:file { read open };
 dontaudit location_test_app_t sysctl_t:dir search;
 allow location_test_app_t self:tcp_socket { create_socket_perms listen bind accept read write connect shutdown getopt setopt};
 allow location_test_app_t commplex_main_port_t:tcp_socket name_connect;
-allow mount_copybind_t osnma_merkle_tree_xml_t:file { setattr getattr read open relabelto create write };
-allow mount_t osnma_merkle_tree_xml_t:file { getattr mounton };
-dontaudit mount_copybind_t osnma_merkle_tree_xml_t: file { ioctl };
+mount_copybind_file(osnma_merkle_tree_xml_t)
+mount_copybind_file(rtcm_conf_t)
 
 #Allow Location permissions.
 telux_allow_loc_data(location_test_app_t)
 telux_allow_loc_config(location_test_app_t)
 telux_allow_loc_consent(location_test_app_t)
+
+allow location_test_app_t mxi_port_t:tcp_socket name_connect;

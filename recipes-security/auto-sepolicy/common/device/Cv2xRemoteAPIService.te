@@ -1,0 +1,57 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(Cv2xRemoteAPIService, 1.0)
+
+type cv2x_remote_api_t;
+type cv2x_remote_api_exec_t;
+type cv2x_vsomeip_lck_file_t;
+type cv2x_vsomeip_etc_t;
+type cv2x_vsomeip_sock_file_t;
+
+files_tmp_file(cv2x_vsomeip_lck_file_t);
+files_tmp_file(cv2x_vsomeip_sock_file_t);
+
+#domain transition if started from init
+init_vendor_domain(cv2x_remote_api_t, cv2x_remote_api_exec_t)
+
+# V2x client Permissions
+telux_allow_v2x(cv2x_remote_api_t)
+
+# Data Client Permissions
+telux_allow_data(cv2x_remote_api_t)
+
+#telux_allow_group(cv2x_remote_api_t)
+
+telux_allow_cv2x_ops(cv2x_remote_api_t)
+
+telux_allow_data_call_ops(cv2x_remote_api_t)
+
+telux_allow_cv2x_flow_ops(cv2x_remote_api_t)
+
+gen_require(`
+    type node_t;
+')
+
+files_type(cv2x_vsomeip_etc_t)
+
+dev_read_urand(cv2x_remote_api_t)
+mount_copybind_file(cv2x_vsomeip_etc_t)
+corenet_udp_bind_all_unreserved_ports(cv2x_remote_api_t)
+corenet_tcp_bind_all_unreserved_ports(cv2x_remote_api_t)
+
+allow cv2x_remote_api_t node_t:tcp_socket node_bind;
+allow cv2x_remote_api_t node_t:udp_socket node_bind;
+
+allow cv2x_remote_api_t cv2x_vsomeip_sock_file_t:dir { add_name search write remove_name};
+allow cv2x_remote_api_t cv2x_vsomeip_sock_file_t:file { getattr create lock open write };
+allow cv2x_remote_api_t cv2x_vsomeip_sock_file_t:sock_file { create getattr setattr unlink write };
+files_tmp_filetrans(cv2x_remote_api_t, cv2x_vsomeip_sock_file_t, {sock_file file });
+
+allow cv2x_remote_api_t self:fifo_file { read write };
+allow cv2x_remote_api_t self:udp_socket { read create connect write getopt setopt accept bind listen shutdown };
+allow cv2x_remote_api_t self:tcp_socket { accept bind getattr listen setopt read shutdown };
+allow cv2x_remote_api_t self:unix_stream_socket connectto;
+
+allow cv2x_remote_api_t cv2x_vsomeip_lck_file_t:file { create lock open write };
+allow cv2x_remote_api_t cv2x_vsomeip_etc_t:file { open getattr read write };

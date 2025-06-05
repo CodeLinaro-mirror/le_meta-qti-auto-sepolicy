@@ -1,0 +1,10 @@
+# Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>nad-fde-app utility</summary>
+
+#######################################
+## <summary>
+##       Adds a unique selinux context for nad-fde-app. Also adds some cryptsetup related fixes.
+## </summary>
+#

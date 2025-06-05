@@ -8,13 +8,10 @@ type rbm_daemon_exec_t;
 type rbm_data_t;
 
 gen_require(`
-         type devlog_t;
-         type syslogd_t;
          type proc_t;
          type mtd_device_t;
          type socket_device_t;
          type telsdk_data_t;
-         type telsdk_etc_t;
          type sysdevice_sysfs_t;
          type telux_access_platform_ota_mgmt_t;
          type init_runtime_t;
@@ -29,13 +26,13 @@ user_data_files_type(rbm_data_t)
 manage_user_data_files(rbm_daemon_t, rbm_data_t)
 allow rbm_daemon_t self:fifo_file { getattr read write};
 rw_qipcrtr_socket(rbm_daemon_t);
-allow rbm_daemon_t devlog_t:sock_file write;
+logging_send_syslog_msg(rbm_daemon_t);
+
 allow rbm_daemon_t proc_t:file { getattr open read };
 allow rbm_daemon_t mtd_device_t:chr_file { ioctl open read write };
-allow rbm_daemon_t syslogd_t:unix_dgram_socket sendto;
 allow rbm_daemon_t socket_device_t:dir search;
 allow rbm_daemon_t telsdk_data_t:file { getattr open append };
-allow rbm_daemon_t telsdk_etc_t:file { read open };
+ro_tel_conf_file(rbm_daemon_t)
 allow rbm_daemon_t sysdevice_sysfs_t:file { read open };
 allow rbm_daemon_t telux_access_platform_ota_mgmt_t:file getattr;
 allow rbm_daemon_t init_runtime_t:dir search;

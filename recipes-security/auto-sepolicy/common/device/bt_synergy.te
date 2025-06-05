@@ -68,6 +68,7 @@ gen_require(`
       type telux_access_tel_call_info_read_t;
       type telux_access_tel_call_mgmt_t;
       type telux_access_tel_call_private_info_t;
+      type telux_access_tel_private_info_read_t;
       type telux_access_audio_voice_t;
 ')
 
@@ -99,7 +100,7 @@ allow bt_synergy_t self:socket { write read getattr create setopt setattr };
 allow bt_synergy_t self:unix_stream_socket connectto;
 
 # Allow telsdk lib linked to BT apps access to /data/vendor/telsdk/tel.log in running time
-allow bt_synergy_t telsdk_data_t:file { append open getattr };
+allow bt_synergy_t telsdk_data_t:file { append open getattr read write };
 
 # Allow telsdk lib linked to BT apps access to /etc/tel.conf in running time
 allow bt_synergy_t telsdk_etc_t:file { read open };
@@ -168,6 +169,9 @@ allow bt_synergy_t telux_access_tel_call_info_read_t:file { getattr };
 allow bt_synergy_t telux_access_tel_call_mgmt_t:file { getattr };
 allow bt_synergy_t telux_access_tel_call_private_info_t:file { getattr };
 allow bt_synergy_t telux_access_audio_voice_t:file { getattr };
+
+# Allow BT application access tel_private_info_read_t, this permission request happens during audio SSR
+allow bt_synergy_t telux_access_tel_private_info_read_t:file { getattr };
 
 # Allow BT FTM tool create socket and accept QRCT/QPSR TCP connction from remote IP device
 allow bt_synergy_t self:tcp_socket { create_socket_perms name_bind listen accept };

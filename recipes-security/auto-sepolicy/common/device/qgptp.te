@@ -45,7 +45,6 @@ gen_require(`
 	type sysfs_t;
 	type etc_t;
 	type event_device_t;
-        type mount_copybind_t;
 	type mount_t;
 	type ptmx_t;
 ')
@@ -75,8 +74,8 @@ userdebug_or_eng(`
     allow unconfined_t gptp_tmpfs_t:file { getattr rw_file_perms };
 ')
 
-allow mount_copybind_t gptp_etc_t:file { getattr setattr read open create write relabelto relabelfrom rename };
 allow mount_t gptp_etc_t:file { mounton getattr read };
+mount_copybind_file(gptp_etc_t)
 
 allow qgptp_t gptp_etc_t:file { read open getattr };
 allow qgptp_t etc_t:file read_file_perms;
@@ -96,4 +95,3 @@ allow qgptp_t event_device_t:chr_file { ioctl open read write };
 allow qgptp_t socket_device_t:dir search;
 allow qgptp_t gptp_socket_t:dir rw_dir_perms;
 allow qgptp_t gptp_socket_t:sock_file { create unlink };
-dontaudit mount_copybind_t gptp_etc_t:file { ioctl };

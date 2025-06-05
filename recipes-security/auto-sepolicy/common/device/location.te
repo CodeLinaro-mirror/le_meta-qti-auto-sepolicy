@@ -26,7 +26,7 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 # Changes from Qualcomm Innovation Center, Inc. are provided under the following license:
-# Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2022-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## Automotive specific sepolicy rules for location.
@@ -36,8 +36,6 @@
 gen_require(`
     type power_manager_daemon_t;
     type power_socket_t;
-    type qwesd_t;
-    type qwes_mink_socket_t;
     type location_test_app_t;
     type loc_socket_t;
     type node_t;
@@ -47,14 +45,7 @@ gen_require(`
     type qmux_radio_sock_t;
     type telsdk_etc_t;
     type telsdk_data_t;
-    type gptp_socket_t;
-    type gptp_tmpfs_t;
-    type qgptp_device_t;
-    type qgptp_t;
     type unreserved_port_t;
-    type user_tmp_t;
-    type mount_copybind_t;
-    type mount_t;
     type power_socket_t;
     type power_manager_daemon_t;
     type sensor_hal_daemon_tmp_t;
@@ -63,12 +54,15 @@ gen_require(`
     type ssgtzd_sock_t;
 ')
 
+type loc_idl_service_exec_t;
+
 userdebug_or_eng(`
     gen_require(`
         type unconfined_t;
     ')
-    allow loc_hald_t unconfined_t:unix_dgram_socket sendto;
-    allow loc_t unconfined_t:unix_stream_socket connectto;
+    connect_loc_hald_to_unix_sock(unconfined_t)
+    connect_loc_to_unix_sock(unconfined_t)
+    allow unconfined_t loc_idl_service_exec_t:file { execute execute_no_trans getattr map open read };
 ')
 
 # power manager access
@@ -85,20 +79,20 @@ gptp_rw_gptp_sock_file(loc_hald_t);
 gptp_rw_qgptp_device(loc_hald_t);
 gptp_rw_tmpfs_files(loc_hald_t);
 read_files_pattern(loc_hald_t, systemd_resolved_var_run_t, systemd_resolved_var_run_t)
-
-allow loc_hald_t slim_daemon_t :unix_dgram_socket sendto;
-allow loc_hald_t qwes_mink_socket_t:dir search;
-allow loc_hald_t qwes_mink_socket_t:sock_file write;
-allow loc_hald_t qwesd_t:unix_stream_socket connectto;
-allow loc_hald_t xtwifi_client_t:unix_dgram_socket sendto;
+connect_loc_hald_to_unix_sock(slim_daemon_t)
+connect_to_unix_loc_hald_sock(slim_daemon_t)
+write_qwes_mink_sock(loc_hald_t)
+connect_loc_hald_to_unix_sock(xtwifi_client_t)
+connect_to_unix_loc_hald_sock(xtwifi_client_t)
 allow loc_hald_t ssgtzd_t:unix_stream_socket connectto;
 allow loc_hald_t ssgtzd_sock_t:sock_file write;
 
 #### xtwifi_client_t ####
-allow xtwifi_client_t {xtwifi_agent_t loc_hald_t}:unix_dgram_socket sendto;
+allow xtwifi_client_t xtwifi_agent_t:unix_dgram_socket sendto;
 
 #### xtwifi_agent_t ####
-allow xtwifi_agent_t {loc_hald_t xtwifi_client_t}:unix_dgram_socket sendto;
+connect_to_unix_loc_hald_sock(xtwifi_agent_t)
+allow xtwifi_agent_t xtwifi_client_t:unix_dgram_socket sendto;
 allow { xtwifi_client_t xtwifi_agent_t } loc_t:unix_dgram_socket { read write sendto };
 
 #### engine service #####
@@ -106,11 +100,9 @@ corenet_tcp_connect_soundd_port(engine_service_t);
 corenet_tcp_connect_xen_port(engine_service_t);
 corenet_tcp_connect_http_port(engine_service_t);
 miscfiles_read_generic_certs(engine_service_t);
-allow engine_service_t qwesd_t:unix_stream_socket connectto;
-allow engine_service_t qwes_mink_socket_t:sock_file write;
+write_qwes_mink_sock(engine_service_t)
 rw_qipcrtr_socket(engine_service_t);
 allow engine_service_t loc_t:unix_dgram_socket { read write sendto };
-allow engine_service_t qwes_mink_socket_t:dir search;
 allow engine_service_t self:process signal;
 
 #### slim_daemon ####
@@ -128,7 +120,7 @@ allow slim_daemon_t system_data_t:dir search;
 dontaudit slim_daemon_t self:capability net_admin;
 sensor_dev_socket(slim_daemon_t)
 sensor_configuration_access(slim_daemon_t)
-allow slim_daemon_t { loc_hald_t lowi_server_t }:unix_dgram_socket sendto;
+allow slim_daemon_t lowi_server_t:unix_dgram_socket sendto;
 allow slim_daemon_t device_t:dir search;
 leprop_rw_props(slim_daemon_t);
 
@@ -138,6 +130,7 @@ allow edgnss_daemon_t ssgtzd_sock_t:sock_file write;
 allow edgnss_daemon_t qwes_mink_socket_t:dir search;
 allow edgnss_daemon_t qwes_mink_socket_t:sock_file write;
 allow edgnss_daemon_t qwesd_t:unix_stream_socket connectto;
+allow edgnss_daemon_t unreserved_port_t:tcp_socket name_connect;
 
 # IPC router
 allow slim_daemon_t self:qipcrtr_socket create_socket_perms;
@@ -175,18 +168,10 @@ telux_allow_data_call_ops(xtra_daemon_t)
 telux_allow_data_call_ops(edgnss_daemon_t)
 telux_allow_tel_private_info_read(xtra_daemon_t)
 telux_allow_tel_private_info_read(edgnss_daemon_t)
-allow loc_t gptp_socket_t:dir search;
-allow loc_hald_t gptp_tmpfs_t:file map;
-allow loc_t gptp_socket_t:dir search;
-allow loc_t gptp_socket_t:sock_file write;
-allow loc_t gptp_tmpfs_t:file { map open read write };
-allow loc_t qgptp_device_t:chr_file { open read write };
-allow loc_t qgptp_t:unix_stream_socket connectto;
-allow loc_t user_tmp_t:sock_file write;
-allow loc_t power_socket_t:dir search;
-allow loc_t power_manager_daemon_t:unix_stream_socket connectto;
-allow loc_t power_socket_t:sock_file write;
-
+gptp_rw_gptp_sock_file(loc_t)
+gptp_rw_tmpfs_files(loc_t)
+gptp_rw_qgptp_device(loc_t)
+userdom_wo_user_tmp_sockets(loc_t)
 #address someip realted denials from /tmp
 files_tmp_filetrans(loc_t, loc_tmp_t, {sock_file file });
 manage_sock_files_pattern(loc_t, loc_tmp_t, loc_tmp_t);
@@ -194,11 +179,8 @@ manage_files_pattern(loc_t, loc_tmp_t, loc_tmp_t);
 allow loc_t self:tcp_socket { accept listen };
 allow loc_t unreserved_port_t:tcp_socket name_bind;
 allow loc_t unreserved_port_t:udp_socket name_bind;
-allow mount_copybind_t loc_etc_t:file { create open read setattr write getattr relabelto };
-allow mount_t loc_etc_t:file { getattr mounton };
 allow loc_t sensor_hal_daemon_tmp_t:sock_file { setattr write};
-allow loc_t sensor_hal_daemon_t:unix_stream_socket { connectto };
-dontaudit mount_copybind_t loc_etc_t: file { ioctl };
+mount_copybind_file(loc_etc_t)
 #Use tafSomeipGWSvc as routing manager
 
 ifdef(`qti-nad-telaf',`
@@ -220,3 +202,8 @@ ifdef(`qti-nad-telaf',`
         allow telaf_tafSomeipGWSvc_t unconfined_t:unix_stream_socket connectto;
     ')
 ')
+
+allow loc_t loc_idl_service_exec_t:file { execute execute_no_trans map open read };
+access_power_mgr_socket(loc_t)
+
+allow lowi_server_t self:netlink_socket create_socket_perms;

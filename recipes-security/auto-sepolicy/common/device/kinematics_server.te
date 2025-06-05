@@ -108,7 +108,7 @@ allow kinematics_server_t self:capability { sys_nice setgid net_admin };
 allow kinematics_server_t self:socket { read write setopt create getattr };
 allow kinematics_server_t self:process { signal };
 
-location_client_generic_rules(kinematics_server_t);
+location_client_generic_rules_auto(kinematics_server_t);
 location_access_loc_bootkpi(kinematics_server_t);
 device_search_sockets(kinematics_server_t);
 dev_write_kmsg(kinematics_server_t);

@@ -12,6 +12,8 @@ SRC_URI += "${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm-fota', 'file://auto
 #these modules are not applicable for telematics targets
 REMOVE_MODULES ?= "adk_message_monitor adk_message_send adkcfg alljoyn allplay mediaplayer_cli mediaplayer_test qcameradaemon splitxr_service gpu iotd iotsys btdaemon button_manager demuratnservice irsc_util msdc cloudinit"
 
+ADD_MODULES ?= "cron"
+
 do_patch:append() {
     install_device_policy(d, os.path.join("auto-sepolicy", "common"))
     if os.path.exists(os.path.join(d.getVar("WORKDIR"), "auto-sepolicy", d.getVar("BASEMACHINE"))):
@@ -45,6 +47,7 @@ create_data_ubi_mounted_contexts:append() {
 
 python remove_modules_conf () {
     remove_modules = d.getVar("REMOVE_MODULES").split()
+    add_modules = d.getVar("ADD_MODULES").split()
     module_conf_name = os.path.join(d.getVar("S"), "policy", "modules.conf")
     new_file = ""
 
@@ -58,8 +61,10 @@ python remove_modules_conf () {
                 if (module_name in remove_modules):
                     new_file += module_name + ' = off\n'
                     continue
+                elif (module_name in add_modules):
+                    new_file += module_name + ' = module\n'
+                    continue
             new_file += line
-
     # Save the updated modules.conf
     with open(module_conf_name, 'w') as modules_file:
         modules_file.write(new_file)

@@ -1,0 +1,14 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+#
+# rw_netmgrd_socket
+#
+# Interface is used to access netmgrd socket for read write ops.
+#
+interface(`rw_netmgrd_socket',`
+    gen_require(`
+        type netmgrd_socket_device_t;
+    ')
+    device_rw_socket_files($1,netmgrd_socket_device_t)
+')

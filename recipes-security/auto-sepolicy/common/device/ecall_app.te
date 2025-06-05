@@ -25,8 +25,7 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Changes from Qualcomm Innovation Center are provided under the following license:
-#
+# Changes from Qualcomm Innovation Center, Inc. are provided under the following license:
 # Copyright (c) 2022, 2024 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
@@ -54,23 +53,17 @@ telux_allow_audio(ecall_app_t)
 #Location services
 telux_allow_loc(ecall_app_t)
 
-#Allow signals to this process
-allow ecall_app_t self:process signal;
+# Generic allow rule for console apps
+telux_allow_console_apps(ecall_app_t)
 
 # allow config file read operations
 allow ecall_app_t ecall_conf_t:file read_file_perms;
 
 gen_require(`
         type etc_t;
-        type mount_copybind_t;
-        type mount_t;
 ')
-#Allow setting secondary groups
-allow ecall_app_t self:capability setgid;
-allow ecall_app_t etc_t:file read_file_perms;
-allow mount_copybind_t ecall_conf_t:file { setattr getattr read open relabelto create write };
-allow mount_t ecall_conf_t:file { getattr mounton };
-dontaudit mount_copybind_t ecall_conf_t: file { ioctl };
+
+mount_copybind_file(ecall_conf_t)
 
 # Provide access for necessary SDK APIs
 telux_allow_tel_multisim_mgmt(ecall_app_t)

@@ -1,4 +1,4 @@
-#  Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+#  Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #  SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(telux_config_server, 1.0)
@@ -19,10 +19,6 @@ transition_to_confined_domain(telux_config_server_t, telux_config_server_exec_t)
 # Permissions required for telsdk config file access
 access_telux_files(telux_config_server_t)
 
-# Permission required for a QCSI application.
-allow telux_config_server_t self:socket create_socket_perms;
-device_search_sockets(telux_config_server_t);
-
 # Signalling for ssr whenever required
 allow telux_config_server_t self:process signal;
 
@@ -30,4 +26,4 @@ allow telux_config_server_t self:process signal;
 allow telux_config_server_t self:fifo_file rw_fifo_file_perms;
 
 # Allow config service to write/read/create/getattr on qipcrtr socket
-allow telux_config_server_t self:qipcrtr_socket { write read create getattr };
+rw_qipcrtr_socket(telux_config_server_t)

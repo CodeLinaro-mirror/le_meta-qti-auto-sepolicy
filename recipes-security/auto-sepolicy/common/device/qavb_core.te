@@ -15,14 +15,9 @@ allow qavb_core_t ptmx_t:chr_file rw_chr_file_perms;
 #domain transition if started from adb shell
 transition_to_confined_domain(qavb_core_t, qavb_core_exec_t)
 
-gen_require(`
-        type devlog_t;
-')
-
 logging_send_syslog_msg(qavb_core_t)
 
 rw_qipcrtr_socket(qavb_core_t);
-allow qavb_core_t devlog_t:sock_file write;
+logging_send_syslog_msg(qavb_core_t);
 allow qavb_core_t self:tcp_socket { create };
-allow qavb_core_t syslogd_t:unix_dgram_socket sendto;
 allow qavb_core_t self:udp_socket { create ioctl };

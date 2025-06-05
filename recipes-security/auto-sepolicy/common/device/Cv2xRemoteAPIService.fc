@@ -1,0 +1,8 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+/usr/bin/Cv2xRemoteAPIService            --         gen_context(system_u:object_r:cv2x_remote_api_exec_t,s0)
+/tmp/vsomeip.lck                         --         gen_context(system_u:object_r:cv2x_vsomeip_lck_file_t,s0)
+/etc/cv2x/commonapi4someip.ini           --         gen_context(system_u:object_r:cv2x_vsomeip_etc_t,s0)
+/etc/cv2x/vsomeip-service.json           --         gen_context(system_u:object_r:cv2x_vsomeip_etc_t,s0)
+/tmp/vsomeip-.*                          --         gen_context(system_u:object_r:cv2x_vsomeip_sock_file_t,s0)
