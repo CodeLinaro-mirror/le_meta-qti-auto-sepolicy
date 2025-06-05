@@ -1,5 +1,5 @@
-# Copyright (c) 2023-2025 Qualcomm Innovation Center, Inc. All rights reserved.
-# SPDX-License-Identifier: BSD-3-Clause-Clear.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(qavb_app, 1.0)
 
@@ -22,6 +22,7 @@ gen_require(`
         type proc_t;
         type gptp_tmpfs_t;
         type ptmx_t;
+        type socket_device_t;
 ')
 
 logging_send_syslog_msg(qavb_app_t)
@@ -45,3 +46,4 @@ allow qavb_app_t sysfs_t:lnk_file read;
 allow qavb_app_t sysfs_t:file { read open };
 allow qavb_app_t tmpfs_t:dir search;
 allow qavb_app_t proc_t:file read_file_perms;
+allow qavb_app_t socket_device_t:dir search;
