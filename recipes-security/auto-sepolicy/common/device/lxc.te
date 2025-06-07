@@ -270,3 +270,7 @@ allow lxc_script_app_t tmpfs_t:dir getattr;
 allow lxc_script_app_t proc_net_t:file { getattr open };
 allow lxc_script_app_t self:capability net_raw;
 allow lxc_script_app_t self:rawip_socket { create setopt write read };
+allow lxc_script_app_t self:capability sys_ptrace;
+allow lxc_script_app_t edgehub_etc_conf_t:file mounton;
+allow lxc_script_app_t phone_home_t:file mounton;
+allow lxc_script_app_t self:netlink_audit_socket { create nlmsg_relay read write };
