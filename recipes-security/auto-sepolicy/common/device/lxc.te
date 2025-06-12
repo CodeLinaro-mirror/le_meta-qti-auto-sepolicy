@@ -178,7 +178,7 @@ allow lxc_script_app_t tmpfs_t:filesystem { getattr mount remount unmount };
 allow lxc_script_app_t tmpfs_t:sock_file { create setattr write getattr };
 allow lxc_script_app_t tmpfs_t:lnk_file create;
 
-allow lxc_script_app_t tty_device_t:chr_file { open write };
+allow lxc_script_app_t tty_device_t:chr_file { ioctl read open write };
 allow lxc_script_app_t urandom_device_t:chr_file { getattr ioctl open read };
 
 allow lxc_script_app_t tmp_t:dir mounton;
@@ -188,7 +188,7 @@ dontaudit lxc_script_app_t var_run_t:dir mounton;
 allow lxc_script_app_t var_t:dir mounton;
 dontaudit lxc_script_app_t kernel_t:system module_request;
 
-allow lxc_script_app_t devpts_t:chr_file { ioctl open read write getattr };
+allow lxc_script_app_t devpts_t:chr_file { setattr ioctl open read write getattr };
 allow lxc_script_app_t devpts_t:dir { ioctl search mounton };
 allow lxc_script_app_t devpts_t:filesystem { mount unmount remount };
 
@@ -253,7 +253,7 @@ dontaudit lxc_script_app_t wifi_system_data_t:dir search;
 dontaudit lxc_script_app_t wifi_system_data_t:file mounton;
 dontaudit lxc_script_app_t rtcm_conf_t:file mounton;
 dontaudit lxc_script_app_t time_delta_t:file mounton;
-dontaudit lxc_script_app_t self:capability { sys_module sys_chroot};
+dontaudit lxc_script_app_t self:capability { sys_module sys_chroot fsetid };
 dontaudit lxc_script_app_t self:capability2 { block_suspend wake_alarm };
 dontaudit lxc_script_app_t configfs_t:dir mounton;
 dontaudit lxc_script_app_t debugfs_t:dir { mounton search };
