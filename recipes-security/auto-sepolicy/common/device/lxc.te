@@ -1,4 +1,4 @@
-#Copyright (c) 2023-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+#Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 #SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(lxc, 1.0)
@@ -274,3 +274,4 @@ allow lxc_script_app_t self:capability sys_ptrace;
 allow lxc_script_app_t edgehub_etc_conf_t:file mounton;
 allow lxc_script_app_t phone_home_t:file mounton;
 allow lxc_script_app_t self:netlink_audit_socket { create nlmsg_relay read write };
+allow lxc_script_app_t self:udp_socket { connect getattr };
