@@ -48,7 +48,7 @@ dontaudit telux_power_refd_t sysctl_t:dir search;
 allow telux_power_refd_t self:capability net_bind_service;
 
 #TCP/UDP socket for NAOIP trigger
-allow telux_power_refd_t self:tcp_socket { create setopt bind listen accept node_bind name_bind read shutdown connect write shutdown };
+allow telux_power_refd_t self:tcp_socket { create setopt bind listen accept node_bind name_bind read shutdown connect write shutdown getattr getopt };
 allow telux_power_refd_t http_cache_port_t:tcp_socket { name_bind };
 allow telux_power_refd_t unreserved_port_t:tcp_socket { name_bind name_connect };
 allow telux_power_refd_t node_t:tcp_socket { node_bind };
@@ -81,6 +81,7 @@ telux_allow_power(telux_power_refd_t)
 telux_allow_data_call_ops(telux_power_refd_t)
 telux_allow_data_filter_ops(telux_power_refd_t)
 telux_allow_data(telux_power_refd_t)
+telux_allow_data_ka_offload_ops(telux_power_refd_t)
 
 #Allow CAN trigger
 allow telux_power_refd_t self:can_socket { create bind ioctl read setopt };
