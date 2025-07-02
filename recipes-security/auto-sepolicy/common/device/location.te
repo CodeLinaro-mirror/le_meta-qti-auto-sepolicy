@@ -86,6 +86,7 @@ connect_loc_hald_to_unix_sock(xtwifi_client_t)
 connect_to_unix_loc_hald_sock(xtwifi_client_t)
 allow loc_hald_t ssgtzd_t:unix_stream_socket connectto;
 allow loc_hald_t ssgtzd_sock_t:sock_file write;
+allow loc_hald_t tmp_t:dir search;
 
 #### xtwifi_client_t ####
 allow xtwifi_client_t xtwifi_agent_t:unix_dgram_socket sendto;
