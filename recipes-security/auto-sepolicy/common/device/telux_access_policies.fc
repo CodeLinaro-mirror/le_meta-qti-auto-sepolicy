@@ -74,7 +74,7 @@
 /etc/telux/permissions/telux_sensor_data_read        --  gen_context(system_u:object_r:telux_access_sensor_data_read_t,s0)
 /etc/telux/permissions/telux_sensor_privileged_ops   --  gen_context(system_u:object_r:telux_access_sensor_privileged_ops_t,s0)
 /etc/telux/permissions/telux_sensor_feature_control  --  gen_context(system_u:object_r:telux_access_sensor_feature_control_t,s0)
-
+/etc/telux/permissions/telux_sensor_motion_detection        --  gen_context(system_u:object_r:telux_access_sensor_motion_detection_t,s0)
 
 ##################################################################################################
 # Add context to the files used for controlling access to Telephony related APIs in SDK
