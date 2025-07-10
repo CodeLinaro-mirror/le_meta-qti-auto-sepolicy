@@ -115,7 +115,8 @@ type telux_access_sensor_privileged_ops_t;
 files_type(telux_access_sensor_privileged_ops_t);
 type telux_access_sensor_feature_control_t;
 files_type(telux_access_sensor_feature_control_t);
-
+type telux_access_sensor_motion_detection_t;
+files_type(telux_access_sensor_motion_detection_t);
 
 ##################################################################################################
 # Type identifiers for the files used to control access for Telephony related APIs in SDK
