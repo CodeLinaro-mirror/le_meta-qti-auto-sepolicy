@@ -1,4 +1,4 @@
-# Copyright (c) 2021 The Linux Foundation. All rights reserved.
+# Copyright (c) 2018-2020, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -24,28 +24,14 @@
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
+#
 # Changes from Qualcomm Technologies, Inc. are provided under the following license:
 # Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 gen_require(`
-	type mount_copybind_t;
-	type var_t;
-	type var_lib_t;
-	type var_spool_t;
-	type etc_t;
-	type kernel_t;
+  type dataadpl_device_t;
+  type device_t;
 ')
 
-dontaudit mount_copybind_t self:capability sys_admin;
-
-allow mount_copybind_t var_lib_t:dir { getattr search };
-allow mount_copybind_t var_spool_t:dir { getattr search };
-allow mount_copybind_t var_t:dir { write add_name create read };
-
-allow mount_t var_spool_t:dir mounton;
-allow mount_t var_t:dir { manage_dir_perms mounton };
-dontaudit mount_t etc_t:file { map };
-dontaudit mount_t kernel_t:process setsched;
-dontaudit unconfined_mount_t kernel_t:process setsched;
+rw_chr_files_pattern(qtether_t, device_t, dataadpl_device_t)
