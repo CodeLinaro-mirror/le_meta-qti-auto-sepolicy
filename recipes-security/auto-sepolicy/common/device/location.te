@@ -58,6 +58,7 @@ gen_require(`
     type mount_t;
     type power_socket_t;
     type power_manager_daemon_t;
+    type systemd_tmpfiles_t;
 ')
 
 userdebug_or_eng(`
@@ -188,4 +189,4 @@ allow loc_t unreserved_port_t:tcp_socket name_bind;
 allow loc_t unreserved_port_t:udp_socket name_bind;
 allow mount_copybind_t loc_etc_t:file { create open read setattr write getattr relabelto };
 allow mount_t loc_etc_t:file { getattr mounton };
-
+allow systemd_tmpfiles_t loc_socket_t:sock_file getattr;
