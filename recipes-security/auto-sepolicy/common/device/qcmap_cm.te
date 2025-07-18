@@ -82,6 +82,7 @@ gen_require(`
   type telsdk_etc_t;
   type qms_sock_t;
   type qms_t;
+  type init_t;
 ')
 
 allow qcmap_cm_t modem_monitor_t:unix_stream_socket connectto;
@@ -103,6 +104,7 @@ allow qcmap_cm_t qms_sock_t:sock_file write;
 dontaudit qcmap_cm_t self:capability { dac_override } ;
 allow qcmap_cm_t self:{ netlink_kobject_uevent_socket} create_socket_perms;
 allow qcmap_cm_t qcmap_var_run_t:dir watch;
+dontaudit qcmap_cm_t init_t:system { start stop };
 
 #DHCPCD Rules
 files_runtime_file(dhcpc_var_run_t)
