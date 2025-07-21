@@ -24,10 +24,10 @@
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#
+
+# Changes from Qualcomm Innovation Center, Inc. are provided under the following license:
 # Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
-
 
 policy_module(cv2x_unicast_app, 1.0)
 type cv2x_unicast_app_t;
@@ -47,7 +47,6 @@ corenet_udp_bind_generic_node(cv2x_unicast_app_t);
 corenet_udp_bind_all_unreserved_ports(cv2x_unicast_app_t);
 dev_read_sysfs(cv2x_unicast_app_t);
 kernel_read_network_state(cv2x_unicast_app_t);
-allow cv2x_unicast_app_t self:netlink_route_socket { read write bind create getattr nlmsg_read };
 allow cv2x_unicast_app_t self:udp_socket {  create bind read write connect setopt ioctl };
 
 telux_allow_cv2x_config(cv2x_unicast_app_t)

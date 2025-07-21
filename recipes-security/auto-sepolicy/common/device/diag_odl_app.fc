@@ -1,0 +1,4 @@
+# Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+/usr/bin/diag_odl_app -- gen_context(system_u:object_r:diag_odl_app_exec_t,s0)

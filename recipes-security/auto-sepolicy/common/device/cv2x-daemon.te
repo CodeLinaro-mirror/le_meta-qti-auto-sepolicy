@@ -25,7 +25,8 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Changes from Qualcomm Innovation Center, Inc. are provided under the following license:
+# Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(cv2x-daemon, 1.0)
@@ -54,8 +55,6 @@ gen_require(`
     type init_var_run_t;
     type debugfs_t;
     type socket_device_t;
-    type mount_copybind_t;
-    type mount_t;
 ')
 
 # To notify systemd service about the health of the daemon
@@ -88,6 +87,4 @@ device_manage_socket_file(cv2xd_t, cv2xIpc_sock_t, "cv2xIpc")
 allow cv2xd_t self:unix_stream_socket { listen accept };
 allow cv2xd_t self:udp_socket { ioctl create shutdown };
 
-allow mount_copybind_t cv2xd_etc_t:file { getattr relabelto setattr read open create write };
-allow mount_t cv2xd_etc_t:file { getattr mounton };
-dontaudit mount_copybind_t cv2xd_etc_t: file { ioctl };
+mount_copybind_file(cv2xd_etc_t)

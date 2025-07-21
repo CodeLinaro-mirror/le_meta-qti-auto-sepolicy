@@ -35,7 +35,7 @@
 
 /dev/mtdblock[0-9]+     -b   gen_context(system_u:object_r:mtd_block_t,s0)
 
-/dev/ubiblock0_[0-9]+   -b   gen_context(system_u:object_r:ubiblock_device_t,mls_systemhigh)
+/dev/ubiblock0_[0-9]+   -b   gen_context(system_u:object_r:ubiblock_device_t,s0)
 
 /dev/mmcblk0p[0-9]+     -b   gen_context(system_u:object_r:mmcblock_device_t,s0)
 

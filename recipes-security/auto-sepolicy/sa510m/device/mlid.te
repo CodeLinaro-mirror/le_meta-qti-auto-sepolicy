@@ -41,6 +41,7 @@ init_vendor_domain(mlid_t, mlid_exec_t)
 gen_require(`
     type lowi_server_t;
     type sysctl_t;
+    type tmp_t;
 ')
 
 dev_node(mlid_sock_t)
@@ -52,3 +53,4 @@ allow mlid_t self:{ socket netlink_generic_socket unix_dgram_socket } create_soc
 allow mlid_t { self lowi_server_t }:unix_dgram_socket sendto;
 allow mlid_t self:unix_stream_socket { accept connectto listen };
 allow mlid_t sysctl_t:dir search;
+dontaudit mlid_t tmp_t:dir search;

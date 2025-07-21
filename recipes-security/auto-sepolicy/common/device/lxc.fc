@@ -1,2 +1,8 @@
-#Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+#Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #SPDX-License-Identifier: BSD-3-Clause-Clear
+
+/etc/initscripts/container_launch.sh   gen_context(system_u:object_r:lxc_script_app_exec_t,s0)
+/tmp/container_logs(/.*)?              gen_context(system_u:object_r:lxc_tmp_t,s0)
+/data/lxc_rw(/.*)?                     gen_context(system_u:object_r:lxc_data_t,s0)
+/etc/lxc(/.*)?                         gen_context(system_u:object_r:lxc_conf_etc_t,s0)
+/var/run/lxc(/.*)?                     gen_context(system_u:object_r:lxc_var_run_t,s0)

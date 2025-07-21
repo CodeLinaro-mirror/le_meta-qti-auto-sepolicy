@@ -3,8 +3,16 @@
 
 ## <summary>QMS daemon</summary>
 
-#######################################
-## <summary>
-## QMS daemon
-## </summary>
 #
+#
+# qms_sock_write_conn:
+#
+# Interface used to access qms socket for write operation.
+interface(`qms_sock_write_conn',`
+    gen_require(`
+        type qms_t;
+        type qms_sock_t;
+    ')
+    allow $1 qms_t:unix_stream_socket connectto;
+    allow $1 qms_sock_t:sock_file write;
+')

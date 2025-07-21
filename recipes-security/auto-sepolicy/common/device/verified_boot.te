@@ -5,6 +5,9 @@ policy_module(verified_boot, 1.0)
 
 type verified_boot_t;
 type verified_boot_exec_t;
+# Define a new type for the specific file
+type verified_boot_x509_t;
+files_type(verified_boot_x509_t);
 
 gen_require(`
     type sysfs_t;
@@ -18,6 +21,8 @@ gen_require(`
     type ubiblock_device_t;
     type debugfs_t;
     type mmcblock_device_t;
+    type cert_t;
+    type etc_t;
 ')
 
 init_vendor_domain(verified_boot_t, verified_boot_exec_t);
@@ -27,9 +32,15 @@ mls_file_write_all_levels(verified_boot_t);
 
 dev_rw_kmsg(verified_boot_t);
 
+# rules required for verified-boot
 allow verified_boot_t ubiblock_device_t:blk_file { read write getattr open ioctl };
 allow verified_boot_t mmcblock_device_t:blk_file { read write getattr open ioctl };
+dontaudit verified_boot_t cert_t:dir { search };
 allow verified_boot_t shell_exec_t:file { read execute open execute_no_trans };
+
+# Allow verified_boot_t to read the specific file type
+allow verified_boot_t verified_boot_x509_t:file { read open };
+dontaudit verified_boot_t verified_boot_x509_t:file { getattr };
 
 # rules required for veritysetup
 allow verified_boot_t debugfs_t:dir search;

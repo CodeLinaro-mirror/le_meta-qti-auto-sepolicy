@@ -47,16 +47,11 @@ gen_require(`
   type default_t;
   type ion_device_t;
   type etc_t;
-  type mount_t;
-  type mount_copybind_t;
 ')
 
 dontaudit throttleman_t default_t:dir search;
 read_files_pattern(throttleman_t, etc_t, etc_t);
-access_telux_files(throttleman_t);
-telux_allow_qmi_client(throttleman_t);
-telux_allow_group(throttleman_t);
-
+telux_allow_thermalmanager(throttleman_t)
 allow throttleman_t throttleman_etc_t:file { open read getattr };
 allow throttleman_t self:capability {setgid};
 logging_send_syslog_msg(throttleman_t);
@@ -66,9 +61,7 @@ allow throttleman_t throttleman_socket_t:sock_file { read create write getattr }
 rw_chr_files_pattern(throttleman_t, device_t, ion_device_t);
 allow throttleman_t throttleman_t:unix_stream_socket{ listen accept };
 # copybind /etc/tm.conf to /systemrw/tm.conf
-allow mount_copybind_t throttleman_etc_t:file { setattr getattr read open relabelto create write };
-allow mount_t throttleman_etc_t:file { getattr mounton };
-dontaudit mount_copybind_t throttleman_etc_t:file { ioctl };
+mount_copybind_file(throttleman_etc_t)
 # Obtain required permission in terms of API access control
 telux_allow_therm_data_read(throttleman_t)
 

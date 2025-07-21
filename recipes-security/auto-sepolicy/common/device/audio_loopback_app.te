@@ -1,4 +1,4 @@
-#Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+#Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 #SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(audio_loopback_app, 1.0)
@@ -13,6 +13,8 @@ transition_to_confined_domain(audio_loopback_app_t, audio_loopback_app_exec_t)
 
 #Audio services
 telux_allow_audio(audio_loopback_app_t)
+
+telux_allow_console_apps(audio_loopback_app_t)
 
 #For logging
 allow audio_loopback_app_t self:capability setgid;

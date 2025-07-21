@@ -27,7 +27,7 @@
 
 # Changes from Qualcomm Innovation Center are provided under the following license:
 #
-# Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(qgptp, 1.0)
@@ -45,8 +45,8 @@ gen_require(`
 	type sysfs_t;
 	type etc_t;
 	type event_device_t;
-        type mount_copybind_t;
-        type mount_t;
+	type mount_t;
+	type ptmx_t;
 ')
 
 type qgptp_device_t;
@@ -65,6 +65,8 @@ logging_send_syslog_msg(qgptp_t)
 mls_file_read_all_levels(qgptp_t)
 mls_file_write_all_levels(qgptp_t)
 
+allow qgptp_t ptmx_t:chr_file rw_chr_file_perms;
+
 userdebug_or_eng(`
 	gen_require(`
 	    type unconfined_t;
@@ -72,12 +74,12 @@ userdebug_or_eng(`
     allow unconfined_t gptp_tmpfs_t:file { getattr rw_file_perms };
 ')
 
-allow mount_copybind_t gptp_etc_t:file { getattr setattr read open create write };
 allow mount_t gptp_etc_t:file { mounton getattr read };
+mount_copybind_file(gptp_etc_t)
 
 allow qgptp_t gptp_etc_t:file { read open getattr };
 allow qgptp_t etc_t:file read_file_perms;
-allow qgptp_t self:capability { net_raw net_admin chown };
+allow qgptp_t self:capability { net_raw net_admin chown sys_time};
 allow qgptp_t self:netlink_route_socket { read bind create };
 allow qgptp_t self:packet_socket create_socket_perms;
 allow qgptp_t self:tcp_socket { create ioctl };
@@ -93,4 +95,3 @@ allow qgptp_t event_device_t:chr_file { ioctl open read write };
 allow qgptp_t socket_device_t:dir search;
 allow qgptp_t gptp_socket_t:dir rw_dir_perms;
 allow qgptp_t gptp_socket_t:sock_file { create unlink };
-dontaudit mount_copybind_t gptp_etc_t:file { ioctl };

@@ -1,4 +1,4 @@
-#Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+#Copyright (c) 2023-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 #SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(lxc, 1.0)
@@ -6,7 +6,267 @@ policy_module(lxc, 1.0)
 type lxcrootfs_t;
 files_mountpoint(lxcrootfs_t)
 
+type lxc_script_app_exec_t;
+type lxc_script_app_t;
+type lxc_tmp_t;
+type lxc_data_t;
+type lxc_conf_etc_t;
+type lxc_var_run_t;
+
 gen_require(`
    type mount_t;
+   type boot_kpi_values_t;
+   type usb_dev_t;
+   type data_t;
+   type unconfined_t;
+   type cgroup_t;
+   type fs_t;
+   type ifconfig_exec_t;
+   type init_t;
+   type lxcrootfs_t;
+   type nsfs_t;
+   type proc_net_t;
+   type sysctl_kernel_t;
+   type sysctl_t;
+   type tmpfs_t;
+   type tty_device_t;
+   type urandom_device_t;
+   type sysfs_t;
+   type system_data_t;
+   type telsdk_etc_t;
+   type tmp_t;
+   type tracefs_t;
+   type unlabeled_t;
+   type var_run_t;
+   type var_t;
+   type kernel_t;
+   type loc_etc_t;
+   type osnma_merkle_tree_xml_t;
+   type persist_t;
+   type proc_t;
+   type qcmap_etc_data_t;
+   type qits_etc_t;
+   type qmi_fw_conf_t;
+   type root_t;
+   type rsp_httpd_conf_t;
+   type security_t;
+   type ecall_conf_t;
+   type firmware_t;
+   type functionfs_t;
+   type gptp_etc_t;
+   type init_runtime_t;
+   type ipa_vlan_cfg_t;
+   type adbd_system_data_t;
+   type bpf_t;
+   type chronyd_conf_t;
+   type configfs_t;
+   type debugfs_t;
+   type device_t;
+   type cv2xd_etc_t;
+   type audio_hal_etc_t;
+   type devpts_t;
+   type lib_t;
+   type mka_supplicant_conf_t;
+   type mnt_t;
+   type power_manager_conf_t;
+   type selinux_config_t;
+   type semanage_store_t;
+   type sensor_hal_daemon_conf_t;
+   type sensor_hal_daemon_etc_t;
+   type sensor_util_t;
+   type telsdk_console_app_conf_t;
+   type telux_chrony_sock_conf_t;
+   type telux_power_refd_conf_t;
+   type throttleman_etc_t;
+   type var_lib_t;
+   type wifi_system_data_t;
+   type sysctl_net_t;
+   type rtcm_conf_t;
+   type time_delta_t;
+   type user_devpts_t;
+   type ptmx_t;
+   type unreserved_port_t;
+   type node_t;
+   type edgehub_etc_conf_t;
+   type sdcard_t;
+   type phone_home_t;
 ')
+
 allow mount_t lxcrootfs_t:filesystem relabelfrom;
+init_script_domain(lxc_script_app_t, lxc_script_app_exec_t)
+user_data_files_type(lxc_data_t)
+manage_user_data_files(lxc_script_app_t, lxc_data_t)
+allow lxc_script_app_t lxc_data_t:dir { read remove_name add_name create getattr search setattr write };
+files_tmp_file(lxc_tmp_t);
+files_tmp_filetrans(lxc_script_app_t, lxc_tmp_t, { file dir })
+files_type(lxc_conf_etc_t)
+allow lxc_script_app_t lxc_tmp_t:dir { add_name create open read remove_name search write getattr rmdir };
+allow lxc_script_app_t lxc_tmp_t:file { append create getattr lock open read unlink write };
+allow lxc_script_app_t lxc_conf_etc_t:dir search;
+allow lxc_script_app_t lxc_conf_etc_t:file { getattr open read };
+files_runtime_file(lxc_var_run_t)
+files_runtime_filetrans(lxc_script_app_t, lxc_var_run_t, { file dir })
+allow lxc_script_app_t lxc_var_run_t:dir { add_name create search write };
+allow lxc_script_app_t lxc_var_run_t:file { create lock open read write unlink };
+mls_file_write_all_levels(lxc_script_app_t)
+mls_file_read_all_levels(lxc_script_app_t)
+dev_write_kmsg(lxc_script_app_t)
+allow lxc_script_app_t boot_kpi_values_t:file { getattr append open };
+#this is required to work lxc-attach and this should be removed
+#once container application is fully function and if user wants to connect to container
+#use lxc-console command once lxc-attach is disbaled
+allow unconfined_t lxc_script_app_t:process transition;
+allow lxc_script_app_t cgroup_t:dir { add_name create ioctl open read search write mounton getattr remove_name rmdir};
+allow lxc_script_app_t cgroup_t:file { getattr open read write };
+allow lxc_script_app_t cgroup_t:filesystem { getattr mount unmount };
+allow lxc_script_app_t root_t:dir mounton;
+allow lxc_script_app_t proc_t:dir { mounton read };
+dontaudit lxc_script_app_t persist_t:dir mounton;
+dontaudit lxc_script_app_t security_t:dir mounton;
+allow lxc_script_app_t self:rawip_socket { create setopt write read };
+allow lxc_script_app_t proc_t:filesystem { getattr mount remount unmount };
+allow lxc_script_app_t proc_t:file { getattr open read };
+allow lxc_script_app_t fs_t:filesystem { getattr mount remount unmount };
+
+#required for telaf container
+allow lxc_script_app_t data_t:dir mounton;
+dontaudit lxc_script_app_t usb_dev_t:dir search;
+allow lxc_script_app_t ifconfig_exec_t:file { execute execute_no_trans map open read };
+
+allow lxc_script_app_t init_t:dir search;
+allow lxc_script_app_t init_t:file { getattr open read };
+
+allow lxc_script_app_t lxcrootfs_t:lnk_file { getattr read };
+allow lxc_script_app_t lxcrootfs_t:chr_file { create getattr setattr unlink };
+allow lxc_script_app_t lxcrootfs_t:dir { getattr open read search add_name create mounton setattr write remove_name rename reparent rmdir };
+allow lxc_script_app_t lxcrootfs_t:file { execute execute_no_trans getattr setattr map open read entrypoint create lock mounton link unlink write rename };
+allow lxc_script_app_t lxcrootfs_t:filesystem { getattr unmount remount };
+
+allow lxc_script_app_t nsfs_t:file { getattr open read };
+allow lxc_script_app_t proc_net_t:file read;
+
+allow lxc_script_app_t self:capability { chown dac_override dac_read_search mknod net_admin setgid setuid sys_admin sys_nice sys_resource sys_boot kill };
+allow lxc_script_app_t self:fifo_file { getattr ioctl read write };
+allow lxc_script_app_t self:netlink_route_socket { bind create nlmsg_read nlmsg_write getattr read setopt write shutdown };
+allow lxc_script_app_t self:process { setsched signull getcap setcap setrlimit };
+allow lxc_script_app_t self:sem { associate create read unix_write write destroy };
+allow lxc_script_app_t self:shm { associate create read unix_read unix_write write destroy };
+allow lxc_script_app_t self:udp_socket { create ioctl setopt getopt read write bind };
+allow lxc_script_app_t self:tcp_socket { create ioctl setopt getopt read write bind shutdown getattr connect };
+allow lxc_script_app_t self:unix_stream_socket connectto;
+allow lxc_script_app_t unreserved_port_t:{ udp_socket tcp_socket }{ name_bind };
+allow lxc_script_app_t unreserved_port_t:tcp_socket { name_connect };
+allow lxc_script_app_t node_t:{ udp_socket tcp_socket } { node_bind };
+allow lxc_script_app_t lxc_data_t:chr_file { unlink };
+
+allow lxc_script_app_t sysctl_kernel_t:dir search;
+allow lxc_script_app_t sysctl_kernel_t:file { getattr open read mounton };
+allow lxc_script_app_t sysctl_t:dir { open read search mounton };
+allow lxc_script_app_t sysctl_t:file { open read mounton };
+
+allow lxc_script_app_t sysfs_t:file { getattr open read };
+allow lxc_script_app_t sysfs_t:lnk_file read;
+allow lxc_script_app_t sysfs_t:dir { read mounton };
+allow lxc_script_app_t sysfs_t:filesystem { mount unmount };
+
+allow lxc_script_app_t system_data_t:dir mounton;
+
+allow lxc_script_app_t tmpfs_t:chr_file { create getattr open read write ioctl };
+allow lxc_script_app_t tmpfs_t:dir { open read add_name create mounton write search };
+allow lxc_script_app_t tmpfs_t:file { create setattr getattr open map read write mounton };
+allow lxc_script_app_t tmpfs_t:filesystem { getattr mount remount unmount };
+allow lxc_script_app_t tmpfs_t:sock_file { create setattr write getattr };
+allow lxc_script_app_t tmpfs_t:lnk_file create;
+
+allow lxc_script_app_t tty_device_t:chr_file { open write };
+allow lxc_script_app_t urandom_device_t:chr_file { getattr ioctl open read };
+
+allow lxc_script_app_t tmp_t:dir mounton;
+dontaudit lxc_script_app_t tracefs_t:dir mounton;
+dontaudit lxc_script_app_t unlabeled_t:dir mounton;
+dontaudit lxc_script_app_t var_run_t:dir mounton;
+allow lxc_script_app_t var_t:dir mounton;
+dontaudit lxc_script_app_t kernel_t:system module_request;
+
+allow lxc_script_app_t devpts_t:chr_file { ioctl open read write getattr };
+allow lxc_script_app_t devpts_t:dir { ioctl search mounton };
+allow lxc_script_app_t devpts_t:filesystem { mount unmount remount };
+
+dontaudit lxc_script_app_t firmware_t:dir mounton;
+dontaudit lxc_script_app_t functionfs_t:dir mounton;
+dontaudit lxc_script_app_t init_runtime_t:file mounton;
+
+allow lxc_script_app_t device_t:filesystem { getattr remount unmount };
+allow lxc_script_app_t lib_t:dir mounton;
+allow lxc_script_app_t mnt_t:dir search;
+dontaudit lxc_script_app_t selinux_config_t:dir mounton;
+allow lxc_script_app_t sysctl_net_t:dir { mounton open read };
+allow lxc_script_app_t var_lib_t:dir search;
+
+ifdef(`qti-nad-telaf',`
+    gen_require(`
+        type telaf_fw_t;
+        type telaf_app_bundle_t;
+        type telaf_app_rw_t;
+        type telaf_sys_t;
+    ')
+
+    allow lxc_script_app_t telaf_fw_t:dir { mounton search };
+    allow lxc_script_app_t telaf_sys_t:dir { search };
+
+    allow lxc_script_app_t telaf_app_bundle_t:dir mounton;
+    allow lxc_script_app_t telaf_app_rw_t:dir mounton;
+    allow lxc_script_app_t telaf_sys_t:dir mounton;
+')
+
+rw_chr_files_pattern(lxc_script_app_t, device_t, ptmx_t);
+
+dontaudit lxc_script_app_t bpf_t:dir mounton;
+dontaudit lxc_script_app_t semanage_store_t:dir mounton;
+dontaudit lxc_script_app_t adbd_system_data_t:file mounton;
+dontaudit lxc_script_app_t loc_etc_t:file mounton;
+dontaudit lxc_script_app_t osnma_merkle_tree_xml_t:file mounton;
+dontaudit lxc_script_app_t sensor_hal_daemon_conf_t:file mounton;
+dontaudit lxc_script_app_t sensor_hal_daemon_etc_t:file mounton;
+dontaudit lxc_script_app_t sensor_util_t:dir search;
+dontaudit lxc_script_app_t sensor_util_t:file mounton;
+dontaudit lxc_script_app_t chronyd_conf_t:file mounton;
+dontaudit lxc_script_app_t cv2xd_etc_t:file mounton;
+dontaudit lxc_script_app_t telsdk_etc_t:file mounton;
+dontaudit lxc_script_app_t rsp_httpd_conf_t:file mounton;
+dontaudit lxc_script_app_t qcmap_etc_data_t:dir search;
+dontaudit lxc_script_app_t qcmap_etc_data_t:file mounton;
+dontaudit lxc_script_app_t qits_etc_t:file mounton;
+dontaudit lxc_script_app_t qmi_fw_conf_t:file mounton;
+dontaudit lxc_script_app_t audio_hal_etc_t:file mounton;
+dontaudit lxc_script_app_t telsdk_console_app_conf_t:file mounton;
+dontaudit lxc_script_app_t telux_chrony_sock_conf_t:file mounton;
+dontaudit lxc_script_app_t telux_power_refd_conf_t:file mounton;
+dontaudit lxc_script_app_t throttleman_etc_t:file mounton;
+dontaudit lxc_script_app_t ecall_conf_t:file mounton;
+dontaudit lxc_script_app_t gptp_etc_t:file mounton;
+dontaudit lxc_script_app_t ipa_vlan_cfg_t:file mounton;
+dontaudit lxc_script_app_t phone_home_t:file mounton;
+dontaudit lxc_script_app_t mka_supplicant_conf_t:file mounton;
+dontaudit lxc_script_app_t power_manager_conf_t:file mounton;
+dontaudit lxc_script_app_t wifi_system_data_t:dir search;
+dontaudit lxc_script_app_t wifi_system_data_t:file mounton;
+dontaudit lxc_script_app_t rtcm_conf_t:file mounton;
+dontaudit lxc_script_app_t time_delta_t:file mounton;
+dontaudit lxc_script_app_t self:capability { sys_module sys_chroot};
+dontaudit lxc_script_app_t self:capability2 { block_suspend wake_alarm };
+dontaudit lxc_script_app_t configfs_t:dir mounton;
+dontaudit lxc_script_app_t debugfs_t:dir { mounton search };
+dontaudit lxc_script_app_t device_t:dir mounton;
+dontaudit lxc_script_app_t edgehub_etc_conf_t:file mounton;
+dontaudit lxc_script_app_t sdcard_t:dir mounton;
+
+allow lxc_script_app_t unconfined_t:fd use;
+allow lxc_script_app_t user_devpts_t:chr_file { read write getattr ioctl };
+allow lxc_script_app_t kernel_t:system syslog_read;
+allow lxc_script_app_t self:capability2 syslog;
+allow lxc_script_app_t self:process { setpgid signal sigkill};
+allow lxc_script_app_t tmpfs_t:dir getattr;
+allow lxc_script_app_t proc_net_t:file { getattr open };
+allow lxc_script_app_t self:capability net_raw;
+allow lxc_script_app_t self:rawip_socket { create setopt write read };

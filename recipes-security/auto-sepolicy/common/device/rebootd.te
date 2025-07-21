@@ -63,8 +63,10 @@ gen_require(`
     type init_t;
     type system_dbusd_var_run_t;
     type power_unit_t;
+    type proc_t;
     class service {status};
 ')
 dontaudit rebootd_t init_t:unix_stream_socket connectto;
 dontaudit rebootd_t system_dbusd_var_run_t:dir search;
 dontaudit rebootd_t power_unit_t:service status;
+dontaudit rebootd_t proc_t:filesystem getattr;

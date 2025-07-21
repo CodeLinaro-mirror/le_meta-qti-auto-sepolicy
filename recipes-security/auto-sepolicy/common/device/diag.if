@@ -1,0 +1,58 @@
+# Copyright (c) 2024-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+#
+# sdcard_sym_link:
+#
+# Interface used to give read permission to sdcard symlink file
+interface(`sdcard_sym_link',`
+    gen_require(`
+        type sdcard_t;
+    ')
+    allow $1 sdcard_t:lnk_file read;
+')
+
+#
+# sdcard_filesys_attr
+#
+# get attributes of files labeled with sdcard_t.
+interface(`sdcard_filesys_attr',`
+    gen_require(`
+        type sdcard_t;
+    ')
+    allow $1 sdcard_t:filesystem getattr;
+')
+
+#
+# sdcard_dir_manage
+#
+# With this interface we can create/read/open a sdcard directory and a file
+interface(`sdcard_dir_manage',`
+    gen_require(`
+        type sdcard_t;
+    ')
+    allow $1 sdcard_t:dir { create write search read open add_name getattr};
+    allow $1 sdcard_t:file { create write open read getattr unlink };
+')
+
+#
+# sdcard_rm_dir
+#
+# By this interface we can remove a directory or a name.
+interface(`sdcard_rm_dir',`
+    gen_require(`
+        type sdcard_t;
+    ')
+    allow $1 sdcard_t:dir { remove_name rmdir };
+')
+
+#
+# can_exec_diag
+#
+# Allows an application to execute diag_mdlog
+interface(`can_exec_diag',`
+    gen_require(`
+        type diag_exec_t;
+    ')
+    can_exec($1, diag_exec_t);
+')

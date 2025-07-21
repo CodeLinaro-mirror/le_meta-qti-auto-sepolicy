@@ -47,26 +47,18 @@ gen_require(`
   type unconfined_t;
   type default_t;
   type mount_t;
-  type mount_copybind_t;
   type proc_t;
-  type gptp_socket_t;
-  type qgptp_t;
-  type gptp_tmpfs_t;
   type loc_socket_t;
-  type loc_hald_t;
   type urandom_device_t;
   type tmpfs_t;
   type boot_kpi_values_t;
   type loc_etc_t;
   type loc_data_t;
-  type user_tmp_t;
-  type qgptp_device_t;
   type node_t;
   type proc_net_t;
   type sysctl_t;
   type unreserved_port_t;
   type system_data_t;
-  type loc_t;
   type loc_tmp_t;
   type leprop_sock_t;
   type leprop_t;
@@ -80,20 +72,15 @@ userdebug_or_eng(`
 
 allow sensor_hal_daemon_t proc_t:file { read getattr open };
 allow sensor_hal_daemon_t self:process signal;
-allow mount_copybind_t sensor_util_rw_t:file { getattr relabelto setattr read open };
-allow mount_t sensor_util_rw_t:file { getattr mounton };
+mount_copybind_file(sensor_util_rw_t)
 allow sensor_util_rw_t fs_t:filesystem associate;
 
-# Non Functional denials
-dontaudit mount_copybind_t sensor_hal_daemon_conf_t:file { ioctl };
-dontaudit mount_copybind_t sensor_util_t:file { ioctl };
-dontaudit mount_copybind_t sensor_hal_daemon_etc_t:file { ioctl };
-
+mount_copybind_file(sensor_util_t)
 # Adding unique context to /etc/sensorhal
 allow mount_t sensor_util_t:dir search;
 allow setfiles_t sensor_util_t:dir search;
 allow unconfined_t sensor_util_t:dir { read getattr open search };
-allow mount_copybind_t sensor_util_t:dir list_dir_perms;
+mount_copybind_dir(sensor_util_t)
 allow sensor_hal_daemon_t system_data_t:dir { watch watch_reads };
 dontaudit init_t sensor_util_t:dir search;
 
@@ -101,7 +88,6 @@ typeattribute sensor_util_t sensor_util_rw_t;
 
 dontaudit init_t sensor_util_t:file write;
 rw_qipcrtr_socket(sensor_hal_daemon_t);
-allow mount_copybind_t sensor_util_t:file { write create};
 allow sensor_hal_daemon_t self:socket { write read getattr create setopt };
 allow sensor_hal_daemon_t sensor_hal_daemon_socket_t:file { write create unlink open getattr };
 allow sensor_hal_daemon_t default_t:dir search;
@@ -129,11 +115,9 @@ allow sensor_hal_daemon_t sensor_hal_daemon_socket_t:dir { search write add_name
 allow sensor_hal_daemon_t sensor_hal_daemon_socket_t:sock_file { create unlink };
 
 #someip related denials
-allow sensor_hal_daemon_t gptp_socket_t:dir search;
-allow sensor_hal_daemon_t gptp_socket_t:sock_file { create write read getattr open};
-allow sensor_hal_daemon_t gptp_tmpfs_t:file { read write map open};
-allow sensor_hal_daemon_t qgptp_t:unix_stream_socket connectto;
-allow sensor_hal_daemon_t qgptp_device_t:chr_file { open read write };
+gptp_rw_gptp_sock_file(sensor_hal_daemon_t)
+gptp_rw_tmpfs_files(sensor_hal_daemon_t)
+gptp_rw_qgptp_device(sensor_hal_daemon_t)
 allow sensor_hal_daemon_t self:netlink_route_socket { bind create nlmsg_read read write };
 allow sensor_hal_daemon_t self:capability net_admin;
 allow sensor_hal_daemon_t self:tcp_socket { accept bind create getattr listen read setopt shutdown write };
@@ -147,34 +131,32 @@ allow sensor_hal_daemon_t loc_etc_t:file { create write read open getattr };
 allow sensor_hal_daemon_t loc_data_t:dir search;
 allow sensor_hal_daemon_t loc_socket_t:dir { write search getattr add_name };
 allow sensor_hal_daemon_t loc_socket_t:sock_file { create setattr write };
-allow sensor_hal_daemon_t loc_hald_t:unix_dgram_socket { sendto };
-allow loc_hald_t sensor_hal_daemon_t:unix_dgram_socket { sendto };
+connect_to_unix_loc_hald_sock(sensor_hal_daemon_t)
+connect_loc_hald_to_unix_sock(sensor_hal_daemon_t)
 allow sensor_hal_daemon_t node_t:tcp_socket node_bind;
 allow sensor_hal_daemon_t node_t:udp_socket node_bind;
 allow sensor_hal_daemon_t unreserved_port_t:tcp_socket name_bind;
 allow sensor_hal_daemon_t unreserved_port_t:udp_socket name_bind;
-allow sensor_hal_daemon_t user_tmp_t:sock_file write;
+userdom_wo_user_tmp_sockets(sensor_hal_daemon_t)
 allow sensor_hal_daemon_t proc_net_t:file read;
 allow sensor_hal_daemon_t sysctl_t:dir search;
 allow sensor_hal_daemon_t sensor_hal_daemon_etc_t:file { open getattr read };
 allow sensor_hal_daemon_t urandom_device_t:chr_file { open read };
 allow sensor_hal_daemon_t sensor_util_t:file write;
-allow sensor_hal_daemon_t boot_kpi_values_t:file getattr;
-allow mount_copybind_t sensor_hal_daemon_etc_t:file { getattr read open create write setattr };
+allow sensor_hal_daemon_t boot_kpi_values_t:file { append getattr open write};
+mount_copybind_file(sensor_hal_daemon_etc_t)
 allow sensor_hal_daemon_etc_t fs_t:filesystem { associate };
 allow setfiles_t sensor_hal_daemon_etc_t:file { getattr };
-allow mount_copybind_t sensor_hal_daemon_conf_t:file { create open read getattr setattr write };
-allow mount_t sensor_hal_daemon_etc_t:file { getattr mounton };
-allow mount_t sensor_hal_daemon_conf_t:file { getattr mounton };
+mount_copybind_file(sensor_hal_daemon_conf_t)
 allow sensor_hal_daemon_tmp_t tmpfs_t:filesystem associate;
 files_tmp_filetrans(sensor_hal_daemon_t, sensor_hal_daemon_tmp_t, {sock_file file });
 manage_sock_files_pattern(sensor_hal_daemon_t, sensor_hal_daemon_tmp_t, sensor_hal_daemon_tmp_t);
 manage_files_pattern(sensor_hal_daemon_t, sensor_hal_daemon_tmp_t, sensor_hal_daemon_tmp_t);
+connect_to_unix_loc_sock(sensor_hal_daemon_t)
+connect_loc_to_unix_sock(sensor_hal_daemon_t)
 allow sensor_hal_daemon_t loc_tmp_t:sock_file { write };
-allow sensor_hal_daemon_t loc_t:unix_stream_socket { connectto };
 allow sensor_hal_daemon_t leprop_sock_t:sock_file write;
 allow sensor_hal_daemon_t leprop_t:unix_stream_socket { connectto };
-allow mount_copybind_t sensor_hal_daemon_conf_t:file { rename relabelfrom relabelto };
 allow mount_copybind_t sensor_util_t:file { rename relabelfrom relabelto };
 allow systemd_tmpfiles_t sensor_hal_daemon_tmp_t:file { getattr unlink };
 allow systemd_tmpfiles_t sensor_hal_daemon_tmp_t:sock_file getattr;

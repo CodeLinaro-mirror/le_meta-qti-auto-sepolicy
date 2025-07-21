@@ -1,0 +1,38 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+interface(`connect_to_unix_loc_hald_sock',`
+    gen_require(`
+        type loc_hald_t;
+    ')
+    allow $1 loc_hald_t:unix_dgram_socket { sendto };
+')
+
+interface(`connect_loc_hald_to_unix_sock',`
+    gen_require(`
+        type loc_hald_t;
+    ')
+    allow loc_hald_t $1:unix_dgram_socket { sendto };
+')
+
+interface(`connect_to_unix_loc_sock',`
+    gen_require(`
+        type loc_t;
+    ')
+    allow $1 loc_t:unix_stream_socket { connectto };
+')
+
+interface(`connect_loc_to_unix_sock',`
+    gen_require(`
+        type loc_t;
+    ')
+    allow loc_t $1:unix_stream_socket { connectto };
+')
+
+interface(`location_client_generic_rules_auto',`
+    gen_require(`
+        type loc_hald_t, loc_socket_t, loc_data_t;
+    ')
+    location_client_generic_rules($1);
+    kernel_search_vm_sysctl($1)
+')

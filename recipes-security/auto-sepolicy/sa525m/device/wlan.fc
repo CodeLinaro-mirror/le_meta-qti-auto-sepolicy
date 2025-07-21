@@ -32,3 +32,4 @@
 
 /data/qca6490(/.*)?             gen_context(system_u:object_r:wifi_system_data_t,s0)
 /data/qca6574(/.*)?             gen_context(system_u:object_r:wifi_system_data_t,s0)
+/data/qca6797(/.*)?             gen_context(system_u:object_r:wifi_system_data_t,s0)

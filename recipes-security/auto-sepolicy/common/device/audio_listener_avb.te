@@ -1,4 +1,4 @@
-# Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear.
 
 policy_module(audio_listener_avb, 1.0)
@@ -15,37 +15,34 @@ gen_require(`
         type data_t;
         type tmpfs_t;
         type socket_device_t;
-        type qgptp_device_t;
         type sysfs_t;
         type audio_hal_etc_t;
         type proc_net_t;
         type proc_t;
-        type sound_device_t;
-        type gptp_tmpfs_t;
         type agm_server_t;
         type systemd_logind_var_run_t;
-        type devlog_t;
         type debugfs_t;
-        type syslogd_t;
         type binderfs_t;
+        type ptmx_t;
 ')
 
 logging_send_syslog_msg(audio_listener_avb_t)
 # To store and play recordings in data partition
 manage_user_data_files(audio_listener_avb_t, data_t)
 
+allow audio_listener_avb_t ptmx_t:chr_file rw_chr_file_perms;
+
 # Gives permissions to access to hal devices such as sound devices.
 auto_audio_hal_access(audio_listener_avb_t)
+logging_send_syslog_msg(audio_listener_avb_t);
 
-allow audio_listener_avb_t devlog_t:sock_file { write };
-allow audio_listener_avb_t syslogd_t:unix_dgram_socket { sendto };
-allow audio_listener_avb_t qgptp_device_t:chr_file { write read open };
+gptp_rw_qgptp_device(audio_listener_avb_t)
 allow audio_listener_avb_t self:packet_socket { create map bind setopt getopt read write ioctl };
 allow audio_listener_avb_t self:capability { sys_nice net_raw net_admin setgid setuid };
 allow audio_listener_avb_t self:process { setsched signal };
 allow audio_listener_avb_t socket_device_t:dir search;
 allow audio_listener_avb_t audio_hal_etc_t:file read_file_perms;
-allow audio_listener_avb_t sound_device_t:chr_file rw_chr_file_perms;
+rw_sound_dev_node(audio_listener_avb_t)
 allow audio_listener_avb_t proc_t:file read_file_perms;
 allow audio_listener_avb_t self:tcp_socket { create ioctl };
 allow audio_listener_avb_t self:netlink_generic_socket { create ioctl };
@@ -55,7 +52,7 @@ allow audio_listener_avb_t sysfs_t:file { read open };
 allow audio_listener_avb_t self:fifo_file rw_fifo_file_perms;
 allow audio_listener_avb_t self:udp_socket { create ioctl };
 allow audio_listener_avb_t tmpfs_t:dir search;
-allow audio_listener_avb_t gptp_tmpfs_t:file { rw_file_perms map };
+gptp_rw_tmpfs_files(audio_listener_avb_t)
 allow audio_listener_avb_t debugfs_t:dir search;
 allow audio_listener_avb_t binderfs_t:dir search;
 

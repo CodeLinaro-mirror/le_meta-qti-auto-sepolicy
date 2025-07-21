@@ -1,4 +1,4 @@
-# Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear.
 
 policy_module(vnw_hyp_host_server, 1.0)
@@ -17,18 +17,14 @@ gen_require(`
         type home_root_t;
         type user_home_dir_t;
         type socket_device_t;
-        type qgptp_device_t;
         type sysfs_t;
         type audio_hal_etc_t;
         type proc_net_t;
         type proc_t;
-        type sound_device_t;
         type gptp_tmpfs_t;
         type agm_server_t;
         type systemd_logind_var_run_t;
-        type devlog_t;
         type debugfs_t;
-        type syslogd_t;
         type syslogd_runtime_t;
         type init_runtime_t;
         type qgptp_exec_t;
@@ -38,11 +34,14 @@ gen_require(`
         type audio_listener_avb_exec_t;
         type shell_exec_t;
         type binderfs_t;
+        type ptmx_t;
 ')
 
 #logging_send_syslog_msg(vnw_hyp_host_server_t)
 # To store and play recordings in data partition
 manage_user_data_files(vnw_hyp_host_server_t, data_t)
+
+allow vnw_hyp_host_server_t ptmx_t:chr_file rw_chr_file_perms;
 
 # Gives permissions to access to hal devices such as sound devices.
 auto_audio_hal_access(vnw_hyp_host_server_t)
@@ -75,6 +74,8 @@ dontaudit vnw_hyp_host_server_t user_home_dir_t:dir { search getattr };
 
 # self
 rw_qipcrtr_socket(vnw_hyp_host_server_t);
+logging_send_syslog_msg(vnw_hyp_host_server_t);
+
 allow vnw_hyp_host_server_t self:unix_stream_socket { listen accept connectto };
 allow vnw_hyp_host_server_t self:process { setsched signal sigkill };
 allow vnw_hyp_host_server_t self:tcp_socket { create ioctl };
@@ -84,13 +85,11 @@ allow vnw_hyp_host_server_t self:netlink_route_socket { create bind read };
 allow vnw_hyp_host_server_t self:packet_socket { create map bind setopt getopt read write ioctl };
 allow vnw_hyp_host_server_t self:capability { sys_nice net_raw net_admin chown setgid setuid };
 
-allow vnw_hyp_host_server_t devlog_t:sock_file { write };
-allow vnw_hyp_host_server_t syslogd_t:unix_dgram_socket { sendto };
 allow vnw_hyp_host_server_t vnw_hyp_host_server_tmp_t:sock_file { read create unlink getattr write };
-allow vnw_hyp_host_server_t qgptp_device_t:chr_file { read write open ioctl };
+gptp_rw_qgptp_device(vnw_hyp_host_server_t)
 allow vnw_hyp_host_server_t socket_device_t:dir search;
 allow vnw_hyp_host_server_t audio_hal_etc_t:file read_file_perms;
-allow vnw_hyp_host_server_t sound_device_t:chr_file rw_chr_file_perms;
+rw_sound_dev_node(vnw_hyp_host_server_t)
 allow vnw_hyp_host_server_t proc_t:file read_file_perms;
 allow vnw_hyp_host_server_t proc_net_t:file { read_file_perms };
 allow vnw_hyp_host_server_t sysfs_t:lnk_file read;
@@ -105,7 +104,7 @@ allow vnw_hyp_host_server_t binderfs_t:dir search;
 files_tmp_file(gptp_tmpfs_t);
 fs_tmpfs_filetrans(vnw_hyp_host_server_t, gptp_tmpfs_t, file)
 allow vnw_hyp_host_server_t gptp_tmpfs_t:file manage_file_perms;
-allow vnw_hyp_host_server_t gptp_tmpfs_t:file { rw_file_perms map };
+gptp_rw_tmpfs_files(vnw_hyp_host_server_t)
 files_read_etc_files(vnw_hyp_host_server_t) #/etc/nsswitch.conf
 
 ifdef(`qti-nad-telaf',`

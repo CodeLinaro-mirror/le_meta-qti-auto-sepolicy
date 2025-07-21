@@ -23,7 +23,7 @@ device_search_sockets(telux_security_server_t);
 allow telux_security_server_t self:process signal;
 
 # Allow security service to write/read/create/getattr on qipcrtr socket
-allow telux_security_server_t self:qipcrtr_socket { write read create getattr };
+rw_qipcrtr_socket(telux_security_server_t)
 
 #Allow setting secondary groups
 allow telux_security_server_t self:capability setgid;
