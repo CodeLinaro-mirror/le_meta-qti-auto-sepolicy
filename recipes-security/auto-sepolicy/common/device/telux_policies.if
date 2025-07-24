@@ -439,11 +439,11 @@ interface(`telux_allow_console_apps',`
     #allow access to pseudo terminal / shell
     userdom_read_user_ptys($1)
 
-    #Allow setting secondary groups
-    allow $1 self:capability setgid;
+    #Allow setting secondary groups and changing user
+    allow $1 self:capability {setgid setuid};
 
-    #Allow signals to this process
-    allow $1 self:process signal;
+    #Allow signals to this process and set capabilities on itself.
+    allow $1 self:process {signal setcap};
 
     # For socket communication: /etc/nsswitch.conf, /etc/group for getgrnam
     allow $1 etc_t:file read_file_perms;

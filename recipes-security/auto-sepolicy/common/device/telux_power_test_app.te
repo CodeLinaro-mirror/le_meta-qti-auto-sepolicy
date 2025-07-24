@@ -46,6 +46,9 @@ access_telux_files(telux_power_app_t)
 #Power Management services
 telux_allow_power(telux_power_app_t)
 
+# Generic allow rule for console apps
+telux_allow_console_apps(telux_power_app_t)
+
 gen_require(`
         type etc_t;
 ')

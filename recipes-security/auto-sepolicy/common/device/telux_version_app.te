@@ -33,5 +33,8 @@ type telux_version_app_exec_t;
 init_vendor_domain(telux_version_app_t, telux_version_app_exec_t)
 transition_to_confined_domain(telux_version_app_t, telux_version_app_exec_t)
 
+# Generic allow rule for console apps
+telux_allow_console_apps(telux_version_app_t)
+
 telux_allow_data(telux_version_app_t);
 telux_allow_version(telux_version_app_t);

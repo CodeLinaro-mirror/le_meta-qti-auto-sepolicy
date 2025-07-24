@@ -12,4 +12,7 @@ transition_to_confined_domain(telux_subsys_mon_t, telux_subsys_mon_exec_t)
 
 telux_allow_subsystem_mon(telux_subsys_mon_t)
 
+# Generic allow rule for console apps
+telux_allow_console_apps(telux_subsys_mon_t)
+
 allow telux_subsys_mon_t self:capability setgid;
