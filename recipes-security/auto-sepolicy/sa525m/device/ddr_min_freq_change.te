@@ -12,6 +12,7 @@ type ddr_min_freq_change_exec_t;
 gen_require(`
     type cpu_sysfs_t;
     type proc_t;
+    type post_boot_script_t;
 ')
 
 init_script_domain(ddr_min_freq_change_t, ddr_min_freq_change_exec_t)
@@ -19,3 +20,4 @@ init_script_domain(ddr_min_freq_change_t, ddr_min_freq_change_exec_t)
 allow ddr_min_freq_change_t cpu_sysfs_t:dir { write search add_name };
 allow ddr_min_freq_change_t cpu_sysfs_t:file { write create open };
 allow ddr_min_freq_change_t proc_t:file { read write open getattr };
+allow post_boot_script_t cpu_sysfs_t:file { setattr };
