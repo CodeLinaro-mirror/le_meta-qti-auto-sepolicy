@@ -1,0 +1,11 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+gen_require(`
+      type power_manager_daemon_t;
+      type power_socket_t;
+')
+
+allow qnetmgrd_t power_manager_daemon_t:unix_stream_socket connectto;
+allow qnetmgrd_t power_socket_t:dir search;
+allow qnetmgrd_t power_socket_t:sock_file write;

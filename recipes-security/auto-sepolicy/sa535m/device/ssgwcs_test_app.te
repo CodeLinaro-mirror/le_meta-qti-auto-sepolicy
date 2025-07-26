@@ -1,0 +1,15 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+#
+
+policy_module(ssgwcs_test_app, 1.0)
+
+type ssgwcs_sample_app_t;
+type ssgwcs_sample_app_exec_t;
+
+init_vendor_domain(ssgwcs_sample_app_t, ssgwcs_sample_app_exec_t)
+transition_to_confined_domain(ssgwcs_sample_app_t, ssgwcs_sample_app_exec_t)
+
+allow ssgwcs_sample_app_t self:capability setgid;
+
+access_wcs(ssgwcs_sample_app_t)

@@ -1,0 +1,14 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+userdebug_or_eng(`
+    gen_require(`
+        type unconfined_t;
+        type mpss_persist_t;
+        type agm_server_t;
+    ')
+
+    allow unconfined_t mpss_persist_t:dir { getattr open read search };
+    allow unconfined_t mpss_persist_t:file { getattr read open };
+    allow unconfined_t agm_server_t:binder { call transfer };
+')
