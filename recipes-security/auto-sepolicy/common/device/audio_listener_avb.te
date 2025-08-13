@@ -1,5 +1,5 @@
-# Copyright (c) 2023-2025 Qualcomm Innovation Center, Inc. All rights reserved.
-# SPDX-License-Identifier: BSD-3-Clause-Clear.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(audio_listener_avb, 1.0)
 
@@ -24,6 +24,7 @@ gen_require(`
         type debugfs_t;
         type binderfs_t;
         type ptmx_t;
+        type telsdk_etc_t;
 ')
 
 logging_send_syslog_msg(audio_listener_avb_t)
@@ -40,6 +41,7 @@ gptp_rw_qgptp_device(audio_listener_avb_t)
 allow audio_listener_avb_t self:packet_socket { create map bind setopt getopt read write ioctl };
 allow audio_listener_avb_t self:capability { sys_nice net_raw net_admin setgid setuid };
 allow audio_listener_avb_t self:process { setsched signal };
+allow audio_listener_avb_t self:qipcrtr_socket { create write read getattr setopt };
 allow audio_listener_avb_t socket_device_t:dir search;
 allow audio_listener_avb_t audio_hal_etc_t:file read_file_perms;
 rw_sound_dev_node(audio_listener_avb_t)
@@ -55,6 +57,7 @@ allow audio_listener_avb_t tmpfs_t:dir search;
 gptp_rw_tmpfs_files(audio_listener_avb_t)
 allow audio_listener_avb_t debugfs_t:dir search;
 allow audio_listener_avb_t binderfs_t:dir search;
+allow audio_listener_avb_t telsdk_etc_t:file { read open getattr };
 
 # Gives permissions for swbinders
 agm_server_sw_binders_access(audio_listener_avb_t)

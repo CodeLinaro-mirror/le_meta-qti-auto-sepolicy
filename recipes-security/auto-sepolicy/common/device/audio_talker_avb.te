@@ -1,5 +1,5 @@
-# Copyright (c) 2023-2025 Qualcomm Innovation Center, Inc. All rights reserved.
-# SPDX-License-Identifier: BSD-3-Clause-Clear.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(audio_talker_avb, 1.0)
 
@@ -24,6 +24,7 @@ gen_require(`
         type debugfs_t;
         type binderfs_t;
         type ptmx_t;
+        type telsdk_etc_t;
 ')
 
 logging_send_syslog_msg(audio_talker_avb_t)
@@ -56,6 +57,7 @@ allow audio_talker_avb_t tmpfs_t:dir search;
 gptp_rw_tmpfs_files(audio_talker_avb_t)
 allow audio_talker_avb_t debugfs_t:dir search;
 allow audio_talker_avb_t binderfs_t:dir search;
+allow audio_talker_avb_t telsdk_etc_t:file { read open getattr };
 
 # Gives permissions for swbinders
 agm_server_sw_binders_access(audio_talker_avb_t)
