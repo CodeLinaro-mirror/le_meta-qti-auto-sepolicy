@@ -1,11 +1,13 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 gen_require(`
     type event_device_t;
+    type qcmap_data_t;
 ')
 
 rw_chr_files_pattern(qtether_t, device_t, event_device_t)
 mls_file_read_all_levels(qtether_t)
 mls_file_write_all_levels(qtether_t)
+allow qtether_t qcmap_data_t:dir { watch };
 
