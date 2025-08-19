@@ -3,9 +3,11 @@
 
 gen_require(`
     type event_device_t;
+    type qcmap_data_t;
 ')
 
 rw_chr_files_pattern(qtether_t, device_t, event_device_t)
 mls_file_read_all_levels(qtether_t)
 mls_file_write_all_levels(qtether_t)
+allow qtether_t qcmap_data_t:dir { watch };
 
