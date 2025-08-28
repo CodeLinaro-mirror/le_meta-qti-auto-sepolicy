@@ -6,11 +6,11 @@ policy_module(diag-tcp-logging, 1.0)
 type diag_tcp_logging_t;
 type diag_tcp_logging_exec_t;
 type diag_tcp_logging_conf_t;
-type diag_tcp_logging_cfg;
 
 gen_require(`
     type init_t;
     type data_t;
+    type etc_t;
     type node_t;
     type sdcard_t;
     type mount_copybind_t;
@@ -23,13 +23,12 @@ transition_to_confined_domain(diag_tcp_logging_t, diag_tcp_logging_exec_t)
 logging_send_syslog_msg(diag_tcp_logging_t)
 manage_user_data_files(diag_tcp_logging_t,data_t)
 
-allow diag_tcp_logging_t diag_tcp_logging_cfg:dir search;
-allow diag_tcp_logging_t diag_tcp_logging_cfg:file { open read getattr};
 allow diag_tcp_logging_t node_t:tcp_socket node_bind;
 allow diag_tcp_logging_t self:tcp_socket { accept bind create listen read write };
 
 files_type(diag_tcp_logging_conf_t)
 allow diag_tcp_logging_t diag_tcp_logging_conf_t:file { read getattr open };
+allow diag_tcp_logging_t etc_t:file { getattr open read };
 allow diag_tcp_logging_t sdcard_t:dir { add_name create search write };
 allow diag_tcp_logging_t sdcard_t:file { create getattr open write };
 allow diag_tcp_logging_t sdcard_t:lnk_file read;
