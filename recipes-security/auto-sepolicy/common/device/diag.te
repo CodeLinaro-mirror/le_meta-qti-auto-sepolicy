@@ -65,7 +65,8 @@ userdebug_or_eng(`
         type socket_device_t;
     ')
     allow diag_t sdcard_t:lnk_file read;
-    allow diag_t data_t:dir write;
+    allow diag_t data_t:dir { search write add_name remove_name create getattr read };
     allow diag_t socket_device_t:dir search;
     allow diag_t self:tcp_socket { read write };
+    dontaudit diag_t self:capability  { dac_override dac_read_search };
 ')
