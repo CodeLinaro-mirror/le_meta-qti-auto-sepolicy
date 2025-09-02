@@ -1,0 +1,15 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+#
+gen_require(`
+    type setfiles_t;
+    type cache_recovery_t;
+    type mpss_persist_t;
+    type vendor_qdma_cache_t;
+ ')
+
+allow setfiles_t cache_recovery_t:dir setattr;
+allow setfiles_t mpss_persist_t:{ dir file } relabelto;
+allow setfiles_t vendor_qdma_cache_t:dir setattr;
+
+dontaudit setfiles_t mpss_persist_t:dir getattr;
