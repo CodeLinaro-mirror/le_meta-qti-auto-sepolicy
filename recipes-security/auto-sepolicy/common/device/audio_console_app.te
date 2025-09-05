@@ -39,6 +39,7 @@ gen_require(`
     type data_t;
     type etc_t;
     type sdcard_t;
+    type tmp_t;
 ')
 
 #domain transition if started from adb shell
@@ -49,6 +50,10 @@ manage_user_data_files(audio_console_app_t, data_t)
 
 #Allow access to /proc/sys/vm/overcommit_memory
 kernel_read_vm_overcommit_sysctl(audio_console_app_t)
+
+#Allow non root users to manage files under /tmp partition
+allow audio_console_app_t tmp_t:dir manage_dir_perms;
+allow audio_console_app_t tmp_t:file manage_file_perms;
 
 #Audio services
 telux_allow_audio(audio_console_app_t)

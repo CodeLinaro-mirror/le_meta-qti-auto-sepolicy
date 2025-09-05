@@ -32,3 +32,4 @@
 
 allow dnsmasq_t self:{ netlink_route_socket netlink_generic_socket netlink_socket netlink_netfilter_socket} create_socket_perms;
 allow dnsmasq_t self:netlink_route_socket { nlmsg_write };
+allow dnsmasq_t tmpfs_t:dir search;
