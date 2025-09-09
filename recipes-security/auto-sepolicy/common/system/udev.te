@@ -7,13 +7,19 @@ gen_require(`
     type sysfs_t;
     type tmp_t;
     type qcmap_tmp_t;
-    type tuicoreservice_dev_t;
     type sdcard_t;
     type sysdevice_sysfs_t;
     type binderfs_t;
     type hwbinder_device_t;
     type vndbinder_device_t;
     type compensator_etc_t;
+')
+
+optional_policy(`
+    gen_require(`
+        type tuicoreservice_dev_t;
+    ')
+    allow udev_t tuicoreservice_dev_t:chr_file setattr;
 ')
 
 # /lib/systemd/systemd-udevd is invoking
@@ -28,7 +34,6 @@ allow udev_t tmp_t:dir search;
 allow udev_t sysfs_t:lnk_file setattr;
 allow udev_t qcmap_tmp_t:dir { write search add_name };
 allow udev_t qcmap_tmp_t:lnk_file create;
-allow udev_t tuicoreservice_dev_t:chr_file setattr;
 allow udev_t sdcard_t:dir getattr;
 allow udev_t binderfs_t:dir { getattr open read search setattr };
 allow udev_t binderfs_t:file { getattr setattr };
