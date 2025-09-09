@@ -13,6 +13,7 @@ gen_require(`
     type etc_t;
     type node_t;
     type sdcard_t;
+    type mnt_t;
     type mount_copybind_t;
     type mount_t;
 ')
@@ -29,9 +30,10 @@ allow diag_tcp_logging_t self:tcp_socket { accept bind create listen read write 
 files_type(diag_tcp_logging_conf_t)
 allow diag_tcp_logging_t diag_tcp_logging_conf_t:file { read getattr open };
 allow diag_tcp_logging_t etc_t:file { getattr open read };
-allow diag_tcp_logging_t sdcard_t:dir { add_name create search write };
-allow diag_tcp_logging_t sdcard_t:file { create getattr open write };
+allow diag_tcp_logging_t sdcard_t:dir { add_name create search write getattr open read remove_name };
+allow diag_tcp_logging_t sdcard_t:file { create getattr open write append };
 allow diag_tcp_logging_t sdcard_t:lnk_file read;
+allow diag_tcp_logging_t mnt_t:dir search;
 
 allow mount_copybind_t diag_tcp_logging_conf_t:file {  read getattr setattr open mounton create write relabelfrom relabelto };
 allow mount_copybind_t diag_tcp_logging_conf_t:dir search;
