@@ -48,6 +48,7 @@ gen_require(`
         type user_home_dir_t;
         type commplex_main_port_t;
         type mxi_port_t;
+        type xen_port_t;
 ')
 #Allow setting secondary groups
 allow location_test_app_t self:capability setgid;
@@ -60,3 +61,4 @@ allow location_test_app_t commplex_main_port_t:tcp_socket name_connect;
 allow location_test_app_t self:socket {create_socket_perms read write setopt getattr};
 dontaudit location_test_app_t sysctl_t:dir search;
 allow location_test_app_t mxi_port_t:tcp_socket name_connect;
+allow location_test_app_t xen_port_t:tcp_socket name_connect;
