@@ -1,0 +1,11 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+userdebug_or_eng(`
+  gen_require(`
+    type diag-router_t;
+    type diag_t;
+  ')
+  allow diag-router_t diag_t:process signal;
+')
+
