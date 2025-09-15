@@ -90,6 +90,8 @@ gen_require(`
    type edgehub_etc_conf_t;
    type sdcard_t;
    type phone_home_t;
+   type system_dbusd_t;
+   class dbus {send_msg};
 ')
 
 allow mount_t lxcrootfs_t:filesystem relabelfrom;
@@ -275,3 +277,4 @@ allow lxc_script_app_t edgehub_etc_conf_t:file mounton;
 allow lxc_script_app_t phone_home_t:file mounton;
 allow lxc_script_app_t self:netlink_audit_socket { create nlmsg_relay read write };
 allow lxc_script_app_t self:udp_socket { connect getattr };
+allow lxc_script_app_t system_dbusd_t:dbus { send_msg };
