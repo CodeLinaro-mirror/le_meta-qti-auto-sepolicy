@@ -1,4 +1,8 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
+
+gen_require(`
+    type qcmap_cm_t;
+')
 
 allow ifconfig_t qcmap_cm_t:netlink_kobject_uevent_socket rw_socket_perms;
