@@ -147,7 +147,7 @@ allow lxc_script_app_t lxcrootfs_t:filesystem { getattr unmount remount };
 allow lxc_script_app_t nsfs_t:file { getattr open read };
 allow lxc_script_app_t proc_net_t:file read;
 
-allow lxc_script_app_t self:capability { chown dac_override dac_read_search mknod net_admin setgid setuid sys_admin sys_nice sys_resource sys_boot kill };
+allow lxc_script_app_t self:capability { chown dac_override dac_read_search mknod net_admin setgid setuid sys_admin sys_nice sys_resource sys_boot kill setpcap };
 allow lxc_script_app_t self:fifo_file { getattr ioctl read write };
 allow lxc_script_app_t self:netlink_route_socket { bind create nlmsg_read nlmsg_write getattr read setopt write shutdown };
 allow lxc_script_app_t self:process { setsched signull getcap setcap setrlimit };
