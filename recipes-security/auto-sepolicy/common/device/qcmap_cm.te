@@ -30,3 +30,6 @@ userdebug_or_eng(`
   append_files_pattern(dnsmasq_t, debugfs_t, debugfs_t)
   append_files_pattern(qcmap_cm_t, debugfs_t, debugfs_t)
 ')
+
+allow qcmap_cm_t ifconfig_t:process sigkill;
+allow qcmap_cm_t iptables_t:process sigkill;
