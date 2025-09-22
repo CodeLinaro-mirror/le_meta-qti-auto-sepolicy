@@ -27,8 +27,8 @@
 
 # Changes from Qualcomm Innovation Center are provided under the following license:
 #
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
-# SPDX-License-Identifier: BSD-3-Clause-Clear
+# Changes from Qualcomm Technologies, Inc. are provided under the following license:
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries
 
 policy_module(qgptp, 1.0)
 
@@ -67,6 +67,7 @@ allow qgptp_t self:capability { net_raw net_admin chown };
 allow qgptp_t self:netlink_route_socket { read bind create };
 allow qgptp_t self:packet_socket create_socket_perms;
 allow qgptp_t self:tcp_socket { create ioctl };
+allow qgptp_t self:fifo_file rw_fifo_file_perms;
 allow qgptp_t tmpfs_t:filesystem getattr;
 allow qgptp_t gptp_tmpfs_t:file manage_file_perms;
 allow qgptp_t gptp_tmpfs_t:file { getattr rw_file_perms map };
