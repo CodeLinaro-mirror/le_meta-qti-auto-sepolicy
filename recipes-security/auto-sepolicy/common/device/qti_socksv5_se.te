@@ -18,6 +18,7 @@ gen_require(`
     type proc_t;
     type proc_net_t;
     type soundd_port_t;
+    type http_port_t;
 ')
 
 allow qti_socksv5_se_t qti_socksv5_se_exec_t:file { execute_no_trans map open read };
@@ -46,3 +47,4 @@ allow qti_socksv5_se_t self:capability net_admin;
 dontaudit qti_socksv5_se_t self:capability { dac_override } ;
 dontaudit qti_socksv5_se_t self:capability sys_module;
 allow qti_socksv5_se_t soundd_port_t:tcp_socket name_connect;
+allow qti_socksv5_se_t http_port_t:tcp_socket name_connect;
