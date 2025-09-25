@@ -85,6 +85,7 @@ allow qgptp_t self:packet_socket create_socket_perms;
 allow qgptp_t self:tcp_socket { create ioctl };
 allow qgptp_t self:unix_stream_socket { listen accept };
 allow qgptp_t self:process { signal };
+allow qgptp_t self:fifo_file rw_fifo_file_perms;
 allow qgptp_t tmpfs_t:filesystem getattr;
 allow qgptp_t gptp_tmpfs_t:file manage_file_perms;
 allow qgptp_t gptp_tmpfs_t:file { getattr rw_file_perms map };
