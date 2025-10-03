@@ -108,7 +108,7 @@ allow softsku_t proc_t:file { read getattr open };
 
 #============= mount_copybind_t ==============
 allow mount_copybind_t softsku_data_conf_t:dir { open read search mounton getattr };
-allow mount_copybind_t softsku_data_conf_t:file { setattr read create write relabelfrom getattr relabelto open };
+allow mount_copybind_t softsku_data_conf_t:file { setattr read create write relabelfrom getattr relabelto open rename };
 
 #============= unconfined_mount_t ==============
 allow mount_t softsku_data_conf_t:file { getattr mounton };
