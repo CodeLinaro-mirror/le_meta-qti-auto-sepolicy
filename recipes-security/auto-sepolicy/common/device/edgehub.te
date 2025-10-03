@@ -92,7 +92,7 @@ attribute ota_domain;
 
 #============= mount_copybind_t ===============
 allow mount_copybind_t ota_etc_conf_t:dir { open read search mounton getattr };
-allow mount_copybind_t ota_etc_conf_t:file { setattr read create write relabelfrom getattr relabelto open };
+allow mount_copybind_t ota_etc_conf_t:file { setattr read create write relabelfrom getattr relabelto open rename };
 
 allow mount_t ota_etc_conf_t:file { getattr mounton };
 
