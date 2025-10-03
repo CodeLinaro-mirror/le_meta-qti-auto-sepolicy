@@ -88,5 +88,5 @@ device_manage_socket_file(cv2xd_t, cv2xIpc_sock_t, "cv2xIpc")
 allow cv2xd_t self:unix_stream_socket { listen accept };
 allow cv2xd_t self:udp_socket { ioctl create shutdown };
 
-allow mount_copybind_t cv2xd_etc_t:file { getattr relabelto setattr read open create write };
+allow mount_copybind_t cv2xd_etc_t:file { getattr relabelto setattr read open create write rename };
 allow mount_t cv2xd_etc_t:file { getattr mounton };
