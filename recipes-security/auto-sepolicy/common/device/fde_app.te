@@ -25,11 +25,14 @@ gen_require(`
     type data_t;
     type ptmx_t;
     type recovery_t;
+    type firmware_t;
+    type etc_t;
     class chr_file { read write open ioctl };
     class blk_file { read open getattr };
     class dir search;
     class file { execute read open getattr execute_no_trans };
     class fifo_file { read write getattr ioctl };
+    class capability { setgid };
 ')
 
 init_vendor_domain(fde_app_t, fde_app_exec_t)
@@ -79,6 +82,18 @@ allow fde_app_t mmcblock_device_t:blk_file { read open ioctl getattr };
 
 # Allow fde_app_t domain to write on cache_t files
 allow fde_app_t cache_t:file write;
+
+# Allow nad-fde-app to read firmware files
+firmware_read_files(fde_app_t);
+
+# Allow nad-fde-app to signal itself
+allow fde_app_t fde_app_t:process signal;
+
+# Allow reading /etc/nsswitch.conf
+allow fde_app_t etc_t:file { getattr read open };
+
+# Allow setgid capability
+allow fde_app_t self:capability setgid;
 
 # Allow the lvm_t domain to open and write to mtd_block_t block files
 allow lvm_t mtd_block_t:blk_file rw_file_perms;
