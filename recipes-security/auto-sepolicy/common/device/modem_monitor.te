@@ -25,8 +25,8 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Changes from Qualcomm Innovation Center, Inc. are provided under the following license:
-# Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Changes from Qualcomm Technologies, Inc. are provided under the following license:
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(modem_monitor, 1.0)
@@ -94,7 +94,8 @@ read_rmt_sys_evt_rw_dev_node(modem_monitor_t)
 allow modem_monitor_t data_t:dir { search write add_name remove_name create getattr read };
 sdcard_dir_manage(modem_monitor_t)
 sdcard_rm_dir(modem_monitor_t)
-allow modem_monitor_t mnt_t:dir search;
+allow modem_monitor_t mnt_t:dir { search getattr };
+allow modem_monitor_t sdcard_t:file { ioctl };
 sdcard_filesys_attr(modem_monitor_t)
 filetrans_pattern( modem_monitor_t, data_t, mm_data_t, { file dir })
 fs_associate(mm_data_t)
