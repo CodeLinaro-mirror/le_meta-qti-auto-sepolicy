@@ -70,10 +70,11 @@ gen_require(`
 ')
 
 # modem-monitor conf files
-type mm_etc_t;
-files_type(mm_etc_t)
+type mm_etc_data_t;
+files_type(mm_etc_data_t)
 
-files_read_mm_etc_files(modem_monitor_t, etc_t)
+mount_copybind_file(mm_etc_data_t)
+files_read_mm_etc_data_files(modem_monitor_t, qcmap_etc_data_t)
 
 allow modem_monitor_t ks_exec_t:file { getattr execute read open execute_no_trans map };
 allow modem_monitor_t modem_monitor_compression_exec_t:file { getattr execute read open execute_no_trans };
