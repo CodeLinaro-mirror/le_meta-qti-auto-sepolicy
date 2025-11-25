@@ -100,7 +100,7 @@ allow bt_synergy_t self:socket { write read getattr create setopt setattr };
 allow bt_synergy_t self:unix_stream_socket connectto;
 
 # Allow telsdk lib linked to BT apps access to /data/vendor/telsdk/tel.log in running time
-allow bt_synergy_t telsdk_data_t:file { append open getattr read write };
+allow bt_synergy_t telsdk_data_t:file { append open getattr read write create lock };
 
 # Allow telsdk lib linked to BT apps access to /etc/tel.conf in running time
 allow bt_synergy_t telsdk_etc_t:file { read open };

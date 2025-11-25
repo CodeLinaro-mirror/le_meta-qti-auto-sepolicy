@@ -25,8 +25,8 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-# Changes from Qualcomm Innovation Center, Inc. are provided under the following license:
-# Copyright (c) 2022-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# Changes from Qualcomm Technologies, Inc. are provided under the following license:
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## Automotive specific sepolicy rules for location.
@@ -105,6 +105,8 @@ write_qwes_mink_sock(engine_service_t)
 rw_qipcrtr_socket(engine_service_t);
 allow engine_service_t loc_t:unix_dgram_socket { read write sendto };
 allow engine_service_t self:process signal;
+dontaudit engine_service_t leprop_sock_t:sock_file write;
+leprop_read_props(engine_service_t)
 
 #### slim_daemon ####
 allow slim_daemon_t self:udp_socket create_socket_perms;
@@ -124,6 +126,7 @@ sensor_configuration_access(slim_daemon_t)
 allow slim_daemon_t lowi_server_t:unix_dgram_socket sendto;
 allow slim_daemon_t device_t:dir search;
 leprop_rw_props(slim_daemon_t);
+dontaudit slim_daemon_t system_data_t:dir { watch watch_reads };
 
 #### edgnss_daemon ####
 allow edgnss_daemon_t ssgtzd_t:unix_stream_socket connectto;

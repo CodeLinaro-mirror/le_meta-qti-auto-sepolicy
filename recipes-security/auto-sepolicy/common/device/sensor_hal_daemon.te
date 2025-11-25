@@ -57,6 +57,7 @@ gen_require(`
   type node_t;
   type proc_net_t;
   type sysctl_t;
+  type sysctl_vm_t;
   type unreserved_port_t;
   type system_data_t;
   type loc_tmp_t;
@@ -72,6 +73,7 @@ userdebug_or_eng(`
 
 allow sensor_hal_daemon_t proc_t:file { read getattr open };
 allow sensor_hal_daemon_t self:process signal;
+dontaudit sensor_hal_daemon_t self:process setsched;
 mount_copybind_file(sensor_util_rw_t)
 allow sensor_util_rw_t fs_t:filesystem associate;
 
@@ -140,6 +142,7 @@ allow sensor_hal_daemon_t unreserved_port_t:udp_socket name_bind;
 userdom_wo_user_tmp_sockets(sensor_hal_daemon_t)
 allow sensor_hal_daemon_t proc_net_t:file read;
 allow sensor_hal_daemon_t sysctl_t:dir search;
+dontaudit sensor_hal_daemon_t sysctl_vm_t:dir search;
 allow sensor_hal_daemon_t sensor_hal_daemon_etc_t:file { open getattr read };
 allow sensor_hal_daemon_t urandom_device_t:chr_file { open read };
 allow sensor_hal_daemon_t sensor_util_t:file write;
