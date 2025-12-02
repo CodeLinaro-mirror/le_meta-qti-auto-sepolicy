@@ -41,6 +41,7 @@
 
 # add context for  dm mapper nodes
 /dev/mapper/rootfs      -b   gen_context(system_u:object_r:dm_device_t,s0)
+/dev/mapper/rootfs_dmcrypt      -b   gen_context(system_u:object_r:dm_device_t,s0)
 /dev/mapper/telaf      -b   gen_context(system_u:object_r:dm_device_t,s0)
 /dev/mapper/vm-bootsys      -b   gen_context(system_u:object_r:dm_device_t,s0)
 /dev/mapper/lxcrootfs      -b   gen_context(system_u:object_r:dm_device_t,s0)
