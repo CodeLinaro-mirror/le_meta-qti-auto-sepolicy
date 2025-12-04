@@ -1,0 +1,40 @@
+#  Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+#  SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(data_keep_alive_app, 1.0)
+type data_keep_alive_app_t;
+type data_keep_alive_app_exec_t;
+
+#domain transition if started from init
+init_vendor_domain(data_keep_alive_app_t, data_keep_alive_app_exec_t)
+
+#domain transition if started from adb shell
+transition_to_confined_domain(data_keep_alive_app_t, data_keep_alive_app_exec_t)
+
+#Telsdk Logging
+access_telux_files(data_keep_alive_app_t)
+
+telux_allow_console_apps(data_keep_alive_app_t)
+
+#Allow setting TCU activity state
+telux_allow_data_ka_offload_ops(data_keep_alive_app_t)
+
+#Allow data clients
+telux_allow_data(data_keep_alive_app_t)
+
+# Allow to perform necessary actions on tcp_socket
+allow data_keep_alive_app_t self:tcp_socket { create setopt bind connect read write shutdown listen accept };
+
+gen_require(`
+    type unreserved_port_t;
+    type node_t;
+')
+
+# Allow to name bind and name connect for unreserved port
+allow data_keep_alive_app_t unreserved_port_t:tcp_socket { name_bind name_connect };
+
+# Allow to bind to node_t
+allow data_keep_alive_app_t node_t:tcp_socket node_bind;
+
+# Allow to bind to network service ports
+allow data_keep_alive_app_t self:capability net_bind_service;

@@ -414,6 +414,33 @@ interface(`telux_allow_platform',`
 
 ')
 
+# Telux Console App Interface
+# @brief: The Telux console app interface allows the console application to operate normally,
+#          including handling signals and reading configuration files.
+#
+# Parameters:
+#   1) Domain context
+
+interface(`telux_allow_console_apps',`
+    gen_require(`
+       type user_devpts_t;
+       type ptmx_t;
+    ')
+
+    #allow access to pseudo terminal / shell
+    allow $1 user_devpts_t:chr_file read;
+
+    #Allow setting secondary groups and changing user
+    allow $1 self:capability {setgid setuid};
+
+    #Allow signals to this process and set capabilities on itself.
+    allow $1 self:process {signal setcap};
+
+    # For socket communication: /etc/nsswitch.conf, /etc/group for getgrnam
+    allow $1 etc_t:file read_file_perms;
+')
+
+
 # Crypto client interface
 # @brief: The crypto client interface allows the domain to contain a telux crypto
 # client by providing necessary permissions for its operation.
