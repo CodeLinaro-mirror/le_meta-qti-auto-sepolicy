@@ -120,3 +120,4 @@ dontaudit power_manager_daemon_t sysctl_kernel_t:dir search;
 dontaudit power_manager_daemon_t sysctl_kernel_t:file { open read ioctl getattr };
 dontaudit power_manager_daemon_t sysctl_t:dir search;
 qrtr_wakeup_info_rw(power_manager_daemon_t)
+dontaudit power_manager_daemon_t proc_t:filesystem getattr;
