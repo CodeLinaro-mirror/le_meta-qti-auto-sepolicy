@@ -46,10 +46,20 @@ dontaudit telux_power_refd_t sysctl_t:dir search;
 allow telux_power_refd_t self:capability net_bind_service;
 
 #TCP/UDP socket for NAOIP trigger
-allow telux_power_refd_t self:tcp_socket { create setopt bind listen accept node_bind name_bind read shutdown connect write shutdown };
+allow telux_power_refd_t self:tcp_socket { create setopt bind listen accept node_bind name_bind read shutdown connect write getattr getopt };
 allow telux_power_refd_t http_cache_port_t:tcp_socket { name_bind };
 allow telux_power_refd_t unreserved_port_t:tcp_socket { name_bind name_connect };
 allow telux_power_refd_t node_t:tcp_socket { node_bind };
+allow telux_power_refd_t unreserved_port_t:udp_socket { name_bind };
+allow telux_power_refd_t node_t:udp_socket { node_bind };
+allow telux_power_refd_t telux_power_refd_t:capability net_raw;
+
+# Avoid denial on shutdown
+dontaudit telux_power_refd_t power_unit_t:service { status } ;
+dontaudit telux_power_refd_t init_t:dir search;
+dontaudit telux_power_refd_t init_t:file { getattr ioctl open read };
+dontaudit telux_power_refd_t init_t:lnk_file read;
+dontaudit telux_power_refd_t init_t:unix_stream_socket connectto;
 
 #Allow shutdown
 ifdef(`init_systemd', `
