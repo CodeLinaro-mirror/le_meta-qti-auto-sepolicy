@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## <summary> telux_access_policies </summary>
@@ -707,9 +707,9 @@ interface(`telux_allow_tel_sim_profile_ops',`
 #    1) Domain context.
 interface(`telux_allow_tel_sim_profile_user_consent',`
     gen_require(`
-        type telux_access_tel_sim_profile_user_consent_t;
+        type telux_access_tel_sim_profile_user_cnsnt_t;
     ')
-    allow $1 telux_access_tel_sim_profile_user_consent_t:file { getattr };
+    allow $1 telux_access_tel_sim_profile_user_cnsnt_t:file { getattr };
 ')
 
 # Interface to get access for Remote SIM provisioning related APIs.

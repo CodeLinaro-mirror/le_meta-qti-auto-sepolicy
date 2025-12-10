@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(telux_access_policies, 1.0)
@@ -138,8 +138,8 @@ type telux_access_tel_cell_broadcast_listen_t;
 files_type(telux_access_tel_cell_broadcast_listen_t);
 type telux_access_tel_sim_profile_ops_t;
 files_type(telux_access_tel_sim_profile_ops_t);
-type telux_access_tel_sim_profile_user_consent_t;
-files_type(telux_access_tel_sim_profile_user_consent_t);
+type telux_access_tel_sim_profile_user_cnsnt_t;
+files_type(telux_access_tel_sim_profile_user_cnsnt_t);
 type telux_access_tel_sim_profile_config_t;
 files_type(telux_access_tel_sim_profile_config_t);
 type telux_access_tel_sim_profile_read_t;
