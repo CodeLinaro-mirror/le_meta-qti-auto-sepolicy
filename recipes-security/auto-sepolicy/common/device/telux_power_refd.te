@@ -1,5 +1,5 @@
-# Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
-# SPDX-License-Identifier: BSD-3-Clause-Clear
+#  Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+#  SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(telux_power_refd, 1.0)
 type telux_power_refd_t;
@@ -54,6 +54,8 @@ allow telux_power_refd_t unreserved_port_t:tcp_socket { name_bind name_connect }
 allow telux_power_refd_t node_t:tcp_socket { node_bind };
 allow telux_power_refd_t unreserved_port_t:udp_socket { name_bind };
 allow telux_power_refd_t node_t:udp_socket { node_bind };
+# Net raw capability is needed for operations like SO_BINDTODEVICE
+allow telux_power_refd_t telux_power_refd_t:capability net_raw;
 read_user_data_files(telux_power_refd_t, data_t)
 
 #Allow shutdown
