@@ -1,4 +1,5 @@
-# Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Changes from Qualcomm Technologies, Inc. are provided under the following license:
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(telux_power_refd, 1.0)
@@ -89,3 +90,12 @@ dontaudit telux_power_refd_t system_dir_t:dir { search };
 
 #Allow SMS trigger
 telux_allow_tel_sms_listen(telux_power_refd_t)
+
+# Obtain required permission in terms of API access control to run power_refd in NTN mode.
+telux_allow_ntn_config(telux_power_refd_t)
+telux_allow_ntn_data(telux_power_refd_t)
+telux_allow_satcom(telux_power_refd_t)
+
+#Allow location services and permissions for external GNSS fixes requested by modem in NTN mode
+telux_allow_loc(telux_power_refd_t)
+telux_allow_loc_data(telux_power_refd_t)
