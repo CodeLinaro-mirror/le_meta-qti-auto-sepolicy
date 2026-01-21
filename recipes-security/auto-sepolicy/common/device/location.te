@@ -26,7 +26,7 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 # Changes from Qualcomm Innovation Center, Inc. are provided under the following license:
-# Copyright (c) 2022-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## Automotive specific sepolicy rules for location.
@@ -180,6 +180,8 @@ allow loc_t self:tcp_socket { accept listen };
 allow loc_t unreserved_port_t:tcp_socket name_bind;
 allow loc_t unreserved_port_t:udp_socket name_bind;
 allow loc_t sensor_hal_daemon_tmp_t:sock_file { setattr write};
+allow loc_t self:process getcap;
+
 mount_copybind_file(loc_etc_t)
 #Use tafSomeipGWSvc as routing manager
 
