@@ -1,9 +1,10 @@
-# Copyright (c) 2022-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 gen_require(`
        type udev_t;
        type mount_t;
+       type mount_copybind_t;
        type ifconfig_exec_t;
        type kmod_t;
        type event_device_t;
@@ -25,6 +26,7 @@ allow udev_t system_data_t: dir { search };
 ## mount copybind
 mount_copybind_file(ipa_vlan_cfg_t)
 allow ipacm_t system_data_t:dir  { watch };
+allow mount_copybind_t ipa_vlan_cfg_t: file { unlink };
 
 ## ipa_fw_initrc_t access to vlan cfg
 allow ipa_fw_initrc_t ipa_vlan_cfg_t: file { open read write getattr };
