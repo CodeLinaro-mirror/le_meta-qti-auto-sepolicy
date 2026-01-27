@@ -151,6 +151,8 @@ corenet_tcp_connect_http_port(loc_t)
 corenet_tcp_bind_generic_node(xtra_daemon_t)
 corenet_udp_bind_generic_node(xtra_daemon_t)
 
+allow xtra_daemon_t self:tcp_socket bind;
+
 read_files_pattern(loc_t, default_t, default_t);
 read_files_pattern(loc_t, systemd_resolved_var_run_t, systemd_resolved_var_run_t)
 read_files_pattern(loc_t, cert_t, cert_t)
