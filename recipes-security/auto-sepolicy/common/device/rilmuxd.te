@@ -80,7 +80,7 @@ allow rilmuxd_t socket_device_t:dir search;
 allow rilmuxd_t qmux_radio_sock_t:dir { add_name write search remove_name};
 allow rilmuxd_t qmux_radio_sock_t:sock_file { create rw_sock_file_perms unlink setattr };
 allow rilmuxd_t self:process signal;
-allow rilmuxd_t self:qipcrtr_socket { read write create getattr setopt };
+allow rilmuxd_t self:qipcrtr_socket { read write create getattr setopt shutdown };
 allow rilmuxd_t self:unix_stream_socket { accept listen };
 
 allow rilmuxd_t self:socket { create setopt getattr read write };
