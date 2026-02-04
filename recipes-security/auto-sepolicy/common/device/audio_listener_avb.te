@@ -40,7 +40,7 @@ logging_send_syslog_msg(audio_listener_avb_t);
 gptp_rw_qgptp_device(audio_listener_avb_t)
 allow audio_listener_avb_t self:packet_socket { create map bind setopt getopt read write ioctl };
 allow audio_listener_avb_t self:capability { sys_nice net_raw net_admin setgid setuid };
-allow audio_listener_avb_t self:process { setsched signal };
+allow audio_listener_avb_t self:process { setsched signal setcap };
 allow audio_listener_avb_t self:qipcrtr_socket { create write read getattr setopt };
 allow audio_listener_avb_t socket_device_t:dir search;
 allow audio_listener_avb_t audio_hal_etc_t:file read_file_perms;
