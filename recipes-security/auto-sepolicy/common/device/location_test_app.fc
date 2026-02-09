@@ -26,3 +26,4 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /usr/bin/location_test_app    --  gen_context(system_u:object_r:location_test_app_exec_t,s0)
+/etc/rtcmConfig.conf          --  gen_context(system_u:object_r:rtcm_conf_t,s0)
