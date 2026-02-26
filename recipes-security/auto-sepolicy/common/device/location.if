@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 interface(`connect_to_unix_loc_hald_sock',`
@@ -34,5 +34,6 @@ interface(`location_client_generic_rules_auto',`
         type loc_hald_t, loc_socket_t, loc_data_t;
     ')
     location_client_generic_rules($1);
-    kernel_search_vm_sysctl($1)
+    kernel_search_vm_sysctl($1);
+    dlt_allow_user_logging($1)
 ')
