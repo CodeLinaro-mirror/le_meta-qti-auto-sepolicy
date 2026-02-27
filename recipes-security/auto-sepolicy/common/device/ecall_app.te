@@ -71,6 +71,8 @@ telux_allow_tel_call_info_read(ecall_app_t)
 telux_allow_tel_call_mgmt(ecall_app_t)
 telux_allow_tel_call_private_info(ecall_app_t)
 telux_allow_tel_ecall_mgmt(ecall_app_t)
+telux_allow_tel_sms_ops(ecall_app_t)
+telux_allow_tel_sms_listen(ecall_app_t)
 
 # Allowing necessary audio permissions.
 telux_allow_audio_voice(ecall_app_t)
