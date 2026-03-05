@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 gen_require(`
@@ -7,6 +7,8 @@ gen_require(`
        type ifconfig_exec_t;
        type kmod_t;
        type event_device_t;
+       type ipa_lnx_agent_t;
+       type ipacm_diag_t;
 ')
 
 allow ipacm_t qcmap_var_run_t:dir rw_dir_perms;
@@ -53,4 +55,8 @@ dontaudit kmod_t ipa_fw_device_t:chr_file  { read write };
 rw_chr_files_pattern(ipacm_t, device_t, event_device_t)
 mls_file_write_all_levels(ipacm_t)
 mls_file_read_all_levels(ipacm_t)
+
+##DLT logging
 dlt_allow_user_logging(ipacm_t)
+dlt_allow_user_logging(ipa_lnx_agent_t);
+dlt_allow_user_logging(ipacm_diag_t);
