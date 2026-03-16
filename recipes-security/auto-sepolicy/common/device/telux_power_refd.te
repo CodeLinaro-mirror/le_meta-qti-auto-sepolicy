@@ -28,6 +28,7 @@ gen_require(`
     type system_dir_t;
     type unreserved_port_t;
     type data_t;
+    type boot_kpi_values_t;
 ')
 
 #config
@@ -55,6 +56,9 @@ allow telux_power_refd_t node_t:tcp_socket { node_bind };
 allow telux_power_refd_t unreserved_port_t:udp_socket { name_bind };
 allow telux_power_refd_t node_t:udp_socket { node_bind };
 read_user_data_files(telux_power_refd_t, data_t)
+
+# KPI log
+allow telux_power_refd_t boot_kpi_values_t:file { append getattr open };
 
 #Allow shutdown
 ifdef(`init_systemd', `
