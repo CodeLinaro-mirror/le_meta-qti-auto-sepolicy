@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(verified_boot, 1.0)
@@ -23,6 +23,7 @@ gen_require(`
     type mmcblock_device_t;
     type cert_t;
     type etc_t;
+    type qce_device_t;
 ')
 
 init_vendor_domain(verified_boot_t, verified_boot_exec_t);
@@ -55,3 +56,4 @@ allow verified_boot_t self:sem { read write unix_read unix_write associate creat
 allow verified_boot_t sysfs_t:file { read open };
 allow verified_boot_t sysfs_t:lnk_file read;
 allow verified_boot_t udev_runtime_t:dir search;
+allow verified_boot_t qce_device_t:chr_file { read write getattr open ioctl };
