@@ -37,8 +37,9 @@
 /data/mdm_dumps(/.*)?                gen_context(system_u:object_r:mm_data_t,s0)
 
 /etc/data/modem-monitor-usb.conf       -- gen_context(system_u:object_r:mm_etc_data_t,s0)
-/etc/data/modem-monitor-pcie.conf       -- gen_context(system_u:object_r:mm_etc_data_t,s0)
+/etc/data/modem-monitor-pcie.conf      -- gen_context(system_u:object_r:mm_etc_data_t,s0)
 /etc/data/modem-monitor-eth.conf       -- gen_context(system_u:object_r:mm_etc_data_t,s0)
+/etc/data/modem-monitor-edl.conf       -- gen_context(system_u:object_r:mm_etc_data_t,s0)
 
 #ks app
 /usr/bin/ks          --    gen_context(system_u:object_r:ks_exec_t,s0)
