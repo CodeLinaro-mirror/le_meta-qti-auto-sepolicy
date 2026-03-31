@@ -1,4 +1,4 @@
-# Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ifdef(`init_systemd', `
@@ -7,3 +7,5 @@ ifdef(`init_systemd', `
     ')
     dontaudit atfwd_t power_unit_t:service status;
 ')
+
+dlt_allow_user_logging(atfwd_t)
