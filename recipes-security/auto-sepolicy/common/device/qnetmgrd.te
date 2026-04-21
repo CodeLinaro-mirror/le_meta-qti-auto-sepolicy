@@ -30,6 +30,10 @@ gen_require(`
 #    type qnetmgrd_config_t;
     type ifconfig_t;
     type sysfs_t;
+    type tmp_t;
+    type tmpfs_t;
+    type dlt_tmp_t;
+    type dlt_shm_t;
 ')
 dontaudit qnetmgrd_t ifconfig_t:process { sigkill };
 dontaudit qnetmgrd_t self:process sigkill;
@@ -40,3 +44,8 @@ dontaudit qnetmgrd_t sysfs_t:file { write };
 dontaudit qnetmgrd_t self:process { getsched };
 
 dlt_allow_user_logging(qnetmgrd_t)
+
+allow qnetmgrd_t tmp_t:dir search;
+allow qnetmgrd_t tmpfs_t:dir search;
+allow qnetmgrd_t dlt_tmp_t:sock_file getattr;
+allow qnetmgrd_t dlt_shm_t:unix_stream_socket { connectto read write };
