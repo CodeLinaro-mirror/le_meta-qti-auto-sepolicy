@@ -79,7 +79,50 @@ python remove_cil () {
                 os.remove(os.path.join(subdir, file))
 }
 
-do_compile[postfuncs] += "remove_modules_conf"
+python print_modules_conf () {
+    import os
+    import bb
+
+    module_conf_name = os.path.join(d.getVar("S"), "policy", "modules.conf")
+    if not os.path.exists(module_conf_name):
+        bb.warn("SELinux: modules.conf not found at %s" % module_conf_name)
+        return
+
+    enabled_base = []
+    enabled_mod  = []
+    disabled_off = []
+
+    with open(module_conf_name, 'r') as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith('#') or '=' not in line:
+                continue
+            name, val = [x.strip() for x in line.split('=', 1)]
+            if val == "base":
+                enabled_base.append(name)
+            elif val == "module":
+                enabled_mod.append(name)
+            elif val == "off":
+                disabled_off.append(name)
+
+    bb.note("SELinux: modules.conf summary: base=%d module=%d off=%d" %
+            (len(enabled_base), len(enabled_mod), len(disabled_off)))
+
+    bb.debug("SELinux: enabled base modules:")
+    for m in sorted(enabled_base):
+        bb.debug("  %s = base" % m)
+
+    bb.debug("SELinux: enabled loadable modules:")
+    for m in sorted(enabled_mod):
+        bb.debug("  %s = module" % m)
+
+    bb.debug("SELinux: disabled modules:")
+    for m in sorted(disabled_off):
+        bb.debug("  %s = module" % m)
+}
+
+
+do_compile[postfuncs] += "remove_modules_conf print_modules_conf"
 
 POLICY_CUSTOM_BUILDOPT:append = "${@bb.utils.contains('COMBINED_FEATURES', 'qti-mvm', '"qti-mvm "', '', d)}"
 do_install[postfuncs] += "${@bb.utils.contains('COMBINED_FEATURES', 'qti-nad-telaf', 'remove_cil', '', d)}"
