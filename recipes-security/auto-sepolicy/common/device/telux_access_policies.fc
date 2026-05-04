@@ -159,6 +159,8 @@
 /etc/telux/permissions/telux_wlan_ap_config   --  gen_context(system_u:object_r:telux_access_wlan_ap_config_t,s0)
 /etc/telux/permissions/telux_wlan_sta_config  --  gen_context(system_u:object_r:telux_access_wlan_sta_config_t,s0)
 /etc/telux/permissions/telux_wlan_ap_devices  --  gen_context(system_u:object_r:telux_access_wlan_ap_devices_t,s0)
+/etc/telux/permissions/telux_wlan_control_config  --  gen_context(system_u:object_r:telux_access_wlan_control_config_t,s0)
+
 
 ##################################################################################################
 # Add context to the files used for controlling access to NTN related APIs in SDK.
