@@ -25,8 +25,8 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-# Changes from Qualcomm Innovation Center, Inc. are provided under the following license:
-# Copyright (c) 2022-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# Changes from Qualcomm Technologies, Inc. are provided under the following license:
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## Automotive specific sepolicy rules for location.
@@ -86,6 +86,7 @@ connect_loc_hald_to_unix_sock(xtwifi_client_t)
 connect_to_unix_loc_hald_sock(xtwifi_client_t)
 allow loc_hald_t ssgtzd_t:unix_stream_socket connectto;
 allow loc_hald_t ssgtzd_sock_t:sock_file write;
+dlt_allow_user_logging(loc_hald_t);
 
 #### xtwifi_client_t ####
 allow xtwifi_client_t xtwifi_agent_t:unix_dgram_socket sendto;
@@ -104,6 +105,7 @@ write_qwes_mink_sock(engine_service_t)
 rw_qipcrtr_socket(engine_service_t);
 allow engine_service_t loc_t:unix_dgram_socket { read write sendto };
 allow engine_service_t self:process signal;
+dlt_allow_user_logging(engine_service_t);
 
 #### slim_daemon ####
 allow slim_daemon_t self:udp_socket create_socket_perms;
@@ -123,6 +125,7 @@ sensor_configuration_access(slim_daemon_t)
 allow slim_daemon_t lowi_server_t:unix_dgram_socket sendto;
 allow slim_daemon_t device_t:dir search;
 leprop_rw_props(slim_daemon_t);
+dlt_allow_user_logging(slim_daemon_t);
 
 #### edgnss_daemon ####
 allow edgnss_daemon_t ssgtzd_t:unix_stream_socket connectto;
@@ -131,6 +134,7 @@ allow edgnss_daemon_t qwes_mink_socket_t:dir search;
 allow edgnss_daemon_t qwes_mink_socket_t:sock_file write;
 allow edgnss_daemon_t qwesd_t:unix_stream_socket connectto;
 allow edgnss_daemon_t unreserved_port_t:tcp_socket name_connect;
+dlt_allow_user_logging(edgnss_daemon_t);
 
 # IPC router
 allow slim_daemon_t self:qipcrtr_socket create_socket_perms;
@@ -149,6 +153,7 @@ corenet_udp_bind_generic_node(loc_t)
 corenet_tcp_connect_http_port(loc_t)
 corenet_tcp_bind_generic_node(xtra_daemon_t)
 corenet_udp_bind_generic_node(xtra_daemon_t)
+dlt_allow_user_logging(xtra_daemon_t);
 
 read_files_pattern(loc_t, default_t, default_t);
 read_files_pattern(loc_t, systemd_resolved_var_run_t, systemd_resolved_var_run_t)

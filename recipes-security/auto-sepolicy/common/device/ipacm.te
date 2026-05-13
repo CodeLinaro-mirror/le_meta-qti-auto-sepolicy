@@ -53,4 +53,4 @@ dontaudit kmod_t ipa_fw_device_t:chr_file  { read write };
 rw_chr_files_pattern(ipacm_t, device_t, event_device_t)
 mls_file_write_all_levels(ipacm_t)
 mls_file_read_all_levels(ipacm_t)
-
+dlt_allow_user_logging(ipacm_t)
