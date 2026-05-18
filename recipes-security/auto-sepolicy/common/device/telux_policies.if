@@ -26,7 +26,7 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 # Changes from Qualcomm Innovation Center, Inc. are provided under the following license:
-# Copyright (c) 2022-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## <summary> telux_policies </summary>
@@ -264,7 +264,7 @@ interface(`telux_allow_audio',`
 interface(`telux_allow_loc',`
 
     # To allow QDgnssRemoteApi
-    allow $1 self:socket { getattr setopt write read};
+    allow $1 self:socket { getattr setopt write read create};
     logging_send_syslog_msg($1);
 
 
