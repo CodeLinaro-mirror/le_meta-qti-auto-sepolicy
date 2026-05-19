@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 gen_require(`
@@ -24,7 +24,6 @@ allow udev_t system_data_t: dir { search };
 
 ## mount copybind
 mount_copybind_file(ipa_vlan_cfg_t)
-allow ipacm_t system_data_t:dir  { watch };
 
 ## ipa_fw_initrc_t access to vlan cfg
 allow ipa_fw_initrc_t ipa_vlan_cfg_t: file { open read write getattr };
@@ -46,6 +45,14 @@ allow ipacm_t sysfs_t: lnk_file { getattr };
 allow ipacm_t proc_net_t: dir { getattr read open search };
 allow ipacm_t proc_net_t: file { getattr };
 allow ipacm_t tmpfs_t:filesystem { getattr };
+
+
+# Allow IPACM to raise the scheduling priority of its own process/threads
+# using sched_setscheduler()/pthread_setschedparam() for SCHED_FIFO-based
+# IPA event processing. Required by change 6874171.
+
+allow ipacm_t self:capability sys_nice;
+allow ipacm_t self:process { setsched };
 
 ## donotaudit any access to ipa dev nodes from lsmod
 dontaudit kmod_t ipa_fw_device_t:chr_file  { read write };
