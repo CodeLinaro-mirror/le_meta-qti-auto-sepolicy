@@ -59,3 +59,5 @@ allow audio_listener_avb_t binderfs_t:dir search;
 # Gives permissions for swbinders
 agm_server_sw_binders_access(audio_listener_avb_t)
 unconfined_allow_binder_access(audio_listener_avb_t)
+#Rule to access dlt-deamon
+dlt_allow_user_logging(audio_listener_avb_t)
