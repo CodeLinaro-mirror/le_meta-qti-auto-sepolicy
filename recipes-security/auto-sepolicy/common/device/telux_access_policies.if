@@ -506,6 +506,21 @@ interface(`telux_allow_platform_subsystem_restart_ctrl',`
     allow $1 telux_access_platform_subsystem_restart_ctrl_t:file { getattr };
 ')
 
+# Interface to get access to EDL control APIs in SubsystemManager.
+# @brief: This interface allows the client to perform EDL operations via the SubsystemManager.
+# The operations supported are setting and getting EDL configurations, triggering EDL mode,
+# and querying the current EDL state.
+#
+# Parameters:
+#    1) Domain context.
+
+interface(`telux_allow_platform_subsys_edl_ctrl',`
+    gen_require(`
+        type telux_access_platform_subsys_edl_ctrl_t;
+    ')
+    allow $1 telux_access_platform_subsys_edl_ctrl_t:file { getattr };
+')
+
 ##################################################################################################
 # Interfaces to control access for Power related APIs in SDK
 ##################################################################################################
