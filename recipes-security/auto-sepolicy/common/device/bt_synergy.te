@@ -29,6 +29,9 @@
 #  IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
 #  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 #  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#  Changes from Qualcomm Technologies, Inc. are provided under the following license:
+#  Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+#  SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(bt_synergy, 1.0)
 type bt_synergy_t;
@@ -49,8 +52,6 @@ gen_require(`
       type sysfs_t;
       type tmp_t;
       type tmpfs_t;
-      type dlt_tmp_t;
-      type dlt_t;
       type devlog_t;
       type syslogd_t;
       type home_root_t;
@@ -119,9 +120,11 @@ userdebug_or_eng(`
 allow unconfined_t bt_synergy_tmp_t:file { getattr read open write unlink };
 ')
 
-# Allow BT apps to access dlt related
-allow bt_synergy_t dlt_tmp_t:sock_file write ;
-allow bt_synergy_t dlt_t:unix_stream_socket connectto;
+# Allow BT apps to log to DLT via the published interface (CR 4542759).
+# This bundles the sock_file write + unix_stream_socket connectto (and any
+# supporting rules) and absorbs internal DLT label changes such as the
+# IPC socket relabel from dlt_tmp_t to dlt_shm_t.
+dlt_allow_user_logging(bt_synergy_t)
 
 # Allow sh to launch the BT apps by executing the shell script
 allow bt_synergy_t shell_exec_t:file { execute execute_no_trans open read };
