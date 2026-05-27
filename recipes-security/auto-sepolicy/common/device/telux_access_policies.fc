@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ##################################################################################################
@@ -60,6 +60,7 @@
 /etc/telux/permissions/telux_platform_fs_ops_ctrl       --  gen_context(system_u:object_r:telux_access_platform_fs_ops_ctrl_t,s0)
 /etc/telux/permissions/telux_platform_ota_mgmt           --  gen_context(system_u:object_r:telux_access_platform_ota_mgmt_t,s0)
 /etc/telux/permissions/telux_platform_antenna_mgmt       --  gen_context(system_u:object_r:telux_access_platform_antenna_mgmt_t,s0)
+/etc/telux/permissions/telux_platform_subsystem_restart_ctrl      --  gen_context(system_u:object_r:telux_access_platform_subsystem_restart_ctrl_t,s0)
 
 
 ##################################################################################################
