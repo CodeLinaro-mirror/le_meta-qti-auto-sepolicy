@@ -16,9 +16,9 @@ ADD_MODULES ?= "cron"
 
 do_patch:append() {
     install_device_policy(d, os.path.join("auto-sepolicy", "common"))
-    if os.path.exists(os.path.join(d.getVar("WORKDIR"), "auto-sepolicy", d.getVar("BASEMACHINE"))):
+    if os.path.exists(os.path.join(d.getVar("UNPACKDIR"), "auto-sepolicy", d.getVar("BASEMACHINE"))):
         install_device_policy(d, os.path.join("auto-sepolicy", d.getVar("BASEMACHINE")))
-    if os.path.exists(os.path.join(d.getVar("WORKDIR"), "auto-sepolicy", d.getVar("MACHINE"))):
+    if os.path.exists(os.path.join(d.getVar("UNPACKDIR"), "auto-sepolicy", d.getVar("MACHINE"))):
         install_device_policy(d, os.path.join("auto-sepolicy", d.getVar("MACHINE")))
     if bb.utils.contains('DISTRO_FEATURES', 'vbleima', True, False, d):
         install_device_policy(d, os.path.join("auto-sepolicy", "imaevm"))
