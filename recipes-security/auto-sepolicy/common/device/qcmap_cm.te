@@ -85,4 +85,5 @@ rw_chr_files_pattern(qcmap_cm_t, device_t, event_device_t)
 mls_file_read_all_levels(qcmap_cm_t)
 mls_file_write_all_levels(qcmap_cm_t)
 dontaudit dhcpc_t self:capability { sys_admin };
+dlt_allow_user_logging(qcmap_cm_t);
 
