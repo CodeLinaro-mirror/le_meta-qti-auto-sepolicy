@@ -25,8 +25,8 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Changes from Qualcomm Innovation Center, Inc. are provided under the following license:
-# Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Changes from Qualcomm Technologies, Inc. are provided under the following license:
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 /usr/bin/modem-monitor       --  gen_context(system_u:object_r:modem_monitor_exec_t,s0)
@@ -36,9 +36,9 @@
 /usr/bin/modem-monitor-init\.sh               --  gen_context(system_u:object_r:modem_monitor_init_exec_t,s0)
 /data/mdm_dumps(/.*)?                gen_context(system_u:object_r:mm_data_t,s0)
 
-/etc/modem-monitor-usb.conf       -- gen_context(system_u:object_r:mm_etc_t,s0)
-/etc/modem-monitor-pcie.conf       -- gen_context(system_u:object_r:mm_etc_t,s0)
-/etc/modem-monitor-eth.conf       -- gen_context(system_u:object_r:mm_etc_t,s0)
+/etc/data/modem-monitor-usb.conf       -- gen_context(system_u:object_r:mm_etc_data_t,s0)
+/etc/data/modem-monitor-pcie.conf       -- gen_context(system_u:object_r:mm_etc_data_t,s0)
+/etc/data/modem-monitor-eth.conf       -- gen_context(system_u:object_r:mm_etc_data_t,s0)
 
 #ks app
 /usr/bin/ks          --    gen_context(system_u:object_r:ks_exec_t,s0)
