@@ -126,3 +126,5 @@ do_compile[postfuncs] += "remove_modules_conf print_modules_conf"
 
 POLICY_CUSTOM_BUILDOPT:append = "${@bb.utils.contains('COMBINED_FEATURES', 'qti-mvm', '"qti-mvm "', '', d)}"
 do_install[postfuncs] += "${@bb.utils.contains('COMBINED_FEATURES', 'qti-nad-telaf', 'remove_cil', '', d)}"
+
+PURGE_POLICY_MODULES += "needrestart"
