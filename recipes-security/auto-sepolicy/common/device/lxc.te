@@ -98,12 +98,13 @@ allow mount_t lxcrootfs_t:filesystem relabelfrom;
 init_script_domain(lxc_script_app_t, lxc_script_app_exec_t)
 user_data_files_type(lxc_data_t)
 manage_user_data_files(lxc_script_app_t, lxc_data_t)
-allow lxc_script_app_t lxc_data_t:dir { read remove_name add_name create getattr search setattr write };
+allow lxc_script_app_t lxc_data_t:dir { read remove_name add_name create getattr search setattr write mounton };
 files_tmp_file(lxc_tmp_t);
 files_tmp_filetrans(lxc_script_app_t, lxc_tmp_t, { file dir })
 files_type(lxc_conf_etc_t)
 allow lxc_script_app_t lxc_tmp_t:dir { add_name create open read remove_name search write getattr rmdir };
 allow lxc_script_app_t lxc_tmp_t:file { append create getattr lock open read unlink write };
+allow lxc_script_app_t lxc_tmp_t:sock_file { create read write open getattr setattr unlink };
 allow lxc_script_app_t lxc_conf_etc_t:dir search;
 allow lxc_script_app_t lxc_conf_etc_t:file { getattr open read };
 files_runtime_file(lxc_var_run_t)
@@ -211,6 +212,8 @@ ifdef(`qti-nad-telaf',`
         type telaf_app_bundle_t;
         type telaf_app_rw_t;
         type telaf_sys_t;
+        type telaf_tafSomeipGWSvc_t;
+        type telaf_someiptmp_t;
     ')
 
     allow lxc_script_app_t telaf_fw_t:dir { mounton search };
@@ -219,6 +222,13 @@ ifdef(`qti-nad-telaf',`
     allow lxc_script_app_t telaf_app_bundle_t:dir mounton;
     allow lxc_script_app_t telaf_app_rw_t:dir mounton;
     allow lxc_script_app_t telaf_sys_t:dir mounton;
+
+    type_transition lxc_script_app_t telaf_someiptmp_t:sock_file lxc_tmp_t;
+    type_transition lxc_script_app_t telaf_someiptmp_t:file lxc_tmp_t;
+    allow lxc_script_app_t telaf_someiptmp_t:dir { open getattr setattr search read write add_name remove_name };
+    allow lxc_script_app_t telaf_someiptmp_t:sock_file { read write open getattr unlink setattr };
+    allow lxc_script_app_t telaf_someiptmp_t:file { getattr open write lock };
+    allow lxc_script_app_t telaf_tafSomeipGWSvc_t:unix_stream_socket connectto;
 ')
 
 rw_chr_files_pattern(lxc_script_app_t, device_t, ptmx_t);
