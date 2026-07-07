@@ -11,6 +11,7 @@ init_vendor_domain(telux_subsys_mon_t, telux_subsys_mon_exec_t)
 transition_to_confined_domain(telux_subsys_mon_t, telux_subsys_mon_exec_t)
 
 telux_allow_subsystem_mon(telux_subsys_mon_t)
+telux_allow_platform_subsys_edl_ctrl(telux_subsys_mon_t)
 
 telux_allow_platform_subsystem_restart_ctrl(telux_subsys_mon_t)
 
