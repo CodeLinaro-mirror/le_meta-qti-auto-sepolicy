@@ -21,3 +21,6 @@ rw_qipcrtr_socket(qavb_core_t);
 logging_send_syslog_msg(qavb_core_t);
 allow qavb_core_t self:tcp_socket { create };
 allow qavb_core_t self:udp_socket { create ioctl };
+allow qavb_core_t self:capability { setgid };
+#Rule to access dlt-deamon
+dlt_allow_user_logging(qavb_core_t)

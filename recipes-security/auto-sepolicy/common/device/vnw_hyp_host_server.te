@@ -117,3 +117,5 @@ ifdef(`qti-nad-telaf',`
 # Gives permissions for swbinders
 agm_server_sw_binders_access(vnw_hyp_host_server_t)
 unconfined_allow_binder_access(vnw_hyp_host_server_t)
+#Rule to access dlt-deamon
+dlt_allow_user_logging(vnw_hyp_host_server_t)
