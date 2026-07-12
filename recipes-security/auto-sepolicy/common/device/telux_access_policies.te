@@ -98,6 +98,9 @@ type telux_access_platform_antenna_mgmt_t;
 files_type(telux_access_platform_antenna_mgmt_t);
 type telux_access_platform_subsystem_restart_ctrl_t;
 files_type(telux_access_platform_subsystem_restart_ctrl_t);
+type telux_access_platform_subsys_edl_ctrl_t;
+files_type(telux_access_platform_subsys_edl_ctrl_t);
+
 
 ##################################################################################################
 # Type identifiers for the files used to control access for Power related APIs in SDK
