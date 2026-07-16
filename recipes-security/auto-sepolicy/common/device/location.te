@@ -162,6 +162,11 @@ read_files_pattern(loc_t, cert_t, cert_t)
 # read build.prop
 leprop_read_props(loc_t)
 
+## Capability read and modification related
+## setpcap is required to drop capabilities after initialization
+allow loc_t self:process getcap;
+allow loc_t self:capability setpcap;
+
 allow loc_t cert_t:lnk_file read_lnk_file_perms;
 telux_allow_data(loc_t)
 telux_allow_data(xtra_daemon_t)
