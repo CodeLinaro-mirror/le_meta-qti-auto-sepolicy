@@ -25,9 +25,9 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-# Changes from Qualcomm Innovation Center, Inc. are provided under the following license:
+# Changes from Qualcomm Technologies, Inc. are provided under the following license:
 #
-# Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(sensor_hal_daemon, 1.0)
@@ -160,6 +160,8 @@ allow sensor_hal_daemon_t leprop_t:unix_stream_socket { connectto };
 
 allow systemd_tmpfiles_t sensor_hal_daemon_tmp_t:file { getattr unlink };
 allow systemd_tmpfiles_t sensor_hal_daemon_tmp_t:sock_file getattr;
+
+dlt_allow_user_logging(sensor_hal_daemon_t);
 #Use tafSomeipGWSvc as routing manager
 ifdef(`qti-nad-telaf',`
     gen_require(`
