@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## <summary> telux_access_policies </summary>
@@ -1258,66 +1258,6 @@ interface(`telux_allow_sec_wcs_info',`
 ##################################################################################################
 # Interfaces to control access for WLAN related APIs in SDK
 ##################################################################################################
-
-# Interface to get access for WLAN device settings operation APIs.
-# @brief: This interface allows the client to change wlan subsystem settings.
-# Examples of operations supported are enabling wlan, setting, wlan mode, and report wlan state
-# change.
-# Parameters:
-#    1) Domain context.
-
-interface(`telux_allow_wlan_device_config',`
-    gen_require(`
-        type telux_access_wlan_device_config_t;
-    ')
-    allow $1 telux_access_wlan_device_config_t:file {getattr};
-')
-
-# Interface to get access for WLAN access point operations APIs.
-# @brief: This interface allows the client to perform wlan access point operation.
-# The operations supported are configuration of access point parameters such as type, access, ssid,
-# passphrase, restarting hostapd daemon, etc.
-#
-# Parameters:
-#    1) Domain context.
-
-interface(`telux_allow_wlan_ap_config',`
-    gen_require(`
-        type telux_access_wlan_ap_config_t;
-    ')
-    allow $1 telux_access_wlan_ap_config_t:file {getattr};
-')
-
-# Interface to get access for WLAN station mode operations APIs.
-# @brief: This interface allows the client to perform wlan station mode operation.
-# The operations supported are configuration of station mode parameters such as static/dynamic ip,
-# details of static ip address if selected, restarting wpa_supplicant daemon, etc.
-#
-# Parameters:
-#    1) Domain context.
-
-interface(`telux_allow_wlan_sta_config',`
-    gen_require(`
-        type telux_access_wlan_sta_config_t;
-    ')
-    allow $1 telux_access_wlan_sta_config_t:file {getattr};
-')
-
-# Interface to execute operations on devices connected to WLAN access points.
-# @brief: This interface allows the client to perform operation on devices connected to wlan
-# access points station mode operation.
-# The operations supported are configuration of request list of devices connected to access points
-# and their information, request statistics of each device connected to access points, etc.
-#
-# Parameters:
-#    1) Domain context.
-
-interface(`telux_allow_wlan_ap_devices',`
-    gen_require(`
-        type telux_access_wlan_ap_devices_t;
-    ')
-    allow $1 telux_access_wlan_ap_devices_t:file {getattr};
-')
 
 # Interface to execute operations for configuring NTN.
 # @brief: This interface allows the client to configure the NTN network.

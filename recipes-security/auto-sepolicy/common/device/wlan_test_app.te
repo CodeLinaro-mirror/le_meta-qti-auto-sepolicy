@@ -1,4 +1,4 @@
-# Copyright (c) 2022,2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 policy_module(wlan_test_app, 1.0)
 type wlan_test_app_t;
@@ -19,9 +19,3 @@ telux_allow_console_apps(wlan_test_app_t)
 
 # Obtain required permissions from telux_allow_wlan
 telux_allow_wlan(wlan_test_app_t)
-
-# Obtain required permission in terms of API access control
-telux_allow_wlan_device_config(wlan_test_app_t)
-telux_allow_wlan_ap_config(wlan_test_app_t)
-telux_allow_wlan_sta_config(wlan_test_app_t)
-telux_allow_wlan_ap_devices(wlan_test_app_t)
