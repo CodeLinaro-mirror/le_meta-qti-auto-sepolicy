@@ -63,3 +63,6 @@ miscfiles_read_generic_certs(stmfd_t)
 
 # PMD integration
 access_power_mgr_socket(stmfd_t)
+
+# for dlt logging
+dlt_allow_user_logging(stmfd_t)
