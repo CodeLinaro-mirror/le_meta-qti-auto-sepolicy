@@ -50,6 +50,7 @@ interface(`access_power_mgr_socket',`
         type power_manager_daemon_t;
     ')
     dlt_allow_user_logging($1);
+    allow_common_log($1);
     allow $1 power_socket_t:dir search;
     allow $1 power_socket_t:sock_file write;
     allow $1 power_manager_daemon_t:unix_stream_socket connectto;
