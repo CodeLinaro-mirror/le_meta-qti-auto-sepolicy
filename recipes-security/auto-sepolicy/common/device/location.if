@@ -35,5 +35,6 @@ interface(`location_client_generic_rules_auto',`
     ')
     location_client_generic_rules($1);
     kernel_search_vm_sysctl($1);
-    dlt_allow_user_logging($1)
+    dlt_allow_user_logging($1);
+    allow_common_log($1)
 ')
