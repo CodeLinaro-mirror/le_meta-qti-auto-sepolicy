@@ -90,6 +90,9 @@ mls_file_read_all_levels(qcmap_cm_t)
 mls_file_write_all_levels(qcmap_cm_t)
 dontaudit dhcpc_t self:capability { sys_admin };
 dlt_allow_user_logging(qcmap_cm_t);
+allow_common_log(qcmap_cm_t);
+allow_common_log(wpa_cli_t);
+allow_common_log(hostapd_cli_qcmap_t);
 dlt_allow_user_logging(wpa_cli_t);
 dlt_allow_user_logging(hostapd_cli_qcmap_t);
 
