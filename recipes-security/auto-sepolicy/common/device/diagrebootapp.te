@@ -2,3 +2,5 @@
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 dlt_allow_user_logging(diagrebootapp_t)
+allow diagrebootapp_t devlog_t:sock_file write;
+logging_send_syslog_msg(diagrebootapp_t)
