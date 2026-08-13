@@ -44,6 +44,8 @@ gen_require(`
   type dhcpc_var_run_t;
   type qti_socksv5_se_exec_t;
   type wpa_cli_exec_t;
+  type wpa_cli_t;
+  type hostapd_cli_qcmap_t;
   type qcmap_var_run_t;
   type event_device_t;
   type dhcpc_runtime_t;
@@ -86,4 +88,6 @@ mls_file_read_all_levels(qcmap_cm_t)
 mls_file_write_all_levels(qcmap_cm_t)
 dontaudit dhcpc_t self:capability { sys_admin };
 dlt_allow_user_logging(qcmap_cm_t);
+dlt_allow_user_logging(wpa_cli_t);
+dlt_allow_user_logging(hostapd_cli_qcmap_t);
 
