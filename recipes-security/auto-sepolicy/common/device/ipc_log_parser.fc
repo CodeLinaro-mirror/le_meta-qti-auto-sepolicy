@@ -1,0 +1,4 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Cleary
+
+/usr/bin/ipc_log_parser          --  gen_context(system_u:object_r:ipc_log_parser_exec_t,s0)

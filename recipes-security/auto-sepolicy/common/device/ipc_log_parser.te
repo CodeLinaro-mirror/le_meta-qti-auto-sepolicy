@@ -1,0 +1,29 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(ipc_log_parser, 1.0)
+
+type ipc_log_parser_t;
+type ipc_log_parser_exec_t;
+
+init_vendor_domain(ipc_log_parser_t, ipc_log_parser_exec_t)
+
+gen_require(`
+    type unconfined_t;
+    class service { start status stop };
+')
+
+# Read per-subsystem log nodes under /sys/kernel/debug/ipc_logging (default IPC_LOG_BASE)
+kernel_search_debugfs(ipc_log_parser_t)
+kernel_read_debugfs(ipc_log_parser_t)
+
+# Read per-subsystem log nodes under /proc/ipc_logging (qti-distro-tele / qcom-telematics
+# override of IPC_LOG_BASE_PATH)
+gen_require(`
+    type proc_t;
+')
+allow ipc_log_parser_t proc_t:dir { search read open getattr };
+allow ipc_log_parser_t proc_t:file { open read getattr };
+
+# Forward parsed logs to the DLT daemon
+dlt_allow_user_logging(ipc_log_parser_t)
