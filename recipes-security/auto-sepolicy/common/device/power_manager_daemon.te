@@ -26,7 +26,7 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 # Changes from Qualcomm Innovation Center, Inc. are provided under the following license:
-# Copyright (c) 2021-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(power_manager_daemon, 1.0)
@@ -120,3 +120,4 @@ dontaudit power_manager_daemon_t sysctl_kernel_t:dir search;
 dontaudit power_manager_daemon_t sysctl_kernel_t:file { open read ioctl getattr };
 dontaudit power_manager_daemon_t sysctl_t:dir search;
 qrtr_wakeup_info_rw(power_manager_daemon_t)
+dlt_allow_user_logging(power_manager_daemon_t);
