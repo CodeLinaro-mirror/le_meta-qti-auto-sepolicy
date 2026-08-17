@@ -44,6 +44,7 @@ dontaudit qnetmgrd_t sysfs_t:file { write };
 dontaudit qnetmgrd_t self:process { getsched };
 
 dlt_allow_user_logging(qnetmgrd_t)
+allow_common_log(qnetmgrd_t)
 
 allow qnetmgrd_t tmp_t:dir search;
 allow qnetmgrd_t tmpfs_t:dir search;
