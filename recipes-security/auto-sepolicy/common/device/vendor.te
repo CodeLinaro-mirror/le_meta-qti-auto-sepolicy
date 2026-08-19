@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 type init_qti_etc_t;
 files_type(init_qti_etc_t);
@@ -63,3 +63,5 @@ allow domain qmi_fw_conf_t:file { read getattr open };
 
 mount_copybind_file(qmi_fw_conf_t)
 allow qmi_fw_conf_t fs_t:filesystem associate;
+
+dlt_allow_user_logging(tftp_server_t);
