@@ -131,6 +131,9 @@ interface(`access_telux_files',`
 
     # To allow libraries to log to DLT
     dlt_allow_user_logging($1);
+
+    # To allow libraries to log to CLOG (CommonLog)
+    allow_common_log($1)
 ')
 
 # Qmi client interfaces
