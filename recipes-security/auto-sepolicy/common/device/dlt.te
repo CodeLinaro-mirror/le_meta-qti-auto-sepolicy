@@ -1,4 +1,4 @@
-# Copyright (c) 2024 - 2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(dlt, 1.0)
@@ -14,6 +14,16 @@ gen_require(`
   type node_t;
   type alogd_t;
   type tmpfs_t;
+  type sdcard_t;
+  type mnt_t;
+  type fs_t;
+  type mount_t;
+')
+
+userdebug_or_eng(`
+  gen_require(`
+    type unconfined_t;
+  ')
 ')
 
 # DLT new types
@@ -72,3 +82,32 @@ alog_manage_log(dlt_t)
 allow dlt_t dlt_shm_t:file manage_file_perms;
 allow dlt_t dlt_shm_t:sock_file  { read write create unlink };
 allow dlt_t tmpfs_t:dir { search };
+
+# Allow moutnbind files
+mount_copybind_file(dlt_etc_t)
+
+type dlt_logstorage_t;
+files_type(dlt_logstorage_t)
+
+files_tmp_filetrans(dlt_t, dlt_logstorage_t, dir, "dltlogs")
+manage_dirs_pattern(dlt_t, dlt_logstorage_t, dlt_logstorage_t)
+manage_files_pattern(dlt_t, dlt_logstorage_t, dlt_logstorage_t)
+
+type dlt_logstorage_data_t;
+files_type(dlt_logstorage_data_t)
+fs_associate(dlt_logstorage_data_t)
+allow dlt_t dlt_logstorage_data_t:dir { add_name remove_name create getattr setattr search open read write ioctl lock rename rmdir };
+allow dlt_t dlt_logstorage_data_t:file { create open read write append getattr setattr ioctl lock rename unlink };
+allow dlt_t dlt_logstorage_data_t:lnk_file { read getattr };
+
+userdebug_or_eng(`
+  allow unconfined_t dlt_logstorage_data_t:dir { open read getattr search };
+  allow unconfined_t dlt_logstorage_data_t:file { open read getattr };
+')
+
+allow dlt_t sdcard_t:dir { add_name create search write getattr open read remove_name };
+allow dlt_t sdcard_t:file { create getattr open write append rename unlink };
+allow dlt_t sdcard_t:lnk_file read;
+allow dlt_t sdcard_t:filesystem getattr;
+allow dlt_t fs_t:filesystem getattr;
+allow dlt_t mnt_t:dir search;
