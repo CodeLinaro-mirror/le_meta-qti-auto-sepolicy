@@ -1,4 +1,4 @@
-# Copyright (c) 2023-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear.
 
 policy_module(audio_listener_avb, 1.0)
@@ -61,3 +61,4 @@ agm_server_sw_binders_access(audio_listener_avb_t)
 unconfined_allow_binder_access(audio_listener_avb_t)
 #Rule to access dlt-deamon
 dlt_allow_user_logging(audio_listener_avb_t)
+allow_common_log(audio_listener_avb_t)

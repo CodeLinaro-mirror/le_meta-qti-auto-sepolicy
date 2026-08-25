@@ -44,3 +44,4 @@ allow qavb_app_t proc_t:file read_file_perms;
 allow qavb_app_t socket_device_t:dir search;
 #Rule to access dlt-deamon
 dlt_allow_user_logging(qavb_app_t)
+allow_common_log(qavb_app_t)
