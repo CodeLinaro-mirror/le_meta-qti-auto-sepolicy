@@ -1,5 +1,5 @@
-#Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
-#SPDX-License-Identifier: BSD-3-Clause-Clear
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(ssgtzd, 1.0)
 
@@ -11,6 +11,8 @@ type ssgtzd_sock_t;
 files_type(ssgtzd_sock_t)
 dev_node(ssgtzd_sock_t)
 device_manage_socket_file(ssgtzd_t, ssgtzd_sock_t)
+files_tmp_filetrans(ssgtzd_t, ssgtzd_sock_t, sock_file, "ssgtzd")
+files_tmp_filetrans(ssgtzd_t, ssgtzd_sock_t, sock_file, "ssgtzd_opener")
 
 init_vendor_domain(ssgtzd_t, ssgtzd_exec_t)
 
@@ -29,7 +31,6 @@ allow ssgtzd_t self:unix_stream_socket { accept listen };
 allow ssgtzd_t ssgtzd_sock_t:sock_file { create unlink setattr};
 allow ssgtzd_t ssgtzd_etc_ta_config_t:dir { open getattr search read };
 allow ssgtzd_t ssgtzd_etc_ta_config_t:file { read getattr open };
-allow ssgtzd_t tmp_t:dir search;
 #============= unconfined_t ==============
 allow unconfined_t ssgtzd_exec_t:service { start status };
 allow unconfined_t ssgtzd_etc_ta_config_t:dir { open getattr search read };

@@ -1,0 +1,10 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+gen_require(`
+    type nicmd_t;
+    type cert_t;
+')
+
+#============= nicmd_t ==============
+allow nicmd_t cert_t:dir { getattr read open };

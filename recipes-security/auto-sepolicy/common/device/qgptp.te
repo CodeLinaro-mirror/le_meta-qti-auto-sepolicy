@@ -83,6 +83,7 @@ allow qgptp_t self:capability { net_raw net_admin chown sys_time};
 allow qgptp_t self:netlink_route_socket { read bind create };
 allow qgptp_t self:packet_socket create_socket_perms;
 allow qgptp_t self:tcp_socket { create ioctl };
+allow qgptp_t self:udp_socket create_socket_perms;
 allow qgptp_t self:unix_stream_socket { listen accept };
 allow qgptp_t self:process { signal };
 allow qgptp_t self:fifo_file rw_fifo_file_perms;

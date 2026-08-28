@@ -1,8 +1,17 @@
-# Copyright (c) 2024-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 gen_require(`
+    type initrc_t;
     type qcmap_var_run_t;
+    type tmpfs_t;
 ')
 allow ifconfig_t qcmap_cm_t:netlink_kobject_uevent_socket rw_socket_perms;
 dontaudit ifconfig_t qcmap_var_run_t:file { write };
+
+# vnw_eth_avb_config.sh (initrc_t) creates /tmp/vnw_XXXXXX FIFOs.
+type vnw_tmpfs_fifo_t;
+files_tmpfs_file(vnw_tmpfs_fifo_t)
+filetrans_pattern(initrc_t, tmpfs_t, vnw_tmpfs_fifo_t, fifo_file)
+
+allow ifconfig_t vnw_tmpfs_fifo_t:fifo_file { getattr read write };
