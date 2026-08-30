@@ -72,3 +72,4 @@ rw_smcinvoke_dev_node(tsens_t)
 allow tsens_t vendor_dmabuf_qseecom_heap_device_t:chr_file { ioctl open read };
 allow tsens_t vendor_dmabuf_qseecomta_heap_device_t:chr_file { ioctl open read };
 dlt_allow_user_logging(tsens_t);
+allow_common_log(tsens_t);
