@@ -61,3 +61,4 @@ allow eth_pwr_power_app_t init_runtime_t:dir search;
 allow eth_pwr_power_app_t syslogd_runtime_t:dir search;
 rw_qipcrtr_socket(eth_pwr_power_app_t);
 dlt_allow_user_logging(eth_pwr_power_app_t);
+allow_common_log(eth_pwr_power_app_t);
