@@ -69,3 +69,6 @@ mls_file_read_all_levels(ipacm_t)
 dlt_allow_user_logging(ipacm_t)
 dlt_allow_user_logging(ipa_lnx_agent_t);
 dlt_allow_user_logging(ipacm_diag_t);
+
+##CommonLog (CLOG) logging
+allow_common_log(ipacm_t);
