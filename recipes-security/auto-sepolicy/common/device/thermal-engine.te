@@ -8,3 +8,4 @@ gen_require(`
 allow thermal-engine_t cpu_sysfs_t:dir {read search};
 allow thermal-engine_t cpu_sysfs_t:file read_file_perms;
 dlt_allow_user_logging(thermal-engine_t);
+allow_common_log(thermal-engine_t);
