@@ -76,3 +76,4 @@ telux_allow_tel_srv_system_read(chrony_sock_t)
 # For updating delta file
 allow chrony_sock_t time_delta_t:dir { search };
 allow chrony_sock_t time_delta_t:file { open read write };
+allow_common_log(chrony_sock_t);
