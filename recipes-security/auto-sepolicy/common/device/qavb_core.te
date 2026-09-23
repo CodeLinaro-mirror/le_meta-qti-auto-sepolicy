@@ -1,10 +1,11 @@
-# Copyright (c) 2023-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear.
 
 policy_module(qavb_core, 1.0)
 
 gen_require(`
         type ptmx_t;
+        type socket_device_t;
 ')
 
 type qavb_core_t;
@@ -18,9 +19,11 @@ transition_to_confined_domain(qavb_core_t, qavb_core_exec_t)
 logging_send_syslog_msg(qavb_core_t)
 
 rw_qipcrtr_socket(qavb_core_t);
+allow qavb_core_t socket_device_t:dir search;
 logging_send_syslog_msg(qavb_core_t);
 allow qavb_core_t self:tcp_socket { create };
 allow qavb_core_t self:udp_socket { create ioctl };
 allow qavb_core_t self:capability { setgid };
 #Rule to access dlt-deamon
 dlt_allow_user_logging(qavb_core_t)
+allow_common_log(qavb_core_t)

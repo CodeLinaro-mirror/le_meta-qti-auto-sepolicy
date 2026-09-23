@@ -1,4 +1,4 @@
-# Copyright (c) 2023-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear.
 
 policy_module(vnw_hyp_client_app, 1.0)
@@ -24,3 +24,4 @@ allow vnw_hyp_client_app_t syslogd_runtime_t:dir search;
 allow vnw_hyp_client_app_t init_runtime_t:dir search;
 #Rule to access dlt-deamon
 dlt_allow_user_logging(vnw_hyp_client_app_t)
+allow_common_log(vnw_hyp_client_app_t)
