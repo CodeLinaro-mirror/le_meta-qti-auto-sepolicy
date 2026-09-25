@@ -32,3 +32,4 @@ allow agm_server_t leprop_sock_t:sock_file write;
 allow agm_server_t leprop_t:unix_stream_socket { connectto };
 
 dlt_allow_user_logging(agm_server_t);
+allow_common_log(agm_server_t)
