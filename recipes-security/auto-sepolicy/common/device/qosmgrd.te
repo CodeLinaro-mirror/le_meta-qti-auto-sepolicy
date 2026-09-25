@@ -1,0 +1,53 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(qosmgrd, 1.0)
+
+type qosmgrd_t;
+type qosmgrd_exec_t;
+
+init_vendor_domain(qosmgrd_t, qosmgrd_exec_t)
+
+gen_require(`
+    type proc_t;
+')
+
+# QoSMgr uses the shared QCMAP configuration tree. This grants read/write management of qcmap_etc_data_t files under /etc/data and /systemrw/data.
+files_rw_qcmap_etc_data_files(qosmgrd_t)
+
+# QoSMgr writes temporary configuration and client files in QCMAP's shared
+# /var/run/data tree.
+qcmap_manage_var_run_data_files(qosmgrd_t)
+
+# QoSMgr currently uses system()/popen() for cp and fsync while maintaining qos_cfg.xml. Both helpers remain in qosmgrd_t.
+corecmd_exec_shell(qosmgrd_t)
+corecmd_exec_bin(qosmgrd_t)
+
+# cp/fsync inspect /proc/filesystems while updating QoSMgr configuration.
+allow qosmgrd_t proc_t:file { getattr open read };
+
+# QoSMgr registers a QMI CSI service through QRTR. This permits only its own QRTR socket and traversal of the QRTR socket directory.
+allow qosmgrd_t self:qipcrtr_socket create_socket_perms;
+device_search_sockets(qosmgrd_t)
+
+# The shell process started for nft resolves local NSS configuration first.
+files_read_etc_files(qosmgrd_t)
+
+# Keep nft in its existing confined domain rather than executing it directly from qosmgrd_t.
+iptables_domtrans(qosmgrd_t)
+
+# QoSMgr's network startup path uses NETLINK_ROUTE and NETLINK_GENERIC, and the QMS/STMF HAL clients use TIPC.  
+allow qosmgrd_t self:capability { net_admin net_raw };
+allow qosmgrd_t self:netlink_netfilter_socket create_socket_perms;
+allow qosmgrd_t self:netlink_route_socket { create bind read };
+allow qosmgrd_t self:netlink_generic_socket { create bind };
+allow qosmgrd_t self:tipc_socket { create read bind write getattr setopt connect };
+allow qosmgrd_t self:udp_socket { create ioctl };
+allow qosmgrd_t self:rawip_socket create_socket_perms;
+
+# QoSMgr status messages are deliberately written to /dev/kmsg.  The service receives the corresponding kmsg supplementary group for DAC access.
+dev_write_kmsg(qosmgrd_t)
+
+# /dev/kmsg is labelled at s15, retain the TE restriction above while allowing QoSMgr's s0 process to access that already-authorized MLS object. The dev_write_kmsg interface includes getattr as well as write.
+mls_file_read_all_levels(qosmgrd_t)
+mls_file_write_all_levels(qosmgrd_t)
