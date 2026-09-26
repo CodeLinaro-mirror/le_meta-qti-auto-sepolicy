@@ -12,6 +12,7 @@ gen_require(`
     type configfs_t;
     type fs_t;
     type unconfined_t;
+    type socket_device_t;
 ')
 
 userdebug_or_eng(`
@@ -65,3 +66,8 @@ mount_copybind_file(qmi_fw_conf_t)
 allow qmi_fw_conf_t fs_t:filesystem associate;
 
 dlt_allow_user_logging(tftp_server_t);
+allow_common_log(tftp_server_t);
+
+# /dev/socket directory search (liblog SOCK_DGRAM connect to /dev/socket/logdw
+# for CLOG's logcat backend)
+allow tftp_server_t socket_device_t:dir search;

@@ -1,4 +1,13 @@
 # Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
+gen_require(`
+    type socket_device_t;
+')
+
 dlt_allow_user_logging(rmt_storage_t);
+allow_common_log(rmt_storage_t);
+
+# /dev/socket directory search (liblog SOCK_DGRAM connect to /dev/socket/logdw
+# for CLOG's logcat backend)
+allow rmt_storage_t socket_device_t:dir search;
