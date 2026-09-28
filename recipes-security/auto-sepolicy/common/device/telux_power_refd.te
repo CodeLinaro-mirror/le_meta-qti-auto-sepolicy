@@ -10,6 +10,7 @@ files_type(telux_power_refd_conf_t)
 
 #domain transition if started from init
 init_vendor_domain(telux_power_refd_t, telux_power_refd_exec_t)
+telux_allow_console_apps(telux_power_refd_t)
 
 #domain transition if started from adb shell
 transition_to_confined_domain(telux_power_refd_t, telux_power_refd_exec_t)
