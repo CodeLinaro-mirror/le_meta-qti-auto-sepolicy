@@ -1,0 +1,21 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary> commonlog </summary>
+
+# Allow a domain to use the CommonLog
+interface(`allow_common_log',`
+    gen_require(`
+        type commonlog_etc_t;
+        type commonlog_data_t;
+    ')
+
+    allow $1 commonlog_etc_t:file read_file_perms;
+
+    allow $1 commonlog_data_t:dir { add_name remove_name create getattr setattr search open read write ioctl lock rename rmdir };
+    allow $1 commonlog_data_t:file { create open read write append getattr setattr ioctl lock rename unlink };
+    allow $1 commonlog_data_t:lnk_file { read getattr };
+
+    logging_send_syslog_msg($1)
+    dlt_allow_user_logging($1)
+')
