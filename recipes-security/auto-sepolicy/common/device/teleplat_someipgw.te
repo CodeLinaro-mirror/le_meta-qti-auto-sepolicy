@@ -1,0 +1,72 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+# telePlatSomeipGWSvc is the standalone systemd vsomeip routing
+# manager used on chipset builds that do not carry TelAF/Legato -- it is a
+# functional clone of TelAF's tafSomeipGWSvc (see tafSomeipGWSvc.te), minus
+# the Legato app-domain plumbing. Only compile this module in on those
+# builds; on qti-nad-telaf builds tafSomeipGWSvc owns the routing manager
+# role and this type set must not exist, to avoid a second confined domain
+policy_module(teleplat_someipgw, 1.0)
+# contending for the same routing-manager responsibilities.
+#ifdef(`qti-nad-telaf',`',`
+
+
+gen_require(`
+  type systemd_tmpfiles_t;
+  type proc_net_t;
+  type unreserved_port_t;
+  type node_t;
+  type sensor_hal_daemon_tmp_t;
+  type devlog_t;
+  type syslogd_t;
+  type urandom_device_t;
+  type boot_kpi_values_t;
+')
+
+type teleplat_someipgw_exec_t;
+files_type(teleplat_someipgw_exec_t);
+
+type teleplat_someipgw_t;
+
+type teleplat_someipgw_json_t;
+files_type(teleplat_someipgw_json_t);
+
+# Setup for tmp directory
+type teleplat_someiptmp_t;
+files_tmp_file(teleplat_someiptmp_t)
+files_tmp_filetrans(teleplat_someipgw_t, teleplat_someiptmp_t, { sock_file file dir })
+manage_sock_files_pattern(teleplat_someipgw_t, teleplat_someiptmp_t, teleplat_someiptmp_t);
+manage_files_pattern(teleplat_someipgw_t, teleplat_someiptmp_t, teleplat_someiptmp_t);
+allow teleplat_someipgw_t teleplat_someiptmp_t:sock_file { write };
+
+# telePlatSomeipGWSvc is a plain rootfs systemd service (no Legato app
+# container to admin-manage), so it is confined with the standard
+# vendor-daemon domain macro rather than the Legato-specific
+# init_telaf_app_domain/telaf_admin_manage_all_files_perms used by
+# tafSomeipGWSvc -- those macros are Legato-app-update specific and do
+# not exist for rootfs-installed binaries in this policy tree.
+init_vendor_domain(teleplat_someipgw_t, teleplat_someipgw_exec_t)
+
+# Allow systemd to get attribute of /tmp/telePlatSomeipGWSvc-0
+allow systemd_tmpfiles_t tmp_t:sock_file { getattr };
+
+allow teleplat_someipgw_t self:udp_socket create_socket_perms;
+allow teleplat_someipgw_t self:tcp_socket create_stream_socket_perms;
+allow teleplat_someipgw_t self:netlink_route_socket rw_netlink_socket_perms;
+allow teleplat_someipgw_t self:capability { net_admin };
+allow teleplat_someipgw_t boot_kpi_values_t:file { write open getattr };
+allow teleplat_someipgw_t proc_net_t:file read_file_perms;
+allow teleplat_someipgw_t { unreserved_port_t node_t }:udp_socket { name_bind node_bind };
+allow teleplat_someipgw_t { unreserved_port_t node_t }:tcp_socket { name_bind node_bind name_connect };
+
+allow teleplat_someipgw_t sensor_hal_daemon_tmp_t:sock_file { write };
+allow teleplat_someipgw_t sensor_hal_daemon_tmp_t:unix_stream_socket { connectto };
+
+allow teleplat_someipgw_t devlog_t:sock_file { write };
+allow teleplat_someipgw_t syslogd_t:unix_dgram_socket { sendto };
+allow teleplat_someipgw_t teleplat_someipgw_json_t:file { getattr read open };
+#allow teleplat_someipgw_t sensor_hal_daemon_json_t:file { getattr read open };
+allow teleplat_someipgw_t urandom_device_t:chr_file { read open };
+
+#') dnl end ifdef(`qti-nad-telaf')
