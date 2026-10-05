@@ -1,0 +1,20 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(commonlog, 1.0)
+
+type commonlog_etc_t;
+files_type(commonlog_etc_t);
+mount_copybind_file(commonlog_etc_t);
+
+type commonlog_data_t;
+files_type(commonlog_data_t)
+fs_associate(commonlog_data_t)
+
+userdebug_or_eng(`
+  gen_require(`
+    type unconfined_t;
+  ')
+  allow unconfined_t commonlog_data_t:dir { open read getattr search };
+  allow unconfined_t commonlog_data_t:file { open read getattr };
+')
