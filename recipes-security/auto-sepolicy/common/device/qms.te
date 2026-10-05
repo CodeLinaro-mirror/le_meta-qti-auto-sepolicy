@@ -1,10 +1,11 @@
-#  Copyright (c) 2024-2025 Qualcomm Innovation Center, Inc. All rights reserved.
-#  SPDX-License-Identifier: BSD-3-Clause-Clear
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(qms, 1.0)
 
 gen_require(`
     type diag_device_t;
+    type kernel_t;
     type device_t;
     type tmpfs_t;
     type sysctl_t;
@@ -13,8 +14,11 @@ gen_require(`
     type leprop_sock_t;
     type leprop_t;
     type shell_exec_t;
+    type etc_t;
     type boot_kpi_values_t;
     type proc_t;
+    type sysfs_t;
+    type qcmap_etc_data_t;
     class process signal;
 ')
 
@@ -34,6 +38,11 @@ allow qms_t self:{ netlink_socket qipcrtr_socket} { create getattr write read se
 allow qms_t self:unix_stream_socket { create connectto sendto listen accept read write bind};
 allow qms_t self:capability { net_admin net_raw };
 
+allow qms_t shell_exec_t:file map;
+
+allow kernel_t qcmap_etc_data_t:dir search;
+allow kernel_t qcmap_etc_data_t:file { read open };
+
 #/dev/socket/qms/ access
 type qms_sock_t;
 
@@ -44,8 +53,12 @@ device_manage_socket_file(qms_t, qms_sock_t)
 manage_dirs_pattern(qms_t, qms_sock_t, qms_sock_t);
 allow qms_t socket_device_t:dir { search };
 
-allow qms_t cert_t:dir { search };
+allow qms_t cert_t:dir { search getattr read open };
 allow qms_t cert_t:file { getattr open read };
+allow qms_t sysfs_t:dir { getattr search open read };
+allow qms_t sysfs_t:lnk_file read;
+allow qms_t sysfs_t:file { read open };
+allow qms_t etc_t:file { getattr open read };
 
 allow qms_t qcmap_var_run_t:dir { search write add_name };
 allow qms_t qcmap_var_run_t:file { create write open getattr };
@@ -67,7 +80,7 @@ user_data_files_type(qms_data_t);
 manage_user_data_files(qms_t, qms_data_t);
 allow qms_t qms_data_t:lnk_file read;
 
-allow qms_t shell_exec_t:file { execute execute_no_trans open read };
+allow qms_t shell_exec_t:file { getattr execute execute_no_trans open read };
 allow qms_t boot_kpi_values_t:file { getattr append open };
 read_files_pattern( qms_t, proc_t, proc_t);
 

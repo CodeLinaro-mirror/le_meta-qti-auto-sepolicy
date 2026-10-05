@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 gen_require(`
@@ -7,7 +7,15 @@ gen_require(`
        type ifconfig_exec_t;
        type kmod_t;
        type event_device_t;
+       type ipacm_diag_t;
+       type debugfs_t;
+       type device_t;
 ')
+
+allow ipacm_diag_t debugfs_t:dir search;
+allow ipacm_diag_t debugfs_t:file { read open getattr };
+allow ipacm_diag_t self:capability { sys_nice };
+allow ipacm_diag_t self:process setsched;
 
 allow ipacm_t qcmap_var_run_t:dir rw_dir_perms;
 allow ipacm_t qcmap_var_run_t:file manage_file_perms;
@@ -28,9 +36,6 @@ allow ipacm_t system_data_t:dir  { watch };
 
 ## ipa_fw_initrc_t access to vlan cfg
 allow ipa_fw_initrc_t ipa_vlan_cfg_t: file { open read write getattr };
-
-## mount_t
-allow mount_t ipa_vlan_cfg_t: file { create open read write };
 
 ## inotify on /data/ipa dir
 allow ipacm_t system_data_t: dir { watch };
@@ -53,4 +58,3 @@ dontaudit kmod_t ipa_fw_device_t:chr_file  { read write };
 rw_chr_files_pattern(ipacm_t, device_t, event_device_t)
 mls_file_write_all_levels(ipacm_t)
 mls_file_read_all_levels(ipacm_t)
-

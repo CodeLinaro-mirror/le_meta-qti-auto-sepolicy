@@ -1,0 +1,10 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+gen_require(`
+    type kernel_t;
+    type firmware_t;
+')
+
+#============= kernel_t ==============
+allow kernel_t firmware_t:system firmware_load;

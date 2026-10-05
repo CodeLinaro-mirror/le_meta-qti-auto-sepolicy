@@ -1,0 +1,14 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+gen_require(`
+    type port_bridge_t;
+    type usbfs_t;
+    type configfs_t;
+')
+
+#============= port_bridge_t ==============
+allow port_bridge_t usbfs_t:dir search;
+allow port_bridge_t usbfs_t:file { read write open };
+allow port_bridge_t configfs_t:dir search;
+allow port_bridge_t configfs_t:file { open read write };

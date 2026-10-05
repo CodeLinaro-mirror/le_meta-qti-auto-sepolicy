@@ -1,4 +1,5 @@
-# Copyright (c) 2022-2023, Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -12,7 +13,7 @@
 #       disclaimer in the documentation and/or other materials provided
 #       with the distribution.
 #
-#     * Neither the name of Qualcomm Innovation Center, Inc. nor the names of its
+#     * Neither the name of Qualcomm Technologies, Inc. nor the names of its
 #       contributors may be used to endorse or promote products derived
 #       from this software without specific prior written permission.
 #
@@ -32,3 +33,6 @@
 #
 
 /data/vendor/audio(/.*)?           gen_context(system_u:object_r:audio_delta_acdb_data_t,s0)
+/etc/acdbdata/sdx_auto(/.*)?        gen_context(system_u:object_r:audio_hal_etc_acdb_t,s0)
+/etc/resourcemanager_sdx_auto.xml   gen_context(system_u:object_r:audio_hal_etc_t,s0)
+/etc/plugin_manager.xml             gen_context(system_u:object_r:audio_hal_etc_t,s0)

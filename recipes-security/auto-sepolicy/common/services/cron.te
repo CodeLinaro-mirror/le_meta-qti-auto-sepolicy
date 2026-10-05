@@ -1,0 +1,23 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+# crontab_t has no system_r association upstream, so crontab fails with op=security_compute_sid invalid_context with system_r:unconfined_t login shells
+gen_require(`
+    type crontab_t;
+    type crond_t;
+    type var_spool_t;
+')
+role system_r types crontab_t;
+
+allow crond_t var_spool_t:dir { write add_name create };
+
+# crontab_domain has no terminal access upstream; console crontab invocations need it for /dev/ttyMSM0
+gen_require(`
+    attribute crontab_domain;
+')
+
+term_use_all_terms(crontab_domain)
+kernel_read_kernel_sysctls(crontab_domain)
+
+# crontab also getattr's the procfs superblock itself (name="/" on dev="proc"), distinct from the sysctl dir search above.
+kernel_getattr_proc(crontab_domain)

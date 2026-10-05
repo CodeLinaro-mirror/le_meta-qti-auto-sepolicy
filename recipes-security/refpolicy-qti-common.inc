@@ -108,17 +108,17 @@ python print_modules_conf () {
     bb.note("SELinux: modules.conf summary: base=%d module=%d off=%d" %
             (len(enabled_base), len(enabled_mod), len(disabled_off)))
 
-    bb.debug("SELinux: enabled base modules:")
+    bb.debug(1, "SELinux: enabled base modules:")
     for m in sorted(enabled_base):
-        bb.debug("  %s = base" % m)
+        bb.debug(1, "  %s = base" % m)
 
-    bb.debug("SELinux: enabled loadable modules:")
+    bb.debug(1, "SELinux: enabled loadable modules:")
     for m in sorted(enabled_mod):
-        bb.debug("  %s = module" % m)
+        bb.debug(1, "  %s = module" % m)
 
-    bb.debug("SELinux: disabled modules:")
+    bb.debug(1, "SELinux: disabled modules:")
     for m in sorted(disabled_off):
-        bb.debug("  %s = module" % m)
+        bb.debug(1, "  %s = module" % m)
 }
 
 

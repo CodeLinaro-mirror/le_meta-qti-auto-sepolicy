@@ -56,6 +56,7 @@ gen_require(`
   type init_t;
 ')
 
+allow kernel_t qcmap_etc_data_t:system firmware_load;
 allow qcmap_cm_t modem_monitor_t:unix_stream_socket connectto;
 allow qcmap_cm_t socket_device_t:sock_file write;
 allow qcmap_cm_t ipa_vlan_cfg_t:file { open read write getattr lock append };
@@ -93,4 +94,3 @@ allow qcmap_cm_t qcmap_var_run_t: dir { watch };
 rw_chr_files_pattern(qcmap_cm_t, device_t, event_device_t)
 mls_file_read_all_levels(qcmap_cm_t)
 mls_file_write_all_levels(qcmap_cm_t)
-
