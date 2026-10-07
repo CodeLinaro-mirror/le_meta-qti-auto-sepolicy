@@ -1,0 +1,16 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+gen_require(`
+    type sfs_config_initrc_t;
+    type shell_exec_t;
+    type etc_t;
+    type var_t;
+')
+
+#============= sfs_config_initrc_t ==============
+allow sfs_config_initrc_t shell_exec_t:file map;
+allow sfs_config_initrc_t shell_exec_t:file { execute read };
+# NSS lookups read /etc/nsswitch.conf and /etc/passwd.
+allow sfs_config_initrc_t etc_t:file { getattr read open};
+allow sfs_config_initrc_t var_t:dir setattr;

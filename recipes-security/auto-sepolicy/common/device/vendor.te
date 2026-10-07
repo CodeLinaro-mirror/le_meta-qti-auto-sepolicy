@@ -13,6 +13,7 @@ gen_require(`
     type configfs_t;
     type fs_t;
     type unconfined_t;
+    type kmsg_device_t;
 ')
 
 userdebug_or_eng(`
@@ -34,6 +35,8 @@ allow post_boot_script_t self:capability fowner;
 allow post_boot_script_t self:capability chown;
 allow post_boot_script_t sysfs_t:file setattr;
 allow post_boot_script_t self:lockdown confidentiality;
+allow post_boot_script_t kmsg_device_t:chr_file getattr;
+mls_file_read_all_levels(post_boot_script_t)
 
 type vendor_dmabuf_qseecomta_heap_device_t;
 dev_node(vendor_dmabuf_qseecomta_heap_device_t);

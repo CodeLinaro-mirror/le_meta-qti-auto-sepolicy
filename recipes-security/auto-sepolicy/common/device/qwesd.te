@@ -25,8 +25,9 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-# Changes from Qualcomm Innovation Center, Inc. are provided under the following license:
-# Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Changes from Qualcomm Technologies, Inc. are provided under the following license:
+#
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(qwesd, 1.0)
@@ -214,6 +215,8 @@ gen_require(`
   type qseecomd_data_t;
   type qseecomd_persist_t;
   type qwes_data_t;
+  type shell_exec_t;
+  type var_t;
 ')
 
 logging_send_syslog_msg(qwes_license_store_setup_t)
@@ -221,9 +224,14 @@ logging_send_syslog_msg(qwes_license_store_setup_t)
 # Allow read/write to /persist/data/ path.
 mgr_persist_data_path(qwes_license_store_setup_t)
 allow qwes_license_store_setup_t qseecomd_persist_t:file { write create open getattr ioctl setattr };
+filetrans_pattern(qwes_license_store_setup_t, qseecomd_persist_t, qseecomd_persist_t, dir)
+allow qwes_license_store_setup_t qseecomd_persist_t:dir manage_dir_perms;
 
 # Allow qwesd to stat/read/write into license store path
 allow qwesd_t qseecomd_persist_t:file { getattr write open read };
+
+# pfm/licenses dirs land on the default var_t label instead of qseecomd_persist_t chmod needs setattr
+allow qwes_license_store_setup_t var_t:dir setattr;
 
 # Allow read access to /etc/passwd file for chown command.
 files_read_etc_files(qwes_license_store_setup_t)
@@ -247,6 +255,7 @@ mls_file_read_all_levels(qwes_license_store_setup_t)
 mls_file_write_all_levels(qwes_license_store_setup_t)
 
 allow qwes_license_store_setup_t self:capability { fowner chown };
+allow qwes_license_store_setup_t shell_exec_t:file { map execute read };
 #################################################################################
 # Rules ending for setting up qwes_license_store.
 #################################################################################

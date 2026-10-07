@@ -1,0 +1,6 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+/etc/commonlog.conf                     --  gen_context(system_u:object_r:commonlog_etc_t,s0)
+/etc/commonlog-sink-config.conf         --  gen_context(system_u:object_r:commonlog_etc_t,s0)
+/data/common_logs(/.*)?                 gen_context(system_u:object_r:commonlog_data_t,s0)

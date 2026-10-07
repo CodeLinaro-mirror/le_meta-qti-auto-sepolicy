@@ -24,7 +24,9 @@
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
+#
+# Changes from Qualcomm Technologies, Inc. are provided under the following license:
+#
 # Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
@@ -39,13 +41,22 @@ gen_require(`
 	type setfiles_t;
 	type usb_dev_t;
 	type usbfs_t;
+	type shell_exec_t;
+	type default_context_t;
+	type file_context_t;
+	type fs_t;
 ')
 
 dontaudit mount_copybind_t self:capability sys_admin;
 
 allow mount_copybind_t var_lib_t:dir { getattr search };
 allow mount_copybind_t var_spool_t:dir { getattr search };
-allow mount_copybind_t var_t:dir { write add_name create };
+allow mount_copybind_t var_t:dir { getattr search read open write add_name create relabelfrom relabelto setattr };
+allow mount_copybind_t shell_exec_t:file { map read execute };
+allow mount_copybind_t default_context_t:dir search;
+allow mount_copybind_t file_context_t:dir search;
+allow mount_copybind_t file_context_t:file {read open getattr map};
+allow mount_copybind_t fs_t:filesystem getattr;
 
 allow mount_t var_spool_t:dir mounton;
 allow mount_t var_t:dir { manage_dir_perms mounton };

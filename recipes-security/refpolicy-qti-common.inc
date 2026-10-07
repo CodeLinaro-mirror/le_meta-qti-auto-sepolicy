@@ -10,7 +10,7 @@ SRC_URI += "${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm-tele', 'file://auto
 SRC_URI += "${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm-fota', 'file://auto-sepolicy/fotavm/', '', d)}"
 
 #these modules are not applicable for telematics targets
-REMOVE_MODULES ?= "adk_message_monitor adk_message_send adkcfg alljoyn allplay mediaplayer_cli mediaplayer_test qcameradaemon splitxr_service gpu iotd iotsys btdaemon button_manager demuratnservice irsc_util msdc cloudinit dlsc fs_scrub_daemon pdmappersvc sosreport sblim samhain rkhunter puppet mcelog logwatch logrotate Kudzu kismet kdump kdumpgui firstboot fakehwclock ddcprobe dbadm chkrootkit cfengine certwatch bootloader bootlogd amtu aide alex"
+REMOVE_MODULES ?= "adk_message_monitor adk_message_send adkcfg alljoyn allplay mediaplayer_cli mediaplayer_test qcameradaemon splitxr_service gpu iotd iotsys btdaemon button_manager demuratnservice irsc_util msdc cloudinit fs_scrub_daemon pdmappersvc sosreport sblim samhain rkhunter puppet mcelog logwatch logrotate Kudzu kismet kdump kdumpgui firstboot fakehwclock ddcprobe dbadm chkrootkit cfengine certwatch bootloader bootlogd amtu aide alex"
 
 ADD_MODULES ?= "cron"
 
@@ -108,17 +108,17 @@ python print_modules_conf () {
     bb.note("SELinux: modules.conf summary: base=%d module=%d off=%d" %
             (len(enabled_base), len(enabled_mod), len(disabled_off)))
 
-    bb.debug("SELinux: enabled base modules:")
+    bb.debug(1, "SELinux: enabled base modules:")
     for m in sorted(enabled_base):
-        bb.debug("  %s = base" % m)
+        bb.debug(1, "  %s = base" % m)
 
-    bb.debug("SELinux: enabled loadable modules:")
+    bb.debug(1, "SELinux: enabled loadable modules:")
     for m in sorted(enabled_mod):
-        bb.debug("  %s = module" % m)
+        bb.debug(1, "  %s = module" % m)
 
-    bb.debug("SELinux: disabled modules:")
+    bb.debug(1, "SELinux: disabled modules:")
     for m in sorted(disabled_off):
-        bb.debug("  %s = module" % m)
+        bb.debug(1, "  %s = module" % m)
 }
 
 
