@@ -1,16 +1,10 @@
 # Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
-# telePlatSomeipGWSvc is the standalone systemd vsomeip routing
-# manager used on chipset builds that do not carry TelAF/Legato -- it is a
-# functional clone of TelAF's tafSomeipGWSvc (see tafSomeipGWSvc.te), minus
-# the Legato app-domain plumbing. Only compile this module in on those
-# builds; on qti-nad-telaf builds tafSomeipGWSvc owns the routing manager
-# role and this type set must not exist, to avoid a second confined domain
-policy_module(teleplat_someipgw, 1.0)
-# contending for the same routing-manager responsibilities.
-#ifdef(`qti-nad-telaf',`',`
+# telePlatSomeipGWSvc provides vSomeIP routing-manager functionality
+# when TelAF/Legato services are unavailable
 
+policy_module(teleplat_someipgw, 1.0)
 
 gen_require(`
   type systemd_tmpfiles_t;
@@ -24,20 +18,28 @@ gen_require(`
   type boot_kpi_values_t;
 ')
 
+ifdef(`qti-nad-telaf',`
+    gen_require(`
+    type telaf_someiptmp_t;
+    ')
+    allow teleplat_someipgw_t telaf_someiptmp_t:dir { search read write add_name };
+    allow teleplat_someipgw_t telaf_someiptmp_t:sock_file { create write setattr };
+')
+
 type teleplat_someipgw_exec_t;
-files_type(teleplat_someipgw_exec_t);
+files_type(teleplat_someipgw_exec_t)
 
 type teleplat_someipgw_t;
 
 type teleplat_someipgw_json_t;
-files_type(teleplat_someipgw_json_t);
+files_type(teleplat_someipgw_json_t)
 
 # Setup for tmp directory
 type teleplat_someiptmp_t;
 files_tmp_file(teleplat_someiptmp_t)
 files_tmp_filetrans(teleplat_someipgw_t, teleplat_someiptmp_t, { sock_file file dir })
-manage_sock_files_pattern(teleplat_someipgw_t, teleplat_someiptmp_t, teleplat_someiptmp_t);
-manage_files_pattern(teleplat_someipgw_t, teleplat_someiptmp_t, teleplat_someiptmp_t);
+manage_sock_files_pattern(teleplat_someipgw_t, teleplat_someiptmp_t, teleplat_someiptmp_t)
+manage_files_pattern(teleplat_someipgw_t, teleplat_someiptmp_t, teleplat_someiptmp_t)
 allow teleplat_someipgw_t teleplat_someiptmp_t:sock_file { write };
 
 # telePlatSomeipGWSvc is a plain rootfs systemd service (no Legato app
@@ -69,4 +71,3 @@ allow teleplat_someipgw_t teleplat_someipgw_json_t:file { getattr read open };
 #allow teleplat_someipgw_t sensor_hal_daemon_json_t:file { getattr read open };
 allow teleplat_someipgw_t urandom_device_t:chr_file { read open };
 
-#') dnl end ifdef(`qti-nad-telaf')
