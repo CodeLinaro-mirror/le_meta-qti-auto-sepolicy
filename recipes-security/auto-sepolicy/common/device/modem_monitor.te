@@ -69,6 +69,7 @@ gen_require(`
       type event_device_t;
       type gpiochip_device_t;
       type kmsg_device_t;
+      type tmp_t;
 ')
 
 # modem-monitor conf files
@@ -136,6 +137,7 @@ dev_rw_sysfs(modem_monitor_t)
 dev_rw_sysfs(modem_monitor_init_t) # /sys/class/gpio/export
 dontaudit modem_monitor_init_t sysfs_t:dir { add_name write };
 dontaudit modem_monitor_init_t sysfs_t:file create;
+allow modem_monitor_t tmp_t:file { getattr read open };
 dontaudit modem_monitor_t event_device_t:chr_file { getattr read open write ioctl };
 msdc_self_socket_perms(modem_monitor_t)
 dev_node(mhi_device_t)
