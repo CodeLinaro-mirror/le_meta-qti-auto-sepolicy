@@ -4,14 +4,18 @@
 gen_require(`
     type initrc_t;
     type qcmap_var_run_t;
+    type systemd_tmpfiles_t;
+    type tmp_t;
     type tmpfs_t;
 ')
 allow ifconfig_t qcmap_cm_t:netlink_kobject_uevent_socket rw_socket_perms;
 dontaudit ifconfig_t qcmap_var_run_t:file { write };
 
-# vnw_eth_avb_config.sh (initrc_t) creates /tmp/vnw_XXXXXX FIFOs.
+# vnw_eth_avb_config.sh (initrc_t) creates /tmp/vnw_XXXXXX FIFOs. The /tmp mount is observed as tmpfs_t before its regular-file relabel and tmp_t afterwards, so cover both parent labels with the same named FIFO type.
 type vnw_tmpfs_fifo_t;
 files_tmpfs_file(vnw_tmpfs_fifo_t)
+filetrans_pattern(initrc_t, tmp_t, vnw_tmpfs_fifo_t, fifo_file)
 filetrans_pattern(initrc_t, tmpfs_t, vnw_tmpfs_fifo_t, fifo_file)
 
 allow ifconfig_t vnw_tmpfs_fifo_t:fifo_file { getattr read write };
+allow systemd_tmpfiles_t vnw_tmpfs_fifo_t:fifo_file getattr;

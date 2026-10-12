@@ -14,6 +14,8 @@ gen_require(`
     type fs_t;
     type unconfined_t;
     type kmsg_device_t;
+    type mount_t;
+    type fsadm_t;
 ')
 
 userdebug_or_eng(`
@@ -43,6 +45,7 @@ dev_node(vendor_dmabuf_qseecomta_heap_device_t);
 
 allow post_boot_script_t etc_t:file { getattr read open };
 allow post_boot_script_t configfs_t:dir { search write add_name create getattr setattr };
+allow post_boot_script_t configfs_t:file { create write open };
 dontaudit post_boot_script_t self:capability { dac_read_search dac_override };
 
 type dm_device_t;
@@ -56,6 +59,8 @@ dev_node(ubiblock_device_t);
 
 type mmcblock_device_t;
 dev_node(mmcblock_device_t);
+allow mount_t mmcblock_device_t:blk_file { read open ioctl };
+allow fsadm_t mmcblock_device_t:blk_file read;
 
 type qce_device_t;
 dev_node(qce_device_t);

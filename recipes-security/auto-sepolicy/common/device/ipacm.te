@@ -16,6 +16,7 @@ allow ipacm_diag_t debugfs_t:dir search;
 allow ipacm_diag_t debugfs_t:file { read open getattr };
 allow ipacm_diag_t self:capability { sys_nice };
 allow ipacm_diag_t self:process setsched;
+allow ipacm_diag_t self:fifo_file write;
 
 allow ipacm_t qcmap_var_run_t:dir rw_dir_perms;
 allow ipacm_t qcmap_var_run_t:file manage_file_perms;

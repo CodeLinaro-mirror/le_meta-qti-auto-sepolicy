@@ -17,6 +17,7 @@ files_tmp_filetrans(ssgtzd_t, ssgtzd_sock_t, sock_file, "ssgtzd_opener")
 init_vendor_domain(ssgtzd_t, ssgtzd_exec_t)
 
 gen_require(`
+        type systemd_tmpfiles_t;
         type unconfined_t;
         type tmp_t;
         class service { start status };
@@ -29,6 +30,7 @@ logging_send_syslog_msg(ssgtzd_t);
 #!!!! This avc can be allowed using the boolean 'nscd_use_shm'
 allow ssgtzd_t self:unix_stream_socket { accept listen };
 allow ssgtzd_t ssgtzd_sock_t:sock_file { create unlink setattr};
+allow systemd_tmpfiles_t ssgtzd_sock_t:sock_file getattr;
 allow ssgtzd_t ssgtzd_etc_ta_config_t:dir { open getattr search read };
 allow ssgtzd_t ssgtzd_etc_ta_config_t:file { read getattr open };
 #============= unconfined_t ==============
