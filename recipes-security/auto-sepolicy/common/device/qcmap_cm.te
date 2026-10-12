@@ -54,7 +54,17 @@ gen_require(`
   type qms_sock_t;
   type qms_t;
   type init_t;
+  type iptables_conf_t;
 ')
+
+# nft runs in iptables_t during QCMAP's network setup. Use the existing iptables configuration type.
+allow iptables_t qcmap_etc_data_t:dir search;
+
+# QCMAP validates the same ruleset before launching nft.
+allow qcmap_cm_t iptables_conf_t:file getattr;
+
+# QCMAP creates the uevent socket.
+allow kmod_t qcmap_cm_t:netlink_kobject_uevent_socket { read write };
 
 allow kernel_t qcmap_etc_data_t:system firmware_load;
 allow qcmap_cm_t modem_monitor_t:unix_stream_socket connectto;
