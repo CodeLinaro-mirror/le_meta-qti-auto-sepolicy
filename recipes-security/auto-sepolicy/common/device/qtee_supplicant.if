@@ -1,0 +1,76 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>QTEE supplicant policy.</summary>
+
+########################################
+## <summary>
+## Allow a domain to manage QTEE persistent state.
+## </summary>
+## <param name="domain">
+## <summary>Domain allowed access.</summary>
+## </param>
+#
+interface(`qtee_supplicant_manage_persist',`
+    gen_require(`
+        type qtee_supplicant_persist_t;
+    ')
+
+    allow $1 qtee_supplicant_persist_t:dir manage_dir_perms;
+    allow $1 qtee_supplicant_persist_t:file manage_file_perms;
+')
+
+########################################
+## <summary>
+## Allow a domain to manage QTEE temporary state.
+## </summary>
+## <param name="domain">
+## <summary>Domain allowed access.</summary>
+## </param>
+#
+interface(`qtee_supplicant_manage_data',`
+    gen_require(`
+        type qtee_supplicant_data_t;
+    ')
+
+    files_list_var($1)
+    files_list_tmp($1)
+    allow $1 qtee_supplicant_data_t:dir manage_dir_perms;
+    allow $1 qtee_supplicant_data_t:file manage_file_perms;
+')
+
+########################################
+## <summary>
+## Label the named /var/persist/qtee_supplicant directory on creation.
+## </summary>
+## <param name="domain">
+## <summary>Domain creating the directory.</summary>
+## </param>
+#
+interface(`qtee_supplicant_trans_persist',`
+    gen_require(`
+        type persist_t;
+        type qtee_supplicant_persist_t;
+    ')
+
+    type_transition $1 persist_t:dir qtee_supplicant_persist_t "qtee_supplicant";
+    create_dirs_pattern($1, persist_t, qtee_supplicant_persist_t)
+')
+
+########################################
+## <summary>
+## Label the named /var/tmp/qtee_supplicant directory on creation.
+## </summary>
+## <param name="domain">
+## <summary>Domain creating the directory.</summary>
+## </param>
+#
+interface(`qtee_supplicant_trans_data',`
+    gen_require(`
+        type tmp_t;
+        type qtee_supplicant_data_t;
+    ')
+
+    type_transition $1 tmp_t:dir qtee_supplicant_data_t "qtee_supplicant";
+    create_dirs_pattern($1, tmp_t, qtee_supplicant_data_t)
+')
