@@ -25,7 +25,7 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-# Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(cv2x_config_app, 1.0)
@@ -39,6 +39,7 @@ type cv2x_config_app_file_t;
 init_vendor_domain(cv2x_config_app_t, cv2x_config_app_exec_t)
 
 transition_to_confined_domain(cv2x_config_app_t, cv2x_config_app_exec_t)
+telux_allow_console_apps(cv2x_config_app_t)
 
 # add permissions for /var/tmp/v2x.xml
 files_type(cv2x_config_app_file_t);

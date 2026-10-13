@@ -1,4 +1,4 @@
-# Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(diag_odl_app, 1.0)
@@ -11,6 +11,7 @@ init_vendor_domain(diag_odl_app_t, diag_odl_app_exec_t)
 
 # Transition to the new domain
 transition_to_confined_domain(diag_odl_app_t, diag_odl_app_exec_t)
+telux_allow_console_apps(diag_odl_app_t)
 
 # Permit internal resources access
 telux_allow_diag_odl(diag_odl_app_t)

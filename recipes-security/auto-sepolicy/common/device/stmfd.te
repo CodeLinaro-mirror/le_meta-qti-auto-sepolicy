@@ -66,3 +66,4 @@ access_power_mgr_socket(stmfd_t)
 
 # for dlt logging
 dlt_allow_user_logging(stmfd_t)
+allow_common_log(stmfd_t)

@@ -87,6 +87,7 @@ connect_to_unix_loc_hald_sock(xtwifi_client_t)
 allow loc_hald_t ssgtzd_t:unix_stream_socket connectto;
 allow loc_hald_t ssgtzd_sock_t:sock_file write;
 dlt_allow_user_logging(loc_hald_t);
+allow_common_log(loc_hald_t);
 
 #### xtwifi_client_t ####
 allow xtwifi_client_t xtwifi_agent_t:unix_dgram_socket sendto;
@@ -106,6 +107,7 @@ rw_qipcrtr_socket(engine_service_t);
 allow engine_service_t loc_t:unix_dgram_socket { read write sendto };
 allow engine_service_t self:process signal;
 dlt_allow_user_logging(engine_service_t);
+allow_common_log(engine_service_t);
 
 #### slim_daemon ####
 allow slim_daemon_t self:udp_socket create_socket_perms;
@@ -126,6 +128,7 @@ allow slim_daemon_t lowi_server_t:unix_dgram_socket sendto;
 allow slim_daemon_t device_t:dir search;
 leprop_rw_props(slim_daemon_t);
 dlt_allow_user_logging(slim_daemon_t);
+allow_common_log(slim_daemon_t);
 
 #### edgnss_daemon ####
 allow edgnss_daemon_t ssgtzd_t:unix_stream_socket connectto;
@@ -135,6 +138,7 @@ allow edgnss_daemon_t qwes_mink_socket_t:sock_file write;
 allow edgnss_daemon_t qwesd_t:unix_stream_socket connectto;
 allow edgnss_daemon_t unreserved_port_t:tcp_socket name_connect;
 dlt_allow_user_logging(edgnss_daemon_t);
+allow_common_log(edgnss_daemon_t);
 
 # IPC router
 allow slim_daemon_t self:qipcrtr_socket create_socket_perms;
@@ -154,6 +158,7 @@ corenet_tcp_connect_http_port(loc_t)
 corenet_tcp_bind_generic_node(xtra_daemon_t)
 corenet_udp_bind_generic_node(xtra_daemon_t)
 dlt_allow_user_logging(xtra_daemon_t);
+allow_common_log(xtra_daemon_t);
 
 read_files_pattern(loc_t, default_t, default_t);
 read_files_pattern(loc_t, systemd_resolved_var_run_t, systemd_resolved_var_run_t)
@@ -190,6 +195,7 @@ allow loc_t self:tcp_socket { accept listen };
 allow loc_t unreserved_port_t:tcp_socket name_bind;
 allow loc_t unreserved_port_t:udp_socket name_bind;
 allow loc_t sensor_hal_daemon_tmp_t:sock_file { setattr write};
+allow_common_log(loc_t);
 mount_copybind_file(loc_etc_t)
 #Use tafSomeipGWSvc as routing manager
 

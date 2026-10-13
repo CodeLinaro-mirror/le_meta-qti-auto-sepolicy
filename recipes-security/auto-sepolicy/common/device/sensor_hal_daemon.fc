@@ -24,6 +24,10 @@
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+# Changes from Qualcomm Technologies, Inc. are provided under the following license:
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
 
 /usr/bin/sensor_hal_daemon       --     gen_context(system_u:object_r:sensor_hal_daemon_exec_t,s0)
 /etc/sensors.conf                --     gen_context(system_u:object_r:sensor_hal_daemon_conf_t,s0)
@@ -35,3 +39,5 @@
 /usr/etc/vsomeip/SensorInterface/vsomeip-sensor_local.json   -- gen_context(system_u:object_r:sensor_hal_daemon_etc_t,s0)
 /usr/etc/vsomeip/SensorInterface/vsomeip-sensor_service.json -- gen_context(system_u:object_r:sensor_hal_daemon_etc_t,s0)
 /tmp/tafSomeipGWSvc-30b         -- gen_context(system_u:object_r:sensor_hal_daemon_tmp_t,s0)
+/tmp/teleplat-someipgw-30b    -- gen_context(system_u:object_r:sensor_hal_daemon_tmp_t,s0)
+/tmp/teleplat-someipgw-30a    -- gen_context(system_u:object_r:sensor_hal_daemon_tmp_t,s0)

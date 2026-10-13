@@ -1,0 +1,7 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+/usr/bin/telePlatSomeipGWSvc -- gen_context(system_u:object_r:teleplat_someipgw_exec_t,s0)
+/tmp/teleplat-someipgw-0 -s gen_context(system_u:object_r:teleplat_someiptmp_t,s0)
+/etc/teleplat-someipgw/teleplat-someipgw.json -- gen_context(system_u:object_r:teleplat_someipgw_json_t,s0)
+/etc/teleplat-someipgw/teleplat-someipgw_1.json -- gen_context(system_u:object_r:teleplat_someipgw_json_t,s0)

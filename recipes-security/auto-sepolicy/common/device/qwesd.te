@@ -42,6 +42,7 @@ files_type(qwes_config_etc_t)
 init_vendor_domain(qwesd_t, qwesd_exec_t)
 logging_send_syslog_msg(qwesd_t)
 dlt_allow_user_logging(qwesd_t)
+allow_common_log(qwesd_t)
 
 gen_require(`
        type smcinvoke_device_t;

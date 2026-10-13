@@ -60,7 +60,7 @@
 /etc/telux/permissions/telux_platform_fs_ops_ctrl       --  gen_context(system_u:object_r:telux_access_platform_fs_ops_ctrl_t,s0)
 /etc/telux/permissions/telux_platform_ota_mgmt           --  gen_context(system_u:object_r:telux_access_platform_ota_mgmt_t,s0)
 /etc/telux/permissions/telux_platform_antenna_mgmt       --  gen_context(system_u:object_r:telux_access_platform_antenna_mgmt_t,s0)
-/etc/telux/permissions/telux_platform_subsystem_restart_ctrl      --  gen_context(system_u:object_r:telux_access_platform_subsystem_restart_ctrl_t,s0)
+/etc/telux/permissions/telux_platform_subsystem_restart_ctrl      --  gen_context(system_u:object_r:telux_access_platform_ssr_ctrl_t,s0)
 /etc/telux/permissions/telux_platform_subsys_edl_ctrl   --  gen_context(system_u:object_r:telux_access_platform_subsys_edl_ctrl_t,s0)
 
 
@@ -90,7 +90,7 @@
 /etc/telux/permissions/telux_tel_cell_broadcast_config     --  gen_context(system_u:object_r:telux_access_tel_cell_broadcast_config_t,s0)
 /etc/telux/permissions/telux_tel_cell_broadcast_listen     --  gen_context(system_u:object_r:telux_access_tel_cell_broadcast_listen_t,s0)
 /etc/telux/permissions/telux_tel_sim_profile_ops           --  gen_context(system_u:object_r:telux_access_tel_sim_profile_ops_t,s0)
-/etc/telux/permissions/telux_tel_sim_profile_user_consent  --  gen_context(system_u:object_r:telux_access_tel_sim_profile_user_consent_t,s0)
+/etc/telux/permissions/telux_tel_sim_profile_user_consent  --  gen_context(system_u:object_r:telux_access_tel_sim_prof_perm_t,s0)
 /etc/telux/permissions/telux_tel_sim_profile_config        --  gen_context(system_u:object_r:telux_access_tel_sim_profile_config_t,s0)
 /etc/telux/permissions/telux_tel_sim_profile_read          --  gen_context(system_u:object_r:telux_access_tel_sim_profile_read_t,s0)
 /etc/telux/permissions/telux_tel_sim_profile_http_proxy    --  gen_context(system_u:object_r:telux_access_tel_sim_profile_http_proxy_t,s0)

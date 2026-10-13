@@ -34,3 +34,4 @@ allow unconfined_t ssgtzd_etc_ta_config_t:dir { open getattr search read };
 allow unconfined_t ssgtzd_etc_ta_config_t:file { read getattr open };
 rw_smcinvoke_dev_node(ssgtzd_t)
 dlt_allow_user_logging(ssgtzd_t)
+allow_common_log(ssgtzd_t)

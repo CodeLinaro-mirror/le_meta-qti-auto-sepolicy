@@ -108,3 +108,8 @@ allow cpu_sku_actuator_t self:process signal;
 # Allow to use dlt logging
 #####################################################################
 dlt_allow_user_logging(cpu_sku_actuator_t);
+
+#####################################################################
+# Allow to use commonlog
+#####################################################################
+allow_common_log(cpu_sku_actuator_t)

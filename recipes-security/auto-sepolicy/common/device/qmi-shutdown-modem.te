@@ -2,3 +2,4 @@
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 dlt_allow_user_logging(qmi_shutdown_modem_t)
+allow_common_log(qmi_shutdown_modem_t)

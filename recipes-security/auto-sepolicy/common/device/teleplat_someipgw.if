@@ -1,0 +1,44 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary> telePlatSomeipGWSvc interface </summary>
+
+#######################################
+# <summary>
+#        Allow teleplat_someipgw_t to connect to other vsomeip services
+# </summary>
+# <param name="domain">
+#        <summary>
+#        Type to be used as a daemon domain.
+#        </summary>
+# </param>
+
+interface(`teleplat_someipgw_connect',`
+    gen_require(`
+            type teleplat_someipgw_t;
+    ')
+
+    allow teleplat_someipgw_t $1:unix_stream_socket { connectto };
+    allow $1 teleplat_someipgw_t:unix_stream_socket { connectto };
+')
+
+#######################################
+# <summary>
+#        Allow teleplat_someipgw_t to write to other vsomeip services
+# </summary>
+# <param name="domain">
+#        <summary>
+#        Type to be used as a daemon domain.
+#        </summary>
+# </param>
+
+interface(`teleplat_someipgw_write',`
+    gen_require(`
+            type teleplat_someipgw_t;
+            type teleplat_someiptmp_t;
+    ')
+
+    allow teleplat_someipgw_t $1:sock_file { write };
+    allow $1 teleplat_someipgw_t:sock_file { write };
+    allow $1 teleplat_someiptmp_t:sock_file { write };
+')
