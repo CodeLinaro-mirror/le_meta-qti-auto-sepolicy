@@ -265,7 +265,7 @@ dontaudit lxc_script_app_t wifi_system_data_t:dir search;
 dontaudit lxc_script_app_t wifi_system_data_t:file mounton;
 dontaudit lxc_script_app_t rtcm_conf_t:file mounton;
 dontaudit lxc_script_app_t time_delta_t:file mounton;
-dontaudit lxc_script_app_t self:capability { sys_module sys_chroot fsetid };
+dontaudit lxc_script_app_t self:capability { sys_module sys_chroot fsetid sys_tty_config };
 dontaudit lxc_script_app_t self:capability2 { block_suspend wake_alarm };
 dontaudit lxc_script_app_t configfs_t:dir mounton;
 dontaudit lxc_script_app_t debugfs_t:dir { mounton search };
