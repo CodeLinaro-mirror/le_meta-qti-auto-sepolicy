@@ -91,6 +91,7 @@ gen_require(`
    type sdcard_t;
    type phone_home_t;
    type system_dbusd_t;
+   type dlt_etc_t;
    class dbus {send_msg};
 ')
 
@@ -265,7 +266,7 @@ dontaudit lxc_script_app_t wifi_system_data_t:dir search;
 dontaudit lxc_script_app_t wifi_system_data_t:file mounton;
 dontaudit lxc_script_app_t rtcm_conf_t:file mounton;
 dontaudit lxc_script_app_t time_delta_t:file mounton;
-dontaudit lxc_script_app_t self:capability { sys_module sys_chroot fsetid };
+dontaudit lxc_script_app_t self:capability { sys_module sys_chroot fsetid sys_tty_config };
 dontaudit lxc_script_app_t self:capability2 { block_suspend wake_alarm };
 dontaudit lxc_script_app_t configfs_t:dir mounton;
 dontaudit lxc_script_app_t debugfs_t:dir { mounton search };
@@ -288,3 +289,6 @@ allow lxc_script_app_t phone_home_t:file mounton;
 allow lxc_script_app_t self:netlink_audit_socket { create nlmsg_relay read write };
 allow lxc_script_app_t self:udp_socket { connect getattr };
 allow lxc_script_app_t system_dbusd_t:dbus { send_msg };
+
+allow lxc_script_app_t dlt_etc_t:file mounton;
+allow lxc_script_app_t dlt_etc_t:file { open read getattr };
