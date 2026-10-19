@@ -1,0 +1,49 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(qtee_supplicant, 1.0)
+
+type qtee_supplicant_t;
+type qtee_supplicant_exec_t;
+domain_type(qtee_supplicant_t)
+init_daemon_domain(qtee_supplicant_t, qtee_supplicant_exec_t)
+
+type qtee_supplicant_data_t;
+files_type(qtee_supplicant_data_t)
+
+type qtee_supplicant_persist_t;
+files_type(qtee_supplicant_persist_t)
+
+gen_require(`
+    type persist_t;
+    type smcinvoke_device_t;
+    type vendor_dmabuf_qseecom_heap_device_t;
+    type vendor_dmabuf_qseecomta_heap_device_t;
+    type qseecomd_ufs_t;
+    type qseecomd_rpmb_t;
+')
+
+# Access QTEE transport, its DMA heaps, and platform-specific secure storage.
+allow qtee_supplicant_t smcinvoke_device_t:chr_file rw_chr_file_perms;
+allow qtee_supplicant_t vendor_dmabuf_qseecom_heap_device_t:chr_file rw_chr_file_perms;
+allow qtee_supplicant_t vendor_dmabuf_qseecomta_heap_device_t:chr_file rw_chr_file_perms;
+allow qtee_supplicant_t qseecomd_ufs_t:chr_file rw_chr_file_perms;
+allow qtee_supplicant_t qseecomd_rpmb_t:chr_file rw_chr_file_perms;
+allow qtee_supplicant_t self:capability { setgid setuid sys_rawio };
+
+files_read_etc_files(qtee_supplicant_t)
+init_read_runtime_files(qtee_supplicant_t)
+kernel_read_system_state(qtee_supplicant_t)
+allow qtee_supplicant_t self:process { getsched setcap };
+
+allow qtee_supplicant_t self:unix_dgram_socket { connect create write };
+logging_send_syslog_msg(qtee_supplicant_t)
+
+allow qtee_supplicant_t persist_t:dir search_dir_perms;
+qtee_supplicant_manage_data(qtee_supplicant_t)
+qtee_supplicant_manage_persist(qtee_supplicant_t)
+
+miscfiles_read_localization(qtee_supplicant_t)
+dev_rw_sysfs(qtee_supplicant_t)
+files_search_default(qtee_supplicant_t)
+dev_read_input(qtee_supplicant_t)

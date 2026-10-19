@@ -55,6 +55,7 @@ gen_require(`
        type systemd_resolved_var_run_t;
        type http_port_t;
        type cert_t;
+       type var_t;
        type vendor_dmabuf_qseecom_heap_device_t;
        type vendor_dmabuf_qseecomta_heap_device_t;
        type telsdk_data_t;
@@ -103,6 +104,9 @@ user_data_files_type(qwes_data_t)
 data_filetrans(qwesd_t, qwes_data_t, { file dir })
 manage_user_data_files(qwesd_t, qwes_data_t)
 rw_files_pattern(qwesd_t, qwes_data_t, qwes_data_t)
+
+# Traverse the existing /var/cache -> /data/cache symlink.
+allow qwesd_t var_t:lnk_file read;
 
 #allow qwesd to connect to network using TeleSDK
 allow qwesd_t telsdk_data_t:file { append create getattr open};
@@ -160,6 +164,7 @@ dev_read_sysfs(qwesd_t)
 dontaudit qwesd_t self:capability { dac_override dac_read_search };
 allow qwesd_t qnetmgrd_t:unix_stream_socket { connectto };
 allow qwesd_t self:netlink_route_socket { create_socket_perms nlmsg_read };
+allow qwesd_t cert_t:dir read;
 allow qwesd_t cert_t:file { open read getattr };
 mls_file_read_all_levels(qwesd_t)
 mls_file_write_all_levels(qwesd_t)
@@ -211,38 +216,26 @@ type qwes_license_store_setup_exec_t;
 init_script_domain(qwes_license_store_setup_t, qwes_license_store_setup_exec_t)
 
 gen_require(`
-  type persist_t;
-  type qseecomd_data_t;
-  type qseecomd_persist_t;
   type qwes_data_t;
+  type persist_t;
+  type fs_t;
   type shell_exec_t;
-  type var_t;
 ')
 
 logging_send_syslog_msg(qwes_license_store_setup_t)
 
-# Allow read/write to /persist/data/ path.
-mgr_persist_data_path(qwes_license_store_setup_t)
-allow qwes_license_store_setup_t qseecomd_persist_t:file { write create open getattr ioctl setattr };
-filetrans_pattern(qwes_license_store_setup_t, qseecomd_persist_t, qseecomd_persist_t, dir)
-allow qwes_license_store_setup_t qseecomd_persist_t:dir manage_dir_perms;
-
-# Allow qwesd to stat/read/write into license store path
-allow qwesd_t qseecomd_persist_t:file { getattr write open read };
-
-# pfm/licenses dirs land on the default var_t label instead of qseecomd_persist_t chmod needs setattr
-allow qwes_license_store_setup_t var_t:dir setattr;
+qtee_supplicant_manage_persist(qwes_license_store_setup_t)
+allow qwes_license_store_setup_t persist_t:dir search;
 
 # Allow read access to /etc/passwd file for chown command.
 files_read_etc_files(qwes_license_store_setup_t)
-
-# Allow read/write to /data/vendor/tzstorage path.
-data_filetrans(qwes_license_store_setup_t, qseecomd_data_t, { file dir })
-manage_user_data_files(qwes_license_store_setup_t, qseecomd_data_t)
+allow qwes_license_store_setup_t fs_t:filesystem getattr;
 
 #Allow to manage path /data/qwes/.
+data_filetrans(qwes_license_store_setup_t, qwes_data_t, dir, "qwes")
 manage_user_data_files(qwes_license_store_setup_t, qwes_data_t)
 allow qwes_license_store_setup_t qwes_data_t:dir manage_dir_perms;
+allow qwes_license_store_setup_t var_t:lnk_file read;
 
 # Generic permissions for script.
 allow qwes_license_store_setup_t self:fifo_file rw_fifo_file_perms;

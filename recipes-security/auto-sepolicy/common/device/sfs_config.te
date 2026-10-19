@@ -6,6 +6,7 @@ gen_require(`
     type shell_exec_t;
     type etc_t;
     type var_t;
+    type tmp_t;
 ')
 
 #============= sfs_config_initrc_t ==============
@@ -14,3 +15,11 @@ allow sfs_config_initrc_t shell_exec_t:file { execute read };
 # NSS lookups read /etc/nsswitch.conf and /etc/passwd.
 allow sfs_config_initrc_t etc_t:file { getattr read open};
 allow sfs_config_initrc_t var_t:dir setattr;
+# /var/tmp is a rootfs symlink to the tmpfs-backed /tmp directory.
+allow sfs_config_initrc_t tmp_t:lnk_file read;
+qtee_supplicant_trans_persist(sfs_config_initrc_t)
+qtee_supplicant_trans_data(sfs_config_initrc_t)
+qtee_supplicant_manage_persist(sfs_config_initrc_t)
+qtee_supplicant_manage_data(sfs_config_initrc_t)
+
+allow sfs_config_initrc_t tmp_t:dir { search write add_name };
