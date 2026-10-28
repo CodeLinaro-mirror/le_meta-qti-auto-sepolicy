@@ -24,6 +24,8 @@ gen_require(`
     type cert_t;
     type etc_t;
     type qce_device_t;
+    type event_device_t;
+    type dm_device_t;
 ')
 
 init_vendor_domain(verified_boot_t, verified_boot_exec_t);
@@ -57,3 +59,6 @@ allow verified_boot_t sysfs_t:file { read open };
 allow verified_boot_t sysfs_t:lnk_file read;
 allow verified_boot_t udev_runtime_t:dir search;
 allow verified_boot_t qce_device_t:chr_file { read write getattr open ioctl };
+allow verified_boot_t event_device_t:chr_file { read write getattr open ioctl };
+allow verified_boot_t cert_t:file { getattr open read };
+allow verified_boot_t dm_device_t:blk_file { getattr ioctl open read };
