@@ -58,6 +58,7 @@ allow location_test_app_t osnma_merkle_tree_xml_t:file read_file_perms;
 allow location_test_app_t user_home_dir_t:dir search;
 allow location_test_app_t user_home_dir_t:file { read open };
 dontaudit location_test_app_t sysctl_t:dir search;
+mount_copybind_file(osnma_merkle_tree_xml_t)
 
 #Allow Location permissions.
 telux_allow_loc_data(location_test_app_t)
