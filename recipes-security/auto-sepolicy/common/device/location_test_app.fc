@@ -25,4 +25,10 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+# Changes from Qualcomm Innovation Center are provided under the following license:
+#
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
 /usr/bin/location_test_app    --  gen_context(system_u:object_r:location_test_app_exec_t,s0)
+/etc/OSNMA_MerkleTree\.xml     --  gen_context(system_u:object_r:osnma_merkle_tree_xml_t,s0)
